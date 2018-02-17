@@ -1,0 +1,19 @@
+.field
+  = f.label :name
+  = f.text_field :name
+.field
+  = f.label :fixed_fee
+  = f.text_field :fixed_fee
+.field
+  = f.label :teacher
+  = f.text_field :teacher
+.field
+  = f.label :status
+  = f.text_field :status
+
+%h3 Schedules
+#schedules
+  = f.fields_for :schedules do |schedule|
+    = render 'schedule_fields', f: schedule
+  .links
+    = link_to_add_association 'add schedule', f, :schedules

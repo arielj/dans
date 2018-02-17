@@ -1,0 +1,22 @@
+!!!DOCTYPE
+%html
+  %head
+    %title Dans
+    = csrf_meta_tags
+
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+
+  %body
+    %ul.menu
+      %li= link_to t('titles.home'), root_path
+      %li= t('titles.options')
+      %li= link_to t('titles.people'), people_path
+      %li= link_to t('titles.klasses'), klasses_path
+      %li= t('titles.packages')
+    %p.notice= notice
+    %p.alert= alert
+    = yield
+
+  %footer
+    .status

@@ -1,0 +1,4 @@
+= form_with model: @klass do |f|
+  = render partial: 'klass_fields', locals: {f: f}
+  .actions
+    = submit_tag 'Crear'
