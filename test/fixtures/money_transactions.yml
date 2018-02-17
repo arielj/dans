@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  amount_cents: 1
+  installment_id: 1
+  person: 1
+  description: MyString
+  done: false
+
+two:
+  amount_cents: 1
+  installment_id: 1
+  person: 1
+  description: MyString
+  done: false

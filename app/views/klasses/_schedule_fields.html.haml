@@ -1,0 +1,11 @@
+.nested-fields
+  .field
+    = f.label :from_time
+    = f.text_field :from_time
+  .field
+    = f.label :to_time
+    = f.text_field :to_time
+  .field
+    = f.label :day
+    = f.text_field :day
+  = link_to_remove_association "remove schedule", f

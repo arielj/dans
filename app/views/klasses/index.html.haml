@@ -1,0 +1,19 @@
+%h4= t('titles.klasses')
+%table
+  %thead
+    %tr
+      %th= t('form.header.klasses.name')
+      %th= t('form.header.klasses.status')
+      %th Horarios
+      %th= t('form.header.klasses.actions')
+  %tbody
+    - @klasses.each do |klass|
+      %tr
+        %td= klass.name
+        %td= klass.status
+        %td
+          - klass.schedules.each do |sch|
+            = sch.to_label
+        %td= link_to t('form.action.klasses.edit'), edit_klass_path(klass)
+
+= link_to t('form.action.klasses.add'), new_klass_path
