@@ -1,6 +1,6 @@
 %h1 Inicio
 .row
-  .col-6
+  .col-7
     %h2 Clases de hoy
     tabla...
     .row
@@ -8,7 +8,6 @@
         %h2 Notas
         = form_tag 'setting' do
           .form-group
-            = label_tag 'key[notes]', 'Notas'
             = text_area_tag 'key[notes]', Setting.fetch(:notes, ''), class: 'form-control trumbowyg'
           .actions
             = submit_tag 'Guardar Notas', class: 'btn btn-primary'
@@ -16,7 +15,7 @@
       .col-4
         %h2 Cumpleaños
         lista...
-  .col-6
+  .col-5
     %h2 Caja diaria
     %h3 Pagos de/para alumnos/profesores
     %table.table

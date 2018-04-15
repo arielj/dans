@@ -1,0 +1,9 @@
+= form_for @membership do |f|
+  = f.hidden_field :person_id
+  = @membership.errors.full_messages
+  .row
+    - (0..6).each do |d|
+      .col-1
+        %h3 Día #{d}
+        = f.collection_check_boxes(:schedule_ids, Schedule.where(day: d), :id, :to_label)
+  = f.submit 'Guardar', class: 'btn btn-primary'

@@ -1,28 +1,34 @@
-= form_with model: @person do |f|
-  = render partial: 'person_fields', locals: {f: f}
-  .actions
-    = submit_tag 'Guardar'
+%h1 Editar #{@person.is_teacher? ? 'Profesor/a' : 'Alumno/a'}
 
-.memberships
-  = select_tag :membership, options_from_collection_for_select(@person.memberships, :id, :name)
-  .installments
-    - if m = @person.memberships.last
-      %table
-        %tr
-          %th Año
-          %th Mes
-          %th Monto
-          %th Recargo
-          %th Pagos
-        - m.installments.each do |i|
-          %tr
-            %td= i.year
-            %td= i.month
-            %td= i.amount
-            %td ...
-            %td
-              %ul
-                - i.payments.each do |p|
-                  %li= p.amount
-  .actions
-    = link_to 'Add membership', '#'
+.row
+  .col-5
+    %h3 Datos personales
+    = form_with model: @person do |f|
+      = render partial: 'person_fields', locals: {f: f}
+      .actions
+        = submit_tag 'Guardar'
+
+  .col-7
+    .memberships
+      = select_tag :membership, options_from_collection_for_select(@person.memberships, :id, :to_s)
+      .installments
+        - if m = @person.memberships.last
+          %table
+            %tr
+              %th Año
+              %th Mes
+              %th Monto
+              %th Recargo
+              %th Pagos
+            - m.installments.each do |i|
+              %tr
+                %td= i.year
+                %td= i.month
+                %td= i.amount
+                %td ...
+                %td
+                  %ul
+                    - i.payments.each do |p|
+                      %li= p.amount
+      .actions
+        = link_to 'Add membership', new_membership_person_path(@person)

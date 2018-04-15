@@ -51,13 +51,6 @@ ActiveRecord::Schema.define(version: 20180414141905) do
     t.index ["teacher_id"], name: "index_klasses_on_teacher_id"
   end
 
-  create_table "klasses_memberships", id: false, force: :cascade do |t|
-    t.integer "klass_id"
-    t.integer "membership_id"
-    t.index ["klass_id"], name: "index_klasses_memberships_on_klass_id"
-    t.index ["membership_id"], name: "index_klasses_memberships_on_membership_id"
-  end
-
   create_table "klasses_packages", force: :cascade do |t|
     t.integer "klass_id"
     t.integer "package_id"
@@ -73,6 +66,13 @@ ActiveRecord::Schema.define(version: 20180414141905) do
     t.datetime "updated_at", null: false
     t.index ["for_type", "for_id"], name: "index_memberships_on_for_type_and_for_id"
     t.index ["person_id"], name: "index_memberships_on_person_id"
+  end
+
+  create_table "memberships_schedules", id: false, force: :cascade do |t|
+    t.integer "membership_id"
+    t.integer "schedule_id"
+    t.index ["membership_id"], name: "index_memberships_schedules_on_membership_id"
+    t.index ["schedule_id"], name: "index_memberships_schedules_on_schedule_id"
   end
 
   create_table "money_transactions", force: :cascade do |t|
