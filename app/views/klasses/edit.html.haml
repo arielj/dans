@@ -1,4 +1,5 @@
+%h1 Editar clase: #{@klass.name}
 = form_with model: @klass do |f|
   = render partial: 'klass_fields', locals: {f: f}
   .actions
-    = submit_tag 'Guardar'
+    = submit_tag 'Guardar', class: 'btn btn-primary'

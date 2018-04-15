@@ -24,4 +24,13 @@ class Klass < ApplicationRecord
     pids = get_memberships.map(&:person_id)
     Person.where(id: pids)
   end
+
+  def toggle_active
+    self.status = self.status == 1 ? 0 : 1
+    save
+  end
+
+  def active?
+    status == 1
+  end
 end

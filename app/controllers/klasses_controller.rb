@@ -1,6 +1,9 @@
 class KlassesController < ApplicationController
+  before_action :load_klass, only: [:edit, :update, :toggle_active]
+
   def index
     @klasses = Klass.all.order('name ASC')
+    @klasses = @klasses.where('name LIKE ?', "%#{params[:q]}%") if params[:q]
   end
 
   def new
@@ -17,17 +20,20 @@ class KlassesController < ApplicationController
   end
 
   def edit
-    @klass = Klass.find(params[:id])
   end
 
   def update
-    @klass = Klass.find(params[:id])
     if @klass.update_attributes(update_klass_params)
       flash[:notice] = 'Guardada'
     else
       flash[:alert] = 'Error'
     end
     render action: :edit
+  end
+
+  def toggle_active
+    @klass.toggle_active
+    redirect_back fallback_location: klasses_path
   end
 
 private
@@ -37,5 +43,9 @@ private
 
   def update_klass_params
     params.require(:klass).permit(:name,:status,:teacher_id,:fixed_fee,schedules_attributes: [:id, :from_time, :to_time, :day, :_destroy])
+  end
+
+  def load_klass
+    @klass = Klass.find(params[:id])
   end
 end

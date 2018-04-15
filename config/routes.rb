@@ -3,9 +3,17 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: "dashboard#index"
 
-  resources :klasses
+  resources :klasses do
+    member do
+      put :toggle_active
+    end
+  end
 
   get 'people/new_teacher', to: 'people#new_teacher', as: :new_teacher_person
   get 'people/new_student', to: 'people#new_student', as: :new_student_person
   resources :people
+
+  resources :money_transactions
+
+  post 'setting', to: 'setting#save'
 end

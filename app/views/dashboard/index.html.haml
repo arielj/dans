@@ -1,0 +1,57 @@
+%h1 Inicio
+.row
+  .col-6
+    %h2 Clases de hoy
+    tabla...
+    .row
+      .col-8
+        %h2 Notas
+        = form_tag 'setting' do
+          .form-group
+            = label_tag 'key[notes]', 'Notas'
+            = text_area_tag 'key[notes]', Setting.fetch(:notes, ''), class: 'form-control trumbowyg'
+          .actions
+            = submit_tag 'Guardar Notas', class: 'btn btn-primary'
+
+      .col-4
+        %h2 Cumpleaños
+        lista...
+  .col-6
+    %h2 Caja diaria
+    %h3 Pagos de/para alumnos/profesores
+    %table.table
+      %tr
+        %th In
+        %th Out
+        %th Desc
+        %th Person
+        %th
+      - @persons_transactions.each do |tran|
+        %tr
+          %td= tran.done ? '' : tran.amount
+          %td= tran.done ? tran.amount : ''
+          %td= tran.description
+          %td= tran.person.to_label
+          %td X
+    .totals
+      Entradas: $#{@totals[:persons_in]}; Salidas: $#{@totals[:persons_out]}
+    %h3 Movimientos generales
+    %table.table
+      %tr
+        %th In
+        %th Out
+        %th Desc
+        %th
+        - @general_transactions.each do |tran|
+          %tr
+            %td= tran.done ? '' : tran.amount
+            %td= tran.done ? tran.amount : ''
+            %td= tran.description
+            %td= link_to 'X', tran, method: :delete, data: {confirm: '¿Seguro?'}
+    .totals
+      Entradas: $#{@totals[:general_in]}; Salidas: $#{@totals[:general_out]}
+    .actions
+      = link_to 'Agregar Movimiento', new_money_transaction_path
+      = link_to 'Marcar Cierre', '#'
+    .totals
+      Entradas: $#{@totals[:in]}; Salidas: $#{@totals[:out]}; Total: $#{@totals[:total]}

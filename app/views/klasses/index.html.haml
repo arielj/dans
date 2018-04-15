@@ -1,19 +1,28 @@
 %h4= t('titles.klasses')
-%table
-  %thead
-    %tr
-      %th= t('form.header.klasses.name')
-      %th= t('form.header.klasses.status')
-      %th Horarios
-      %th= t('form.header.klasses.actions')
-  %tbody
-    - @klasses.each do |klass|
-      %tr
-        %td= klass.name
-        %td= klass.status
-        %td
-          - klass.schedules.each do |sch|
-            = sch.to_label
-        %td= link_to t('form.action.klasses.edit'), edit_klass_path(klass)
+.row
+  .col-12
+    = form_tag '', method: :get do
+      = text_field_tag :q, params[:q], placeholder: 'Buscar'
+      = submit_tag 'Filtrar', class: 'btn btn-primary'
+    %table.table
+      %thead
+        %tr
+          %th= t('form.header.klasses.name')
+          %th= t('form.header.klasses.status')
+          %th Horarios
+          %th= t('form.header.klasses.actions')
+      %tbody
+        - @klasses.each do |klass|
+          %tr
+            %td= klass.name
+            %td= klass.status
+            %td
+              - klass.schedules.each do |sch|
+                = sch.to_label
+            %td
+              = link_to t('form.action.klasses.edit'), edit_klass_path(klass)
+              = link_to 'Delete', klass, method: :delete, data: {confirm: '¿Re seguro?'}
+              - active_text = klass.active? ? 'Desactivar' : 'Activar'
+              = link_to active_text, toggle_active_klass_path(klass), method: :put
 
-= link_to t('form.action.klasses.add'), new_klass_path
+    = link_to t('form.action.klasses.add'), new_klass_path

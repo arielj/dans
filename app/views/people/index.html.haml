@@ -2,12 +2,11 @@
 
 %h3 Filtrar
 = form_tag '', method: :get do
-  Mostrar:
-  = select_tag :type, options_for_select([['Todos',''],['Profes','teachers'],['Almuno/as','students']], params[:type])
-  %br
-  = submit_tag 'Filtrar'
+  = select_tag :type, options_for_select([['Profes','teachers'],['Almuno/as','students']], params[:type]), prompt: 'Mostar todos'
+  = text_field_tag :q, params[:q], placeholder: 'Buscar (nombre, apellido, dni)'
+  = submit_tag 'Filtrar', class: 'btn btn-primary'
 
-%table
+%table.table
   %thead
     %tr
       %th= t('form.header.people.name')

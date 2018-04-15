@@ -1,0 +1,16 @@
+= form_for @tran do |f|
+  .form-group
+    = f.label :amount
+    = f.text_field :amount, class: 'form-control'
+  .form-group
+    = f.label :description
+    = f.text_field :description, class: 'form-control'
+  .form-group
+    = label_tag do
+      = f.radio_button :done, true
+      Salida
+    = label_tag do
+      = f.radio_button :done, false
+      Entrada
+  .actions
+    = f.submit 'Guardar', class: 'btn btn-primary'
