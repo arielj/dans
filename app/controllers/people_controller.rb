@@ -1,4 +1,6 @@
 class PeopleController < ApplicationController
+  before_action :load_person, only: [:edit, :update, :new_membership]
+
   def index
     @people = Person.all
     @people = @people.where(is_teacher: (params[:type] == 'teachers')) if params[:type].present?
@@ -28,17 +30,19 @@ class PeopleController < ApplicationController
   end
 
   def edit
-    @person = Person.find(params[:id])
   end
 
   def update
-    @person = Person.find(params[:id])
     if @person.update_attributes(update_person_params)
       flash[:notice] = 'Guardada'
     else
       flash[:alert] = 'Error'
     end
     render action: :edit
+  end
+
+  def new_membership
+    @membership = @person.memberships.build
   end
 
 private
@@ -48,5 +52,9 @@ private
 
   def update_person_params
     params.require(:person).permit(:name,:status,:is_teacher,:lastname,:birthday,:age,:dni,:address,:cellphone,:alt_phone,:female,:email,:group,:comments)
+  end
+
+  def load_person
+    @person = Person.find(params[:id])
   end
 end

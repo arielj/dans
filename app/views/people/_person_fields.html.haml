@@ -1,42 +1,46 @@
-.field
-  = f.label :name
-  = f.text_field :name
-.field
-  = f.label :lastname
-  = f.text_field :lastname
-.field
-  = f.label :is_teacher
-  = f.check_box :is_teacher
-.field
-  = f.label :status
-  = f.text_field :status
-.field
-  = f.label :birthday
-  = f.text_field :birthday, placeholder: 'dd/mm/aaaa'
-.field
-  = f.label :age
-  = f.text_field :age
-.field
+.form-row
+  .form-group.col
+    = f.label :name
+    = f.text_field :name, class: 'form-control'
+  .form-group.col
+    = f.label :lastname
+    = f.text_field :lastname, class: 'form-control'
+-# .form-check
+-#   = f.label :is_teacher, class: 'form-label'
+-#   = f.check_box :is_teacher, class: 'form-input'
+-# .form-group
+-#   = f.label :status
+-#   = f.text_field :status, class: 'form-control'
+.form-row
+  .form-group.col
+    = f.label :birthday
+    = f.text_field :birthday, placeholder: 'dd/mm/aaaa', class: 'form-control'
+  .form-group.col
+    = f.label :age
+    = f.text_field :age, class: 'form-control'
+.form-group
   = f.label :dni
-  = f.text_field :dni
-.field
-  = f.label :cellphone
-  = f.text_field :cellphone
-.field
-  = f.label :alt_phone
-  = f.text_field :alt_phone
-.field
-  = f.label :address
-  = f.text_field :address
-.field
-  = f.label :female
-  = f.check_box :female
-.field
-  = f.label :email
-  = f.text_field :email
-.field
+  = f.text_field :dni, class: 'form-control'
+.form-row
+  .form-group.col
+    = f.label :cellphone
+    = f.text_field :cellphone, class: 'form-control'
+  .form-group.col
+    = f.label :alt_phone
+    = f.text_field :alt_phone, class: 'form-control'
+.form-row
+  .form-group.col
+    = f.label :address
+    = f.text_field :address, class: 'form-control'
+  .form-group.col
+    = f.label :email
+    = f.text_field :email, class: 'form-control'
+.form-check
+  = f.label :female, class: 'form-label'
+  = f.check_box :female, class: 'form-input'
+.form-group
   = f.label :group
-  = f.text_field :group
-.field
+  = f.text_field :group, class: 'form-control'
+.form-group
   = f.label :comments
-  = f.text_area :comments
+  = f.text_area :comments, class: 'form-control'

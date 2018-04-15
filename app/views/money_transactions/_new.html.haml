@@ -5,12 +5,13 @@
   .form-group
     = f.label :description
     = f.text_field :description, class: 'form-control'
-  .form-group
-    = label_tag do
-      = f.radio_button :done, true
+  .form-check-inline
+    = label_tag class: 'form-check-label' do
+      = f.radio_button :done, true, class: 'form-check-input'
       Salida
-    = label_tag do
-      = f.radio_button :done, false
+  .form-check-inline
+    = label_tag class: 'form-check-label' do
+      = f.radio_button :done, false, class: 'form-check-input'
       Entrada
   .actions
     = f.submit 'Guardar', class: 'btn btn-primary'

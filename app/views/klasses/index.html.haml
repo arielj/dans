@@ -1,9 +1,9 @@
-%h4= t('titles.klasses')
+%h1= t('titles.klasses')
 .row
   .col-12
-    = form_tag '', method: :get do
-      = text_field_tag :q, params[:q], placeholder: 'Buscar'
-      = submit_tag 'Filtrar', class: 'btn btn-primary'
+    = form_tag '', method: :get, class: 'form-inline' do
+      = text_field_tag :q, params[:q], placeholder: 'Buscar', class: 'form-control mr-2 mb-2'
+      = submit_tag 'Filtrar', class: 'btn btn-primary mb-2'
     %table.table
       %thead
         %tr

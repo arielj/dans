@@ -11,9 +11,16 @@ Rails.application.routes.draw do
 
   get 'people/new_teacher', to: 'people#new_teacher', as: :new_teacher_person
   get 'people/new_student', to: 'people#new_student', as: :new_student_person
-  resources :people
+  resources :people do
+    member do
+      get :new_membership
+      #post :create_membership
+    end
+  end
 
   resources :money_transactions
+
+  resources :memberships
 
   post 'setting', to: 'setting#save'
 end
