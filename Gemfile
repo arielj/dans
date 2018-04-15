@@ -35,6 +35,8 @@ gem 'erubis'
 gem "haml-rails", "~> 1.0"
 gem "cocoon"
 gem 'jquery-rails'
+gem 'inline_svg'
+
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

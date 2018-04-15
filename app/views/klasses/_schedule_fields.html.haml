@@ -1,11 +1,14 @@
-.nested-fields
-  .field
+.nested-fields.form-row
+  .form-group.col
+    = link_to_remove_association "X", f
     = f.label :from_time
-    = f.text_field :from_time
-  .field
+    = f.text_field :from_time, class: 'form-control'
+  .form-group.col
     = f.label :to_time
-    = f.text_field :to_time
-  .field
+    = f.text_field :to_time, class: 'form-control'
+  .form-group.col
     = f.label :day
-    = f.text_field :day
-  = link_to_remove_association "remove schedule", f
+    = f.text_field :day, class: 'form-control'
+  .form-group.col
+    = f.label :room
+    = f.text_field :room, class: 'form-control'

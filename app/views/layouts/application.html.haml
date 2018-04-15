@@ -3,20 +3,28 @@
   %head
     %title Dans
     = csrf_meta_tags
+    %meta{name: "viewport", content: "width=device-width, initial-scale=1, shrink-to-fit=no"}
 
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
 
   %body
-    %ul.menu
-      %li= link_to t('titles.home'), root_path
-      %li= t('titles.options')
-      %li= link_to t('titles.people'), people_path
-      %li= link_to t('titles.klasses'), klasses_path
-      %li= t('titles.packages')
-    %p.notice= notice
-    %p.alert= alert
-    = yield
+    #trumbowyg-icons= inline_svg Rails.root.join('node_modules','trumbowyg','dist','ui','icons.svg').to_s
+    %nav.navbar.navbar-expand-lg.navbar-light.bg-light
+      %button.navbar-toggler{type: "button", data: {toggle: "collapse", target: "#navbarNav"}, aria: {controls: "navbarNav", expanded: "false", label: "Toggle navigation"}}
+        %span.navbar-toggler-icon
+
+      .collapse.navbar-collapse#navbarNav
+        %ul.navbar-nav
+          %li.nav-item= link_to t('titles.home'), root_path, class: 'nav-link'
+          %li.nav-item= link_to t('titles.options'), '#', class: 'nav-link'
+          %li.nav-item= link_to t('titles.people'), people_path, class: 'nav-link'
+          %li.nav-item= link_to t('titles.klasses'), klasses_path, class: 'nav-link'
+          %li.nav-item= link_to t('titles.packages'), '#', class: 'nav-link'
+    .container-fluid
+      %p.notice= notice
+      %p.alert= alert
+      = yield
 
   %footer
     .status

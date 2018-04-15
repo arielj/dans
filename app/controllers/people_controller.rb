@@ -2,6 +2,10 @@ class PeopleController < ApplicationController
   def index
     @people = Person.all
     @people = @people.where(is_teacher: (params[:type] == 'teachers')) if params[:type].present?
+    case q = params[:q]
+      when /\A\d+\z/ then @people = @people.where('dni LIKE ?', "%#{q}%")
+      when /\A.+\z/ then @people = @people.where('name LIKE :q OR lastname LIKE :q', {q: "%#{q}%"})
+    end
   end
 
   def new_student
