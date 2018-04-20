@@ -22,5 +22,8 @@ Rails.application.routes.draw do
 
   resources :memberships
 
-  post 'setting', to: 'setting#save'
+
+  get :options, to: 'settings#options', as: :options
+  post :options, to: 'settings#save_options'
+  post 'save_setting', to: 'settings#save_setting'
 end

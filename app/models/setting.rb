@@ -3,11 +3,11 @@ class Setting < ApplicationRecord
   serialize :value
 
   def self.fetch(key, default)
-    find(key).try(:value) or default
+    find(key).value rescue default
   end
 
   def self.set(key, value)
-    setting = find(key) || Setting.new(key: key)
+    setting = find(key) rescue Setting.new(key: key)
     setting.value = value
     setting.save
   end
