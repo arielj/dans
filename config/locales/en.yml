@@ -55,3 +55,15 @@ en:
       people:
         edit: 'Edit'
         add: 'Add new'
+    options:
+      name: 'Institute name'
+      opening_time: 'Opening time'
+      closing_time: 'Closing time'
+      recharge_after_day: 'Recharge after Xth day'
+      recharge_value: 'Recharge value (XX for a fixed value, YY% for a percentage value)'
+      month_recharge_value: 'Recharge value after 30 days (XX for a fixed value, YY% for a percentage value)'
+      language: 'Language'
+      dates_format: 'Dates format'
+      preselected_installments_month: 'Preselect months in installments creation dialog'
+      preselected_installments_month_from: 'Initial month'
+      preselected_installments_month_to: 'Ending month'

@@ -6,7 +6,8 @@
     .row
       .col-8
         %h2 Notas
-        = form_tag 'setting' do
+        = form_tag 'save_setting' do
+          = hidden_field_tag :setting_key, 'notes'
           .form-group
             = text_area_tag 'key[notes]', Setting.fetch(:notes, ''), class: 'form-control trumbowyg'
           .actions
