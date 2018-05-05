@@ -11,4 +11,14 @@ class Setting < ApplicationRecord
     setting.value = value
     setting.save
   end
+
+  def self.set_hours_fee(hours, fee)
+    aux = hours == hours.to_i ? hours.to_i : hours
+    set("hour_fee_#{aux}",fee)
+  end
+
+  def self.get_hours_fee(hours)
+    aux = hours == hours.to_i ? hours.to_i : hours
+    fetch("hour_fee_#{aux}", nil)
+  end
 end

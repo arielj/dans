@@ -44,9 +44,12 @@ gem 'inline_svg'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'rspec-rails', '~> 3.7'
+  gem 'factory_bot_rails'
+  gem "factory_bot"
   # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '~> 2.13'
-  gem 'selenium-webdriver'
+  # gem 'capybara', '~> 2.13'
+  # gem 'selenium-webdriver'
 end
 
 group :development do

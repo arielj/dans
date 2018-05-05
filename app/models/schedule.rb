@@ -29,7 +29,7 @@ class Schedule < ApplicationRecord
   def duration
     to = DateTime.parse(to_time, '%H:%M')
     fr = DateTime.parse(from_time, '%H:%M')
-    (to-fr).seconds/3600.0
+    (to-fr)*24.0
   end
 
   def day_name
