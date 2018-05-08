@@ -1,11 +1,25 @@
 %h1 Options
 
-.row
-  .col-6
-    = form_tag '' do
+= form_tag '' do
+  .row
+    .col-6
+      %h2 Configuración
       - [[:name, ''],[:opening_time, '09:00'],[:closing_time, '22:00'],[:recharge_after_day, '10'],
          [:recharge_value, '10%'],[:month_recharge_value, '25%'],[:language, 'en'],[:dates_format, '%Y-%m-%d']].each do |key,default|
         .form-group
           = label_tag "key[#{key}]", t(key, scope: 'options')
           = text_field_tag "key[#{key}]", Setting.fetch(key, default), class: 'form-control'
       = submit_tag 'Save options', class: 'btn btn-primary'
+    .col-6
+      %h2 Precios por horas
+      #hour_fees
+        .row
+          .col-3 Horas
+          .col-3 Valor
+        - @fees.keys.sort.each do |k|
+          - v = @fees[k]
+          - next if v.blank?
+          .row
+            .col-3= k
+            .col-3= text_field_tag "key[hour_fees][#{k}]", v, id: "fee_#{k}"
+      = link_to 'Agregar precio', '#', id: 'add_hour_fee', class: 'btn btn-primary'

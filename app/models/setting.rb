@@ -14,11 +14,14 @@ class Setting < ApplicationRecord
 
   def self.set_hours_fee(hours, fee)
     aux = hours == hours.to_i ? hours.to_i : hours
-    set("hour_fee_#{aux}",fee)
+    fees = fetch("hour_fees", {})
+    fees[aux.to_s] = fee
+    set("hour_fees", fees)
   end
 
   def self.get_hours_fee(hours)
     aux = hours == hours.to_i ? hours.to_i : hours
-    fetch("hour_fee_#{aux}", nil)
+    fees = fetch("hour_fees", {})
+    fees[aux.to_s]
   end
 end

@@ -9,10 +9,16 @@ class MoneyTransaction < ApplicationRecord
   validates :description, presence: true
 
   def self.total_in
-    self.where(done: false).sum(:amount_cents)/100.0
+    where(done: false).sum(:amount_cents)/100.0
   end
 
   def self.total_out
-    self.where(done: true).sum(:amount_cents)/100.0
+    where(done: true).sum(:amount_cents)/100.0
+  end
+
+  def self.close_day
+    if aux = where('DATE(created_at) = ?', Date.today).last
+      aux.update_column(:daily_cash_closer, true)
+    end
   end
 end
