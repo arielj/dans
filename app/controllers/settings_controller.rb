@@ -5,6 +5,7 @@ class SettingsController < ApplicationController
   end
 
   def options
+    @fees = Setting.fetch(:hour_fees, {})
   end
 
   def save_options
