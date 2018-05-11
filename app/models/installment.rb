@@ -41,7 +41,7 @@ class Installment < ApplicationRecord
 
       if rv
         if rv =~ /\A\d+%\z/
-          amount*(rv[0:-1].to_i)/100
+          amount*(rv[0..-1].to_i)/100
         elsif rv =~ /\A\d+\z/
           rv.to_i
         end

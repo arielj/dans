@@ -8,7 +8,7 @@
     = f.text_field :to_time, class: 'form-control'
   .form-group.col
     = f.label :day
-    = f.text_field :day, class: 'form-control'
+    = f.select :day, options_for_select(Schedule.days_for_select), {}, class: 'form-control'
   .form-group.col
     = f.label :room
     = f.text_field :room, class: 'form-control'

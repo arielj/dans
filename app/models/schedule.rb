@@ -1,7 +1,13 @@
 class Schedule < ApplicationRecord
   belongs_to :klass
 
-  DAYS = ['Monday','Tuesday','Wednseday','Thursday','Friday','Satuday','Sunday'].freeze
+  enum day: [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
+
+  def self.days_for_select
+    ds = I18n.t('date.day_names')
+    [[ds[0], :sunday], [ds[1], :monday], [ds[2], :tueday], [ds[3], :wednesday],
+     [ds[4], :thursday], [ds[5], :friday], [ds[6], :saturday]]
+  end
 
   def from_time=(value)
     v = case value
@@ -22,7 +28,7 @@ class Schedule < ApplicationRecord
   end
 
   def to_label
-    "#{day_name}: #{from_time}-#{to_time}"
+    "#{klass.name}: #{from_time}-#{to_time}"
   end
 
   # duration in hours
@@ -33,7 +39,7 @@ class Schedule < ApplicationRecord
   end
 
   def day_name
-    DAYS[day]
+    I18n.t('date.day_names')[Schedule.days[day]]
   end
 
   # returns schedule intervals separated by 30 minutes:
