@@ -1,4 +1,6 @@
 class Membership < ApplicationRecord
+  monetize :amount_cents
+  
   belongs_to :person
   belongs_to :package, optional: true
 
