@@ -17,3 +17,7 @@
 //= require bootstrap/dist/js/bootstrap.min
 //= require trumbowyg/dist/trumbowyg.min
 //= require_tree .
+
+Settings = {
+  hours_fees: <%= Setting.get_hours_fees.to_json %>
+}

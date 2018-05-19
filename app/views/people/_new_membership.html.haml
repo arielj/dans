@@ -2,9 +2,17 @@
   = f.hidden_field :person_id
   - if @membership.errors.any?
     = @membership.errors.full_messages
-  .row
+  .new_membership_days
     - (0..6).each do |d|
-      .col-1
+      .day
         %h3= I18n.t('date.day_names')[d]
-        = f.collection_check_boxes(:schedule_ids, Schedule.where(day: d), :id, :to_label)
+        - Schedule.where(day: d).each do |sch|
+          = label_tag do
+            = check_box_tag "schedule_ids[]", sch.id, false, data: {duration: sch.duration}, class: 'schedule'
+            = sch.to_label
+
+  .form-group
+    = f.label :amount
+    = f.text_field :amount, class: 'form-control'
+    .hint_hours Precio para: 0hs
   = f.submit 'Guardar', class: 'btn btn-primary'
