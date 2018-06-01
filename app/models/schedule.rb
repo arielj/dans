@@ -5,7 +5,7 @@ class Schedule < ApplicationRecord
 
   def self.days_for_select
     ds = I18n.t('date.day_names')
-    [[ds[0], :sunday], [ds[1], :monday], [ds[2], :tueday], [ds[3], :wednesday],
+    [[ds[0], :sunday], [ds[1], :monday], [ds[2], :tuesday], [ds[3], :wednesday],
      [ds[4], :thursday], [ds[5], :friday], [ds[6], :saturday]]
   end
 

@@ -4,4 +4,27 @@ class Person < ApplicationRecord
 
   validates :name, :lastname, presence: true
 
+  enum gender: [:female, :male]
+
+  def self.genders_for_select
+    ds = I18n.t('genders')
+    [[ds[0], :female], [ds[1], :male]]
+  end
+
+  def gender_name
+    I18n.t('gender')[gender_num]
+  end
+
+  def month_num
+    Person.genders[gender]
+  end
+
+  def name=(value)
+    self[:name] = value.capitalize
+  end
+
+  def lastname=(value)
+    self[:lastname] = value.capitalize
+  end
+
 end

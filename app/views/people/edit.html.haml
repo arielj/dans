@@ -6,11 +6,11 @@
     = form_with model: @person do |f|
       = render partial: 'person_fields', locals: {f: f}
       .actions
-        = submit_tag 'Guardar'
+        = submit_tag 'Guardar', class: 'btn btn-primary'
 
   .col-7
     .memberships
-      = select_tag :membership, options_from_collection_for_select(@person.memberships, :id, :to_s)
+      = select_tag :membership, options_from_collection_for_select(@person.memberships, :id, :to_label)
       .installments
         - if m = @person.memberships.last
           %table
@@ -23,9 +23,9 @@
             - m.installments.each do |i|
               %tr
                 %td= i.year
-                %td= i.month
-                %td= i.amount
-                %td ...
+                %td= i.month_name
+                %td $#{i.amount}
+                %td $#{i.get_recharge}
                 %td
                   %ul
                     - i.payments.each do |p|

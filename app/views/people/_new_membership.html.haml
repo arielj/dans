@@ -8,11 +8,14 @@
         %h3= I18n.t('date.day_names')[d]
         - Schedule.where(day: d).each do |sch|
           = label_tag do
-            = check_box_tag "schedule_ids[]", sch.id, false, data: {duration: sch.duration}, class: 'schedule'
+            = check_box_tag "membership[schedule_ids][]", sch.id, false, data: {duration: sch.duration}, class: 'schedule'
             = sch.to_label
 
   .form-group
     = f.label :amount
     = f.text_field :amount, class: 'form-control'
-    .hint_hours Precio para: 0hs
+    .hint_hours
+      Precio para:
+      = succeed 'hs' do
+        %span.hours 0
   = f.submit 'Guardar', class: 'btn btn-primary'
