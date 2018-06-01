@@ -10,6 +10,7 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require settings
 //= require rails-ujs
 //= require turbolinks
 //= require jquery
@@ -17,7 +18,3 @@
 //= require bootstrap/dist/js/bootstrap.min
 //= require trumbowyg/dist/trumbowyg.min
 //= require_tree .
-
-Settings = {
-  hours_fees: <%= Setting.get_hours_fees.to_json %>
-}
