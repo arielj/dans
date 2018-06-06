@@ -22,6 +22,12 @@ Rails.application.routes.draw do
 
   resources :memberships
 
+  resources :installments do
+    member do
+      get :new_payment
+      post :add_payment
+    end
+  end
 
   get :options, to: 'settings#options', as: :options
   post :options, to: 'settings#save_options'

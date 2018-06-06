@@ -16,11 +16,26 @@
 
       .collapse.navbar-collapse#navbarNav
         %ul.navbar-nav
-          %li.nav-item= link_to t('titles.home'), root_path, class: 'nav-link'
-          %li.nav-item= link_to t('titles.options'), options_path, class: 'nav-link'
-          %li.nav-item= link_to t('titles.people'), people_path, class: 'nav-link'
-          %li.nav-item= link_to t('titles.klasses'), klasses_path, class: 'nav-link'
-          %li.nav-item= link_to t('titles.packages'), '#', class: 'nav-link'
+          %li.nav-item
+            = link_to root_path, class: 'nav-link' do
+              %i.fa.fa-home
+              = t('titles.home')
+          %li.nav-item
+            = link_to options_path, class: 'nav-link' do
+              %i.fa.fa-cogs
+              = t('titles.options')
+          %li.nav-item
+            = link_to people_path, class: 'nav-link' do
+              %i.fa.fa-address-card
+              = t('titles.people')
+          %li.nav-item
+            = link_to klasses_path, class: 'nav-link' do
+              %i.fa.fa-music
+              = t('titles.klasses')
+          %li.nav-item
+            = link_to '#', class: 'nav-link' do
+              %i.fa.fa-sitemap
+              = t('titles.packages')
     .container-fluid
       = yield
 

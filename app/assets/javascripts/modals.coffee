@@ -19,14 +19,17 @@ window.show_modal = (title, body_html, actions) ->
   body = $('<div class="modal-body" />')
   body.append(body_html)
 
-  footer = $('<div class="modal-footer" />')
-  footer.append(actions)
 
   header.append(h5)
   header.append(close)
   content.append(header)
   content.append(body)
-  content.append(footer)
+
+  if actions
+    footer = $('<div class="modal-footer" />')
+    footer.append(actions)
+    content.append(footer)
+
   dialog.append(content)
   modal.append(dialog)
 

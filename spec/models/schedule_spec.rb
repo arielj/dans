@@ -20,7 +20,7 @@ describe 'Schedule' do
   describe '#to_label' do
     it 'interpolates the correct label' do
       sc = build :schedule, from_time: '10:30', to_time: '12:30', day: 0
-      expect(sc.to_label).to eq "Monday: 10:30-12:30"
+      expect(sc.to_label).to eq "#{sc.klass.name}: 10:30-12:30"
     end
   end
 end

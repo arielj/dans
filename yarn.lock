@@ -6,6 +6,10 @@ bootstrap@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.0.0.tgz#ceb03842c145fcc1b9b4e15da2a05656ba68469a"
 
+font-awesome@^4.7.0:
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.7.0.tgz#8fa8cf0411a1a31afd07b06d2902bb9fc815a133"
+
 trumbowyg@^2.10.0:
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/trumbowyg/-/trumbowyg-2.10.0.tgz#e74682528b07c36c78bcc341ea57bebffd565727"
