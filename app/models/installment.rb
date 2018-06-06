@@ -9,7 +9,6 @@ class Installment < ApplicationRecord
 
   monetize :amount_cents
 
-  validates :month, inclusion: 0..11
   validates :year, presence: true
 
   def self.months_for_select
@@ -28,7 +27,7 @@ class Installment < ApplicationRecord
   end
 
   def amount_paid
-    payments.map(:amount).sum
+    payments.map(&:amount).sum
   end
 
   def paid?
@@ -40,37 +39,81 @@ class Installment < ApplicationRecord
     Date.new(year, month_num, day.to_i)
   end
 
-  def get_recharge(ignore_recharge = false, ignore_month_recharge = false)
+  def get_month_recharge
+    return 0 if paid?
+
+    month_recharge_value = Setting.fetch(:month_recharge_value, nil)
+    return 0 if month_recharge_value.nil?
+
+    return 0 unless created_at < Date.today.beginning_of_month
+
+    _calculate_recharge(month_recharge_value)
+  end
+
+  def get_first_recharge
+    return 0 if paid?
+
     after_day = Setting.fetch(:recharge_after_day, nil)
     recharge_value = Setting.fetch(:recharge_value, nil)
-    month_recharge_value = Setting.fetch(:month_recharge_value, nil)
 
-    recharge = 0
+    return 0 if after_day.nil? or recharge_value.nil?
 
-    bm = Date.today.beginning_of_month
+    return 0 unless Date.today > date(after_day)
 
-    unless paid?
-      rv = if month_recharge_value and created_at < bm and !ignore_month_recharge
-             month_recharge_value
-           elsif recharge_value and Date.today > date(after_day) and !ignore_recharge
-             recharge_value
-           end
+    _calculate_recharge(recharge_value)
+  end
 
-      if rv
-        if rv =~ /\A\d+%\z/
-          amount*(rv[0..-1].to_i)/100
-        elsif rv =~ /\A\d+\z/
-          rv.to_i
-        end
+  def _calculate_recharge(rv)
+    case rv
+    when /\A\d+%\z/
+      amount*(rv[0..-1].to_i)/100
+    when /\A\d+\z/
+      rv.to_i
+    else
+      0
+    end
+  end
+
+  def get_recharge(ignore_recharge = false, ignore_month_recharge = false)
+    r = get_month_recharge
+    if r > 0 and !ignore_month_recharge
+      r
+    else
+      r = get_first_recharge
+      if r > 0 and !ignore_recharge
+        r
+      else
+        0
       end
     end
   end
 
-  def total(ignore_recharge = None, ignore_month_recharge = None)
+  def total(ignore_recharge = nil, ignore_month_recharge = nil)
     amount+get_recharge(ignore_recharge, ignore_month_recharge)
   end
 
-  def to_pay(ignore_recharge = None, ignore_month_recharge = None)
-    total(ignore_recharge, ignore_month_recharge)-paid
+  def to_pay(ignore_recharge = nil, ignore_month_recharge = nil)
+    return 0 if paid?
+    total(ignore_recharge, ignore_month_recharge)-amount_paid
+  end
+
+  def create_payment(attrs, ignore_recharge, ignore_month_recharge)
+    payment = MoneyTransaction.new attrs
+    rest = to_pay(ignore_recharge, ignore_month_recharge)
+    if payment.amount > rest
+      payment.errors.add(:base, :amount_too_high)
+    else
+      payments << payment
+      if payment.save
+        if payment.amount == rest
+          if amount_paid > amount
+            self.paid_with_interests!
+          else
+            self.paid!
+          end
+        end
+      end
+    end
+    payment
   end
 end

@@ -2,8 +2,13 @@ class Setting < ApplicationRecord
   self.primary_key = 'key'
   serialize :value
 
+  def self.cache
+    @@cache ||= {}
+  end
+
   def self.fetch(key, default)
-    find(key).value rescue default
+    return cache[key] if cache[key]
+    cache[key] = find(key).value rescue default
   end
 
   def self.set(key, value)

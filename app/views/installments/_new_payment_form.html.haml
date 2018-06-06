@@ -1,0 +1,24 @@
+= form_with model: MoneyTransaction.new, url: add_payment_installment_path(@installment), scope: 'payment', id: 'add_installment_payment', remote: true do |f|
+  .form-group
+    = f.label :created_at
+    = f.text_field :created_at, class: 'form-control'
+  .form-group
+    = f.label :description
+    = f.text_field :description, class: 'form-control'
+  .form-group
+    = f.label :amount
+    .input-group
+      .input-group-prepend
+        .input-group-text $
+      = f.text_field :amount, value: @installment.to_pay, class: 'form-control payment_amount', data: {amount: @installment.to_pay.to_f}
+  - if (r = @installment.get_first_recharge) > 0
+    .form-check
+      = label_tag do
+        = check_box_tag :ignore_recharge, '1', false, class: 'update_amount', data: {recharge: r.to_f}
+        Ignorar recargo por fecha ($#{r})
+  - if (r = @installment.get_month_recharge) > 0
+    .form-check
+      = label_tag do
+        = check_box_tag :ignore_month_recharge, '1', false, class: 'update_amount', data: {recharge: r.to_f}
+        Ignorar recargo a mes vencido ($#{r})
+  = f.submit 'Guardar', class: 'btn btn-primary'
