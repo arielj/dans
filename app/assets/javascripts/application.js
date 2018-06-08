@@ -16,5 +16,12 @@
 //= require jquery
 //= require cocoon
 //= require bootstrap/dist/js/bootstrap.min
+//= require bootstrap-datepicker/dist/js/bootstrap-datepicker.min
 //= require trumbowyg/dist/trumbowyg.min
 //= require_tree .
+
+document.addEventListener('turbolinks:load', function (ev) {
+  $('.datepicker').datepicker({
+    format: 'yyyy-mm-dd'
+  });
+})

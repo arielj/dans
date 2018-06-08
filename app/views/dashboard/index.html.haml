@@ -1,23 +1,21 @@
-%h1 Inicio
+%h1 Hoy
 .row
-  .col-7
-    %h2 Clases de hoy
+  .col-5
+    %h2 Clases
     tabla...
-    .row
-      .col-8
-        %h2 Notas
-        = form_tag 'save_setting' do
-          = hidden_field_tag :setting_key, 'notes'
-          .form-group
-            = text_area_tag 'key[notes]', Setting.fetch(:notes, ''), class: 'form-control trumbowyg'
-          .actions
-            = submit_tag 'Guardar Notas', class: 'btn btn-primary'
+    %h2 Notas
+    = form_tag 'save_setting' do
+      = hidden_field_tag :setting_key, 'notes'
+      .form-group
+        = text_area_tag 'key[notes]', Setting.fetch(:notes, ''), class: 'form-control trumbowyg'
+      .actions
+        = submit_tag 'Guardar Notas', class: 'btn btn-primary'
 
-      .col-4
-        %h2
-          Cumpleaños
-          %i.fa.fa-birthday-cake
-        lista...
+  .col-2
+    %h2
+      Cumpleaños
+      %i.fa.fa-birthday-cake
+    lista...
   .col-5
     %h2 Caja diaria
     %h3 Pagos de/para alumnos/profesores
@@ -52,8 +50,8 @@
             %td= link_to 'X', tran, method: :delete, data: {confirm: '¿Seguro?'}
     .totals
       Entradas: $#{@totals[:general_in]}; Salidas: $#{@totals[:general_out]}
-    .actions
-      = link_to 'Agregar Movimiento', new_money_transaction_path
-      = link_to 'Marcar Cierre', '#'
+    .btn-group
+      = link_to 'Agregar Movimiento', new_money_transaction_path, class: 'btn btn-default'
+      = link_to 'Marcar Cierre', '#', class: 'btn btn-default'
     .totals
       Entradas: $#{@totals[:in]}; Salidas: $#{@totals[:out]}; Total: $#{@totals[:total]}
