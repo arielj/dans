@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180601184055) do
+ActiveRecord::Schema.define(version: 2018_06_01_184055) do
 
-  create_table "admins", force: :cascade do |t|
+  create_table "admins", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -29,10 +29,10 @@ ActiveRecord::Schema.define(version: 20180601184055) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
 
-  create_table "installments", force: :cascade do |t|
+  create_table "installments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|
     t.integer "year"
     t.integer "month"
-    t.integer "membership_id"
+    t.bigint "membership_id"
     t.integer "amount_cents", default: 0, null: false
     t.integer "status", default: 0
     t.decimal "hours", precision: 5, scale: 2
@@ -41,45 +41,46 @@ ActiveRecord::Schema.define(version: 20180601184055) do
     t.index ["membership_id"], name: "index_installments_on_membership_id"
   end
 
-  create_table "klasses", force: :cascade do |t|
+  create_table "klasses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|
     t.string "name"
     t.integer "fixed_fee_cents", default: 0, null: false
-    t.integer "teacher_id"
+    t.bigint "teacher_id"
     t.integer "status", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["teacher_id"], name: "index_klasses_on_teacher_id"
   end
 
-  create_table "klasses_packages", force: :cascade do |t|
-    t.integer "klass_id"
-    t.integer "package_id"
+  create_table "klasses_packages", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|
+    t.bigint "klass_id"
+    t.bigint "package_id"
+    t.index ["klass_id"], name: "index_klasses_packages_on_klass_id"
+    t.index ["package_id"], name: "index_klasses_packages_on_package_id"
   end
 
-  create_table "memberships", force: :cascade do |t|
-    t.integer "person_id"
+  create_table "memberships", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|
+    t.bigint "person_id"
     t.text "info"
-    t.string "for_type"
-    t.integer "for_id"
+    t.bigint "package_id"
     t.integer "status", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "amount_cents", default: 0, null: false
-    t.index ["for_type", "for_id"], name: "index_memberships_on_for_type_and_for_id"
+    t.index ["package_id"], name: "index_memberships_on_package_id"
     t.index ["person_id"], name: "index_memberships_on_person_id"
   end
 
-  create_table "memberships_schedules", id: false, force: :cascade do |t|
-    t.integer "membership_id"
-    t.integer "schedule_id"
+  create_table "memberships_schedules", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|
+    t.bigint "membership_id"
+    t.bigint "schedule_id"
     t.index ["membership_id"], name: "index_memberships_schedules_on_membership_id"
     t.index ["schedule_id"], name: "index_memberships_schedules_on_schedule_id"
   end
 
-  create_table "money_transactions", force: :cascade do |t|
+  create_table "money_transactions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|
     t.integer "amount_cents", default: 0, null: false
-    t.integer "installment_id"
-    t.integer "person_id"
+    t.bigint "installment_id"
+    t.bigint "person_id"
     t.string "description"
     t.boolean "done"
     t.string "category"
@@ -90,15 +91,15 @@ ActiveRecord::Schema.define(version: 20180601184055) do
     t.index ["person_id"], name: "index_money_transactions_on_person_id"
   end
 
-  create_table "packages", force: :cascade do |t|
+  create_table "packages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|
     t.string "name"
-    t.integer "person_id"
+    t.bigint "person_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["person_id"], name: "index_packages_on_person_id"
   end
 
-  create_table "people", force: :cascade do |t|
+  create_table "people", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|
     t.string "name"
     t.string "lastname"
     t.string "dni", limit: 10
@@ -120,18 +121,18 @@ ActiveRecord::Schema.define(version: 20180601184055) do
     t.integer "gender"
   end
 
-  create_table "schedules", force: :cascade do |t|
-    t.integer "klass_id"
+  create_table "schedules", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|
+    t.bigint "klass_id"
     t.string "from_time", limit: 5
     t.string "to_time", limit: 5
-    t.integer "day", limit: 6
+    t.bigint "day"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "room", default: ""
     t.index ["klass_id"], name: "index_schedules_on_klass_id"
   end
 
-  create_table "settings", force: :cascade do |t|
+  create_table "settings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|
     t.string "key"
     t.text "value"
     t.datetime "created_at", null: false

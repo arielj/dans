@@ -13,8 +13,10 @@ class KlassesController < ApplicationController
   def create
     @klass = Klass.new create_klass_params
     if @klass.save
+      flash[:success] = "Class created"
       redirect_to edit_klass_path(@klass)
     else
+      flash.now[:danger] = "Error creating class"
       render action: :new
     end
   end

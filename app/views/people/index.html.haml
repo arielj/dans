@@ -24,5 +24,8 @@
         %td= person.email
         %td= link_to t('form.action.people.edit'), edit_person_path(person)
 
-= link_to t('form.action.people.add_teacher'), new_teacher_person_path
-= link_to t('form.action.people.add_student'), new_student_person_path
+  %tfoot
+    %tr
+      %td{colspan: 6}
+        = link_to t('form.action.people.add_teacher'), new_teacher_person_path, class: 'btn btn-light'
+        = link_to t('form.action.people.add_student'), new_student_person_path, class: 'btn btn-light'

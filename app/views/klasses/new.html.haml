@@ -1,5 +1,5 @@
 %h1 Nueva clase
-= form_with model: @klass do |f|
+= form_with model: @klass, local: true do |f|
   = render partial: 'klass_fields', locals: {f: f}
   .actions
     = submit_tag 'Crear', class: 'btn btn-primary'

@@ -21,4 +21,5 @@
       = label_tag do
         = check_box_tag :ignore_month_recharge, '1', false, class: 'update_amount', data: {recharge: r.to_f}
         Ignorar recargo a mes vencido ($#{r})
-  = f.submit 'Guardar', class: 'btn btn-primary'
+  .modal-footer
+    = f.submit 'Guardar', class: 'btn btn-primary'

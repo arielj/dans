@@ -11,5 +11,7 @@ class DashboardController < ApplicationController
     @totals[:in] = @totals[:persons_in]+@totals[:general_in]
     @totals[:out] = @totals[:persons_out]+@totals[:general_out]
     @totals[:total] = @totals[:in]-@totals[:out]
+
+    @birthday = Person.birthday_today
   end
 end

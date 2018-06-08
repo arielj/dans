@@ -8,7 +8,7 @@
          [:recharge_value, '10%'],[:month_recharge_value, '25%'],[:language, 'en'],[:dates_format, '%Y-%m-%d']].each do |key,default|
         .form-group
           = label_tag "key[#{key}]", t(key, scope: 'options')
-          = text_field_tag "key[#{key}]", Setting.fetch(key, default), class: 'form-control'
+          = text_field_tag "key[#{key}]", Setting.fetch(key.to_s, default), class: 'form-control'
       = submit_tag 'Save options', class: 'btn btn-primary'
     .col-6
       %h2 Precios por horas
