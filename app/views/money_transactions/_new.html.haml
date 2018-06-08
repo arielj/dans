@@ -8,10 +8,10 @@
   .form-check-inline
     = label_tag class: 'form-check-label' do
       = f.radio_button :done, true, class: 'form-check-input'
-      Salida
+      = t :out, scope: 'movement_done'
   .form-check-inline
     = label_tag class: 'form-check-label' do
       = f.radio_button :done, false, class: 'form-check-input'
-      Entrada
-  .actions
+      = t :in, scope: 'movement_done'
+  .actions.modal-footer
     = f.submit 'Guardar', class: 'btn btn-primary'

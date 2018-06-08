@@ -1,9 +1,17 @@
 !!!DOCTYPE
 %html
   %head
-    %title Dans
+    %title
+      Dans
+      - if name = Setting.fetch('name', nil)
+        = "| #{name}"
     = csrf_meta_tags
     %meta{name: "viewport", content: "width=device-width, initial-scale=1, shrink-to-fit=no"}
+
+    :javascript
+      Settings = {
+        hours_fees: #{Setting.get_hours_fees.to_json.html_safe}
+      }
 
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
@@ -37,6 +45,9 @@
               %i.fa.fa-sitemap
               = t('titles.packages')
     .container-fluid
+      - flash.keys.each do |k|
+        .alert{class: "alert-#{k}"}= flash[k]
+
       = yield
 
   %footer

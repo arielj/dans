@@ -13,8 +13,11 @@ class Setting < ApplicationRecord
 
   def self.set(key, value)
     setting = find(key) rescue Setting.new(key: key)
-    setting.value = value
-    setting.save
+    if setting.value != value
+      setting.value = value
+      setting.save
+    end
+    cache[key] = value
   end
 
   def self.get_hours_fees

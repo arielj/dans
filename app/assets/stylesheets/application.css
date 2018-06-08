@@ -17,3 +17,8 @@
  *= require_tree .
  *= require_self
  */
+
+.modal-xlg {
+  max-width: 90%;
+  width: 1200px;
+}

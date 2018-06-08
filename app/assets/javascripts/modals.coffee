@@ -5,7 +5,7 @@ window.close_modal = ->
     window.current_modal.modal('hide')
     window.current_modal = false
 
-window.show_modal = (title, body_html, actions) ->
+window.create_modal = (title, body_html, actions) ->
   close_modal()
   modal = $('<div class="modal" tabindex="-1" role="dialog" />')
   dialog = $('<div class="modal-dialog" role="document" />')
@@ -28,10 +28,17 @@ window.show_modal = (title, body_html, actions) ->
   if actions
     footer = $('<div class="modal-footer" />')
     footer.append(actions)
-    content.append(footer)
+    body.append(footer)
 
   dialog.append(content)
   modal.append(dialog)
-
   window.current_modal = modal
+
+window.show_large_modal = (title, body_html, actions) ->
+  create_modal(title, body_html, actions)
+  window.current_modal.find('.modal-dialog').addClass('modal-xlg')
+  window.current_modal.modal('show')
+
+window.show_modal = (title, body_html, actions) ->
+  create_modal(title, body_html, actions)
   window.current_modal.modal('show')

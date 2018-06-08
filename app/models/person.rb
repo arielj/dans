@@ -6,6 +6,8 @@ class Person < ApplicationRecord
 
   enum gender: [:female, :male]
 
+  scope :birthday_today, -> { where('DAYOFMONTH(birthday) = ? AND MONTH(birthday) = ?', Date.today.day, Date.today.month) }
+
   def self.genders_for_select
     ds = I18n.t('genders')
     [[ds[0], :female], [ds[1], :male]]

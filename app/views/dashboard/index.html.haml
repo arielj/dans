@@ -15,7 +15,12 @@
     %h2
       Cumpleaños
       %i.fa.fa-birthday-cake
-    lista...
+    - if @birthday.any?
+      %ul
+        - @birthday.each do |p|
+          %li= link_to p.to_label, edit_person_path(p)
+    - else
+      No hay cumpleaños hoy.
   .col-5
     %h2 Caja diaria
     %h3 Pagos de/para alumnos/profesores
@@ -50,8 +55,8 @@
             %td= link_to 'X', tran, method: :delete, data: {confirm: '¿Seguro?'}
     .totals
       Entradas: $#{@totals[:general_in]}; Salidas: $#{@totals[:general_out]}
-    .btn-group
-      = link_to 'Agregar Movimiento', new_money_transaction_path, class: 'btn btn-default'
-      = link_to 'Marcar Cierre', '#', class: 'btn btn-default'
+    .actions
+      = link_to 'Agregar Movimiento', new_money_transaction_path, class: 'btn btn-light', remote: true
+      = link_to 'Marcar Cierre', '#', class: 'btn btn-light'
     .totals
       Entradas: $#{@totals[:in]}; Salidas: $#{@totals[:out]}; Total: $#{@totals[:total]}

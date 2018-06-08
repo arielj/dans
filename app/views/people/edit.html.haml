@@ -40,4 +40,4 @@
                     = link_to new_payment_installment_path(i), remote: true do
                       %i.fa.fa-plus
       .actions
-        = link_to 'Add membership', new_membership_person_path(@person)
+        = link_to 'Add membership', new_membership_person_path(@person), class: 'btn btn-light', remote: true
