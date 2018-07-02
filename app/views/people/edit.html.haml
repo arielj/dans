@@ -3,7 +3,7 @@
 .row
   .col-5
     %h3 Datos personales
-    = form_with model: @person do |f|
+    = form_with model: @person, class: 'form-compact' do |f|
       = render partial: 'person_fields', locals: {f: f}
       .actions
         = submit_tag 'Guardar', class: 'btn btn-primary'
@@ -12,32 +12,7 @@
     .memberships
       = select_tag :membership, options_from_collection_for_select(@person.memberships, :id, :to_label), class: 'form-control'
       .installments
-        - if m = @person.memberships.last
-          %table.table.table-striped
-            %tr
-              %th Año
-              %th Mes
-              %th Monto
-              %th Estado
-              %th Pagos
-            - m.installments.includes(:payments).each do |i|
-              %tr{id: "installment_#{i.id}"}
-                %td= i.year
-                %td= i.month_name
-                %td
-                  $#{i.amount}
-                  - if (r = i.get_recharge) > 0
-                    (+#{r})
-                %td= i.status
-                %td
-                  - if i.payments.any?
-                    %ul
-                      - i.payments.each do |p|
-                        %li
-                          %i.fa.fa-calendar{title: l(p.created_at)}
-                          $#{p.amount} (#{p.description})
-                  - if i.to_pay > 0
-                    = link_to new_payment_installment_path(i), remote: true do
-                      %i.fa.fa-plus
+        - if m = @person.memberships.first
+          = render partial: 'people/membership', locals: {membership: m}
       .actions
         = link_to 'Add membership', new_membership_person_path(@person), class: 'btn btn-light', remote: true

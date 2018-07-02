@@ -1,6 +1,6 @@
 %h1 Options
 
-= form_tag '' do
+= form_tag '', class: 'form-compact' do
   .row
     .col-6
       %h2 Configuración
@@ -9,7 +9,8 @@
         .form-group
           = label_tag "key[#{key}]", t(key, scope: 'options')
           = text_field_tag "key[#{key}]", Setting.fetch(key.to_s, default), class: 'form-control'
-      = submit_tag 'Save options', class: 'btn btn-primary'
+      .actions
+        = submit_tag 'Save options', class: 'btn btn-primary'
     .col-6
       %h2 Precios por horas
       #hour_fees
@@ -22,4 +23,5 @@
           .row
             .col-3= k
             .col-3= text_field_tag "key[hour_fees][#{k}]", v, id: "fee_#{k}"
-      = link_to 'Agregar precio', '#', id: 'add_hour_fee', class: 'btn btn-primary'
+      .actions
+        = link_to 'Agregar precio', '#', id: 'add_hour_fee', class: 'btn btn-primary'

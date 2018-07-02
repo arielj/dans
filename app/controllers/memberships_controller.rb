@@ -8,6 +8,10 @@ class MembershipsController < ApplicationController
     end
   end
 
+  def show
+    @membership = Membership.find(params[:id])
+  end
+
 private
   def create_membership_params
     params.require(:membership).permit(:person_id, :amount, schedule_ids: [])
