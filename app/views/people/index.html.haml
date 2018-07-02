@@ -5,7 +5,7 @@
   = text_field_tag :q, params[:q], placeholder: 'Buscar (nombre, apellido, dni)', class: 'form-control mr-2 mb-2'
   = submit_tag 'Filtrar', class: 'btn btn-primary mb-2'
 
-%table.table
+%table.table.table-striped
   %thead
     %tr
       %th= t('form.header.people.name')
@@ -22,10 +22,11 @@
         %td= person.dni
         %td= person.address
         %td= person.email
-        %td= link_to t('form.action.people.edit'), edit_person_path(person)
-
+        %td
+          = link_to edit_person_path(person) do
+            %i.fa.fa-edit
   %tfoot
     %tr
       %td{colspan: 6}
-        = link_to t('form.action.people.add_teacher'), new_teacher_person_path, class: 'btn btn-light'
-        = link_to t('form.action.people.add_student'), new_student_person_path, class: 'btn btn-light'
+        = link_to t('form.action.people.add_teacher'), new_teacher_person_path, class: 'btn btn-primary'
+        = link_to t('form.action.people.add_student'), new_student_person_path, class: 'btn btn-primary'
