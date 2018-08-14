@@ -29,4 +29,27 @@ class Person < ApplicationRecord
     self[:lastname] = value.capitalize
   end
 
+  def to_label
+    "#{name} #{lastname}"
+  end
+
+  def family_members
+    self.family_group_id.present? ? Person.where(family_group_id: family_group_id).where.not(id: id) : []
+  end
+
+  def add_family_member(person)
+    fgid = self.family_group_id || person.family_group_id || self.id
+    Person.where(id: [self.id,person.id]).update_all(family_group_id: fgid, updated_at: DateTime.current) == 2
+  end
+
+  def remove_family_member(person)
+    if person.family_group_id == self.family_group_id
+      person.update_column :family_group_id, nil
+    end
+  end
+
+  def suggest_family(q)
+    ids = family_members.map(&:id)+[id]
+    Person.where('name LIKE :q OR lastname LIKE :q OR dni LIKE :q', {q: "%#{q}%"}).where.not(id: ids)
+  end
 end

@@ -42,6 +42,16 @@
 .form-group
   = f.label :group
   = f.text_field :group, class: 'form-control'
-.form-group
-  = f.label :comments
-  = f.text_area :comments, class: 'form-control'
+.form-row
+  - unless f.object.new_record?
+    .form-group.col
+      = f.label :family
+      %ul
+        - f.object.family_members.each do |u|
+          %li
+            = link_to u.to_label, edit_person_path(u)
+            (#{link_to('X', remove_family_member_person_path(f.object, {family_member_id: u.id}), method: :put, data: {confirm: '¿Seguro?'})})
+        %li= link_to 'Agregar miembro', add_family_member_person_path(f.object), remote: true
+  .form-group.col
+    = f.label :comments
+    = f.text_area :comments, class: 'form-control'

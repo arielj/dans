@@ -1,5 +1,5 @@
 class PeopleController < ApplicationController
-  before_action :load_person, only: [:edit, :update, :new_membership]
+  before_action :person, only: [:edit, :add_family_member]
 
   def index
     @people = Person.all
@@ -33,7 +33,7 @@ class PeopleController < ApplicationController
   end
 
   def update
-    if @person.update_attributes(update_person_params)
+    if person.update_attributes(update_person_params)
       flash[:notice] = 'Guardada'
     else
       flash[:alert] = 'Error'
@@ -42,7 +42,26 @@ class PeopleController < ApplicationController
   end
 
   def new_membership
-    @membership = @person.memberships.build
+    @membership = person.memberships.build
+  end
+
+  def add_family_member
+  end
+
+  def do_add_family_member
+    @other = Person.find(params[:new_family_member_id])
+    person.add_family_member(@other)
+  end
+
+  def search_new_family_member
+    @results = person.suggest_family(params[:q])
+    render json: @results.map{|p| {label: p.to_label, value: p.id}}.to_json
+  end
+
+  def remove_family_member
+    @other = Person.find(params[:family_member_id])
+    person.remove_family_member(@other)
+    redirect_back fallback_location: edit_person_path(person)
   end
 
 private
@@ -54,7 +73,7 @@ private
     params.require(:person).permit(:name,:status,:is_teacher,:lastname,:birthday,:age,:dni,:address,:cellphone,:alt_phone,:female,:email,:group,:comments)
   end
 
-  def load_person
-    @person = Person.find(params[:id])
+  def person
+    @person ||= Person.find(params[:id])
   end
 end

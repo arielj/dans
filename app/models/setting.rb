@@ -7,17 +7,19 @@ class Setting < ApplicationRecord
   end
 
   def self.fetch(key, default)
-    return cache[key] if cache[key]
-    cache[key] = find(key).value rescue default
+    k = key.to_sym
+    return cache[k] if cache[k]
+    cache[k] = find(k).value rescue default
   end
 
   def self.set(key, value)
-    setting = find(key) rescue Setting.new(key: key)
+    k = key.to_sym
+    setting = find(k) rescue Setting.new(key: k)
     if setting.value != value
       setting.value = value
       setting.save
     end
-    cache[key] = value
+    cache[k] = value
   end
 
   def self.get_hours_fees
