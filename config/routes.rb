@@ -15,6 +15,10 @@ Rails.application.routes.draw do
     member do
       get :new_membership
       #post :create_membership
+      get :search_new_family_member
+      get :add_family_member
+      post :add_family_member, action: 'do_add_family_member'
+      put :remove_family_member
     end
   end
 

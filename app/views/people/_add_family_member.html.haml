@@ -1,0 +1,5 @@
+= form_tag add_family_member_person_path(@person), remote: true, id: 'add_family_member' do
+  .form-group.with_autocomplete
+    = text_field_tag :q, '', placeholder: 'Ingresá el nombre o dni de la persona', class: 'form-control', autocomplete: 'off', data: {autocompletepath: search_new_family_member_person_path(@person)}
+  = hidden_field_tag :new_family_member_id, ''
+  = submit_tag 'Confirmar', class: 'btn btn-primary'
