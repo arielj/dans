@@ -33,6 +33,10 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :reports do
+    get :daily_cash
+  end
+
   get :options, to: 'settings#options', as: :options
   post :options, to: 'settings#save_options'
   post 'save_setting', to: 'settings#save_setting'
