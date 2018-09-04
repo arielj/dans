@@ -1,0 +1,50 @@
+%h1= t('titles.daily_cash')
+.row
+  .col-2
+    %h2= t('filters')
+    = form_tag reports_daily_cash_path, method: :get do
+      .form-group
+        = label_tag :date
+        = date_field_tag :date, @date, class: 'form-control'
+      .form-group
+        = label_tag :text
+        = text_field_tag :text, params[:text], class: 'form-control', placeholder: 'Desc/Name/Lastname'
+
+      = submit_tag t('filter'), class: 'btn btn-primary'
+
+  .col-10
+    .row
+      .col-6
+        %h3 Pagos de/para alumnos/profesores
+        %table.table
+          %tr
+            %th In
+            %th Out
+            %th Desc
+            %th Person
+          - @persons_transactions.each do |tran|
+            %tr
+              %td= tran.done ? '' : tran.amount
+              %td= tran.done ? tran.amount : ''
+              %td= tran.description
+              %td= tran.person.to_label
+      .col-6
+        %h3 Movimientos generales
+        %table.table
+          %tr
+            %th In
+            %th Out
+            %th Desc
+            - @general_transactions.each do |tran|
+              %tr
+                %td= tran.done ? '' : tran.amount
+                %td= tran.done ? tran.amount : ''
+                %td= tran.description
+    .row
+      .col-6.totals
+        Entradas: $#{@totals[:persons_in]}; Salidas: $#{@totals[:persons_out]}
+      .col-6.totals
+        Entradas: $#{@totals[:general_in]}; Salidas: $#{@totals[:general_out]}
+    .row
+      .col-12.totals
+        Entradas: $#{@totals[:in]}; Salidas: $#{@totals[:out]}; Total: $#{@totals[:total]}
