@@ -1,0 +1,18 @@
+- hide_actions ||= false
+
+%h3 Movimientos generales
+%table.table.table-striped.table-sm
+  %thead.thead-dark
+    %tr
+      %th In
+      %th Out
+      %th Desc
+      - unless hide_actions
+        %th
+  - transactions.each do |tran|
+    %tr
+      %td= tran.done ? '' : tran.amount
+      %td= tran.done ? tran.amount : ''
+      %td= tran.description
+      - unless hide_actions
+        %td= link_to 'X', tran, method: :delete, data: {confirm: '¿Seguro?'}

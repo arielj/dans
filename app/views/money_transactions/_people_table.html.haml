@@ -1,0 +1,20 @@
+- hide_actions ||= false
+
+%h3 Pagos de/para alumnos/profesores
+%table.table.table-striped.table-sm
+  %thead.thead-dark
+    %tr
+      %th In
+      %th Out
+      %th Desc
+      %th Person
+      - unless hide_actions
+        %th
+  - transactions.each do |tran|
+    %tr
+      %td= tran.done ? '' : tran.amount
+      %td= tran.done ? tran.amount : ''
+      %td= tran.description
+      %td= tran.person.to_label
+      - unless hide_actions
+        %td X

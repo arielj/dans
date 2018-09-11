@@ -50,7 +50,7 @@
               = t('titles.reports')
             .dropdown-menu{aria: {labelledby: "navbarDropdown"}}
               = link_to t('titles.daily_cash'), reports_daily_cash_path, class: "dropdown-item"
-              = link_to 'LALA', '#', class: "dropdown-item"
+              = link_to t('titles.payments'), reports_payments_path, class: "dropdown-item"
               = link_to 'LALA', '#', class: "dropdown-item"
 
         - if admin_signed_in?

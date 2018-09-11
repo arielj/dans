@@ -8,6 +8,9 @@ class MoneyTransaction < ApplicationRecord
   validates :amount, numericality: {greater_than: 0}
   validates :description, presence: true
 
+  scope :done, -> { where(done: true) }
+  scope :received, -> { where(done: false) }
+
   def self.total_in
     where(done: false).sum(:amount_cents)/100.0
   end

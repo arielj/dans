@@ -5,8 +5,8 @@
   = text_field_tag :q, params[:q], placeholder: 'Buscar (nombre, apellido, dni)', class: 'form-control mr-2 mb-2'
   = submit_tag 'Filtrar', class: 'btn btn-primary mb-2'
 
-%table.table.table-striped
-  %thead
+%table.table.table-striped.table-sm
+  %thead.thead-dark
     %tr
       %th= t('form.header.people.name')
       %th= t('form.header.people.lastname')

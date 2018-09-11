@@ -22,40 +22,14 @@
       No hay cumpleaños hoy.
   .col-5
     %h2 Caja diaria
-    %h3 Pagos de/para alumnos/profesores
-    %table.table
-      %tr
-        %th In
-        %th Out
-        %th Desc
-        %th Person
-        %th
-      - @persons_transactions.each do |tran|
-        %tr
-          %td= tran.done ? '' : tran.amount
-          %td= tran.done ? tran.amount : ''
-          %td= tran.description
-          %td= tran.person.to_label
-          %td X
+    .totals
+      %b Entradas: $#{@totals[:in]}; Salidas: $#{@totals[:out]}; Total: $#{@totals[:total]}
+    = render partial: 'money_transactions/people_table', locals: {transactions: @people_transactions}
     .totals
       Entradas: $#{@totals[:persons_in]}; Salidas: $#{@totals[:persons_out]}
-    %h3 Movimientos generales
-    %table.table
-      %tr
-        %th In
-        %th Out
-        %th Desc
-        %th
-        - @general_transactions.each do |tran|
-          %tr
-            %td= tran.done ? '' : tran.amount
-            %td= tran.done ? tran.amount : ''
-            %td= tran.description
-            %td= link_to 'X', tran, method: :delete, data: {confirm: '¿Seguro?'}
+    = render partial: 'money_transactions/general_table', locals: {transactions: @general_transactions}
     .totals
       Entradas: $#{@totals[:general_in]}; Salidas: $#{@totals[:general_out]}
     .actions
       = link_to 'Agregar Movimiento', new_money_transaction_path, class: 'btn btn-light', remote: true
       = link_to 'Marcar Cierre', '#', class: 'btn btn-light'
-    .totals
-      Entradas: $#{@totals[:in]}; Salidas: $#{@totals[:out]}; Total: $#{@totals[:total]}
