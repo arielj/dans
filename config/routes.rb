@@ -35,6 +35,7 @@ Rails.application.routes.draw do
 
   namespace :reports do
     get :daily_cash
+    get :payments
   end
 
   get :options, to: 'settings#options', as: :options

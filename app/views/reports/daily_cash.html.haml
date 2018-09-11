@@ -14,37 +14,13 @@
 
   .col-10
     .row
-      .col-6
-        %h3 Pagos de/para alumnos/profesores
-        %table.table
-          %tr
-            %th In
-            %th Out
-            %th Desc
-            %th Person
-          - @persons_transactions.each do |tran|
-            %tr
-              %td= tran.done ? '' : tran.amount
-              %td= tran.done ? tran.amount : ''
-              %td= tran.description
-              %td= tran.person.to_label
-      .col-6
-        %h3 Movimientos generales
-        %table.table
-          %tr
-            %th In
-            %th Out
-            %th Desc
-            - @general_transactions.each do |tran|
-              %tr
-                %td= tran.done ? '' : tran.amount
-                %td= tran.done ? tran.amount : ''
-                %td= tran.description
+      .col-12.totals
+        %b Entradas: $#{@totals[:in]}; Salidas: $#{@totals[:out]}; Total: $#{@totals[:total]}
+    .row
+      .col-6= render partial: 'money_transactions/people_table', locals: {transactions: @people_transactions, hide_actions: true}
+      .col-6= render partial: 'money_transactions/general_table', locals: {transactions: @general_transactions, hide_actions: true}
     .row
       .col-6.totals
         Entradas: $#{@totals[:persons_in]}; Salidas: $#{@totals[:persons_out]}
       .col-6.totals
         Entradas: $#{@totals[:general_in]}; Salidas: $#{@totals[:general_out]}
-    .row
-      .col-12.totals
-        Entradas: $#{@totals[:in]}; Salidas: $#{@totals[:out]}; Total: $#{@totals[:total]}

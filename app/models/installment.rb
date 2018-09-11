@@ -99,6 +99,8 @@ class Installment < ApplicationRecord
 
   def create_payment(attrs, ignore_recharge, ignore_month_recharge)
     payment = MoneyTransaction.new attrs
+    payment.person = person
+    payment.done = false
     rest = to_pay(ignore_recharge, ignore_month_recharge)
     if payment.amount > rest
       payment.errors.add(:base, :amount_too_high)
