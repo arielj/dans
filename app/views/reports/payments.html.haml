@@ -39,3 +39,7 @@
             %td= tran.amount
             %td= tran.description
             %td= ''
+        %tfoot
+          %tr
+            %td{colspan: 5}
+              %b Total: $#{@payments.total}

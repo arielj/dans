@@ -12,11 +12,15 @@ class MoneyTransaction < ApplicationRecord
   scope :received, -> { where(done: false) }
 
   def self.total_in
-    where(done: false).sum(:amount_cents)/100.0
+    where(done: false).total
   end
 
   def self.total_out
-    where(done: true).sum(:amount_cents)/100.0
+    where(done: true).total
+  end
+
+  def self.total
+    sum(:amount_cents)/100.0
   end
 
   def self.close_day
