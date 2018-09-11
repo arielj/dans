@@ -25,7 +25,9 @@ class ReportsController < ApplicationController
     @payments = MoneyTransaction.where(created_at: range).joins(:person)
     case params[:direction]
     when 'done'; @payments = @payments.done
-    when 'received'; @payments = @payments.received
+    else
+      params[:direction] = 'received'
+      @payments = @payments.received
     end
   end
 end
