@@ -1,21 +1,25 @@
-#add_family_member
-  .with_autocomplete
-    position: relative
+@import 'configuration'
 
-    #autocomplete_selector
-      position: absolute
-      top: 100%
-      left: 0px
-      right: 0px
-      background: #fff
-      border-radius: 0 0 5px 5px
-      border: 1px solid #ced4da
-      border-top: 0px
-      .option
-        cursor: pointer
-        padding: 5px
-        border-radius: 0 0 5px 5px
-        border-bottom: #ced4da
+body.c_people
+  &.a_show
+    #add_family_member
+      .with_autocomplete
+        position: relative
 
-        &:hover
-          background: #ced4da
+        #autocomplete_selector
+          position: absolute
+          top: 100%
+          left: 0px
+          right: 0px
+          background: #fff
+          border-radius: 0 0 5px 5px
+          border: 1px solid #ced4da
+          border-top: 0px
+          .option
+            cursor: pointer
+            padding: 5px
+            border-radius: 0 0 5px 5px
+            border-bottom: #ced4da
+
+            &:hover
+              background: #ced4da

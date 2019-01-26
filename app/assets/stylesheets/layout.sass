@@ -1,0 +1,31 @@
+@import 'configuration'
+
+body
+  display: grid
+  height: 100vh
+  width: 100vw
+  grid-template-rows: max-content auto 2rem
+
+  #trumbowyg-icons
+    display: none
+
+  > section
+    overflow: auto
+    display: grid
+    padding: 0 1rem
+    grid-template-rows: max-content auto max-content
+
+  .scrollable
+    overflow: auto
+
+  &.a_index > section
+    grid-template-rows: max-content max-content auto max-content
+
+    & > .actions
+      padding: 1rem
+      background: $actions_background
+      border-radius: .5rem
+
+  &.a_edit >content
+    grid-template-areas: 'title' 'form'
+    grid-template-rows: min-content auto
