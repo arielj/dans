@@ -16,7 +16,7 @@
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
 
-  %body
+  %body{class: "c_#{params[:controller]} a_#{params[:action]}"}
     #trumbowyg-icons= inline_svg Rails.root.join('node_modules','trumbowyg','dist','ui','icons.svg').to_s
     %nav.navbar.navbar-expand-lg.navbar-light.bg-light.justify-content-between
       %button.navbar-toggler{type: "button", data: {toggle: "collapse", target: "#navbarNav"}, aria: {controls: "navbarNav", expanded: "false", label: "Toggle navigation"}}
@@ -56,13 +56,15 @@
         - if admin_signed_in?
           .ml-auto= link_to 'Logout', destroy_admin_session_path, method: :delete, class: 'nav-link nav-item'
 
-    .container-fluid
+    %section
       - flash.keys.each do |k|
         - aux = case k
           - when 'notice', :notice then :success
           - when 'alert', :alert then :danger
           - else k
-        .alert{class: "alert-#{aux}"}= flash[k]
+        .alert{class: "alert-#{aux}"}
+          %a.close{href: "#", data: {dismiss: "alert"}, aria: {label: "close"}} &times;
+          = flash[k]
 
       = yield
 

@@ -1,27 +1,26 @@
-%h1 Options
+%h1= t 'titles.options'
 
 = form_tag '', class: 'form-compact' do
-  .row
-    .col-6
-      %h2 Configuración
-      - [[:name, ''],[:opening_time, '09:00'],[:closing_time, '22:00'],[:recharge_after_day, '10'],
-         [:recharge_value, '10%'],[:month_recharge_value, '25%'],[:language, 'en'],[:dates_format, '%Y-%m-%d']].each do |key,default|
-        .form-group
-          = label_tag "key[#{key}]", t(key, scope: 'options')
-          = text_field_tag "key[#{key}]", Setting.fetch(key.to_s, default), class: 'form-control'
-      .actions
-        = submit_tag 'Save options', class: 'btn btn-primary'
-    .col-6
-      %h2 Precios por horas
-      #hour_fees
+  .configuration
+    %h2= t 'titles.configuration'
+    - [[:name, ''],[:opening_time, '09:00'],[:closing_time, '22:00'],[:recharge_after_day, '10'],
+       [:recharge_value, '10%'],[:month_recharge_value, '25%'],[:language, 'en'],[:dates_format, '%Y-%m-%d']].each do |key,default|
+      .form-group
+        = label_tag "key[#{key}]", t(key, scope: 'options')
+        = text_field_tag "key[#{key}]", Setting.fetch(key.to_s, default), class: 'form-control'
+  .hourly_fees
+    %h2= t 'titles.hourly_fees'
+    #hour_fees
+      .row
+        .col-3 Horas
+        .col-3 Valor
+      - @fees.keys.sort.each do |k|
+        - v = @fees[k]
+        - next if v.blank?
         .row
-          .col-3 Horas
-          .col-3 Valor
-        - @fees.keys.sort.each do |k|
-          - v = @fees[k]
-          - next if v.blank?
-          .row
-            .col-3= k
-            .col-3= text_field_tag "key[hour_fees][#{k}]", v, id: "fee_#{k}"
-      .actions
-        = link_to 'Agregar precio', '#', id: 'add_hour_fee', class: 'btn btn-primary'
+          .col-3= k
+          .col-3= text_field_tag "key[hour_fees][#{k}]", v, id: "fee_#{k}"
+    .actions
+      = link_to 'Agregar precio', '#', id: 'add_hour_fee', class: 'btn btn-primary'
+  .actions
+    = submit_tag 'Save options', class: 'btn btn-primary'

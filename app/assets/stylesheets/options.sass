@@ -1,0 +1,17 @@
+@import 'configuration'
+
+body.c_settings.a_options
+  form
+    display: grid
+    grid-template-areas: 'configuration hourly_fees' 'actions actions' 'extra extar'
+    grid-template-rows: min-content max-content auto
+
+    .configuration
+      grid-area: configuration
+
+    .hourly_fees
+      grid-area: hourly_fees
+      padding-left: 2rem
+
+    & > .actions
+      grid-area: actions

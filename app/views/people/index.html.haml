@@ -1,7 +1,7 @@
 %h1= t('titles.people')
 
 = form_tag '', method: :get, class: 'form-inline' do
-  = select_tag :type, options_for_select([['Profes','teachers'],['Almuno/as','students']], params[:type]), prompt: 'Mostar todos', class: 'form-control mb-2 mr-2'
+  = select_tag :type, options_for_select([['Profesores','teachers'],['Almuno/as','students']], params[:type]), prompt: 'Mostar todos', class: 'form-control mb-2 mr-2'
   = text_field_tag :q, params[:q], placeholder: 'Buscar (nombre, apellido, dni)', class: 'form-control mr-2 mb-2'
   = submit_tag 'Filtrar', class: 'btn btn-primary mb-2'
 
@@ -25,8 +25,6 @@
         %td
           = link_to edit_person_path(person) do
             %i.fa.fa-edit
-  %tfoot
-    %tr
-      %td{colspan: 6}
-        = link_to t('form.action.people.add_teacher'), new_teacher_person_path, class: 'btn btn-primary'
-        = link_to t('form.action.people.add_student'), new_student_person_path, class: 'btn btn-primary'
+.actions
+  = link_to t('form.action.people.add_teacher'), new_teacher_person_path, class: 'btn btn-primary'
+  = link_to t('form.action.people.add_student'), new_student_person_path, class: 'btn btn-primary'

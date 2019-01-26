@@ -1,31 +1,31 @@
 %h1= t('titles.klasses')
-.row
-  .col-12
-    = form_tag '', method: :get, class: 'form-inline' do
-      = text_field_tag :q, params[:q], placeholder: 'Buscar', class: 'form-control mr-2 mb-2'
-      = submit_tag 'Filtrar', class: 'btn btn-primary mb-2'
-    %table.table.table-striped.table-sm
-      %thead.thead-dark
+
+= form_tag '', method: :get, class: 'form-inline' do
+  = text_field_tag :q, params[:q], placeholder: 'Buscar', class: 'form-control mr-2 mb-2'
+  = submit_tag 'Filtrar', class: 'btn btn-primary mb-2'
+
+.scrollable
+  %table.table.table-striped.table-sm
+    %thead.thead-dark
+      %tr
+        %th= t('form.header.klasses.name')
+        %th= t('form.header.klasses.status')
+        %th Horarios
+        %th= t('form.header.klasses.actions')
+    %tbody
+      - @klasses.each do |klass|
         %tr
-          %th= t('form.header.klasses.name')
-          %th= t('form.header.klasses.status')
-          %th Horarios
-          %th= t('form.header.klasses.actions')
-      %tbody
-        - @klasses.each do |klass|
-          %tr
-            %td= klass.name
-            %td= klass.status
-            %td
-              = klass.schedules.map{|sch| "#{sch.day_name}: #{sch.from_time}-#{sch.to_time}"}.join(', ')
-            %td
-              = link_to edit_klass_path(klass) do
-                %i.fa.fa-edit
-              = link_to klass, method: :delete, data: {confirm: '¿Re seguro?'} do
-                %i.fa.fa-trash
-              - active_text = klass.active? ? 'Desactivar' : 'Activar'
-              = link_to active_text, toggle_active_klass_path(klass), method: :put
-      %tfoot
-        %tr
-          %td{colspan: 4}
-            = link_to t('form.action.klasses.add'), new_klass_path, class: 'btn btn-primary'
+          %td= klass.name
+          %td= klass.status
+          %td
+            = klass.schedules.map{|sch| "#{sch.day_name}: #{sch.from_time}-#{sch.to_time}"}.join(', ')
+          %td
+            = link_to edit_klass_path(klass) do
+              %i.fa.fa-edit
+            = link_to klass, method: :delete, data: {confirm: '¿Re seguro?'} do
+              %i.fa.fa-trash
+            - active_text = klass.active? ? 'Desactivar' : 'Activar'
+            = link_to active_text, toggle_active_klass_path(klass), method: :put
+
+.actions
+  = link_to t('form.action.klasses.add'), new_klass_path, class: 'btn btn-primary'

@@ -1,74 +1,47 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   'true': 'foo'
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
   filter: Filter
 
   genders:
     - Female
     - Male
+    - Other
   titles:
-    home: 'Home'
-    options: 'Options'
-    people: 'People'
-    klasses: 'Classes'
-    packages: 'Packages'
+    home: Home
+    options: Options
+    people: People
+    klasses: Classes
+    packages: Packages
+    reports: Reports
+    hourly_fees: Hourly fees
+    configuration: Configuration
 
   form:
     header:
       klasses:
-        name: 'Name'
-        status: 'Status'
-        actions: 'Actions'
+        name: Name
+        status: Status
+        actions: Actions
       people:
-        name: 'Name'
-        lastname: 'Lastname'
-        status: 'Status'
-        actions: 'Actions'
+        name: Name
+        lastname: Lastname
+        status: Status
+        actions: Actions
     action:
       klasses:
-        edit: 'Edit'
-        add: 'Add new'
+        edit: Edit
+        add: Add new
       people:
-        edit: 'Edit'
-        add: 'Add new'
+        edit: Edit
+        add: Add new
     options:
-      name: 'Institute name'
-      opening_time: 'Opening time'
-      closing_time: 'Closing time'
-      recharge_after_day: 'Recharge after Xth day'
-      recharge_value: 'Recharge value (XX for a fixed value, YY% for a percentage value)'
-      month_recharge_value: 'Recharge value after 30 days (XX for a fixed value, YY% for a percentage value)'
-      language: 'Language'
-      dates_format: 'Dates format'
-      preselected_installments_month: 'Preselect months in installments creation dialog'
-      preselected_installments_month_from: 'Initial month'
-      preselected_installments_month_to: 'Ending month'
+      name: Institute name
+      opening_time: Opening time
+      closing_time: Closing time
+      recharge_after_day: Recharge after Xth day
+      recharge_value: Recharge value (XX for a fixed value, YY% for a percentage value)
+      month_recharge_value: Recharge value after 30 days (XX for a fixed value, YY% for a percentage value)
+      language: Language
+      dates_format: Dates format
+      preselected_installments_month: Preselect months in installments creation dialog
+      preselected_installments_month_from: Initial month
+      preselected_installments_month_to: Ending month
