@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_01_184055) do
+ActiveRecord::Schema.define(version: 2019_01_27_163546) do
 
   create_table "admins", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -121,15 +121,22 @@ ActiveRecord::Schema.define(version: 2018_06_01_184055) do
     t.integer "gender"
   end
 
+  create_table "rooms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "schedules", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|
     t.bigint "klass_id"
-    t.string "from_time", limit: 5
-    t.string "to_time", limit: 5
     t.bigint "day"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "room", default: ""
+    t.bigint "room_id"
+    t.integer "from_time"
+    t.integer "to_time"
     t.index ["klass_id"], name: "index_schedules_on_klass_id"
+    t.index ["room_id"], name: "index_schedules_on_room_id"
   end
 
   create_table "settings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|

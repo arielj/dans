@@ -1,6 +1,19 @@
 .classes
   %h2= t('titles.klasses')
-  tabla...
+  .scrollable
+    %table.table.table-striped.table-sm
+      %thead
+        %tr
+          %th Horario
+          - @today_classes.keys.each do |r|
+            %th= r.name
+      %tbody
+        - Setting.opened_range.each do |t|
+          %tr
+            %td= t.to_s.insert(-3, ':')
+            - @today_classes.keys.each do |r|
+              - s = @today_classes[r].select{|s| s.from_time <= t and s.to_time > t}[0]
+              %td= s ? s.klass.name : ''
 
 .notes
   %h2= t('titles.notes')

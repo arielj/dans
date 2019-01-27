@@ -2,10 +2,13 @@
 
 body.c_dashboard.a_index
   section
-    grid-template-areas: 'classes birthdays dailycash' 'notes birthdays dailycash'
+    grid-template-areas: 'classes classes dailycash' 'notes birthdays dailycash'
+    grid-column-gap: 1rem
+    grid-template-columns: 35% 15% auto
 
     .classes
       grid-area: classes
+      height: 35vh
 
     .birthdays
       grid-area: birthdays

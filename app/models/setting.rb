@@ -38,4 +38,18 @@ class Setting < ApplicationRecord
     fees = get_hours_fees
     fees[aux.to_s]
   end
+
+  def self.opened_range
+    o = opening_time_i
+    c = closing_time_i
+    (o..c).step(100).map{|t| [t, t+30]}.flatten
+  end
+
+  def self.opening_time_i
+    fetch(:opening_time, '00:00').gsub(':','').to_i
+  end
+
+  def self.closing_time_i
+    fetch(:closing_time, '24:00').gsub(':','').to_i
+  end
 end

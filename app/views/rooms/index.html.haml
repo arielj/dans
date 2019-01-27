@@ -1,0 +1,22 @@
+%h1= t('titles.rooms')
+
+.filters
+
+.scrollable
+  %table.table.table-striped.table-sm
+    %thead.thead-dark
+      %tr
+        %th= t('form.header.rooms.name')
+        %th= t('form.header.rooms.actions')
+    %tbody
+      - @rooms.each do |room|
+        %tr
+          %td= room.name
+          %td
+            = link_to edit_room_path(room) do
+              %i.fa.fa-edit
+            = link_to room, method: :delete, data: {confirm: '¿Re seguro?'} do
+              %i.fa.fa-trash
+
+.actions
+  = link_to t('form.action.rooms.add'), new_room_path, class: 'btn btn-primary'

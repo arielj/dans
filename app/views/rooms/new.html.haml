@@ -1,0 +1,5 @@
+%h1= t('titles.new_room')
+= form_with model: @room, local: true do |f|
+  = render partial: 'room_fields', locals: {f: f}
+  .actions
+    = submit_tag t('form.action.rooms.create'), class: 'btn btn-primary'
