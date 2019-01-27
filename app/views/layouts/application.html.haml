@@ -16,7 +16,7 @@
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
 
-  %body{class: "c_#{params[:controller]} a_#{params[:action]}"}
+  %body{class: "c_#{params[:controller].gsub('/','__')} a_#{params[:action]}"}
     #trumbowyg-icons= inline_svg Rails.root.join('node_modules','trumbowyg','dist','ui','icons.svg').to_s
     %nav.navbar.navbar-expand-lg.navbar-light.bg-light.justify-content-between
       %button.navbar-toggler{type: "button", data: {toggle: "collapse", target: "#navbarNav"}, aria: {controls: "navbarNav", expanded: "false", label: "Toggle navigation"}}
@@ -32,6 +32,10 @@
             = link_to options_path, class: 'nav-link' do
               %i.fa.fa-cogs
               = t('titles.options')
+          %li.nav-item
+            = link_to rooms_path, class: 'nav-link' do
+              %i.fa.fa-columns
+              = t('titles.rooms')
           %li.nav-item
             = link_to people_path, class: 'nav-link' do
               %i.fa.fa-address-card

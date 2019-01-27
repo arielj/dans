@@ -25,12 +25,24 @@ class KlassesController < ApplicationController
   end
 
   def update
-    if @klass.update_attributes(update_klass_params)
-      flash[:notice] = 'Guardada'
-    else
-      flash[:alert] = 'Error'
+    updated = @klass.update_attributes(update_klass_params)
+    respond_to do |format|
+      format.html {
+        if updated
+          flash[:notice] = 'Guardada'
+        else
+          flash[:alert] = 'Error'
+        end
+        redirect_to edit_klass_path(@klass)
+      }
+      format.js {
+        if updated
+          flash.now[:notice] = 'Guardada'
+        else
+          flash.now[:alert] = 'Error'
+        end
+      }
     end
-    render action: :edit
   end
 
   def toggle_active
@@ -40,11 +52,11 @@ class KlassesController < ApplicationController
 
 private
   def create_klass_params
-    params.require(:klass).permit(:name,:status,:teacher_id,:fixed_fee,schedules_attributes: [:id, :from_time, :to_time, :day, :_destroy])
+    params.require(:klass).permit(:name,:status,:teacher_id,:fixed_fee,schedules_attributes: [:id, :from_time, :to_time, :day, :room_id, :_destroy])
   end
 
   def update_klass_params
-    params.require(:klass).permit(:name,:status,:teacher_id,:fixed_fee,schedules_attributes: [:id, :from_time, :to_time, :day, :_destroy])
+    params.require(:klass).permit(:name,:status,:teacher_id,:fixed_fee,schedules_attributes: [:id, :from_time, :to_time, :day, :room_id, :_destroy])
   end
 
   def load_klass

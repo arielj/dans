@@ -19,14 +19,17 @@ es:
     birthdays: Cumpleaños
     configuration: Configuración
     daily_cash: Caja diaria
+    edit_room: Editar Sala
     home: Inicio
     hourly_fees: Precio x Horas
     klasses: Clases
+    new_room: Nueva Sala
     notes: Notas
     options: Opciones
     packages: Paquetes
     people: Personas
     reports: Reportes
+    rooms: Salas
     schedules: Horarios
 
   form:
@@ -60,6 +63,9 @@ es:
       options:
         add_price: Agregar precio
         save: Guardar opciones
+      rooms:
+        create: Crear
+        save: Guardar
     options:
       name: Nombre del instituto
       opening_time: Abre a las

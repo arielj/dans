@@ -18,7 +18,7 @@
           %td= klass.name
           %td= klass.status
           %td
-            = klass.schedules.map{|sch| "#{sch.day_name}: #{sch.from_time}-#{sch.to_time}"}.join(', ')
+            = klass.schedules.map{|sch| "#{sch.day_name}: #{sch.from_time_s}-#{sch.to_time_s}"}.join(', ')
           %td
             = link_to edit_klass_path(klass) do
               %i.fa.fa-edit

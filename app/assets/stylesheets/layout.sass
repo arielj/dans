@@ -9,6 +9,13 @@ body
   #trumbowyg-icons
     display: none
 
+  .alert
+    position: fixed
+    bottom: 2rem
+    right: 1rem
+    max-width: 100%
+    width: 400px
+
   > section
     overflow: auto
     display: grid
@@ -17,6 +24,7 @@ body
 
   .scrollable
     overflow: auto
+    max-height: 85%
 
   &.a_index > section
     grid-template-rows: max-content max-content auto max-content
