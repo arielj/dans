@@ -1,5 +1,10 @@
 en:
-  filter: Filter
+  labels:
+    filter: Filter
+    search: Search
+    klasses:
+      activate: Activate
+      deactivate: Deactivate
 
   genders:
     - Female

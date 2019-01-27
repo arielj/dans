@@ -1,38 +1,65 @@
 es:
-  filter: Filtar
+  labels:
+    filter: Filtrar
+    search: Buscar
+    klasses:
+      activate: Activar
+      deactivate: Desactivar
+    options:
+      hours: Horas
+      value: Valor
+    people:
+      search: Buscar (nombre, apellido, dni)
 
   genders:
     - Mujer
     - Hombre
     - Otro
   titles:
-    home: Inicio
-    options: Opciones
-    people: Personas
-    klasses: Clases
-    packages: Paquetes
-    reports: Reportes
-    hourly_fees: Precio x Horas
+    birthdays: Cumpleaños
     configuration: Configuración
+    daily_cash: Caja diaria
+    home: Inicio
+    hourly_fees: Precio x Horas
+    klasses: Clases
+    notes: Notas
+    options: Opciones
+    packages: Paquetes
+    people: Personas
+    reports: Reportes
+    schedules: Horarios
 
   form:
     header:
       klasses:
         name: Nombre
+        schedules: Horarios
         status: Estado
         actions: Acciones
       people:
         name: Nombre
         lastname: Apellido
+        document: DNI
+        address: Dirección
+        email: Email
         status: Estado
         actions: Acciones
     action:
       klasses:
         edit: Editar
         add: Agregar
+        save: Guardar clase
+        add_schedule: Agregar horario
+      notes:
+        save: Guardar notas
       people:
         edit: Editar
         add: Agregar
+        add_teacher: Agregar profesor/a
+        add_student: Agregar alumno/a
+      options:
+        add_price: Agregar precio
+        save: Guardar opciones
     options:
       name: Nombre del instituto
       opening_time: Abre a las
@@ -45,3 +72,36 @@ es:
       preselected_installments_month: Meses preseleccionados al cargar cuotas
       preselected_installments_month_from: Mes inicial
       preselected_installments_month_to: Mes final
+  activerecord:
+    models:
+      klass: Clase
+      room: Sala
+      schedule: Horario
+      person: Persona
+    attributes:
+      klass:
+        name: Nombre
+        fixed_fee: Valor fijo
+        status: Estado
+        info: Información
+      person:
+        name: Nombre
+        lastname: Apellido
+        birthday: Cumpleaños
+        age: Edad
+        dni: DNI
+        gender: Género
+        cellphone: Celular
+        alt_phone: Teléfono alternativo
+        address: Dirección
+        email: Email
+        group: Grupo
+        family: Familiares
+        comments: Comentarios
+      room:
+        name: Nombre
+      schedule:
+        from_time: Horario desde
+        to_time: Horario hasta
+        day: Día
+        room: Sala
