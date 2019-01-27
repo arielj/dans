@@ -1,18 +1,19 @@
 .classes
-  %h2 Clases
+  %h2= t('titles.klasses')
   tabla...
 
 .notes
-  %h2 Notas
+  %h2= t('titles.notes')
   = form_tag 'save_setting' do
     = hidden_field_tag :setting_key, 'notes'
     .form-group
       = text_area_tag 'key[notes]', Setting.fetch(:notes, ''), class: 'form-control trumbowyg'
     .actions
-      = submit_tag 'Guardar Notas', class: 'btn btn-primary'
+      = submit_tag t('form.action.notes.save'), class: 'btn btn-primary'
+
 .birthdays
   %h2
-    Cumpleaños
+    = t('titles.birthdays')
     %i.fa.fa-birthday-cake
   - if @birthday.any?
     %ul
@@ -21,7 +22,7 @@
   - else
     No hay cumpleaños hoy.
 .dailycash
-  %h2 Caja diaria
+  %h2= t('titles.daily_cash')
   .totals
     %b Entradas: $#{@totals[:in]}; Salidas: $#{@totals[:out]}; Total: $#{@totals[:total]}
   = render partial: 'money_transactions/people_table', locals: {transactions: @people_transactions}

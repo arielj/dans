@@ -1,23 +1,23 @@
-.form-row
-  .form-group.col
+.klass_fields
+  .form-group
     = f.label :name
     = f.text_field :name, class: 'form-control'
-  .form-group.col
+  .form-group
     = f.label :fixed_fee
     = f.text_field :fixed_fee, class: 'form-control'
   -# .form-group.col
   -#   = f.label :teacher
   -#   = f.text_field :teacher, class: 'form-control'
-  .form-group.col
+  .form-group
     = f.label :status
     = f.text_field :status, class: 'form-control'
-.form-row
-  .form-group.col
+  .form-group
     = f.label :info
     = f.text_area :info, class: 'form-control'
 
-%h3 Schedules
-#schedules
-  = f.fields_for :schedules do |schedule|
-    = render 'schedule_fields', f: schedule
-  = link_to_add_association 'add schedule', f, :schedules
+.klass_schedules
+  %h3= t('titles.schedules')
+  #schedules
+    = f.fields_for :schedules do |schedule|
+      = render 'schedule_fields', f: schedule
+    = link_to_add_association t('form.action.klasses.add_schedule'), f, :schedules

@@ -1,8 +1,8 @@
 %h1= t('titles.klasses')
 
 = form_tag '', method: :get, class: 'form-inline' do
-  = text_field_tag :q, params[:q], placeholder: 'Buscar', class: 'form-control mr-2 mb-2'
-  = submit_tag 'Filtrar', class: 'btn btn-primary mb-2'
+  = text_field_tag :q, params[:q], placeholder: t('labels.search'), class: 'form-control mr-2 mb-2'
+  = submit_tag t('labels.filter'), class: 'btn btn-primary mb-2'
 
 .scrollable
   %table.table.table-striped.table-sm
@@ -10,7 +10,7 @@
       %tr
         %th= t('form.header.klasses.name')
         %th= t('form.header.klasses.status')
-        %th Horarios
+        %th= t('form.header.klasses.schedules')
         %th= t('form.header.klasses.actions')
     %tbody
       - @klasses.each do |klass|
@@ -24,8 +24,8 @@
               %i.fa.fa-edit
             = link_to klass, method: :delete, data: {confirm: '¿Re seguro?'} do
               %i.fa.fa-trash
-            - active_text = klass.active? ? 'Desactivar' : 'Activar'
-            = link_to active_text, toggle_active_klass_path(klass), method: :put
+            - active_text = klass.active? ? :deactivate : :activate
+            = link_to t(active_text, scope: 'labels.klasses'), toggle_active_klass_path(klass), method: :put
 
 .actions
   = link_to t('form.action.klasses.add'), new_klass_path, class: 'btn btn-primary'
