@@ -1,4 +1,44 @@
 es:
+  birthdays: Cumpleaños
+  close_daily_cash: Marcar cierre
+  configuration: Configuración
+  daily_cash: Caja diaria
+  edit_room: Editar Sala
+  home: Inicio
+  hours: Horas
+  hourly_fees: Precio x Horas
+  klasses: Clases
+  money:
+    details: Detalles
+    in: Entradas
+    out: Salidas
+    total: Total
+  no_birthdays: No hay cumpleaños hoy.
+  notes: Notas
+  options: Opciones
+  packages: Paquetes
+  people: Personas
+  person: Persona
+  reports: Reportes
+  room: Sala
+  rooms: Salas
+  schedule: Horario
+  schedules: Horarios
+  value: Valor
+  add:
+    movement: Agregar movimiento
+    price: Agregar precio
+  new:
+    room: Nueva sala
+    movement: Nuevo movimiento
+  save:
+    money_transaction: Guardar movimiento
+    notes: Guardar notas
+    options: Guardar opciones
+
+  session:
+    close: Cerrar sesión
+
   labels:
     filter: Filtrar
     search: Buscar
@@ -15,22 +55,6 @@ es:
     - Mujer
     - Hombre
     - Otro
-  titles:
-    birthdays: Cumpleaños
-    configuration: Configuración
-    daily_cash: Caja diaria
-    edit_room: Editar Sala
-    home: Inicio
-    hourly_fees: Precio x Horas
-    klasses: Clases
-    new_room: Nueva Sala
-    notes: Notas
-    options: Opciones
-    packages: Paquetes
-    people: Personas
-    reports: Reportes
-    rooms: Salas
-    schedules: Horarios
 
   form:
     header:
@@ -47,25 +71,6 @@ es:
         email: Email
         status: Estado
         actions: Acciones
-    action:
-      klasses:
-        edit: Editar
-        add: Agregar
-        save: Guardar clase
-        add_schedule: Agregar horario
-      notes:
-        save: Guardar notas
-      people:
-        edit: Editar
-        add: Agregar
-        add_teacher: Agregar profesor/a
-        add_student: Agregar alumno/a
-      options:
-        add_price: Agregar precio
-        save: Guardar opciones
-      rooms:
-        create: Crear
-        save: Guardar
     options:
       name: Nombre del instituto
       opening_time: Abre a las
@@ -90,6 +95,9 @@ es:
         fixed_fee: Valor fijo
         status: Estado
         info: Información
+      money_transaction:
+        amount: Monto
+        description: Detalle
       person:
         name: Nombre
         lastname: Apellido

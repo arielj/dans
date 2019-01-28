@@ -4,9 +4,9 @@
 %table.table.table-striped.table-sm
   %thead.thead-dark
     %tr
-      %th In
-      %th Out
-      %th Desc
+      %th= t('money.in')
+      %th= t('money.out')
+      %th= t('money.details')
       - unless hide_actions
         %th
   - transactions.each do |tran|
@@ -15,4 +15,4 @@
       %td= tran.done ? tran.amount : ''
       %td= tran.description
       - unless hide_actions
-        %td= link_to 'X', tran, method: :delete, data: {confirm: '¿Seguro?'}
+        %td= link_to 'X', tran, method: :delete, data: {confirm: 'Seguro?'}

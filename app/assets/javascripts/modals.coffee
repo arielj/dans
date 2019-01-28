@@ -1,12 +1,14 @@
-window.current_modal = false
+window.currentModal = false
 
-window.close_modal = ->
-  if window.current_modal
-    window.current_modal.modal('hide')
-    window.current_modal = false
+window.closeModal = ->
+  if window.currentModal
+    window.currentModal.remove()
+    window.currentModal = false
+  backdrop = document.querySelector('.modal-backdrop')
+  backdrop.remove() if backdrop
 
-window.create_modal = (title, body_html, actions) ->
-  close_modal()
+window.createModal = (title, bodyHtml, actions) ->
+  closeModal()
   modal = $('<div class="modal" tabindex="-1" role="dialog" />')
   dialog = $('<div class="modal-dialog" role="document" />')
   content = $('<div class="modal-content" />')
@@ -15,9 +17,11 @@ window.create_modal = (title, body_html, actions) ->
   close = $('<button type="button" class="close" data-dismiss="modal" aria-label="Close">
                <span aria-hidden="true">&times;</span>
              </button>')
+  close.on 'click', ->
+    closeModal()
 
   body = $('<div class="modal-body" />')
-  body.append(body_html)
+  body.append(bodyHtml)
 
 
   header.append(h5)
@@ -32,13 +36,18 @@ window.create_modal = (title, body_html, actions) ->
 
   dialog.append(content)
   modal.append(dialog)
-  window.current_modal = modal
+  window.currentModal = modal
 
-window.show_large_modal = (title, body_html, actions) ->
-  create_modal(title, body_html, actions)
-  window.current_modal.find('.modal-dialog').addClass('modal-xlg')
-  window.current_modal.modal('show')
+window.showLargeModal = (title, bodyHtml, actions) ->
+  createModal(title, bodyHtml, actions)
+  window.currentModal.find('.modal-dialog').addClass('modal-xlg')
+  window.currentModal.modal('show')
 
-window.show_modal = (title, body_html, actions) ->
-  create_modal(title, body_html, actions)
-  window.current_modal.modal('show')
+window.showModal = (title, bodyHtml, actions) ->
+  createModal(title, bodyHtml, actions)
+  window.currentModal.modal('show')
+
+document.addEventListener 'turbolinks:load', (e) ->
+  document.addEventListener 'click', (e) ->
+    if e.target.classList.contains('modal')
+      closeModal()

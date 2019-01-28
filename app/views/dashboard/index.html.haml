@@ -1,10 +1,10 @@
 .classes
-  %h2= t('titles.klasses')
+  %h2= t('klasses')
   .scrollable
     %table.table.table-striped.table-sm
       %thead
         %tr
-          %th Horario
+          %th= t('schedule')
           - @today_classes.keys.each do |r|
             %th= r.name
       %tbody
@@ -16,34 +16,34 @@
               %td= s ? s.klass.name : ''
 
 .notes
-  %h2= t('titles.notes')
+  %h2= t('notes')
   = form_tag 'save_setting' do
     = hidden_field_tag :setting_key, 'notes'
     .form-group
       = text_area_tag 'key[notes]', Setting.fetch(:notes, ''), class: 'form-control trumbowyg'
     .actions
-      = submit_tag t('form.action.notes.save'), class: 'btn btn-primary'
+      = submit_tag t('save.notes'), class: 'btn btn-primary'
 
 .birthdays
   %h2
-    = t('titles.birthdays')
+    = t('birthdays')
     %i.fa.fa-birthday-cake
   - if @birthday.any?
     %ul
       - @birthday.each do |p|
         %li= link_to p.to_label, edit_person_path(p)
   - else
-    No hay cumpleaños hoy.
+    = t('no_birthdays')
 .dailycash
-  %h2= t('titles.daily_cash')
+  %h2= t('daily_cash')
   .totals
-    %b Entradas: $#{@totals[:in]}; Salidas: $#{@totals[:out]}; Total: $#{@totals[:total]}
+    %b #{t('money.in')}: $#{@totals[:in]}; #{t('money.out')}: $#{@totals[:out]}; #{t('money.total')}: $#{@totals[:total]}
   = render partial: 'money_transactions/people_table', locals: {transactions: @people_transactions}
   .totals
-    Entradas: $#{@totals[:persons_in]}; Salidas: $#{@totals[:persons_out]}
+    #{t('money.in')}: $#{@totals[:persons_in]}; #{t('money.out')}: $#{@totals[:persons_out]}
   = render partial: 'money_transactions/general_table', locals: {transactions: @general_transactions}
   .totals
-    Entradas: $#{@totals[:general_in]}; Salidas: $#{@totals[:general_out]}
+    #{t('money.in')}: $#{@totals[:general_in]}; #{t('money.out')}: $#{@totals[:general_out]}
   .actions
-    = link_to 'Agregar Movimiento', new_money_transaction_path, class: 'btn btn-light', remote: true
-    = link_to 'Marcar Cierre', '#', class: 'btn btn-light'
+    = link_to t('add.movement'), new_money_transaction_path, class: 'btn btn-light', remote: true
+    = link_to t('close_daily_cash'), '#', class: 'btn btn-light'

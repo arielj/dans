@@ -40,7 +40,11 @@ Rails.application.routes.draw do
     get :payments
   end
 
-  get :options, to: 'settings#options', as: :options
-  post :options, to: 'settings#save_options'
-  post 'save_setting', to: 'settings#save_setting'
+  namespace :settings do
+    get '/', action: :options
+    post '/', action: :save_options
+    post :setting, action: :save_setting
+    get :add_price
+
+  end
 end

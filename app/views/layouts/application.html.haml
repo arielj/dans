@@ -23,42 +23,42 @@
         %span.navbar-toggler-icon
 
       #navbarNav.collapse.navbar-collapse
-        %ul.navbar-nav.w-100
+        %ul.navbar-nav
           %li.nav-item
             = link_to root_path, class: 'nav-link' do
               %i.fa.fa-home
-              = t('titles.home')
+              = t('home')
           %li.nav-item
-            = link_to options_path, class: 'nav-link' do
+            = link_to settings_path, class: 'nav-link' do
               %i.fa.fa-cogs
-              = t('titles.options')
+              = t('options')
           %li.nav-item
             = link_to rooms_path, class: 'nav-link' do
               %i.fa.fa-columns
-              = t('titles.rooms')
+              = t('rooms')
           %li.nav-item
             = link_to people_path, class: 'nav-link' do
               %i.fa.fa-address-card
-              = t('titles.people')
+              = t('people')
           %li.nav-item
             = link_to klasses_path, class: 'nav-link' do
               %i.fa.fa-music
-              = t('titles.klasses')
+              = t('klasses')
           %li.nav-item
             = link_to '#', class: 'nav-link' do
               %i.fa.fa-sitemap
-              = t('titles.packages')
+              = t('packages')
           %li.nav-item.dropdown
             %a#navbarDropdown.nav-link.dropdown-toggle{href: "#", role: "button", data: {toggle: "dropdown"}, aria: {haspopup: "true", expanded: "false"}}
               %i.fa.fa-bar-chart
-              = t('titles.reports')
+              = t('reports')
             .dropdown-menu{aria: {labelledby: "navbarDropdown"}}
-              = link_to t('titles.daily_cash'), reports_daily_cash_path, class: "dropdown-item"
-              = link_to t('titles.payments'), reports_payments_path, class: "dropdown-item"
+              = link_to t('daily_cash'), reports_daily_cash_path, class: "dropdown-item"
+              = link_to t('payments'), reports_payments_path, class: "dropdown-item"
               = link_to 'LALA', '#', class: "dropdown-item"
 
         - if admin_signed_in?
-          .ml-auto= link_to 'Logout', destroy_admin_session_path, method: :delete, class: 'nav-link nav-item'
+          .ml-auto= link_to t('session.close'), destroy_admin_session_path, method: :delete, class: 'nav-link nav-item'
 
     %section
       - flash.keys.each do |k|

@@ -14,6 +14,9 @@ class SettingsController < ApplicationController
       Setting.set(k,v)
     end
     flash[:success] = 'Configuración guardada'
-    redirect_back fallback_location: options_path
+    redirect_back fallback_location: settings_path
+  end
+
+  def add_price
   end
 end
