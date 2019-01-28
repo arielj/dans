@@ -1,4 +1,4 @@
-%h1= t('titles.rooms')
+%h1= t('rooms')
 
 .filters
 
@@ -6,8 +6,8 @@
   %table.table.table-striped.table-sm
     %thead.thead-dark
       %tr
-        %th= t('form.header.rooms.name')
-        %th= t('form.header.rooms.actions')
+        %th= t('activerecord.attributes.room.name')
+        %th= t('actions')
     %tbody
       - @rooms.each do |room|
         %tr
@@ -19,4 +19,4 @@
               %i.fa.fa-trash
 
 .actions
-  = link_to t('form.action.rooms.add'), new_room_path, class: 'btn btn-primary'
+  = link_to t('add.room'), new_room_path, class: 'btn btn-primary'

@@ -37,13 +37,13 @@
               %i.fa.fa-columns
               = t('rooms')
           %li.nav-item
-            = link_to people_path, class: 'nav-link' do
-              %i.fa.fa-address-card
-              = t('people')
-          %li.nav-item
             = link_to klasses_path, class: 'nav-link' do
               %i.fa.fa-music
               = t('klasses')
+          %li.nav-item
+            = link_to people_path, class: 'nav-link' do
+              %i.fa.fa-address-card
+              = t('people')
           %li.nav-item
             = link_to '#', class: 'nav-link' do
               %i.fa.fa-sitemap

@@ -1,4 +1,4 @@
-%h1= t('titles.people')
+%h1= t('people')
 
 = form_tag '', method: :get, class: 'form-inline' do
   = select_tag :type, options_for_select([['Profesores','teachers'],['Almuno/as','students']], params[:type]), prompt: 'Mostar todos', class: 'form-control mb-2 mr-2'
@@ -9,11 +9,11 @@
   %table.table.table-striped.table-sm
     %thead.thead-dark
       %tr
-        %th= t('form.header.people.name')
-        %th= t('form.header.people.lastname')
-        %th= t('form.header.people.document')
-        %th= t('form.header.people.address')
-        %th= t('form.header.people.email')
+        %th= t('activerecord.attributes.person.name')
+        %th= t('activerecord.attributes.person.lastname')
+        %th= t('activerecord.attributes.person.document')
+        %th= t('activerecord.attributes.person.address')
+        %th= t('activerecord.attributes.person.email')
         %th
     %tbody
       - @people.each do |person|
@@ -27,5 +27,5 @@
             = link_to edit_person_path(person) do
               %i.fa.fa-edit
 .actions
-  = link_to t('form.action.people.add_teacher'), new_teacher_person_path, class: 'btn btn-primary'
-  = link_to t('form.action.people.add_student'), new_student_person_path, class: 'btn btn-primary'
+  = link_to t('add.teacher'), new_teacher_person_path, class: 'btn btn-primary'
+  = link_to t('add.student'), new_student_person_path, class: 'btn btn-primary'

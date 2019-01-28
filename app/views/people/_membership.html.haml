@@ -1,10 +1,10 @@
 %table.table.table-striped.table-sm
   %tr
-    %th= t('labels.installment.year')
-    %th Mes
-    %th Monto
-    %th Estado
-    %th Pagos
+    %th= t('activerecord.attributes.installment.year')
+    %th= t('activerecord.attributes.installment.month')
+    %th= t('activerecord.attributes.installment.amount')
+    %th= t('activerecord.attributes.installment.status')
+    %th= t('activerecord.attributes.installment.payments')
   - membership.installments.includes(:payments).each do |i|
     %tr{id: "installment_#{i.id}"}
       %td= i.year
@@ -13,7 +13,7 @@
         $#{i.amount}
         - if (r = i.get_recharge) > 0
           (+#{r})
-      %td= i.status
+      %td= t("payment_status.#{i.status}")
       %td
         - if i.payments.any?
           %ul

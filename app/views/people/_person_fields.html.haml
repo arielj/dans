@@ -24,7 +24,7 @@
     = f.text_field :dni, class: 'form-control'
   .form-check.col
     = f.label :gender, class: 'form-label'
-    = f.select :gender, options_for_select(Person.genders_for_select), {}, class: 'form-control'
+    = f.select :gender, options_for_select(Person.genders_for_select, f.object.gender), {}, class: 'form-control'
 .form-row
   .form-group.col
     = f.label :cellphone

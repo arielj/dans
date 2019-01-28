@@ -16,8 +16,8 @@
   -#   = f.text_area :info, class: 'form-control'
 
 .klass_schedules
-  %h3= t('titles.schedules')
+  %h3= t('schedules')
   #schedules
     = f.fields_for :schedules do |schedule|
       = render 'schedule_fields', f: schedule
-    = link_to_add_association t('form.action.klasses.add_schedule'), f, :schedules
+    .action= link_to_add_association t('add.schedule'), f, :schedules

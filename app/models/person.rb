@@ -4,13 +4,13 @@ class Person < ApplicationRecord
 
   validates :name, :lastname, presence: true
 
-  enum gender: [:female, :male]
+  enum gender: [:female, :male, :other]
 
   scope :birthday_today, -> { where('DAYOFMONTH(birthday) = ? AND MONTH(birthday) = ?', Date.today.day, Date.today.month) }
 
   def self.genders_for_select
     ds = I18n.t('genders')
-    [[ds[0], :female], [ds[1], :male]]
+    [[ds[0], :female], [ds[1], :male], [ds[2], :other]]
   end
 
   def gender_name
@@ -51,5 +51,9 @@ class Person < ApplicationRecord
   def suggest_family(q)
     ids = family_members.map(&:id)+[id]
     Person.where('name LIKE :q OR lastname LIKE :q OR dni LIKE :q', {q: "%#{q}%"}).where.not(id: ids)
+  end
+
+  def type
+    is_teacher? ? :teacher : :student
   end
 end

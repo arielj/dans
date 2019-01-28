@@ -79,7 +79,9 @@ private
 
   def time_to_s(t)
     t ||= 0
-    if t < 60
+    if t < 10
+      "00:0#{t}"
+    elsif t < 60
       "00:#{t}"
     elsif t < 1000
       "0#{t}".insert(-3, ':')
