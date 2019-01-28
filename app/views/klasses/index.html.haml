@@ -1,7 +1,13 @@
+- page_title(t('klasses'))
+
 %h1= t('klasses')
 
 = form_tag '', method: :get, class: 'form-inline' do
   = text_field_tag :q, params[:q], placeholder: t('labels.search'), class: 'form-control mr-2 mb-2'
+  .checkbox
+    = label_tag do
+      = check_box_tag :include_inactive, '1', params[:include_inactive]
+      = t('labels.include_inactive')
   = submit_tag t('labels.filter'), class: 'btn btn-primary mb-2'
 
 .scrollable
@@ -9,23 +15,23 @@
     %thead.thead-dark
       %tr
         %th= t('activerecord.attributes.klass.name')
-        %th= t('activerecord.attributes.klass.status')
         %th= t('activerecord.attributes.klass.schedules')
         %th= t('actions')
     %tbody
       - @klasses.each do |klass|
-        %tr
-          %td= klass.name
-          %td= klass.status
+        %tr{class: (klass.inactive? ? 'table-warning' : '')}
           %td
-            = klass.schedules.map{|sch| "#{sch.day_name}: #{sch.from_time_s}-#{sch.to_time_s}"}.join(', ')
+            = klass.name
+            - if klass.inactive?
+              (#{klass.status})
+          %td= klass.schedules.map{|sch| "#{sch.day_name}: #{sch.from_time_s}-#{sch.to_time_s}"}.join(', ')
           %td
             = link_to edit_klass_path(klass) do
               %i.fa.fa-edit
             = link_to klass, method: :delete, data: {confirm: '¿Re seguro?'} do
               %i.fa.fa-trash
             - active_text = klass.active? ? :deactivate : :activate
-            = link_to t(active_text, scope: 'labels.klasses'), toggle_active_klass_path(klass), method: :put
+            = link_to t(active_text, scope: 'labels.klasses'), toggle_active_klass_path(klass, include_inactive: params[:include_inactive]), method: :put
 
 .actions
   = link_to t('add.klass'), new_klass_path, class: 'btn btn-primary'

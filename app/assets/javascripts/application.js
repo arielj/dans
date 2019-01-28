@@ -20,7 +20,12 @@
 //= require_tree .
 
 document.addEventListener('turbolinks:load', function (ev) {
-  $('.datepicker').datepicker({
-    format: 'yyyy-mm-dd'
-  });
+  initDatepicker('.datepicker');
 })
+
+function initDatepicker(selector) {
+  jQuery('#ui-datepicker-div').remove();
+  $(selector).datepicker({
+    format: 'yyyy-mm-dd'
+  })
+}

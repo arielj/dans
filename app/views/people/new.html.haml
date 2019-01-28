@@ -1,4 +1,7 @@
+- page_title(t("add.#{@person.type}"))
+
 %h1= t("add.#{@person.type}")
+
 = form_with model: @person do |f|
   = render partial: 'person_fields', locals: {f: f}
   .actions

@@ -1,7 +1,8 @@
 window.refresh_amount = ->
   durations = 0
-  $('input.schedule:checked').each (idx, el) ->
-    durations += parseFloat($(el).data('duration'))
+  inputs = document.querySelectorAll('input.schedule:checked')
+  for input in inputs
+    durations += parseFloat(input.dataset.duration)
 
-  $('.hint_hours .hours').text(durations)
-  $('#membership_amount').val(Settings.hours_fees[durations+''])
+  document.querySelector('.hint_hours .hours').innerText = durations
+  document.getElementById('membership_amount').value = Settings.hours_fees[durations+'']

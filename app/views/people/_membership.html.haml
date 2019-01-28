@@ -23,4 +23,4 @@
                 $#{p.amount} (#{p.description})
         - if i.to_pay > 0
           = link_to new_payment_installment_path(i), remote: true do
-            %i.fa.fa-plus
+            %i.fa.fa-plus{title: t('add.payment')}

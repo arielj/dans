@@ -1,8 +1,10 @@
-%h1= t("edit.#{@person.type}")
+- page_title("#{t("edit.#{@person.type}")}: #{@person.to_label}")
+
+%h1= "#{t("edit.#{@person.type}")}: #{@person.to_label}"
 
 .personal_data
   %h3= t('personal_data')
-  = form_with model: @person, class: 'form-compact' do |f|
+  = form_for @person, class: 'form-compact' do |f|
     = render partial: 'person_fields', locals: {f: f}
     .actions
       = submit_tag t("save.#{@person.type}"), class: 'btn btn-primary'

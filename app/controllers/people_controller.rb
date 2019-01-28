@@ -1,13 +1,14 @@
 class PeopleController < ApplicationController
-  before_action :person, only: [:edit, :add_family_member]
+  before_action :person, only: [:edit, :add_family_member, :toggle_active]
 
   def index
-    @people = Person.all
-    @people = @people.where(is_teacher: (params[:type] == 'teachers')) if params[:type].present?
+    @people = Person.order(name: :asc, lastname: :asc)
+    @people = @people.where(is_teacher: ('teachers') == params[:type]) if params[:type].present?
     case q = params[:q]
       when /\A\d+\z/ then @people = @people.where('dni LIKE ?', "%#{q}%")
       when /\A.+\z/ then @people = @people.where('name LIKE :q OR lastname LIKE :q', {q: "%#{q}%"})
     end
+    @people = @people.active unless params[:include_inactive]
   end
 
   def new_student
@@ -62,6 +63,11 @@ class PeopleController < ApplicationController
     @other = Person.find(params[:family_member_id])
     person.remove_family_member(@other)
     redirect_back fallback_location: edit_person_path(person)
+  end
+
+  def toggle_active
+    @person.toggle_active
+    redirect_back fallback_location: people_path
   end
 
 private

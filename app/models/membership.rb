@@ -18,7 +18,7 @@ class Membership < ApplicationRecord
   end
 
   def to_label
-    "#{created_at.year} - (#{klasses.map(&:name).join(', ')})"
+    "#{created_at.year} - (#{klasses.pluck(:name).uniq.join(', ')})"
   end
 
 private
