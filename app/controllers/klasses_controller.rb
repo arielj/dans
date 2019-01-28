@@ -4,6 +4,7 @@ class KlassesController < ApplicationController
   def index
     @klasses = Klass.all.order('name ASC')
     @klasses = @klasses.where('name LIKE ?', "%#{params[:q]}%") if params[:q]
+    @klasses = @klasses.active unless params[:include_inactive]
   end
 
   def new

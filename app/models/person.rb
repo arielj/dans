@@ -5,6 +5,7 @@ class Person < ApplicationRecord
   validates :name, :lastname, presence: true
 
   enum gender: [:female, :male, :other]
+  enum status: [:inactive, :active]
 
   scope :birthday_today, -> { where('DAYOFMONTH(birthday) = ? AND MONTH(birthday) = ?', Date.today.day, Date.today.month) }
 
@@ -55,5 +56,10 @@ class Person < ApplicationRecord
 
   def type
     is_teacher? ? :teacher : :student
+  end
+
+  def toggle_active
+    to = active? ? :inactive : :active
+    update_column(:status, to)
   end
 end

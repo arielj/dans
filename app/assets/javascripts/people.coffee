@@ -1,53 +1,61 @@
 document.addEventListener 'turbolinks:load', (ev) ->
-  age = $('input[name*=age]')
-  if age.length
-    age.parents('form').find('input[name*=birthday]').on('change', (ev) ->
-      birthday = +new Date($(this).val())
-      y = ~~((Date.now() - birthday) / (31557600000))
-      age.val(y)
-    ).trigger('change')
+  form = document.querySelector('edit_person')
+  if form
+    age = form.querySelector('input[name*=age]')
+    if age
+      $(age).parents('form').find('input[name*=birthday]').on('change', (ev) ->
+        birthday = +new Date($(this).val())
+        y = ~~((Date.now() - birthday) / (31557600000))
+        age.val(y)
+      ).trigger('change')
 
-  $('.memberships select#membership').on 'change', (e) ->
-    m_id = $(this).val()
-    $.getScript '/memberships/'+m_id
+    form.querySelector('.memberships select#membership').addEventListener 'change', (e) ->
+      $.getScript '/memberships/'+this.value
 
 
-window.init_family_autocomplete = ->
+window.initFamilyAutocomplete = ->
   $request = false
-  $('#add_family_member #q').on('keyup', (e) ->
-    if $request
-      $request.abort()
-      $request = false
+  familyForm = document.getElementById('add_family_member')
+  autocompleteOptions = familyForm.querySelector('#family_autocomplete')
+  q = familyForm.querySelector('#q')
+  if q
+    q.addEventListener 'keyup', (e) ->
+      if $request
+        $request.abort()
+        $request = false
 
-    $t = $(this)
-    path = $t.data('autocompletepath')
-    val = $t.val()
-    $p = $t.parent()
-    $div = $p.find('#autocomplete_selector')
-    if $div.length == 0
-      $div = $('<div />').attr('id','autocomplete_selector')
-      $p.append($div)
+      $t = this
+      path = this.dataset.autocompletepath
+      val = this.value
+      $p = this.parentNode
+      $div = $p.querySelector('#autocomplete_selector')
+      if !$div
+        $div = document.createElement('DIV')
+        $div.id = 'autocomplete_selector'
+        $p.appendChild($div)
 
-    onSelectClick = (e) ->
-      e.preventDefault()
-      $('#new_family_member_id').val($(this).data('value'))
-      $t.val($(this).text())
-      $div.remove()
+      onSelectClick = (e) ->
+        e.preventDefault()
+        document.getElementById('new_family_member_id').value = this.data.value
+        $t.value = this.innerText
+        $div.remove()
 
-    if val.length >= 3
-      $request = $.getJSON path, {q: val}, (response) ->
-        options = []
-        for person in response
-          options.push($('<div />').addClass('option').html(person.label).data('value', person.value).on('click', onSelectClick))
-          $div.html(options)
+      if val.length >= 3
+        $request = $.getJSON path, {q: val}, (response) ->
+          autocompleteOptions.innerHTML = ''
+          for person in response
+            option = document.createElement 'option'
+            option.value = person.label
+            option.innerText = person.value
+            autocompleteOptions.appendChild(option)
 
-        if response.length == 0
-          $div.html($('<div class="option">No hay resultados</div>'))
-    else
-      $div.html('')
+          if response.length == 0
+            $div.innerHTML = '<div class="option">No hay resultados</div>'
+      else
+        $div.innerHTML = ''
 
-  ).on('focus', (e) ->
-    $(this).siblings('#autocomplete_selector').show()
-  ).on('blur', (e) ->
-    $(this).siblings('#autocomplete_selector').hide('fast')
-  )
+    q.addEventListener 'focus', (e) ->
+      $(this).siblings('#autocomplete_selector').show()
+
+    q.addEventListener 'blur', (e) ->
+      $(this).siblings('#autocomplete_selector').hide('fast')

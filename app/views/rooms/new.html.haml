@@ -1,4 +1,7 @@
+- page_title(t('new.room'))
+
 %h1= t('new.room')
+
 = form_with model: @room, local: true do |f|
   = render partial: 'room_fields', locals: {f: f}
   .actions

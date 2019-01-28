@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       get :add_family_member
       post :add_family_member, action: 'do_add_family_member'
       put :remove_family_member
+      put :toggle_active
     end
   end
 

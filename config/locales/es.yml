@@ -37,6 +37,7 @@ es:
     klass: Agregar clase
     membership: Agregar inscripción
     movement: Agregar movimiento
+    payment: Agregar pago
     price: Agregar precio
     room: Agregar sala
     schedule: Agregar horario
@@ -80,6 +81,8 @@ es:
       value: Valor
     people:
       search: Buscar (nombre, apellido, dni)
+      activate: Activar
+      deactivate: Desactivar
 
   genders:
     - Mujer
@@ -87,20 +90,6 @@ es:
     - Otro
 
   form:
-    header:
-      klasses:
-        name: Nombre
-        schedules: Horarios
-        status: Estado
-        actions: Acciones
-      people:
-        name: Nombre
-        lastname: Apellido
-        document: DNI
-        address: Dirección
-        email: Email
-        status: Estado
-        actions: Acciones
     options:
       name: Nombre del instituto
       opening_time: Abre a las
@@ -137,12 +126,14 @@ es:
       money_transaction:
         amount: Monto
         description: Detalle
+        created_at: Fecha
       person:
         name: Nombre
         lastname: Apellido
         birthday: Cumpleaños
         age: Edad
         dni: DNI
+        document: DNI
         gender: Género
         cellphone: Celular
         alt_phone: Teléfono alternativo

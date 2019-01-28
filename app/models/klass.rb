@@ -12,12 +12,10 @@ class Klass < ApplicationRecord
 
   validates :name, presence: true
 
+  enum status: [:inactive, :active]
+
   def get_memberships
-    m = memberships
-    packages.each do |p|
-      m += p.memberships
-    end
-    m
+    memberships + packages.map(&:memberships).flatten
   end
 
   def students
@@ -26,11 +24,7 @@ class Klass < ApplicationRecord
   end
 
   def toggle_active
-    self.status = self.status == 1 ? 0 : 1
-    save
-  end
-
-  def active?
-    status == 1
+    to = active? ? :inactive : :active
+    update_column(:status, to)
   end
 end

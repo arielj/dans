@@ -1,3 +1,5 @@
+- page_title("#{t('edit.room')}: #{@room.name}")
+
 %h1 #{t('edit.room')}: #{@room.name}
 
 = form_with model: @room, class: 'edit_klass' do |f|

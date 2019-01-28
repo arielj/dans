@@ -2,9 +2,12 @@
 %html
   %head
     %title
-      Dans
+      - if content_for(:page_title)
+        = yield(:page_title)
+        |
       - if name = Setting.fetch('name', nil)
-        = "| #{name}"
+        = "#{name} | "
+      Dans
     = csrf_meta_tags
     %meta{name: "viewport", content: "width=device-width, initial-scale=1, shrink-to-fit=no"}
 
@@ -44,10 +47,6 @@
             = link_to people_path, class: 'nav-link' do
               %i.fa.fa-address-card
               = t('people')
-          %li.nav-item
-            = link_to '#', class: 'nav-link' do
-              %i.fa.fa-sitemap
-              = t('packages')
           %li.nav-item.dropdown
             %a#navbarDropdown.nav-link.dropdown-toggle{href: "#", role: "button", data: {toggle: "dropdown"}, aria: {haspopup: "true", expanded: "false"}}
               %i.fa.fa-bar-chart
