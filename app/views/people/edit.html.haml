@@ -1,18 +1,16 @@
-%h1 Editar #{@person.is_teacher? ? 'Profesor/a' : 'Alumno/a'}
+%h1= t("edit.#{@person.type}")
 
-.row
-  .col-5
-    %h3 Datos personales
-    = form_with model: @person, class: 'form-compact' do |f|
-      = render partial: 'person_fields', locals: {f: f}
-      .actions
-        = submit_tag 'Guardar', class: 'btn btn-primary'
+.personal_data
+  %h3= t('personal_data')
+  = form_with model: @person, class: 'form-compact' do |f|
+    = render partial: 'person_fields', locals: {f: f}
+    .actions
+      = submit_tag t("save.#{@person.type}"), class: 'btn btn-primary'
 
-  .col-7
-    .memberships
-      = select_tag :membership, options_from_collection_for_select(@person.memberships, :id, :to_label), class: 'form-control'
-      .installments
-        - if m = @person.memberships.first
-          = render partial: 'people/membership', locals: {membership: m}
-      .actions
-        = link_to 'Add membership', new_membership_person_path(@person), class: 'btn btn-light', remote: true
+.memberships
+  = select_tag :membership, options_from_collection_for_select(@person.memberships, :id, :to_label), class: 'form-control'
+  .installments
+    - if m = @person.memberships.first
+      = render partial: 'people/membership', locals: {membership: m}
+  .actions
+    = link_to t('add.membership'), new_membership_person_path(@person), class: 'btn btn-light', remote: true

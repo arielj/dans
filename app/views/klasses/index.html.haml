@@ -1,4 +1,4 @@
-%h1= t('titles.klasses')
+%h1= t('klasses')
 
 = form_tag '', method: :get, class: 'form-inline' do
   = text_field_tag :q, params[:q], placeholder: t('labels.search'), class: 'form-control mr-2 mb-2'
@@ -8,10 +8,10 @@
   %table.table.table-striped.table-sm
     %thead.thead-dark
       %tr
-        %th= t('form.header.klasses.name')
-        %th= t('form.header.klasses.status')
-        %th= t('form.header.klasses.schedules')
-        %th= t('form.header.klasses.actions')
+        %th= t('activerecord.attributes.klass.name')
+        %th= t('activerecord.attributes.klass.status')
+        %th= t('activerecord.attributes.klass.schedules')
+        %th= t('actions')
     %tbody
       - @klasses.each do |klass|
         %tr
@@ -28,4 +28,4 @@
             = link_to t(active_text, scope: 'labels.klasses'), toggle_active_klass_path(klass), method: :put
 
 .actions
-  = link_to t('form.action.klasses.add'), new_klass_path, class: 'btn btn-primary'
+  = link_to t('add.klass'), new_klass_path, class: 'btn btn-primary'

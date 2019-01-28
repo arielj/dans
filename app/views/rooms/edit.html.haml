@@ -1,8 +1,6 @@
-%h1
-  = t('titles.edit_room')
-  = @room.name
+%h1 #{t('edit.room')}: #{@room.name}
 
 = form_with model: @room, class: 'edit_klass' do |f|
   = render partial: 'room_fields', locals: {f: f}
   .actions
-    = submit_tag t('form.action.rooms.save'), class: 'btn btn-primary'
+    = submit_tag t('save.room'), class: 'btn btn-primary'

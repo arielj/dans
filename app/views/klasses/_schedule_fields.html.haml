@@ -2,13 +2,13 @@
   .form-group
     = link_to_remove_association "X", f
     = f.label :from_time
-    = f.time_field :from_time, class: 'form-control', value: f.object.from_time_s, min: Setting.fetch(:opening_time, '00:00'), max: Setting.fetch(:closing_time, '24:00'), step: 30
+    = f.time_field :from_time, class: 'form-control', value: f.object.from_time_s, min: Setting.fetch(:opening_time, '00:00'), max: Setting.fetch(:closing_time, '24:00'), step: 1800
   .form-group
     = f.label :to_time
-    = f.time_field :to_time, class: 'form-control', value: f.object.to_time_s, min: Setting.fetch(:opening_time, '00:00'), max: Setting.fetch(:closing_time, '24:00'), step: 30
+    = f.time_field :to_time, class: 'form-control', value: f.object.to_time_s, min: Setting.fetch(:opening_time, '00:00'), max: Setting.fetch(:closing_time, '24:00'), step: 1800
   .form-group
     = f.label :day
-    = f.select :day, options_for_select(Schedule.days_for_select), {}, class: 'form-control'
+    = f.select :day, options_for_select(Schedule.days_for_select, f.object.day), {}, class: 'form-control'
   .form-group
     = f.label :room_id
     = f.select :room_id, options_from_collection_for_select(Room.all, :id, :name, f.object.room_id), {}, class: 'form-control'

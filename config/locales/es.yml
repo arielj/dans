@@ -1,4 +1,5 @@
 es:
+  actions: Acciones
   birthdays: Cumpleaños
   close_daily_cash: Marcar cierre
   configuration: Configuración
@@ -17,8 +18,15 @@ es:
   notes: Notas
   options: Opciones
   packages: Paquetes
+  payment: Pago
+  payments: Pagos
+  payment_status:
+    waiting: Pendiente
+    paid: Pagado
+    paid_with_interests: Pagado con intereses
   people: Personas
   person: Persona
+  personal_data: Datos personales
   reports: Reportes
   room: Sala
   rooms: Salas
@@ -26,15 +34,37 @@ es:
   schedules: Horarios
   value: Valor
   add:
+    klass: Agregar clase
+    membership: Agregar inscripción
     movement: Agregar movimiento
     price: Agregar precio
+    room: Agregar sala
+    schedule: Agregar horario
+    student: Agregar alumno/a
+    teacher: Agregar profesor/a
   new:
+    klass: Nueva clase
     room: Nueva sala
     movement: Nuevo movimiento
   save:
+    klass: Guardar clase
+    membership: Guardar inscripción
     money_transaction: Guardar movimiento
     notes: Guardar notas
     options: Guardar opciones
+    room: Guardar sala
+    student: Guardar alumno/a
+    teacher: Guardar profesor/a
+  create:
+    klass: Crear clase
+    room: Crear sala
+    student: Crear alumno/a
+    teacher: Crear profesor/a
+  edit:
+    klass: Editar clase
+    room: Editar sala
+    student: Editar alumno/a
+    teacher: Editar profesor/a
 
   session:
     close: Cerrar sesión
@@ -90,11 +120,20 @@ es:
       schedule: Horario
       person: Persona
     attributes:
+      installment:
+        year: Año
+        month: Mes
+        amount: Monto
+        status: Estado
+        payments: Pagos
       klass:
         name: Nombre
         fixed_fee: Valor fijo
         status: Estado
+        schedules: Horarios
         info: Información
+      membership:
+        amount: Monto
       money_transaction:
         amount: Monto
         description: Detalle
@@ -119,3 +158,4 @@ es:
         to_time: Horario hasta
         day: Día
         room: Sala
+        room_id: Sala

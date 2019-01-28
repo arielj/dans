@@ -1,5 +1,5 @@
-%h1 Editar clase: #{@klass.name}
+%h1 #{t('edit.klass')}: #{@klass.name}
 = form_for @klass, class: 'edit_klass' do |f|
   = render partial: 'klass_fields', locals: {f: f}
   .actions
-    = submit_tag t('form.action.klasses.save'), class: 'btn btn-primary'
+    = submit_tag t('save.klass'), class: 'btn btn-primary'
