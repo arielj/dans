@@ -6,12 +6,12 @@
     = f.label :description
     = f.text_field :description, class: 'form-control'
   .form-check-inline
-    = label_tag class: 'form-check-label' do
+    = label_tag '', class: 'form-check-label' do
       = f.radio_button :done, true, class: 'form-check-input'
-      = t :out, scope: 'movement_done'
+      = t('money.in')
   .form-check-inline
-    = label_tag class: 'form-check-label' do
+    = label_tag '', class: 'form-check-label' do
       = f.radio_button :done, false, class: 'form-check-input'
-      = t :in, scope: 'movement_done'
+      = t('money.out')
   .actions.modal-footer
-    = f.submit 'Guardar', class: 'btn btn-primary'
+    = f.submit t('save.money_transaction'), class: 'btn btn-primary'

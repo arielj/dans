@@ -4,10 +4,10 @@
 %table.table.table-striped.table-sm
   %thead.thead-dark
     %tr
-      %th In
-      %th Out
-      %th Desc
-      %th Person
+      %th= t('money.in')
+      %th= t('money.out')
+      %th= t('money.details')
+      %th= t('person')
       - unless hide_actions
         %th
   - transactions.each do |tran|
