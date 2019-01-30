@@ -39,7 +39,7 @@
     .small
       %b #{t('money.in')}: $#{@totals[:in]}; #{t('money.out')}: $#{@totals[:out]}; #{t('money.total')}: $#{@totals[:total]}
   .space_even
-    .scrollable= render partial: 'money_transactions/people_table', locals: {transactions: @people_transactions}
+    .scrollable= render partial: 'money_transactions/people_table', locals: {transactions: @people_transactions, hide_actions: true}
     .scrollable= render partial: 'money_transactions/general_table', locals: {transactions: @general_transactions}
   .actions
     = link_to t('add.movement'), new_money_transaction_path, class: 'btn btn-light', remote: true
