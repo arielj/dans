@@ -12,7 +12,6 @@ document.addEventListener 'turbolinks:load', (ev) ->
     form.querySelector('.memberships select#membership').addEventListener 'change', (e) ->
       $.getScript '/memberships/'+this.value
 
-
 window.initFamilyAutocomplete = ->
   $request = false
   familyForm = document.getElementById('add_family_member')

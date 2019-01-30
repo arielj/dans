@@ -1,0 +1,23 @@
+.tabbed
+  .tabs
+    grid-area: tabs
+    display: flex
+
+    .tab
+      padding: .5rem 1rem
+      border: 1px solid #BBB
+      border-radius: 10px 10px 0 0
+
+      &.current
+        background: #BBB
+        font-weight: bold
+
+  .tabs_contents
+    grid-area: tabs_contents
+
+    & > div
+      display: none
+
+      &.current
+        display: flex
+        flex-direction: column
