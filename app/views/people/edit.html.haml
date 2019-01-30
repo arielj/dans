@@ -18,11 +18,41 @@
     .tab{data: {'tab-content-ref' => 'memberships'}}= t('tab.memberships')
   .tabs_contents
     .tab_content.current{data: {'tab-content' => 'person_payments'}}
-      Lalalala
+      %table.table.table-striped.table-sm
+        %thead.thead-dark
+          %tr
+            %th= t('activerecord.attributes.money_transaction.date')
+            %th= t('activerecord.attributes.money_transaction.description')
+            %th= t('activerecord.attributes.money_transaction.amount')
+            %th.actions
+        %tbody
+          - @person_payments.each do |p|
+            %tr
+              %td{title: l(p.created_at)}= l p.created_at, format: :date
+              %td= p.description
+              %td= p.amount
+              %td.actions
+      .actions
+        = link_to t('add.payment'), add_payment_person_path(@person), class: 'button', remote: true
 
     - if @person.is_teacher?
       .tab_content{data: {'tab-content' => 'payments_to_teacher'}}
-        Lililili
+        %table.table.table-striped.table-sm
+          %thead.thead-dark
+            %tr
+              %th= t('activerecord.attributes.money_transaction.date')
+              %th= t('activerecord.attributes.money_transaction.description')
+              %th= t('activerecord.attributes.money_transaction.amount')
+              %th.actions
+          %tbody
+            - @payments_to_person.each do |p|
+              %tr
+                %td{title: l(p.created_at)}= l p.created_at, format: :date
+                %td= p.description
+                %td= p.amount
+                %td.actions
+        .actions
+          = link_to t('add.payment'), add_payment_done_person_path(@person), class: 'button', remote: true
 
     .tab_content.debts{data: {'tab-content' => 'debts'}}
       Lelelele
