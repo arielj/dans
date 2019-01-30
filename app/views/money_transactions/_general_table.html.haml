@@ -9,10 +9,14 @@
       %th= t('money.details')
       - unless hide_actions
         %th
-  - transactions.each do |tran|
+  %tbody
+    - transactions.each do |tran|
+      %tr
+        %td= tran.done ? '' : tran.amount
+        %td= tran.done ? tran.amount : ''
+        %td= tran.description
+        - unless hide_actions
+          %td= link_to 'X', tran, method: :delete, data: {confirm: 'Seguro?'}
+  %tfoot
     %tr
-      %td= tran.done ? '' : tran.amount
-      %td= tran.done ? tran.amount : ''
-      %td= tran.description
-      - unless hide_actions
-        %td= link_to 'X', tran, method: :delete, data: {confirm: 'Seguro?'}
+      %td{colspan: (hide_actions ? 4 : 5)} #{t('money.in')}: $#{@totals[:general_in]}; #{t('money.out')}: $#{@totals[:general_out]}

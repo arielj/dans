@@ -1,6 +1,6 @@
 - hide_actions ||= false
 
-%h3 Pagos de/para alumnos/profesores
+%h3 Pagos de/a personas
 %table.table.table-striped.table-sm
   %thead.thead-dark
     %tr
@@ -10,11 +10,15 @@
       %th= t('person')
       - unless hide_actions
         %th
-  - transactions.each do |tran|
+  %tbody
+    - transactions.each do |tran|
+      %tr
+        %td= tran.done ? '' : tran.amount
+        %td= tran.done ? tran.amount : ''
+        %td= tran.description
+        %td= tran.person.to_label
+        - unless hide_actions
+          %td X
+  %tfoot
     %tr
-      %td= tran.done ? '' : tran.amount
-      %td= tran.done ? tran.amount : ''
-      %td= tran.description
-      %td= tran.person.to_label
-      - unless hide_actions
-        %td X
+      %td{colspan: (hide_actions ? 4 : 5)} #{t('money.in')}: $#{@totals[:persons_in]}; #{t('money.out')}: $#{@totals[:persons_out]}

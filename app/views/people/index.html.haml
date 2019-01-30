@@ -1,6 +1,8 @@
 - page_title(t('people'))
 
-%h1= t('people')
+%h1
+  = t('people')
+  (#{@people.count})
 
 = form_tag '', method: :get, class: 'form-inline' do
   = select_tag :type, options_for_select([['Profesores','teachers'],['Almuno/as','students']], params[:type]), prompt: 'Mostar todos', class: 'form-control mb-2 mr-2'
@@ -15,12 +17,12 @@
   %table.table.table-striped.table-sm
     %thead.thead-dark
       %tr
-        %th= t('activerecord.attributes.person.name')
-        %th= t('activerecord.attributes.person.lastname')
-        %th= t('activerecord.attributes.person.document')
-        %th= t('activerecord.attributes.person.address')
-        %th= t('activerecord.attributes.person.email')
-        %th
+        %th= sortable_link 'name'
+        %th= sortable_link 'lastname'
+        %th= sortable_link 'dni'
+        %th= sortable_link 'address'
+        %th= sortable_link 'email'
+        %th.actions
     %tbody
       - @people.each do |person|
         %tr{class: (person.inactive? ? 'table-warning' : '')}
@@ -34,9 +36,10 @@
           %td= person.dni
           %td= person.address
           %td= person.email
-          %td
+          %td.actions
             = link_to edit_person_path(person) do
               %i.fa.fa-edit
+            |
             - active_text = person.active? ? :deactivate : :activate
             = link_to t(active_text, scope: 'labels.people'), toggle_active_person_path(person, include_inactive: params[:include_inactive]), method: :put
 

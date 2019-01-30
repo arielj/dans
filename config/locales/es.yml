@@ -127,6 +127,7 @@ es:
         amount: Monto
         description: Detalle
         created_at: Fecha
+        date: Fecha
       person:
         name: Nombre
         lastname: Apellido
