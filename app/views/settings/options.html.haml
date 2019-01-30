@@ -16,7 +16,7 @@
       .row
         .col-3= t('labels.options.hours')
         .col-3= t('labels.options.value')
-      - @fees.keys.sort.each do |k|
+      - @fees.keys.sort_by(&:to_f).each do |k|
         - v = @fees[k]
         - next if v.blank?
         .row

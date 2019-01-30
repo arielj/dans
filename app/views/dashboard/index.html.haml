@@ -16,13 +16,13 @@
               %td= s ? s.klass.name : ''
 
 .notes
-  %h2= t('notes')
   = form_tag 'save_setting' do
+    %h2
+      = t('notes')
+      = submit_tag t('save.notes'), class: 'btn btn-primary'
     = hidden_field_tag :setting_key, 'notes'
     .form-group
       = text_area_tag 'key[notes]', Setting.fetch(:notes, ''), class: 'form-control trumbowyg'
-    .actions
-      = submit_tag t('save.notes'), class: 'btn btn-primary'
 
 .birthdays
   %h2
