@@ -14,6 +14,7 @@
  *= require bootstrap-datepicker/dist/css/bootstrap-datepicker.min
  *= require trumbowyg/dist/ui/trumbowyg.min
  *= require font-awesome/css/font-awesome.min
+ *= require tail.datetime/css/tail.datetime-default
  *= require_tree .
  *= require_self
  */

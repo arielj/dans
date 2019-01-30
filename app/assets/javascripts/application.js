@@ -15,8 +15,8 @@
 //= require jquery
 //= require cocoon
 //= require bootstrap/dist/js/bootstrap.min
-//= require bootstrap-datepicker/dist/js/bootstrap-datepicker.min
 //= require trumbowyg/dist/trumbowyg.min
+//= require tail.datetime/js/tail.datetime-full.min
 //= require_tree .
 
 document.addEventListener('turbolinks:load', function (ev) {
@@ -24,8 +24,9 @@ document.addEventListener('turbolinks:load', function (ev) {
 })
 
 function initDatepicker(selector) {
-  jQuery('#ui-datepicker-div').remove();
-  $(selector).datepicker({
-    format: 'yyyy-mm-dd'
-  })
+  tail.DateTime(selector, {
+    locale: 'es',
+    position: 'right',
+    timeFormat: false,
+  });
 }

@@ -4,15 +4,33 @@
 
 .personal_data
   %h3= t('personal_data')
-  = form_for @person, class: 'form-compact' do |f|
+  = form_for @person, html: {class: 'form-compact'} do |f|
     = render partial: 'person_fields', locals: {f: f}
     .actions
       = submit_tag t("save.#{@person.type}"), class: 'btn btn-primary'
 
-.memberships
-  = select_tag :membership, options_from_collection_for_select(@person.memberships, :id, :to_label), class: 'form-control'
-  .installments
-    - if m = @person.memberships.first
-      = render partial: 'people/membership', locals: {membership: m}
-  .actions
-    = link_to t('add.membership'), new_membership_person_path(@person), class: 'btn btn-light', remote: true
+.tabbed
+  .tabs
+    .tab.current{data: {'tab-content-ref' => 'person_payments'}}= t('tab.person_payments')
+    - if @person.is_teacher?
+      .tab{data: {'tab-content-ref' => 'payments_to_teacher'}}= t('tab.payments_to_teacher')
+    .tab{data: {'tab-content-ref' => 'debts'}}= t('tab.debts')
+    .tab{data: {'tab-content-ref' => 'memberships'}}= t('tab.memberships')
+  .tabs_contents
+    .tab_content.current{data: {'tab-content' => 'person_payments'}}
+      Lalalala
+
+    - if @person.is_teacher?
+      .tab_content{data: {'tab-content' => 'payments_to_teacher'}}
+        Lililili
+
+    .tab_content.debts{data: {'tab-content' => 'debts'}}
+      Lelelele
+
+    .tab_content.memberships{data: {'tab-content' => 'memberships'}}
+      .selector
+        = select_tag :membership, options_from_collection_for_select(@person.memberships, :id, :to_label), class: 'form-control'
+        = link_to t('add.membership'), new_membership_person_path(@person), class: 'btn btn-light', remote: true
+      .installments
+        - if m = @person.memberships.first
+          = render partial: 'people/membership', locals: {membership: m}
