@@ -16,9 +16,9 @@
         %td= tran.done ? '' : tran.amount
         %td= tran.done ? tran.amount : ''
         %td= tran.description
-        %td= tran.person.to_label
+        %td= link_to tran.person.to_label, edit_person_path(tran.person)
         - unless hide_actions
           %td X
   %tfoot
     %tr
-      %td{colspan: (hide_actions ? 4 : 5)} #{t('money.in')}: $#{@totals[:persons_in]}; #{t('money.out')}: $#{@totals[:persons_out]}
+      %td{colspan: (hide_actions ? 4 : 5)} #{t('money.in')}: $#{transactions.total_in}; #{t('money.out')}: $#{transactions.total_out}

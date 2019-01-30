@@ -19,4 +19,4 @@
           %td= link_to 'X', tran, method: :delete, data: {confirm: 'Seguro?'}
   %tfoot
     %tr
-      %td{colspan: (hide_actions ? 4 : 5)} #{t('money.in')}: $#{@totals[:general_in]}; #{t('money.out')}: $#{@totals[:general_out]}
+      %td{colspan: (hide_actions ? 4 : 5)} #{t('money.in')}: $#{transactions.total_in}; #{t('money.out')}: $#{transactions.total_out}
