@@ -7,6 +7,8 @@
       padding: .5rem 1rem
       border: 1px solid #BBB
       border-radius: 10px 10px 0 0
+      flex-grow: 2
+      text-align: center
 
       &.current
         background: #BBB
@@ -14,6 +16,8 @@
 
   .tabs_contents
     grid-area: tabs_contents
+    max-height: 94%
+    overflow: auto
 
     & > div
       display: none

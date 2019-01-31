@@ -6,11 +6,12 @@
       %th= t('activerecord.attributes.money_transaction.amount')
       %th.actions
   %tbody
-    - payments.each do |p|
-      %tr
-        %td{title: l(p.created_at)}= l p.created_at, format: :date
-        %td= p.description
-        %td= p.amount
-        %td.actions
+    - 30.times do
+      - payments.each do |p|
+        %tr
+          %td{title: l(p.created_at)}= l p.created_at, format: :date
+          %td= p.description
+          %td= p.amount
+          %td.actions
 .actions
   = link_to t('add.payment'), url, class: 'button', remote: true

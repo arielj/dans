@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_27_163546) do
+ActiveRecord::Schema.define(version: 2019_01_31_041541) do
 
   create_table "admins", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -27,6 +27,16 @@ ActiveRecord::Schema.define(version: 2019_01_27_163546) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+  end
+
+  create_table "debts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|
+    t.bigint "person_id"
+    t.integer "amount_cents", default: 0, null: false
+    t.integer "status", default: 0
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["person_id"], name: "index_debts_on_person_id"
   end
 
   create_table "installments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|
@@ -87,7 +97,10 @@ ActiveRecord::Schema.define(version: 2019_01_27_163546) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "daily_cash_closer", default: false
+    t.string "payable_type"
+    t.bigint "payable_id"
     t.index ["installment_id"], name: "index_money_transactions_on_installment_id"
+    t.index ["payable_type", "payable_id"], name: "index_money_transactions_on_payable_type_and_payable_id"
     t.index ["person_id"], name: "index_money_transactions_on_person_id"
   end
 

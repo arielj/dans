@@ -16,7 +16,7 @@
       .tab{data: {'tab-content-ref' => 'payments_to_teacher'}}= t('tab.payments_to_teacher')
     .tab{data: {'tab-content-ref' => 'debts'}}= t('tab.debts')
     .tab{data: {'tab-content-ref' => 'memberships'}}= t('tab.memberships')
-  .tabs_contents
+  .tabs_contents.scrollable
     .tab_content.current{data: {'tab-content' => 'person_payments'}}
       = render partial: 'payments_table', locals: {payments: @person_payments, url: add_payment_person_path(@person)}
 
@@ -25,7 +25,33 @@
         = render partial: 'payments_table', locals: {payments: @payments_to_person, url: add_payment_done_person_path(@person)}
 
     .tab_content.debts{data: {'tab-content' => 'debts'}}
-      Lelelele
+      %table.table.table-striped.table-sm
+        %thead.thead-dark
+          %tr
+            %th= t('activerecord.attributes.debt.date')
+            %th= t('activerecord.attributes.debt.description')
+            %th= t('activerecord.attributes.debt.amount')
+            %th= t('activerecord.attributes.debt.status')
+            %th.actions
+        %tbody
+          - @debts.each do |d|
+            %tr
+              %td{title: l(d.created_at)}= l d.created_at, format: :date
+              %td= d.description
+              %td= d.amount
+              %td= d.status
+              %td.actions
+                - if d.payments.any?
+                  %ul
+                    - d.payments.each do |p|
+                      %li
+                        %i.fa.fa-calendar{title: l(p.created_at)}
+                        $#{p.amount} (#{p.description})
+                - if d.to_pay > 0
+                  = link_to add_payment_debt_path(d), remote: true do
+                    %i.fa.fa-plus{title: t('add.payment')}
+      .actions
+        = link_to t('add.debt'), add_debt_person_path(@person), class: 'button', remote: true
 
     .tab_content.memberships{data: {'tab-content' => 'memberships'}}
       .selector

@@ -10,18 +10,21 @@
       .form-group
         = label_tag "key[#{key}]", t(key, scope: 'form.options')
         = text_field_tag "key[#{key}]", Setting.fetch(key.to_s, default), class: 'form-control'
-  .hourly_fees
+  .hourly_fees.scrollable
     %h2= t 'hourly_fees'
     #hour_fees
-      .row
-        .col-3= t('labels.options.hours')
-        .col-3= t('labels.options.value')
-      - @fees.keys.sort_by(&:to_f).each do |k|
-        - v = @fees[k]
-        - next if v.blank?
-        .row
-          .col-3= k
-          .col-3= text_field_tag "key[hour_fees][#{k}]", v, id: "fee_#{k}"
+      %table.table.table-striped.table-sm
+        %thead
+          %tr
+            %th= t('labels.options.hours')
+            %th= t('labels.options.value')
+        %tbody
+          - @fees.keys.sort_by(&:to_f).each do |k|
+            - v = @fees[k]
+            - next if v.blank?
+            %tr
+              %td= k
+              %td= text_field_tag "key[hour_fees][#{k}]", v, id: "fee_#{k}"
     .actions
       = link_to t('add.price'), settings_add_price_path, id: 'add_hour_fee', class: 'btn btn-primary', remote: true
   .actions

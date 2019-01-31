@@ -1,0 +1,12 @@
+= form_for @debt, url: add_debt_person_path(@person) do |f|
+  .form-group
+    = f.label :amount
+    .input-group
+      .input-group-prepend
+        .input-group-text $
+      = f.text_field :amount, class: 'form-control'
+  .form-group
+    = f.label :description
+    = f.text_field :description, class: 'form-control'
+  .actions.modal-footer
+    = f.submit t('save.debt'), class: 'btn btn-primary'
