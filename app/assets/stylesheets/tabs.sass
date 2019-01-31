@@ -1,4 +1,8 @@
 .tabbed
+  display: grid
+  grid-template-areas: 'tabs' 'tabs_contents'
+  grid-template-rows: min-content auto
+
   .tabs
     grid-area: tabs
     display: flex
@@ -16,11 +20,11 @@
 
   .tabs_contents
     grid-area: tabs_contents
-    max-height: 94%
-    overflow: auto
+    min-height: 0
 
     & > div
       display: none
+      height: 100%
 
       &.current
         display: flex
