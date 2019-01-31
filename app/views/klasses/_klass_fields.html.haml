@@ -16,8 +16,9 @@
   -#   = f.text_area :info, class: 'form-control'
 
 .klass_schedules
-  %h3= t('schedules')
-  #schedules
-    = f.fields_for :schedules do |schedule|
+  = f.fields_for :schedules do |schedule|
+    %h3
+      = t('schedules')
+      = link_to_add_association t('add.schedule'), f, :schedules, {class: 'small', data: {'association-insertion-node' => '.klass_schedules #schedules', 'association-insertion-method' => 'append'}}
+    #schedules
       = render 'schedule_fields', f: schedule
-    .action= link_to_add_association t('add.schedule'), f, :schedules

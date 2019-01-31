@@ -1,14 +1,24 @@
 @import 'configuration'
 
 body.c_klasses.a_edit
-  form.edit_klass
+  & > section
     display: grid
-    grid-template-columns: 49% 49%
-    grid-column-gap: 2%
+    grid-template-areas: 'title title' 'form people'
+    grid-template-columns: 49.5% 49.5%
+    grid-column-gap: 1%
     grid-template-rows: min-content auto
+
+    & > h2
+      grid-area: title
+
+    & > form
+      grid-area: form
+
+    & > .people
+      grid-area: people
 
     .klass_schedules
       .nested-fields
         display: grid
-        grid-template-columns: 24% 24% 24% 24%
+        grid-template-columns: 24.25% 24.25% 24.25% 24.25%
         grid-column-gap: 1%

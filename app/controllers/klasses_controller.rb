@@ -23,6 +23,7 @@ class KlassesController < ApplicationController
   end
 
   def edit
+    @students = @klass.students.active
   end
 
   def update
