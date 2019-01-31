@@ -2,7 +2,8 @@ class PeopleController < ApplicationController
   include SortableHelper
 
   before_action :person, only: [:edit, :add_family_member, :toggle_active,
-    :add_payment, :do_add_payment, :add_payment_done, :do_add_payment_done]
+    :add_payment, :do_add_payment, :add_payment_done, :do_add_payment_done,
+    :add_debt, :do_add_debt]
 
   def index
     @people = get_sorted(name: :asc, lastname: :asc)
@@ -34,8 +35,9 @@ class PeopleController < ApplicationController
   end
 
   def edit
-    @person_payments = @person.money_transactions.received.where(installment_id: nil)
-    @payments_to_person = @person.money_transactions.done.where(installment_id: nil)
+    @person_payments = @person.money_transactions.received.where(payable_id: nil)
+    @payments_to_person = @person.money_transactions.done.where(payable_id: nil)
+    @debts = @person.debts
   end
 
   def update
@@ -99,6 +101,17 @@ class PeopleController < ApplicationController
     end
   end
 
+  def add_debt
+    @debt = @person.debts.build
+  end
+
+  def do_add_debt
+    @debt = @person.debts.create(create_debt_params)
+    if @debt.persisted?
+    else
+    end
+  end
+
 
 private
   def create_person_params
@@ -111,6 +124,10 @@ private
 
   def money_transaction_params
     params.require(:money_transaction).permit(:amount, :created_at, :description)
+  end
+
+  def create_debt_params
+    params.require(:debt).permit(:amount, :description, :created_at)
   end
 
   def person

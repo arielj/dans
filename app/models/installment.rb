@@ -1,13 +1,9 @@
 class Installment < ApplicationRecord
+  include Payable
   belongs_to :membership
   has_one :person, through: :membership
-  has_many :payments, class_name: 'MoneyTransaction'
-
-  enum status: [:waiting, :paid, :paid_with_interests]
 
   enum month: [:january, :february, :march, :april, :may, :june, :july, :august, :september, :october, :november, :december]
-
-  monetize :amount_cents
 
   validates :year, presence: true
 
@@ -24,14 +20,6 @@ class Installment < ApplicationRecord
 
   def month_num
     Installment.months[month]+1
-  end
-
-  def amount_paid
-    payments.map(&:amount).sum
-  end
-
-  def paid?
-    !waiting?
   end
 
   def date(day = nil)

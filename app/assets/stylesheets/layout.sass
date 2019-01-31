@@ -21,9 +21,11 @@ body
     display: grid
     padding: 0 1rem 1rem
     grid-template-rows: max-content auto max-content
+    overflow: hidden
 
-  .scrollable
-    overflow: auto
+    > *, .scrollable
+      min-height: 0
+      overflow: auto
 
   &.a_index > section
     grid-template-rows: max-content max-content auto max-content

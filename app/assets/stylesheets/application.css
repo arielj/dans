@@ -23,3 +23,7 @@
   max-width: 90%;
   width: 1200px;
 }
+
+.tail-datetime-calendar {
+  z-index: 1100 !important;
+}
