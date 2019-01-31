@@ -6,7 +6,7 @@
     - (0..6).each do |d|
       .day
         %h3= I18n.t('date.day_names')[d]
-        - Schedule.where(day: d).each do |sch|
+        - Schedule.joins(:klass).where(Klass.arel_table[:status].eq(:active)).where(day: d).each do |sch|
           = label_tag do
             = check_box_tag "membership[schedule_ids][]", sch.id, false, data: {duration: sch.duration}, class: 'schedule'
             = sch.to_label

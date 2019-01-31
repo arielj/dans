@@ -32,6 +32,8 @@ es:
   rooms: Salas
   schedule: Horario
   schedules: Horarios
+  students: Alumnos/as
+  teachers: Profesores
   value: Valor
   add:
     debt: Agregar deuda

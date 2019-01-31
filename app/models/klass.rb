@@ -4,11 +4,14 @@ class Klass < ApplicationRecord
   has_many :schedules, inverse_of: :klass, dependent: :destroy
   accepts_nested_attributes_for :schedules, reject_if: :all_blank, allow_destroy: true
 
-  has_many :klasses_packages
-  has_many :packages, through: :klasses_packages
+  has_and_belongs_to_many :packages
 
-  has_many :klasses_memberships
-  has_many :memberships, through: :klasses_memberships
+  has_many :schedules
+  has_many :memberships, through: :schedules
+
+  has_many :students, through: :memberships
+
+  has_and_belongs_to_many :teachers, class_name: 'Person', join_table: :klasses_teachers, association_foreign_key: :teacher_id
 
   validates :name, presence: true
 
