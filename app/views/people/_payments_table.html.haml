@@ -1,12 +1,12 @@
-%table.table.table-striped.table-sm
-  %thead.thead-dark
-    %tr
-      %th= t('activerecord.attributes.money_transaction.date')
-      %th= t('activerecord.attributes.money_transaction.description')
-      %th= t('activerecord.attributes.money_transaction.amount')
-      %th.actions
-  %tbody
-    - 30.times do
+.scrollable
+  %table.table.table-striped.table-sm
+    %thead.thead-dark
+      %tr
+        %th= t('activerecord.attributes.money_transaction.date')
+        %th= t('activerecord.attributes.money_transaction.description')
+        %th= t('activerecord.attributes.money_transaction.amount')
+        %th.actions
+    %tbody
       - payments.each do |p|
         %tr
           %td{title: l(p.created_at)}= l p.created_at, format: :date

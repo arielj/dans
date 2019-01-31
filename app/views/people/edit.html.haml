@@ -4,7 +4,7 @@
 
 .personal_data
   %h3= t('personal_data')
-  = form_for @person, html: {class: 'form-compact'} do |f|
+  = form_for @person, html: {class: 'form-compact edit_person'} do |f|
     = render partial: 'person_fields', locals: {f: f}
     .actions
       = submit_tag t("save.#{@person.type}"), class: 'btn btn-primary'
@@ -16,7 +16,7 @@
       .tab{data: {'tab-content-ref' => 'payments_to_teacher'}}= t('tab.payments_to_teacher')
     .tab{data: {'tab-content-ref' => 'debts'}}= t('tab.debts')
     .tab{data: {'tab-content-ref' => 'memberships'}}= t('tab.memberships')
-  .tabs_contents.scrollable
+  .tabs_contents
     .tab_content.current{data: {'tab-content' => 'person_payments'}}
       = render partial: 'payments_table', locals: {payments: @person_payments, url: add_payment_person_path(@person)}
 
