@@ -27,6 +27,15 @@ body
       min-height: 0
       overflow: auto
 
+    .scrollable > table.fixed_header thead
+      --scroll: 0px
+      th
+        position: relative
+        top: var(--scroll)
+        border: 0
+        background: #000
+        color: #fff
+
   &.a_index > section
     grid-template-rows: max-content max-content auto max-content
 

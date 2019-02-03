@@ -10,9 +10,9 @@
       .form-group
         = label_tag "key[#{key}]", t(key, scope: 'form.options')
         = text_field_tag "key[#{key}]", Setting.fetch(key.to_s, default), class: 'form-control'
-  .hourly_fees.scrollable
+  .hourly_fees
     %h2= t 'hourly_fees'
-    #hour_fees
+    #hour_fees.scrollable
       %table.table.table-striped.table-sm
         %thead
           %tr
