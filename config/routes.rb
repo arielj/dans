@@ -19,9 +19,15 @@ Rails.application.routes.draw do
       #post :create_membership
       get :search_new_family_member
       get :add_family_member
-      post :add_family_member, action: 'do_add_family_member'
+      post :add_family_member, action: :do_add_family_member
       put :remove_family_member
       put :toggle_active
+      get :add_payment
+      post :add_payment, action: :do_add_payment
+      get :add_payment_done
+      post :add_payment_done, action: :do_add_payment_done
+      get :add_debt
+      post :add_debt, action: :do_add_debt
     end
   end
 
@@ -33,6 +39,13 @@ Rails.application.routes.draw do
     member do
       get :new_payment
       post :add_payment
+    end
+  end
+
+  resources :debts do
+    member do
+      get :add_payment
+      post :add_payment, action: :do_add_payment
     end
   end
 

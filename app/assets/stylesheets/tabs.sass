@@ -1,0 +1,31 @@
+.tabbed
+  display: grid
+  grid-template-areas: 'tabs' 'tabs_contents'
+  grid-template-rows: min-content auto
+
+  .tabs
+    grid-area: tabs
+    display: flex
+
+    .tab
+      padding: .5rem 1rem
+      border: 1px solid #BBB
+      border-radius: 10px 10px 0 0
+      flex-grow: 2
+      text-align: center
+
+      &.current
+        background: #BBB
+        font-weight: bold
+
+  .tabs_contents
+    grid-area: tabs_contents
+    min-height: 0
+
+    & > div
+      display: none
+      height: 100%
+
+      &.current
+        display: flex
+        flex-direction: column

@@ -20,6 +20,11 @@ font-awesome@^4.7.0:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
+tail.datetime@^0.4.6:
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/tail.datetime/-/tail.datetime-0.4.6.tgz#48b1cfdf0d6d51f0488c089ba78cdcc7cbc69f87"
+  integrity sha512-xjCfIR16bdLGTY/0h5OeHvE9e/s1XCWaIFAxPjPWWMmfL+peCJjmr5UKaKPco4FucUBk2YOYzgOxqeUSqR6svA==
+
 trumbowyg@^2.10.0:
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/trumbowyg/-/trumbowyg-2.10.0.tgz#e74682528b07c36c78bcc341ea57bebffd565727"

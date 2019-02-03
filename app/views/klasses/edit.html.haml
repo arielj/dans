@@ -6,3 +6,28 @@
   = render partial: 'klass_fields', locals: {f: f}
   .actions
     = submit_tag t('save.klass'), class: 'btn btn-primary'
+
+.people
+  %h2
+    = t('teachers')
+    = link_to t('add.teacher'), '#', class: 'small'
+  %table.table.table-striped.table-sm
+    %thead.thead-dark
+      %tr
+        %th= t('activerecord.attributes.person.name')
+        %th.actions
+    %tbody
+      - @klass.teachers.each do |t|
+        %tr
+          %td= link_to t.to_label, edit_person_path(t)
+          %td.actions X
+
+  %h2= t('students')
+  %table.table.table-striped.table-sm
+    %thead.thead-dark
+      %tr
+        %th= t('activerecord.attributes.person.name')
+    %tbody
+      - @students.each do |st|
+        %tr
+          %td= link_to st.to_label, edit_person_path(st)

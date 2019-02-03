@@ -1,12 +1,11 @@
 class MoneyTransaction < ApplicationRecord
   CATEGORIES = ['installment','inscription','general']
   belongs_to :person, optional: true
-  belongs_to :installment, optional: true
+  belongs_to :payable, optional: true, polymorphic: true
 
   monetize :amount_cents
 
   validates :amount, numericality: {greater_than: 0}
-  validates :description, presence: true
 
   scope :done, -> { where(done: true) }
   scope :received, -> { where(done: false) }

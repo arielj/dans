@@ -34,7 +34,7 @@
             %th Receipt
         - @payments.each do |tran|
           %tr
-            %td= tran.installment.person.to_label
+            %td= tran.person.to_label
             %td= l tran.created_at
             %td= tran.amount
             %td= tran.description

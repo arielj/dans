@@ -32,8 +32,11 @@ es:
   rooms: Salas
   schedule: Horario
   schedules: Horarios
+  students: Alumnos/as
+  teachers: Profesores
   value: Valor
   add:
+    debt: Agregar deuda
     klass: Agregar clase
     membership: Agregar inscripción
     movement: Agregar movimiento
@@ -48,11 +51,13 @@ es:
     room: Nueva sala
     movement: Nuevo movimiento
   save:
+    debt: Guardar deuda
     klass: Guardar clase
     membership: Guardar inscripción
     money_transaction: Guardar movimiento
     notes: Guardar notas
     options: Guardar opciones
+    payment: Guardar pago
     room: Guardar sala
     student: Guardar alumno/a
     teacher: Guardar profesor/a
@@ -104,11 +109,18 @@ es:
       preselected_installments_month_to: Mes final
   activerecord:
     models:
+      debt: Deuda
+      installment: Cuota
       klass: Clase
       room: Sala
       schedule: Horario
       person: Persona
     attributes:
+      debt:
+        amount: Monto
+        status: Estado
+        payments: Pagos
+        date: Fecha
       installment:
         year: Año
         month: Mes
@@ -127,6 +139,7 @@ es:
         amount: Monto
         description: Detalle
         created_at: Fecha
+        date: Fecha
       person:
         name: Nombre
         lastname: Apellido

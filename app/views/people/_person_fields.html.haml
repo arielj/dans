@@ -1,58 +1,52 @@
 = f.hidden_field :is_teacher
-.form-row
-  .form-group.col
-    = f.label :name
-    = f.text_field :name, class: 'form-control'
-  .form-group.col
-    = f.label :lastname
-    = f.text_field :lastname, class: 'form-control'
+.form-group
+  = f.label :name
+  = f.text_field :name, class: 'form-control'
+.form-group
+  = f.label :lastname
+  = f.text_field :lastname, class: 'form-control'
 -# .form-check
 -#   = f.label :is_teacher, class: 'form-label'
 -#   = f.check_box :is_teacher, class: 'form-input'
 -# .form-group
 -#   = f.label :status
 -#   = f.text_field :status, class: 'form-control'
-.form-row
-  .form-group.col
-    = f.label :birthday
-    = f.text_field :birthday, placeholder: 'aaaa-mm-dd', class: 'form-control datepicker'
-  .form-group.col
-    = f.label :age
-    = f.text_field :age, class: 'form-control'
-.form-row
-  .form-group.col
-    = f.label :dni
-    = f.text_field :dni, class: 'form-control'
-  .form-check.col
-    = f.label :gender, class: 'form-label'
-    = f.select :gender, options_for_select(Person.genders_for_select, f.object.gender), {}, class: 'form-control'
-.form-row
-  .form-group.col
-    = f.label :cellphone
-    = f.text_field :cellphone, class: 'form-control'
-  .form-group.col
-    = f.label :alt_phone
-    = f.text_field :alt_phone, class: 'form-control'
-.form-row
-  .form-group.col
-    = f.label :address
-    = f.text_field :address, class: 'form-control'
-  .form-group.col
-    = f.label :email
-    = f.text_field :email, class: 'form-control'
+.form-group
+  = f.label :birthday
+  = f.text_field :birthday, placeholder: 'aaaa-mm-dd', class: 'form-control datepicker'
+.form-group
+  = f.label :age
+  = f.text_field :age, class: 'form-control'
+.form-group
+  = f.label :dni
+  = f.text_field :dni, class: 'form-control'
+.form-group
+  = f.label :gender, class: 'form-label'
+  = f.select :gender, options_for_select(Person.genders_for_select, f.object.gender), {}, class: 'form-control'
+.form-group
+  = f.label :cellphone
+  = f.text_field :cellphone, class: 'form-control'
+.form-group
+  = f.label :alt_phone
+  = f.text_field :alt_phone, class: 'form-control'
+.form-group
+  = f.label :address
+  = f.text_field :address, class: 'form-control'
+.form-group
+  = f.label :email
+  = f.text_field :email, class: 'form-control'
 .form-group
   = f.label :group
   = f.text_field :group, class: 'form-control'
-.form-row
-  - unless f.object.new_record?
-    .form-group.col
-      = f.label :family
-      %ul
-        - f.object.family_members.each do |u|
-          %li
-            = link_to u.to_label, edit_person_path(u)
-            (#{link_to('X', remove_family_member_person_path(f.object, {family_member_id: u.id}), method: :put, data: {confirm: '¿Seguro?'})})
-        %li= link_to 'Agregar miembro', add_family_member_person_path(f.object), remote: true
-  .form-group.col
-    = f.label :comments
-    = f.text_area :comments, class: 'form-control'
+- unless f.object.new_record?
+  .form-group.family_field
+    = f.label :family
+    %ul
+      - f.object.family_members.each do |u|
+        %li
+          = link_to u.to_label, edit_person_path(u)
+          (#{link_to('X', remove_family_member_person_path(f.object, {family_member_id: u.id}), method: :put, data: {confirm: '¿Seguro?'})})
+      %li= link_to 'Agregar miembro', add_family_member_person_path(f.object), remote: true
+.form-group.comments_field
+  = f.label :comments
+  = f.text_area :comments, class: 'form-control'
