@@ -4,13 +4,12 @@ class ReportsController < ApplicationController
   def daily_cash
     @date = params[:date] || Date.today
     @date = Date.parse(@date) unless @date.is_a?(Date)
-    range = @date.beginning_of_day..@date.end_of_day
 
-    scp = MoneyTransaction.where(created_at: range)
+    scp = MoneyTransaction.where('created_at >= ? AND created_at <= ?', @date.beginning_of_day, @date.end_of_day)
     scp = scp.where('description LIKE ?', "%#{params[:text]}%") if params[:text].present?
 
-    @people_transactions = scp.where.not(category: 'general')
-    @general_transactions = scp.where(category: 'general')
+    @people_transactions = scp.where('category IS NULL OR category != "general"').where.not(person_id: nil)
+    @general_transactions = scp.where('category = "general" OR person_id IS NULL')
     @totals = transactions_totals(@people_transactions, @general_transactions)
   end
 

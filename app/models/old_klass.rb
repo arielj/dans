@@ -3,6 +3,8 @@ class OldKlass < OldRecord
 
   has_many :schedules, class_name: 'OldSchedule', foreign_key: 'klass_id'
 
+  has_and_belongs_to_many :packages, class_name: 'OldPackage', foreign_key: :klass_id, association_foreign_key: :package_id
+
   def to_new
     f = normal_fee != 0 ? normal_fee*100 : 0
     s = inactive == 1 ? 0 : 1

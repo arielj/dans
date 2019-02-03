@@ -8,17 +8,23 @@ class Membership < ApplicationRecord
   has_many :klasses, through: :schedules
   has_many :installments
 
-  validates :person, :schedules, presence: true
+  enum status: [:inactive, :active]
 
-  after_create :create_installments
+  validates :person, presence: true
+
+  after_create :create_installments, unless: :skip_installments
+
+  attr_accessor :skip_installments
 
   def package=(p)
-    self[:package] = p
+    self[:package_id] = p.id
     self.schedules = p.schedules
   end
 
   def to_label
-    "#{created_at.year} - (#{klasses.pluck(:name).uniq.join(', ')})"
+    y = created_at.year
+    y = package.name.gsub(/\AClases (\d{4}) .*/, '\1') if package and package.name =~ /\AClases \d{4} /
+    "#{y} - (#{klasses.pluck(:name).uniq.join(', ')})"
   end
 
 private

@@ -40,6 +40,7 @@ es:
     klass: Agregar clase
     membership: Agregar inscripción
     movement: Agregar movimiento
+    package: Agregar paquete
     payment: Agregar pago
     price: Agregar precio
     room: Agregar sala
@@ -48,6 +49,7 @@ es:
     teacher: Agregar profesor/a
   new:
     klass: Nueva clase
+    package: Nuevo paquete
     room: Nueva sala
     movement: Nuevo movimiento
   save:
@@ -57,17 +59,20 @@ es:
     money_transaction: Guardar movimiento
     notes: Guardar notas
     options: Guardar opciones
+    package: Guardar paquete
     payment: Guardar pago
     room: Guardar sala
     student: Guardar alumno/a
     teacher: Guardar profesor/a
   create:
     klass: Crear clase
+    package: Crear paquete
     room: Crear sala
     student: Crear alumno/a
     teacher: Crear profesor/a
   edit:
     klass: Editar clase
+    package: Editar paquete
     room: Editar sala
     student: Editar alumno/a
     teacher: Editar profesor/a
@@ -140,6 +145,11 @@ es:
         description: Detalle
         created_at: Fecha
         date: Fecha
+      package:
+        name: Nombre
+        fee: Valor
+        alt_fee: Valor alternativo
+        klasses: Clases
       person:
         name: Nombre
         lastname: Apellido

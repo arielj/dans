@@ -1,6 +1,8 @@
 class OldUser < OldRecord
   self.table_name = :users
 
+  has_many :memberships, class_name: 'OldMembership'
+
   def to_new
     g = male == 0 ? :female : :male
     t = is_teacher == 1

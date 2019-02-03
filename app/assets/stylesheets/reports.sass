@@ -1,0 +1,23 @@
+body.c_reports
+  &.a_daily_cash
+    & > section
+      grid-template-areas: 'title title title' 'filters totals totals' 'filters people general'
+      grid-column-gap: 1rem
+      grid-row-gap: .5rem
+      grid-template-columns: 25% auto auto
+      grid-template-rows: min-content min-content 2fr
+
+      & > h2
+        grid-area: title
+
+      & > .filters
+        grid-area: filters
+
+      & > .people_table
+        grid-area: people
+
+      & > .general_table
+        grid-area: general
+
+      & > .totals
+        grid-area: totals
