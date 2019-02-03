@@ -2,6 +2,12 @@ class Person < ApplicationRecord
   has_many :memberships, inverse_of: :person, dependent: :destroy
   has_many :installments, through: :memberships
 
+  has_many :debts
+
+  has_many :money_transactions
+
+  has_and_belongs_to_many :klasses_as_teacher, class_name: 'Klass', foreign_key: 'klass_id'
+
   validates :name, :lastname, presence: true
 
   enum gender: [:female, :male, :other]

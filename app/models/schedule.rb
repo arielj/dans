@@ -2,6 +2,8 @@ class Schedule < ApplicationRecord
   belongs_to :klass
   belongs_to :room
 
+  has_and_belongs_to_many :memberships
+
   enum day: [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
 
   def self.days_for_select

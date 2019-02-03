@@ -26,10 +26,9 @@ body.c_people
   &.a_edit
     section
       display: grid
-      grid-template-areas: 'title title' 'personal_data memberships'
-      grid-template-columns: 49% 49%
-      grid-template-rows: max-content auto
-      grid-column-gap: 1rem
+      grid-template-areas: 'title title' 'personal_data tabbed'
+      grid-template-columns: 49% 50%
+      grid-column-gap: 1%
 
       h1
         grid-area: title
@@ -37,5 +36,23 @@ body.c_people
       .personal_data
         grid-area: personal_data
 
-      .memberships
-        grid-area: memberships
+      .tabbed
+        grid-area: tabbed
+
+        .memberships
+          .selector
+            display: flex
+
+      .edit_person
+        display: grid
+        grid-template-columns: 49.5% 49.5%
+        grid-column-gap: 1%
+
+        .actions
+          grid-column: 1/2
+
+        .family_field
+          grid-column: 1/1
+
+        .comments_field
+          grid-template: 2/2

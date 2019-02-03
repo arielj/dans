@@ -16,7 +16,7 @@
       %tr
         %th= t('activerecord.attributes.klass.name')
         %th= t('activerecord.attributes.klass.schedules')
-        %th= t('actions')
+        %th.actions
     %tbody
       - @klasses.each do |klass|
         %tr{class: (klass.inactive? ? 'table-warning' : '')}
@@ -25,11 +25,13 @@
             - if klass.inactive?
               (#{klass.status})
           %td= klass.schedules.map{|sch| "#{sch.day_name}: #{sch.from_time_s}-#{sch.to_time_s}"}.join(', ')
-          %td
+          %td.actions
             = link_to edit_klass_path(klass) do
               %i.fa.fa-edit
+            |
             = link_to klass, method: :delete, data: {confirm: '¿Re seguro?'} do
               %i.fa.fa-trash
+            |
             - active_text = klass.active? ? :deactivate : :activate
             = link_to t(active_text, scope: 'labels.klasses'), toggle_active_klass_path(klass, include_inactive: params[:include_inactive]), method: :put
 

@@ -9,14 +9,15 @@
     %thead.thead-dark
       %tr
         %th= t('activerecord.attributes.room.name')
-        %th= t('actions')
+        %th.actions
     %tbody
       - @rooms.each do |room|
         %tr
           %td= room.name
-          %td
+          %td.actions
             = link_to edit_room_path(room) do
               %i.fa.fa-edit
+            |
             = link_to room, method: :delete, data: {confirm: '¿Re seguro?'} do
               %i.fa.fa-trash
 

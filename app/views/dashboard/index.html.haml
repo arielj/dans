@@ -15,14 +15,13 @@
               - s = @today_classes[r].select{|s| s.from_time <= t and s.to_time > t}[0]
               %td= s ? s.klass.name : ''
 
-.notes
-  = form_tag 'save_setting' do
-    %h2
-      = t('notes')
-      = submit_tag t('save.notes'), class: 'btn btn-primary'
-    = hidden_field_tag :setting_key, 'notes'
-    .form-group
-      = text_area_tag 'key[notes]', Setting.fetch(:notes, ''), class: 'form-control trumbowyg'
+= form_tag 'save_setting', class: 'notes' do
+  %h2
+    = t('notes')
+    = submit_tag t('save.notes'), class: 'btn btn-primary'
+  = hidden_field_tag :setting_key, 'notes'
+  .form-group
+    = text_area_tag 'key[notes]', Setting.fetch(:notes, ''), class: 'form-control trumbowyg'
 
 .birthdays
   %h2
@@ -35,15 +34,13 @@
   - else
     = t('no_birthdays')
 .dailycash
-  %h2= t('daily_cash')
-  .totals
-    %b #{t('money.in')}: $#{@totals[:in]}; #{t('money.out')}: $#{@totals[:out]}; #{t('money.total')}: $#{@totals[:total]}
-  = render partial: 'money_transactions/people_table', locals: {transactions: @people_transactions}
-  .totals
-    #{t('money.in')}: $#{@totals[:persons_in]}; #{t('money.out')}: $#{@totals[:persons_out]}
-  = render partial: 'money_transactions/general_table', locals: {transactions: @general_transactions}
-  .totals
-    #{t('money.in')}: $#{@totals[:general_in]}; #{t('money.out')}: $#{@totals[:general_out]}
+  %h2
+    = t('daily_cash')
+    .small
+      %b #{t('money.in')}: $#{@totals[:in]}; #{t('money.out')}: $#{@totals[:out]}; #{t('money.total')}: $#{@totals[:total]}
+  .space_even
+    .scrollable= render partial: 'money_transactions/people_table', locals: {transactions: @people_transactions, hide_actions: true}
+    .scrollable= render partial: 'money_transactions/general_table', locals: {transactions: @general_transactions}
   .actions
     = link_to t('add.movement'), new_money_transaction_path, class: 'btn btn-light', remote: true
     = link_to t('close_daily_cash'), '#', class: 'btn btn-light'
