@@ -1,5 +1,5 @@
 class Person < ApplicationRecord
-  has_many :memberships, inverse_of: :person, dependent: :destroy
+  has_many :memberships, -> {order(id: :desc)}, inverse_of: :person, dependent: :destroy
   has_many :installments, through: :memberships
 
   has_many :debts

@@ -1,0 +1,10 @@
+.package_fields
+  .form-group
+    = f.label :name
+    = f.text_field :name, class: 'form-control'
+  .form-group
+    = f.label :fee
+    = f.text_field :fee, class: 'form-control'
+
+.klasses
+  = render partial: 'schedules/calendar', locals: {object: f.object}

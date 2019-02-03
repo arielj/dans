@@ -39,14 +39,9 @@
               %td{title: l(d.created_at)}= l d.created_at, format: :date
               %td= d.description
               %td= d.amount
-              %td= d.status
+              %td= t("payment_status.#{d.status}")
               %td.actions
-                - if d.payments.any?
-                  %ul
-                    - d.payments.each do |p|
-                      %li
-                        %i.fa.fa-calendar{title: l(p.created_at)}
-                        $#{p.amount} (#{p.description})
+                = render partial: 'money_transactions/payments_detail', locals: {payable: d}
                 - if d.to_pay > 0
                   = link_to add_payment_debt_path(d), remote: true do
                     %i.fa.fa-plus{title: t('add.payment')}

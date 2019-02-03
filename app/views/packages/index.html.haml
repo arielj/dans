@@ -1,0 +1,29 @@
+- page_title(t('packages'))
+
+%h1= t('packages')
+
+= form_tag '', method: :get, class: 'form-inline' do
+  = text_field_tag :q, params[:q], placeholder: t('labels.search'), class: 'form-control mr-2 mb-2'
+  = submit_tag t('labels.filter'), class: 'btn btn-primary mb-2'
+
+.scrollable
+  %table.table.table-striped.table-sm
+    %thead.thead-dark
+      %tr
+        %th= t('activerecord.attributes.package.name')
+        %th= t('activerecord.attributes.package.klasses')
+        %th.actions
+    %tbody
+      - @packages.each do |package|
+        %tr
+          %td= package.name
+          %td= package.klasses.map{|kls| "#{kls.name}"}.join(', ')
+          %td.actions
+            = link_to edit_package_path(package) do
+              %i.fa.fa-edit
+            |
+            = link_to package, method: :delete, data: {confirm: '¿Re seguro?'} do
+              %i.fa.fa-trash
+
+.actions
+  = link_to t('add.package'), new_package_path, class: 'btn btn-primary'

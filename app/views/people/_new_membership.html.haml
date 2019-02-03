@@ -3,13 +3,7 @@
   - if @membership.errors.any?
     = @membership.errors.full_messages
   .new_membership_days
-    - (0..6).each do |d|
-      .day
-        %h3= I18n.t('date.day_names')[d]
-        - Schedule.joins(:klass).where(Klass.arel_table[:status].eq(:active)).where(day: d).each do |sch|
-          = label_tag do
-            = check_box_tag "membership[schedule_ids][]", sch.id, false, data: {duration: sch.duration}, class: 'schedule'
-            = sch.to_label
+    = render partial: 'schedules/calendar', locals: {object: @membership}
 
   .form-group
     = f.label :amount

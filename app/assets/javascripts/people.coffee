@@ -1,15 +1,15 @@
 document.addEventListener 'turbolinks:load', (ev) ->
-  form = document.querySelector('edit_person')
+  form = document.querySelector('.edit_person')
   if form
     age = form.querySelector('input[name*=age]')
     if age
-      $(age).parents('form').find('input[name*=birthday]').on('change', (ev) ->
-        birthday = +new Date($(this).val())
+      age.form.querySelector('input[name*=birthday]').addEventListener 'change', (ev) ->
+        birthday = +new Date(this.value)
         y = ~~((Date.now() - birthday) / (31557600000))
-        age.val(y)
-      ).trigger('change')
+        age.value = y
+      triggerEvent(age, 'change')
 
-    form.querySelector('.memberships select#membership').addEventListener 'change', (e) ->
+    document.querySelector('.memberships select#membership').addEventListener 'change', (e) ->
       $.getScript '/memberships/'+this.value
 
 window.initFamilyAutocomplete = ->
@@ -52,9 +52,3 @@ window.initFamilyAutocomplete = ->
             $div.innerHTML = '<div class="option">No hay resultados</div>'
       else
         $div.innerHTML = ''
-
-    q.addEventListener 'focus', (e) ->
-      $(this).siblings('#autocomplete_selector').show()
-
-    q.addEventListener 'blur', (e) ->
-      $(this).siblings('#autocomplete_selector').hide('fast')

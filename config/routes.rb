@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :packages
+
   get 'people/new_teacher', to: 'people#new_teacher', as: :new_teacher_person
   get 'people/new_student', to: 'people#new_student', as: :new_student_person
   resources :people do

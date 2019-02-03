@@ -1,0 +1,8 @@
+- page_title(t('new.package'))
+
+%h1= t('new.package')
+
+= form_with model: @package, local: true do |f|
+  = render partial: 'package_fields', locals: {f: f}
+  .actions
+    = submit_tag t('create.package'), class: 'btn btn-primary'
