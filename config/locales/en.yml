@@ -1,8 +1,95 @@
 en:
+  actions: Actions
+  birthdays: Birthdays
+  close_daily_cash: Close daily cash
+  configuration: Configuration
+  daily_cash: Daily cash
+  home: Home
+  hours: Hours
+  hourly_fees: Fee x Hours
+  klasses: Classes
+  money:
+    details: Details
+    in: In
+    out: Out
+    total: Total
+  no_birthdays: No birthdays today.
+  notes: Notes
+  options: Options
+  packages: Packages
+  payment: Payment
+  payments: Payments
+  payment_status:
+    waiting: Pending
+    paid: Paid
+    paid_with_interests: Paid with interests
+  people: People
+  person: Person
+  personal_data: Personal data
+  reports: Reports
+  room: Room
+  rooms: Rooms
+  schedule: Scheduel
+  schedules: Schedules
+  students: Students
+  teachers: Teachers
+  value: Value
+  add:
+    debt: Add debt
+    klass: Add class
+    membership: Add membership
+    movement: Add movement
+    package: Add package
+    payment: Add payment
+    price: Add fee
+    room: Add room
+    schedule: Add schedule
+    student: Add student
+    teacher: Add teacher
+  new:
+    klass: New class
+    package: New package
+    room: New room
+    movement: New movement
+  save:
+    debt: Save debt
+    klass: Save class
+    membership: Save membership
+    money_transaction: Save movement
+    notes: Save notes
+    options: Save options
+    package: Save package
+    payment: Save payment
+    room: Save room
+    student: Save student
+    teacher: Save teacher
+  create:
+    klass: Create class
+    package: Create package
+    room: Create room
+    student: Create student
+    teacher: Create teacher
+  edit:
+    klass: Edit class
+    package: Edit package
+    room: Edit room
+    student: Edit student
+    teacher: Edit teacher
+
+  session:
+    close: Close session
+
   labels:
     filter: Filter
     search: Search
     klasses:
+      activate: Activate
+      deactivate: Deactivate
+    options:
+      hours: Hours
+      value: Value
+    people:
+      search: Search (name, lastname, document)
       activate: Activate
       deactivate: Deactivate
 
@@ -10,43 +97,28 @@ en:
     - Female
     - Male
     - Other
-  titles:
-    home: Home
-    options: Options
-    people: People
-    klasses: Classes
-    packages: Packages
-    reports: Reports
-    hourly_fees: Hourly fees
-    configuration: Configuration
 
   form:
-    header:
-      klasses:
-        name: Name
-        status: Status
-        actions: Actions
-      people:
-        name: Name
-        lastname: Lastname
-        status: Status
-        actions: Actions
-    action:
-      klasses:
-        edit: Edit
-        add: Add new
-      people:
-        edit: Edit
-        add: Add new
     options:
-      name: Institute name
-      opening_time: Opening time
       closing_time: Closing time
-      recharge_after_day: Recharge after Xth day
-      recharge_value: Recharge value (XX for a fixed value, YY% for a percentage value)
-      month_recharge_value: Recharge value after 30 days (XX for a fixed value, YY% for a percentage value)
+      family_discount: Family group discount (XX as fixed value, YY% as procentual value)
+      name: Institution name
       language: Language
-      dates_format: Dates format
-      preselected_installments_month: Preselect months in installments creation dialog
-      preselected_installments_month_from: Initial month
-      preselected_installments_month_to: Ending month
+      month_recharge_value: Recharge after 30 days (XX as fixed value, YY% as procentual value)
+      opening_time: Opening time
+      preselected_installments_month: Preselected months at installments creation
+      preselected_installments_month_from: Month from
+      preselected_installments_month_to: Month to
+      recharge_after_day: Recharge after day X
+      recharge_value: Recharge value (XX as fixed value, YY% as procentual value)
+  activerecord:
+    attributes:
+      money_transaction:
+        description: Details
+        created_at: Date
+      package:
+        alt_fee: Alternative fee
+        klasses: Classes
+      person:
+        alt_phone: Alternative phone
+        family: Family members

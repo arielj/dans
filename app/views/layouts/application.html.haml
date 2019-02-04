@@ -12,6 +12,7 @@
     %meta{name: "viewport", content: "width=device-width, initial-scale=1, shrink-to-fit=no"}
 
     :javascript
+      window.userLocale = '#{Setting.fetch("language", "es")}'
       Settings = {
         hours_fees: #{Setting.get_hours_fees.to_json.html_safe}
       }
