@@ -1,8 +1,9 @@
 .schedules_calendar
+  %input{id: 'filter_schedules', placeholder: t('labels.filter')}
   - (0..6).each do |d|
-    .day
+    .day{class: Schedule.days.keys[d]}
       %h3= I18n.t('date.day_names')[d]
       - Schedule.joins(:klass).where(Klass.arel_table[:status].eq(:active)).where(day: d).each do |sch|
         = label_tag do
-          = check_box_tag "#{object.class.to_s.downcase}[schedule_ids][]", sch.id, object.schedules.pluck(:id).include?(sch.id), data: {duration: sch.duration}, class: 'schedule'
-          = sch.to_label
+          = check_box_tag "#{object.class.to_s.downcase}[schedule_ids][]", sch.id, object.schedules.pluck(:id).include?(sch.id), class: 'schedule'
+          %span= sch.to_label

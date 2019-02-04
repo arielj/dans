@@ -140,6 +140,7 @@ es:
         info: Información
       membership:
         amount: Monto
+        use_custom_amount: Usar monto manual (con la casilla desmarcada se usa el valor calculado)
       money_transaction:
         amount: Monto
         description: Detalle

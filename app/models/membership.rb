@@ -1,5 +1,5 @@
 class Membership < ApplicationRecord
-  monetize :amount_cents
+  monetize :amount_cents, numericality: false
 
   belongs_to :person
   belongs_to :package, optional: true
@@ -25,6 +25,14 @@ class Membership < ApplicationRecord
     y = created_at.year
     y = package.name.gsub(/\AClases (\d{4}) .*/, '\1') if package and package.name =~ /\AClases \d{4} /
     "#{y} - (#{klasses.pluck(:name).uniq.join(', ')})"
+  end
+
+  def amount
+    if use_custom_amount
+      self[:amount]
+    else
+      person.new_membership_amount_calculator(schedule_ids)[:total]
+    end
   end
 
 private

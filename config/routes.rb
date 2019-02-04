@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resources :people do
     member do
       get :new_membership
+      get :new_membership_calculator
       #post :create_membership
       get :search_new_family_member
       get :add_family_member

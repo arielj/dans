@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_03_143852) do
+ActiveRecord::Schema.define(version: 2019_02_04_160424) do
 
   create_table "admins", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 2019_02_03_143852) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "amount_cents", default: 0, null: false
+    t.boolean "use_custom_amount", default: false
     t.index ["package_id"], name: "index_memberships_on_package_id"
     t.index ["person_id"], name: "index_memberships_on_person_id"
   end

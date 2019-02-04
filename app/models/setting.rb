@@ -41,7 +41,7 @@ class Setting < ApplicationRecord
 
   def self.opened_range
     o = opening_time_i
-    c = closing_time_i
+    c = closing_time_i-1
     (o..c).step(100).map{|t| [t, t+30]}.flatten
   end
 

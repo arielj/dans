@@ -1,16 +1,20 @@
-= form_for @membership do |f|
+= form_for @membership, data: {'auto-price-url' => new_membership_calculator_person_path(@membership.person)} do |f|
   = f.hidden_field :person_id
   - if @membership.errors.any?
     = @membership.errors.full_messages
   .new_membership_days
     = render partial: 'schedules/calendar', locals: {object: @membership}
 
-  .form-group
-    = f.label :amount
-    = f.text_field :amount, class: 'form-control'
-    .hint_hours
-      Precio para:
-      = succeed 'hs' do
-        %span.hours 0
+  .auto_calculation
+    Subtotal: $0,00
+    %br
+    Total: $0,00
+  .from-group
+    = f.check_box :use_custom_amount
+    = f.label :use_custom_amount
+    .input-group
+      .input-group-prepend
+        .input-group-text $
+      = f.text_field :amount, value: '', class: 'form-control', placeholder: 'Monto manual'
   .modal-footer
     = f.submit t('save.membership'), class: 'btn btn-primary'
