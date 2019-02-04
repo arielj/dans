@@ -15,9 +15,9 @@
       = select_tag "key[language]", options_for_select([['Español','es'],['English','en']], Setting.fetch('language', 'es')), class: 'form-control'
   .hourly_fees
     %h2= t 'hourly_fees'
-    #hour_fees.scrollable_table
+    #hour_fees.scrollable
       %table.table.table-striped.table-sm
-        %thead
+        %thead.thead-dark
           %tr
             %th= t('labels.options.hours')
             %th= t('labels.options.value')

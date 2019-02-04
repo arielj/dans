@@ -25,7 +25,7 @@
         = render partial: 'payments_table', locals: {payments: @payments_to_person, url: add_payment_done_person_path(@person)}
 
     .tab_content.debts{data: {'tab-content' => 'debts'}}
-      .scrollable_table
+      .scrollable
         %table.table.table-striped.table-sm
           %thead.thead-dark
             %tr
