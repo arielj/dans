@@ -12,7 +12,7 @@
         = text_field_tag "key[#{key}]", Setting.fetch(key.to_s, default), class: 'form-control'
   .hourly_fees
     %h2= t 'hourly_fees'
-    #hour_fees.scrollable
+    #hour_fees.scrollable_table
       %table.table.table-striped.table-sm
         %thead
           %tr
