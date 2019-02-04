@@ -23,10 +23,15 @@ document.addEventListener('turbolinks:load', function (ev) {
   initDatepicker('.datepicker');
 })
 
+function getLocale() {
+  return window.userLocale ? window.userLocale : 'es';
+}
+
 function initDatepicker(selector) {
   tail.DateTime(selector, {
-    locale: 'es',
+    locale: getLocale(),
     position: 'right',
     timeFormat: false,
+    stayOpen: false,
   });
 }
