@@ -49,6 +49,10 @@ class Schedule < ApplicationRecord
     (to-fr)*24.0
   end
 
+  def half_hours
+    (duration*2).to_i
+  end
+
   def day_name
     I18n.t('date.day_names')[Schedule.days[day]]
   end

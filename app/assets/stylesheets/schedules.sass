@@ -1,4 +1,39 @@
 .schedules_calendar
   display: grid
+  grid-template-areas: 'filter filter filter filter filter filter filter' 'sunday monday tuesday wednesday thursday friday saturday'
   grid-template-columns: auto auto auto auto auto auto auto
   grid-column-gap: 1rem
+
+  & > input
+    grid-area: filter
+
+  & > .sunday
+    grid-area: sunday
+
+  & > .monday
+    grid-area: monday
+
+  & > .tuesday
+    grid-area: tuesday
+
+  & > .wednesday
+    grid-area: wednesday
+
+  & > .thursday
+    grid-area: thursday
+
+  & > .friday
+    grid-area: friday
+
+  & > .saturday
+    grid-area: saturday
+
+  .day
+    label
+      &.hidden
+        input, span
+          display: none
+        input:checked, input:checked + span
+          display: initial
+      input:checked + span
+        background: orange

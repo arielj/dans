@@ -3,7 +3,7 @@ class PeopleController < ApplicationController
 
   before_action :person, only: [:edit, :add_family_member, :toggle_active,
     :add_payment, :do_add_payment, :add_payment_done, :do_add_payment_done,
-    :add_debt, :do_add_debt]
+    :add_debt, :do_add_debt, :new_membership_calculator]
 
   def index
     @people = get_sorted(name: :asc, lastname: :asc)
@@ -51,6 +51,12 @@ class PeopleController < ApplicationController
 
   def new_membership
     @membership = person.memberships.build
+  end
+
+  def new_membership_calculator
+    calculation = @person.new_membership_amount_calculator(params[:schedules_ids])
+
+    render json: calculation.to_json
   end
 
   def add_family_member

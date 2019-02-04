@@ -68,4 +68,41 @@ class Person < ApplicationRecord
     to = active? ? :inactive : :active
     update_column(:status, to)
   end
+
+  def new_membership_amount_calculator(sch_ids)
+
+    fixed_total = Money.new(0)
+    duration = 0
+    duration_total = Money.new(0)
+    discount = family_group_id.present? ? Setting.fetch('family_group_discount', '0') : 0
+
+    fixed_fee_klasses_ids = []
+
+    Schedule.where(id: sch_ids).joins(:klass).each do |sch|
+      f = sch.klass.fixed_fee
+      if f and f > 0
+        if !fixed_fee_klasses_ids.include?(sch.klass_id)
+          fixed_fee_klasses_ids << sch.klass_id
+          fixed_total += f
+        end
+      else
+        duration += sch.duration
+      end
+    end
+
+    duration_total = Money.new(Setting.get_hours_fee(duration).to_i*100)
+    subtotal = fixed_total+duration_total
+
+    discount_total = case discount
+    when /\A(\d+)%\z/ then subtotal/100*($1.to_f)
+    when /\A(\d+)\z/ then Money.new($1.to_i*100)
+    else Money.new(0)
+    end
+
+    total = subtotal-discount_total
+
+    {fixedTotal: fixed_total.to_s, durationTotal: duration_total.to_s,
+     duration: duration, discount: discount, subtotal: subtotal.to_s,
+     discountTotal: discount_total.to_s, total: total.to_s}
+  end
 end
