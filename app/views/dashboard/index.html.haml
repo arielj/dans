@@ -1,8 +1,8 @@
 .classes
   %h2= t('klasses')
-  .scrollable
+  .scrollable_table
     %table.table.table-striped.table-sm
-      %thead
+      %thead.thead-dark
         %tr
           %th= t('schedule')
           - @today_classes.keys.each do |r|
@@ -39,8 +39,8 @@
     .small
       %b #{t('money.in')}: $#{@totals[:in]}; #{t('money.out')}: $#{@totals[:out]}; #{t('money.total')}: $#{@totals[:total]}
   .space_even
-    .scrollable= render partial: 'money_transactions/people_table', locals: {transactions: @people_transactions, hide_actions: true}
-    .scrollable= render partial: 'money_transactions/general_table', locals: {transactions: @general_transactions}
+    .scrollable_table= render partial: 'money_transactions/people_table', locals: {transactions: @people_transactions, hide_actions: true}
+    .scrollable_table= render partial: 'money_transactions/general_table', locals: {transactions: @general_transactions}
   .actions
     = link_to t('add.movement'), new_money_transaction_path, class: 'btn btn-light', remote: true
     = link_to t('close_daily_cash'), '#', class: 'btn btn-light'

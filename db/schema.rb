@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_03_031527) do
+ActiveRecord::Schema.define(version: 2019_02_03_143852) do
 
   create_table "admins", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(version: 2019_02_03_031527) do
     t.boolean "daily_cash_closer", default: false
     t.string "payable_type"
     t.bigint "payable_id"
+    t.integer "receipt"
     t.index ["installment_id"], name: "index_money_transactions_on_installment_id"
     t.index ["payable_type", "payable_id"], name: "index_money_transactions_on_payable_type_and_payable_id"
     t.index ["person_id"], name: "index_money_transactions_on_person_id"
