@@ -101,17 +101,18 @@ es:
 
   form:
     options:
-      name: Nombre del instituto
-      opening_time: Abre a las
       closing_time: Cierra a las
-      recharge_after_day: Recargo luego del día número X
-      recharge_value: Valor rel recargo (XX para valor fijo, YY% para pocentaje)
-      month_recharge_value: Recargo después de 30 días (XX para valor fijo, YY% para pocentaje)
-      language: Idioma
       dates_format: Formato de fechas
+      family_discount: Descuento para grupos familiares
+      name: Nombre del instituto
+      language: Idioma
+      month_recharge_value: Recargo después de 30 días (XX para valor fijo, YY% para pocentaje)
+      opening_time: Abre a las
       preselected_installments_month: Meses preseleccionados al cargar cuotas
       preselected_installments_month_from: Mes inicial
       preselected_installments_month_to: Mes final
+      recharge_after_day: Recargo luego del día número X
+      recharge_value: Valor rel recargo (XX para valor fijo, YY% para pocentaje)
   activerecord:
     models:
       debt: Deuda

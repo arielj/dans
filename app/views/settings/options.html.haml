@@ -6,10 +6,14 @@
   .configuration
     %h2= t 'configuration'
     - [[:name, ''],[:opening_time, '09:00'],[:closing_time, '22:00'],[:recharge_after_day, '10'],
-       [:recharge_value, '10%'],[:month_recharge_value, '25%'],[:language, 'es'],[:dates_format, '%Y-%m-%d']].each do |key,default|
+       [:recharge_value, '10%'],[:month_recharge_value, '25%'],
+       [:dates_format, '%Y-%m-%d'],[:family_discount, '0']].each do |key,default|
       .form-group
         = label_tag "key[#{key}]", t(key, scope: 'form.options')
         = text_field_tag "key[#{key}]", Setting.fetch(key.to_s, default), class: 'form-control'
+    .form-group
+      = label_tag "key[language]", t(:language, scope: 'form.options')
+      = select_tag "key[language]", options_for_select([['Español','es'],['English','en']], Setting.fetch('language', 'es')), class: 'form-control'
   .hourly_fees
     %h2= t 'hourly_fees'
     #hour_fees.scrollable_table
