@@ -1,5 +1,6 @@
 es:
   actions: Acciones
+  assign_teachers: Asignar profesores
   birthdays: Cumpleaños
   close_daily_cash: Marcar cierre
   configuration: Configuración
@@ -81,6 +82,8 @@ es:
 
   labels:
     filter: Filtrar
+    include_inactive: Incluir inactivos/as
+    include_personal_packages: Incluir paquetes personales
     search: Buscar
     klasses:
       activate: Activar
@@ -97,6 +100,11 @@ es:
     - Mujer
     - Hombre
     - Otro
+
+  statuses:
+    klass:
+      - Inactiva
+      - Activa
 
   form:
     options:

@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   resources :klasses do
     member do
       put :toggle_active
+      get :add_teachers
+      patch :add_teachers, action: :do_add_teachers
+      delete "remove_teacher/:teacher_id", action: :remove_teacher, as: :remove_teacher
     end
   end
 

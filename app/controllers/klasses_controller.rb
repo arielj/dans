@@ -1,5 +1,6 @@
 class KlassesController < ApplicationController
-  before_action :load_klass, only: [:edit, :update, :toggle_active]
+  before_action :load_klass, only: [:edit, :update, :toggle_active, :add_teachers,
+    :do_add_teachers, :remove_teacher]
 
   def index
     @klasses = Klass.all.order('name ASC')
@@ -50,6 +51,26 @@ class KlassesController < ApplicationController
   def toggle_active
     @klass.toggle_active
     redirect_back fallback_location: klasses_path
+  end
+
+  def add_teachers
+    @teachers = Person.active.teachers
+  end
+
+  def do_add_teachers
+    selected_teachers = Person.where(id: params[:teacher_ids])
+    byebug
+    @klass.teachers = selected_teachers
+    @klass.save
+    flash[:notice] = 'Teachers assigned'
+    redirect_to edit_klass_path(@klass)
+  end
+
+  def remove_teacher
+    teacher = Person.find(params[:teacher_id])
+    @klass.teachers.delete(teacher)
+    flash[:notice] = 'Teacher removed'
+    redirect_to edit_klass_path(@klass)
   end
 
 private

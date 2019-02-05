@@ -4,6 +4,10 @@
 
 = form_tag '', method: :get, class: 'form-inline' do
   = text_field_tag :q, params[:q], placeholder: t('labels.search'), class: 'form-control mr-2 mb-2'
+  .checkbox
+    = label_tag do
+      = check_box_tag :include_personal_packages, '1', params[:include_personal_packages]
+      = t('labels.include_personal_packages')
   = submit_tag t('labels.filter'), class: 'btn btn-primary mb-2'
 
 .scrollable

@@ -10,7 +10,7 @@
 .people
   %h2
     = t('teachers')
-    = link_to t('add.teacher'), '#', class: 'small'
+    = link_to t('add.teacher'), add_teachers_klass_path(@klass), class: 'small', remote: true
   %table.table.table-striped.table-sm
     %thead.thead-dark
       %tr
@@ -20,7 +20,7 @@
       - @klass.teachers.each do |t|
         %tr
           %td= link_to t.to_label, edit_person_path(t)
-          %td.actions X
+          %td.actions= link_to 'X', remove_teacher_klass_path(@klass, teacher_id: t.id), method: :delete
 
   %h2= t('students')
   %table.table.table-striped.table-sm
