@@ -30,4 +30,9 @@ class Klass < ApplicationRecord
     to = active? ? :inactive : :active
     update_column(:status, to)
   end
+
+  def self.statuses_for_select
+    ds = I18n.t('statuses.klass')
+    [[ds[0], :inactive], [ds[1], :active]]
+  end
 end

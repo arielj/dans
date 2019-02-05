@@ -1,0 +1,8 @@
+= form_for @klass, url: add_teachers_klass_path(@klass) do |f|
+  - @teachers.each do |t|
+    = label_tag do
+      = check_box_tag 'teacher_ids[]', t.id, @klass.teacher_ids.include?(t.id)
+      = t.to_label
+    %br
+  .modal-footer
+    = f.submit t('assign_teachers'), class: 'btn btn-primary'

@@ -3,6 +3,9 @@ class PackagesController < ApplicationController
 
   def index
     @packages = Package.all.order('name ASC')
+    unless params[:include_personal_packages].present?
+      @packages = @packages.where(person_id: 0).where.not('name LIKE "Clases ____ %"')
+    end
     @packages = @packages.where('name LIKE ?', "%#{params[:q]}%") if params[:q]
   end
 

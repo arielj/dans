@@ -14,6 +14,8 @@ class Person < ApplicationRecord
   enum status: [:inactive, :active]
 
   scope :birthday_today, -> { where('DAYOFMONTH(birthday) = ? AND MONTH(birthday) = ?', Date.today.day, Date.today.month) }
+  scope :teachers, -> { where(is_teacher: true) }
+  scope :students, -> { where(is_teacher: false) }
 
   def self.genders_for_select
     ds = I18n.t('genders')
