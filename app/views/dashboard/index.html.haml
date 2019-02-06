@@ -21,7 +21,8 @@
     = submit_tag t('save.notes'), class: 'btn btn-primary'
   = hidden_field_tag :setting_key, 'notes'
   .form-group
-    = text_area_tag 'key[notes]', Setting.fetch(:notes, ''), class: 'form-control trumbowyg'
+    = text_area_tag 'key[notes]', Setting.fetch(:notes, ''), class: 'form-control tinymce'
+    = tinymce
 
 .birthdays
   %h2
