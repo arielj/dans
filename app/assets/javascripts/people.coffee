@@ -23,21 +23,21 @@ window.initFamilyAutocomplete = ->
         $request.abort()
         $request = false
 
-      $t = this
+      t = this
       path = this.dataset.autocompletepath
       val = this.value
-      $p = this.parentNode
-      $div = $p.querySelector('#autocomplete_selector')
-      if !$div
-        $div = document.createElement('DIV')
-        $div.id = 'autocomplete_selector'
-        $p.appendChild($div)
+      p = this.parentNode
+      div = p.querySelector('#autocomplete_selector')
+      if !div
+        div = document.createElement('DIV')
+        div.id = 'autocomplete_selector'
+        p.appendChild($div)
 
       onSelectClick = (e) ->
         e.preventDefault()
         document.getElementById('new_family_member_id').value = this.data.value
-        $t.value = this.innerText
-        $div.remove()
+        t.value = this.innerText
+        div.remove()
 
       if val.length >= 3
         $request = $.getJSON path, {q: val}, (response) ->
@@ -49,6 +49,6 @@ window.initFamilyAutocomplete = ->
             autocompleteOptions.appendChild(option)
 
           if response.length == 0
-            $div.innerHTML = '<div class="option">No hay resultados</div>'
+            div.innerHTML = '<div class="option">No hay resultados</div>'
       else
-        $div.innerHTML = ''
+        div.innerHTML = ''

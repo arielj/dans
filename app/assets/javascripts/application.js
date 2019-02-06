@@ -15,7 +15,7 @@
 //= require jquery
 //= require cocoon
 //= require bootstrap/dist/js/bootstrap.min
-//= require trumbowyg/dist/trumbowyg.min
+//= require tinymce
 //= require tail.datetime/js/tail.datetime-full.min
 //= require_tree .
 

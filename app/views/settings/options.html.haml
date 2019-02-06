@@ -27,7 +27,7 @@
             - next if v.blank?
             %tr
               %td= k
-              %td= text_field_tag "key[hour_fees][#{k}]", v, id: "fee_#{k}"
+              %td= number_field_tag "key[hour_fees][#{k}]", v, id: "fee_#{k}"
     .actions
       = link_to t('add.price'), settings_add_price_path, id: 'add_hour_fee', class: 'btn btn-primary', remote: true
   .actions

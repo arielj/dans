@@ -38,7 +38,7 @@ gem "haml-rails"
 gem "cocoon"
 gem 'jquery-rails'
 gem 'inline_svg'
-
+gem 'tinymce-rails'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

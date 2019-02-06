@@ -13,9 +13,6 @@
 
     :javascript
       window.userLocale = '#{Setting.fetch("language", "es")}'
-      Settings = {
-        hours_fees: #{Setting.get_hours_fees.to_json.html_safe}
-      }
 
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'

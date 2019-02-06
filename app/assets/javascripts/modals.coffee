@@ -20,9 +20,9 @@ window.createModal = (title, bodyHtml, actions) ->
   close.on 'click', ->
     closeModal()
 
-  body = $('<div class="modal-body" />')
-  body.append(bodyHtml)
-
+  body = document.createElement 'DIV'
+  body.classList.add "modal-body"
+  body.innerHTML = bodyHtml
 
   header.append(h5)
   header.append(close)
@@ -32,7 +32,7 @@ window.createModal = (title, bodyHtml, actions) ->
   if actions
     footer = $('<div class="modal-footer" />')
     footer.append(actions)
-    body.append(footer)
+    body.appendChild(footer[0])
 
   dialog.append(content)
   modal.append(dialog)
@@ -40,7 +40,7 @@ window.createModal = (title, bodyHtml, actions) ->
 
 window.showLargeModal = (title, bodyHtml, actions) ->
   createModal(title, bodyHtml, actions)
-  window.currentModal.find('.modal-dialog').addClass('modal-xlg')
+  window.currentModal.querySelector('.modal-dialog').classList.add('modal-xlg')
   window.currentModal.modal('show')
 
 window.showModal = (title, bodyHtml, actions) ->
