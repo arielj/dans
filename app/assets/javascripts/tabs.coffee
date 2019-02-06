@@ -13,7 +13,7 @@ window.bindTabs = (tabbed) ->
       if !this.classList.contains('current')
         tabRef = this.href.split('tab=')[1]
 
-        window.history.pushState({tab: tabRef}, tabRef, this.href)
+        window.history.replaceState({tab: tabRef}, tabRef, this.href)
 
         tabsWrapper.querySelector('.current').classList.remove('current')
         tabsContents.querySelector('.current').classList.remove('current')
