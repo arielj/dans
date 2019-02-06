@@ -40,7 +40,7 @@ window.createModal = (title, bodyHtml, actions) ->
 
 window.showLargeModal = (title, bodyHtml, actions) ->
   createModal(title, bodyHtml, actions)
-  window.currentModal.querySelector('.modal-dialog').classList.add('modal-xlg')
+  window.currentModal[0].querySelector('.modal-dialog').classList.add('modal-xlg')
   window.currentModal.modal('show')
 
 window.showModal = (title, bodyHtml, actions) ->
