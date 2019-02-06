@@ -1,4 +1,7 @@
-:javascript
-  $('.new_membership_days input.schedule').on('click', function(e) {refresh_amount()} )
+:coffee
+  schs = document.querySelectorAll('.new_membership_days input.schedule')
+  for sch in schs
+    sch.addEventListener 'click', (e) ->
+      refresh_amount()
 
 = render partial: 'people/new_membership'
