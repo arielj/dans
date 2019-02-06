@@ -1,1 +1,3 @@
-$('.memberships .installments').html('<%= j(render partial: "people/membership", locals: {membership: @membership}) -%>');
+inst = document.querySelector('.memberships .installments');
+if (inst)
+  inst.innerHTML = '<%= j(render partial: "people/membership", locals: {membership: @membership}) -%>';
