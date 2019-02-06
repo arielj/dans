@@ -11,7 +11,12 @@ window.bindTabs = (tabbed) ->
     tab.addEventListener 'click', (e) ->
       e.preventDefault()
       if !this.classList.contains('current')
+        tabRef = this.href.split('tab=')[1]
+
+        window.history.pushState({tab: tabRef}, tabRef, this.href)
+
         tabsWrapper.querySelector('.current').classList.remove('current')
         tabsContents.querySelector('.current').classList.remove('current')
         this.classList.add('current')
-        tabsContents.querySelector('[data-tab-content="'+this.dataset.tabContentRef+'"]').classList.add('current')
+
+        tabsContents.querySelector('[data-tab-content="'+tabRef+'"]').classList.add('current')

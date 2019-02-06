@@ -95,16 +95,12 @@ class PeopleController < ApplicationController
 
   def do_add_payment
     @trans = @person.money_transactions.received.create(money_transaction_params)
-    if @trans.persisted?
-    else
-    end
+    redirect_back fallback_location: edit_person_path(@person, tab: 'person_payments')
   end
 
   def do_add_payment_done
     @trans = @person.money_transactions.done.create(money_transaction_params)
-    if @trans.persisted?
-    else
-    end
+    redirect_back fallback_location: edit_person_path(@person, tab: 'payments_to_teacher')
   end
 
   def add_debt
@@ -113,9 +109,7 @@ class PeopleController < ApplicationController
 
   def do_add_debt
     @debt = @person.debts.create(create_debt_params)
-    if @debt.persisted?
-    else
-    end
+    redirect_back fallback_location: edit_person_path(@person, tab: 'debts')
   end
 
 
