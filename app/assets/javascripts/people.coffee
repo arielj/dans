@@ -10,7 +10,7 @@ document.addEventListener 'turbolinks:load', (ev) ->
       triggerEvent(age, 'change')
 
     document.querySelector('.memberships select#membership').addEventListener 'change', (e) ->
-      $.getScript '/memberships/'+this.value
+      getScript({url: '/memberships/'+this.value})
 
 window.initFamilyAutocomplete = ->
   $request = false
@@ -31,7 +31,7 @@ window.initFamilyAutocomplete = ->
       if !div
         div = document.createElement('DIV')
         div.id = 'autocomplete_selector'
-        p.appendChild($div)
+        p.appendChild(div)
 
       onSelectClick = (e) ->
         e.preventDefault()
@@ -40,7 +40,7 @@ window.initFamilyAutocomplete = ->
         div.remove()
 
       if val.length >= 3
-        $request = $.getJSON path, {q: val}, (response) ->
+        $request = getJSON({url: path, data: {q: val}, success: (response) ->
           autocompleteOptions.innerHTML = ''
           for person in response
             option = document.createElement 'option'
@@ -50,5 +50,6 @@ window.initFamilyAutocomplete = ->
 
           if response.length == 0
             div.innerHTML = '<div class="option">No hay resultados</div>'
+        })
       else
         div.innerHTML = ''

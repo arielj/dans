@@ -1,6 +1,8 @@
 window.refresh_amount = (form) ->
   schedulesIds = (i.value for i in form.querySelectorAll('input.schedule:checked'))
-  $.getJSON form.dataset.autoPriceUrl, {schedules_ids: schedulesIds}, (resp) ->
+  schedulesIds = schedulesIds.map((x) ->
+    serializePair('schedules_ids[]', x)).join('&')
+  getJSON({url: form.dataset.autoPriceUrl, data: schedulesIds, success: (resp) ->
     div = form.querySelector('.auto_calculation')
     s = ''
     if resp.fixedTotal != "0,00"
@@ -13,13 +15,7 @@ window.refresh_amount = (form) ->
     s = s+'Total: $'+resp.total
 
     div.innerHTML = s
-
-serializeForm = (form) ->
-  enabled = [].filter.call form.elements, (node) -> not node.disabled
-  pairs = [].map.call enabled, (node) ->
-    encoded = [node.name, node.value].map(encodeURIComponent)
-    encoded.join '='
-  pairs.join '&'
+  })
 
 window.bindSchedulesCalendar = (element) ->
   filter = element.querySelector('#filter_schedules')
