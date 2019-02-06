@@ -11,20 +11,20 @@
 
 .tabbed
   .tabs
-    .tab.current{data: {'tab-content-ref' => 'person_payments'}}= t('tab.person_payments')
+    = link_to t('tab.person_payments'), edit_person_path(@person, tab: 'person_payments'), class: "tab#{'person_payments' == params[:tab] ? ' current' : ''}", data: {turbolinks: false}
     - if @person.is_teacher?
-      .tab{data: {'tab-content-ref' => 'payments_to_teacher'}}= t('tab.payments_to_teacher')
-    .tab{data: {'tab-content-ref' => 'debts'}}= t('tab.debts')
-    .tab{data: {'tab-content-ref' => 'memberships'}}= t('tab.memberships')
+      = link_to t('tab.payments_to_teacher'), edit_person_path(@person, tab: 'payments_to_teacher'), class: "tab#{'payments_to_teacher' == params[:tab] ? ' current' : ''}", data: {turbolinks: false}
+    = link_to t('tab.debts'), edit_person_path(@person, tab: 'debts'), class: "tab#{'debts' == params[:tab] ? ' current' : ''}", data: {turbolinks: false}
+    = link_to t('tab.memberships'), edit_person_path(@person, tab: 'memberships'), class: "tab#{'memberships' == params[:tab] ? ' current' : ''}", data: {turbolinks: false}
   .tabs_contents
-    .tab_content.current{data: {'tab-content' => 'person_payments'}}
+    .tab_content{data: {'tab-content' => 'person_payments'}, class: ('person_payments' == params[:tab] ? ' current' : '')}
       = render partial: 'payments_table', locals: {payments: @person_payments, url: add_payment_person_path(@person)}
 
     - if @person.is_teacher?
-      .tab_content{data: {'tab-content' => 'payments_to_teacher'}}
+      .tab_content{data: {'tab-content' => 'payments_to_teacher'}, class: ('payments_to_teacher' == params[:tab] ? ' current' : '')}
         = render partial: 'payments_table', locals: {payments: @payments_to_person, url: add_payment_done_person_path(@person)}
 
-    .tab_content.debts{data: {'tab-content' => 'debts'}}
+    .tab_content.debts{data: {'tab-content' => 'debts'}, class: ('debts' == params[:tab] ? ' current' : '')}
       .scrollable
         %table.table.table-striped.table-sm
           %thead.thead-dark
@@ -49,7 +49,7 @@
       .actions
         = link_to t('add.debt'), add_debt_person_path(@person), class: 'button', remote: true
 
-    .tab_content.memberships{data: {'tab-content' => 'memberships'}}
+    .tab_content.memberships{data: {'tab-content' => 'memberships'}, class: ('memberships' == params[:tab] ? ' current' : '')}
       .selector
         = select_tag :membership, options_from_collection_for_select(@person.memberships, :id, :to_label), class: 'form-control'
         = link_to t('add.membership'), new_membership_person_path(@person), class: 'btn btn-light', remote: true

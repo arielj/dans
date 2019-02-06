@@ -2,7 +2,7 @@ class MembershipsController < ApplicationController
   def create
     @membership = Membership.new create_membership_params
     if @membership.save
-      redirect_to edit_person_path @membership.person
+      redirect_back fallback_location: edit_person_path(@membership.person, tab: 'memberships')
     else
       render template: 'people/new_membership'
     end
