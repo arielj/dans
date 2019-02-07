@@ -4,7 +4,7 @@ window.closeModal = ->
   if window.currentModal
     window.currentModal.remove()
     window.currentModal = false
-  backdrop = document.querySelector('.modal-backdrop')
+  backdrop = qs('.modal-backdrop')
   backdrop.remove() if backdrop
 
 window.createModal = (title, bodyHtml, actions) ->

@@ -1,8 +1,8 @@
 Rails.delegate document, 'click', '#add_installment_payment .update_amount', (e) ->
-  form = document.getElementById('add_installment_payment')
+  form = byid('add_installment_payment')
   val = parseFloat(form.querySelector('.payment_amount').dataset.amount)
-  toUpdate = form.querySelectorAll('.update_amount:checked')
+  toUpdate = qsa('.update_amount:checked', form)
   for input in toUpdate
     r = parseFloat(input.dataset.recharge)
     val = val-r
-  form.querySelector('.payment_amount').value = val.toFixed(2)
+  qs('.payment_amount', form).value = val.toFixed(2)

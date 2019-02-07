@@ -1,13 +1,13 @@
 document.addEventListener 'turbolinks:load', ->
-  tabbeds = document.querySelectorAll('.tabbed')
+  tabbeds = qsa('.tabbed')
   for tabbed in tabbeds
     bindTabs(tabbed)
 
 window.bindTabs = (tabbed) ->
-  tabsWrapper = tabbed.querySelector('.tabs')
-  tabsContents = tabbed.querySelector('.tabs_contents')
+  tabsWrapper = qs('.tabs', tabbed)
+  tabsContents = qs('.tabs_contents', tabbed)
 
-  for tab in tabsWrapper.querySelectorAll('.tab')
+  for tab in qsa('.tab', tabsWrapper)
     tab.addEventListener 'click', (e) ->
       e.preventDefault()
       if !this.classList.contains('current')
@@ -15,8 +15,8 @@ window.bindTabs = (tabbed) ->
 
         window.history.replaceState({tab: tabRef}, tabRef, this.href)
 
-        tabsWrapper.querySelector('.current').classList.remove('current')
-        tabsContents.querySelector('.current').classList.remove('current')
+        qs('.current', tabsWrapper).classList.remove('current')
+        qs('.current', tabsContents).classList.remove('current')
         this.classList.add('current')
 
-        tabsContents.querySelector('[data-tab-content="'+tabRef+'"]').classList.add('current')
+        qs('[data-tab-content="'+tabRef+'"]', tabsContents).classList.add('current')
