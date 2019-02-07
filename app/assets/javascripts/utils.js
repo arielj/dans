@@ -19,26 +19,47 @@ function serializeForm(form) {
   return pairs.join('&');
 }
 
+function ajax(method, type, options) {
+  options.type = method;
+  options.dataType = type;
+
+  xhrObject = false;
+  options.beforeSend = function(xhr, options) {
+    xhrObject = xhr;
+    return true
+  }
+
+  Rails.ajax(options);
+
+  return xhrObject;
+}
+
 function getScript(options) {
-  options.type = 'GET'
-  options.dataType = 'script'
-  Rails.ajax(options)
+  return ajax('GET', 'script', options);
 }
 
 function getJSON(options) {
-  options.type = 'GET'
-  options.dataType = 'json'
-  Rails.ajax(options)
+  return ajax('GET', 'json', options);
 }
 
 function postScript(options) {
-  options.type = 'POST'
-  options.dataType = 'script'
-  Rails.ajax(options)
+  return ajax('POST', 'script', options);
 }
 
 function postJSON(options) {
-  options.type = 'POST'
-  options.dataType = 'json'
-  Rails.ajax(options)
+  return ajax('POST', 'json', options);
+}
+
+function qs(selector, element) {
+  if (!element) element = document;
+  return element.querySelector(selector);
+}
+
+function qsa(selector, element) {
+  if (!element) element = document;
+  return element.querySelectorAll(selector);
+}
+
+function byid(id) {
+  return document.getElementById(id);
 }

@@ -1,5 +1,5 @@
 :coffee
-  schs = document.querySelectorAll('.new_membership_days input.schedule')
+  schs = qsa('.new_membership_days input.schedule')
   for sch in schs
     sch.addEventListener 'click', (e) ->
       refresh_amount()

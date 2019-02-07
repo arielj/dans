@@ -1,7 +1,7 @@
 window.bindAddPriceModal = (form) ->
-  hoursField = form.querySelector('input.hours')
-  valueField = form.querySelector('input.value')
-  add = form.querySelector('button')
+  hoursField = qs('input.hours', form)
+  valueField = qs('input.value', form)
+  add = qs('button', form)
   add.addEventListener 'click', (e) ->
     e.preventDefault()
     hours = parseFloat(hoursField.value)
@@ -11,7 +11,7 @@ window.bindAddPriceModal = (form) ->
       alert('La cantidad de horas es inválida')
     else if fee < 1
       alert('El precio es inválido')
-    else if document.getElementById('fee_'+hours)
+    else if byid('fee_'+hours)
       alert('Ya hay un precio para esa cantidad de horas')
     else
       row = document.createElement 'TR'
@@ -28,8 +28,8 @@ window.bindAddPriceModal = (form) ->
       row.appendChild(col1)
       row.appendChild(col2)
 
-      tbody = document.querySelector('.hourly_fees tbody')
-      trs = tbody.querySelectorAll('tr')
+      tbody = qs('.hourly_fees tbody')
+      trs = qsa('tr', tbody)
       inserted = false
       for tr in trs
         h = parseFloat(tr.querySelector('input').id.replace('fee_',''))

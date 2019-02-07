@@ -1,7 +1,7 @@
 document.addEventListener 'turbolinks:load', (ev) ->
-  form = document.querySelector('.edit_person')
+  form = qs('.edit_person')
   if form
-    age = form.querySelector('input[name*=age]')
+    age = qs('input[name*=age]', form)
     if age
       age.form.querySelector('input[name*=birthday]').addEventListener 'change', (ev) ->
         birthday = +new Date(this.value)
@@ -9,14 +9,14 @@ document.addEventListener 'turbolinks:load', (ev) ->
         age.value = y
       triggerEvent(age, 'change')
 
-    document.querySelector('.memberships select#membership').addEventListener 'change', (e) ->
+    qs('.memberships select#membership').addEventListener 'change', (e) ->
       getScript({url: '/memberships/'+this.value})
 
 window.initFamilyAutocomplete = ->
   $request = false
-  familyForm = document.getElementById('add_family_member')
-  autocompleteOptions = familyForm.querySelector('#family_autocomplete')
-  q = familyForm.querySelector('#q')
+  familyForm = byid('add_family_member')
+  autocompleteOptions = qs('#family_autocomplete', familyForm)
+  q = qs('#q', familyForm)
   if q
     q.addEventListener 'keyup', (e) ->
       if $request
@@ -27,7 +27,7 @@ window.initFamilyAutocomplete = ->
       path = this.dataset.autocompletepath
       val = this.value
       p = this.parentNode
-      div = p.querySelector('#autocomplete_selector')
+      div = qs('#autocomplete_selector', p)
       if !div
         div = document.createElement('DIV')
         div.id = 'autocomplete_selector'
@@ -35,7 +35,7 @@ window.initFamilyAutocomplete = ->
 
       onSelectClick = (e) ->
         e.preventDefault()
-        document.getElementById('new_family_member_id').value = this.data.value
+        byid('new_family_member_id').value = this.data.value
         t.value = this.innerText
         div.remove()
 

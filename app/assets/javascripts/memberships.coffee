@@ -1,9 +1,9 @@
 window.refresh_amount = (form) ->
-  schedulesIds = (i.value for i in form.querySelectorAll('input.schedule:checked'))
+  schedulesIds = (i.value for i in qsa('input.schedule:checked', form))
   schedulesIds = schedulesIds.map((x) ->
     serializePair('schedules_ids[]', x)).join('&')
   getJSON({url: form.dataset.autoPriceUrl, data: schedulesIds, success: (resp) ->
-    div = form.querySelector('.auto_calculation')
+    div = qs('.auto_calculation', form)
     s = ''
     if resp.fixedTotal != "0,00"
       s = s+'Precio clases fijas: $'+resp.fixedTotal+"<br />"
@@ -18,12 +18,12 @@ window.refresh_amount = (form) ->
   })
 
 window.bindSchedulesCalendar = (element) ->
-  filter = element.querySelector('#filter_schedules')
+  filter = qs('#filter_schedules', element)
   filter.focus()
   filter.addEventListener 'input', (e) ->
     val = this.value
     regexp = new RegExp(".*"+val+".*")
-    schs = element.querySelectorAll('.day label')
+    schs = qsa('.day label', element)
     for sch in schs
       cls = sch.classList
       if (val != '')
@@ -35,9 +35,9 @@ window.bindSchedulesCalendar = (element) ->
         cls.remove('hidden')
 
 window.bindNewMembership = ->
-  form = document.getElementById('new_membership')
-  cal = form.querySelector('.schedules_calendar')
-  schs = cal.querySelectorAll('input.schedule')
+  form = byid('new_membership')
+  cal = qs('.schedules_calendar', form)
+  schs = qsa('input.schedule', cal)
   for sch in schs
     sch.addEventListener 'change', (e) ->
       refresh_amount(sch.form)
