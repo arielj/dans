@@ -35,10 +35,10 @@ gem 'money-rails'
 gem 'devise', git: 'https://github.com/plataformatec/devise.git', branch: 'master'
 gem 'erubis'
 gem "haml-rails"
+gem 'tinymce-rails'
+
 gem "cocoon"
 gem 'jquery-rails'
-gem 'inline_svg'
-gem 'tinymce-rails'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
