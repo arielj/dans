@@ -3,11 +3,11 @@
   %h2= t('filters')
   = form_tag reports_daily_cash_path, method: :get do
     .form-group
-      = label_tag :date
-      = date_field_tag :date, @date, class: 'form-control'
+      = label_tag :date, nil, class: 'form-label'
+      = date_field_tag :date, @date, class: 'form-input'
     .form-group
-      = label_tag :text
-      = text_field_tag :text, params[:text], class: 'form-control', placeholder: 'Desc/Name/Lastname'
+      = label_tag :text, nil, class: 'form-label'
+      = text_field_tag :text, params[:text], class: 'form-input', placeholder: 'Desc/Name/Lastname'
 
     = submit_tag t('labels.filter'), class: 'btn btn-primary'
 

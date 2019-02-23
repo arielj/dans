@@ -2,9 +2,8 @@
   "name": "Dans",
   "private": true,
   "dependencies": {
-    "bootstrap": "^4.0.0",
-    "bootstrap-datepicker": "^1.8.0",
     "font-awesome": "^4.7.0",
+    "spectre.css": "^0.5.8",
     "tail.datetime": "^0.4.6"
   }
 }

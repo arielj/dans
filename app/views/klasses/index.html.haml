@@ -2,16 +2,16 @@
 
 %h1= t('klasses')
 
-= form_tag '', method: :get, class: 'form-inline' do
-  = text_field_tag :q, params[:q], placeholder: t('labels.search'), class: 'form-control mr-2 mb-2'
-  .checkbox
-    = label_tag do
-      = check_box_tag :include_inactive, '1', params[:include_inactive]
-      = t('labels.include_inactive')
-  = submit_tag t('labels.filter'), class: 'btn btn-primary mb-2'
+= form_tag '', method: :get do
+  .form-group.form-inline= text_field_tag :q, params[:q], placeholder: t('labels.search'), class: 'form-input'
+  = label_tag '', class: 'form-checkbox form-inline' do
+    = check_box_tag :include_inactive, '1', params[:include_inactive]
+    = t('labels.include_inactive')
+    %i.form-icon
+  = submit_tag t('labels.filter'), class: 'btn btn-primary'
 
 .scrollable
-  %table.table.table-striped.table-sm
+  %table.table.table-striped.table-small
     %thead.thead-dark
       %tr
         %th= t('activerecord.attributes.klass.name')
@@ -27,10 +27,10 @@
           %td= klass.schedules.map{|sch| "#{sch.day_name}: #{sch.from_time_s}-#{sch.to_time_s}"}.join(', ')
           %td.actions
             = link_to edit_klass_path(klass) do
-              %i.fa.fa-edit
+              %i.icon.icon-edit
             |
             = link_to klass, method: :delete, data: {confirm: '¿Re seguro?'} do
-              %i.fa.fa-trash
+              %i.icon.icon-delete
             |
             - active_text = klass.active? ? :deactivate : :activate
             = link_to t(active_text, scope: 'labels.klasses'), toggle_active_klass_path(klass, include_inactive: params[:include_inactive]), method: :put

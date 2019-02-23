@@ -1,12 +1,10 @@
 @import 'configuration'
 
 body.c_klasses.a_edit
-  & > section
+  & > main
     display: grid
-    grid-template-areas: 'title title' 'form people'
-    grid-template-columns: 49.5% 49.5%
-    grid-column-gap: 1%
-    grid-template-rows: min-content auto
+    grid-template: 'title title' min-content 'form people' auto / 1fr 1fr
+    grid-column-gap: 1rem
 
     & > h2
       grid-area: title
@@ -14,11 +12,21 @@ body.c_klasses.a_edit
     & > form
       grid-area: form
 
+      & > div
+        margin-bottom: 1rem
+
     & > .people
       grid-area: people
+
+      table
+        margin-bottom: 1.5rem
 
     .klass_schedules
       .nested-fields
         display: grid
-        grid-template-columns: 24.25% 24.25% 24.25% 24.25%
-        grid-column-gap: 1%
+        grid-template-columns: 1.5rem repeat(4, 1fr)
+        grid-column-gap: .5rem
+
+      a.remove_fields
+        align-self: center
+        justify-self: center

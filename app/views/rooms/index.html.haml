@@ -5,7 +5,7 @@
 .filters
 
 .scrollable
-  %table.table.table-striped.table-sm
+  %table.table.table-striped.table-small
     %thead.thead-dark
       %tr
         %th= t('activerecord.attributes.room.name')
@@ -16,10 +16,10 @@
           %td= room.name
           %td.actions
             = link_to edit_room_path(room) do
-              %i.fa.fa-edit
+              %i.icon.icon-edit
             |
             = link_to room, method: :delete, data: {confirm: '¿Re seguro?'} do
-              %i.fa.fa-trash
+              %i.icon.icon-delete
 
 .actions
   = link_to t('add.room'), new_room_path, class: 'btn btn-primary'

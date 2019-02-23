@@ -1,5 +1,5 @@
 .scrollable
-  %table.table.table-striped.table-sm
+  %table.table.table-striped.table-small
     %thead.thead-dark
       %tr
         %th= t('activerecord.attributes.money_transaction.date')
@@ -14,4 +14,4 @@
           %td= p.amount
           %td.actions
 .actions
-  = link_to t('add.payment'), url, class: 'button', remote: true
+  = link_to t('add.payment'), url, class: 'btn', remote: true

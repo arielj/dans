@@ -59,7 +59,6 @@ class KlassesController < ApplicationController
 
   def do_add_teachers
     selected_teachers = Person.where(id: params[:teacher_ids])
-    byebug
     @klass.teachers = selected_teachers
     @klass.save
     flash[:notice] = 'Teachers assigned'

@@ -10,8 +10,8 @@
 .people
   %h2
     = t('teachers')
-    = link_to t('add.teacher'), add_teachers_klass_path(@klass), class: 'small', remote: true
-  %table.table.table-striped.table-sm
+    = link_to t('add.teacher'), add_teachers_klass_path(@klass), class: 'btn', remote: true
+  %table.table.table-striped.table-small
     %thead.thead-dark
       %tr
         %th= t('activerecord.attributes.person.name')
@@ -23,7 +23,7 @@
           %td.actions= link_to 'X', remove_teacher_klass_path(@klass, teacher_id: t.id), method: :delete
 
   %h2= t('students')
-  %table.table.table-striped.table-sm
+  %table.table.table-striped.table-small
     %thead.thead-dark
       %tr
         %th= t('activerecord.attributes.person.name')
