@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :klass do
-    name 'HIP HOP'
-    fixed_fee_cents '50000'
+    sequence(:name) {|n| "Klass #{n}" }
+    fixed_fee_cents {'50000'}
   end
 end
