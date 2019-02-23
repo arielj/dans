@@ -1,10 +1,10 @@
 @import 'configuration'
 
 body.c_settings.a_options
-  & > section > form
+  & > main > form
     display: grid
-    grid-template-areas: 'configuration hourly_fees' 'actions actions' 'extra extra'
-    grid-template-rows: auto max-content max-content
+    grid-template: 'configuration hourly_fees' auto 'actions actions' auto
+    overflow: hidden
 
     .configuration
       grid-area: configuration

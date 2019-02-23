@@ -1,12 +1,9 @@
 @import 'configuration'
 
 body.c_dashboard.a_index
-  section
-    grid-template-areas: 'classes classes dailycash' 'notes birthdays dailycash'
-    grid-column-gap: 1rem
-    grid-row-gap: 1rem
-    grid-template-rows: 50% auto
-    grid-template-columns: 35% auto auto
+  main
+    grid-template: 'classes classes dailycash' 1fr 'notes birthdays dailycash' 1fr / 35% auto auto
+    grid-gap: .5rem
 
     .classes
       grid-area: classes
@@ -17,11 +14,6 @@ body.c_dashboard.a_index
 
     .notes
       grid-area: notes
-
-      .trumbowyg-box
-        margin: 0
-        .trumbowyg-editor
-          min-height: 200px
 
     .dailycash
       grid-area: dailycash

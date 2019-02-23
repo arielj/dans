@@ -26,7 +26,7 @@
 
     .tab_content.debts{data: {'tab-content' => 'debts'}, class: ('debts' == params[:tab] ? ' current' : '')}
       .scrollable
-        %table.table.table-striped.table-sm
+        %table.table.table-striped.table-small
           %thead.thead-dark
             %tr
               %th= t('activerecord.attributes.debt.date')
@@ -47,11 +47,11 @@
                     = link_to add_payment_debt_path(d), remote: true do
                       %i.fa.fa-plus{title: t('add.payment')}
       .actions
-        = link_to t('add.debt'), add_debt_person_path(@person), class: 'button', remote: true
+        = link_to t('add.debt'), add_debt_person_path(@person), class: 'btn', remote: true
 
     .tab_content.memberships{data: {'tab-content' => 'memberships'}, class: ('memberships' == params[:tab] ? ' current' : '')}
       .selector
-        = select_tag :membership, options_from_collection_for_select(@person.memberships, :id, :to_label), class: 'form-control'
+        = select_tag :membership, options_from_collection_for_select(@person.memberships, :id, :to_label), class: 'form-select'
         = link_to t('add.membership'), new_membership_person_path(@person), class: 'btn btn-light', remote: true
       .installments
         - if m = @person.memberships.first

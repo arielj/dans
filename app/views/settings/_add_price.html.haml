@@ -1,5 +1,7 @@
 %form{href: '', id: 'add_price_form'}
-  %input{type: "number", placeholder: t('hours'), class: 'hours'}
-  %input{type: "number", placeholder: t('value'), class: 'value'}
+  .form-group.form-inline
+    %input{type: "number", placeholder: t('hours'), class: 'hours form-input'}
+  .form-group.form-inline
+    %input{type: "number", placeholder: t('value'), class: 'value form-input'}
   .modal-footer
     %button.btn.btn-primary{type: 'submit'} Agregar

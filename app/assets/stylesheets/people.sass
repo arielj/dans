@@ -24,11 +24,10 @@ body.c_people
             &:hover
               background: #ced4da
   &.a_edit
-    section
+    main
       display: grid
-      grid-template-areas: 'title title' 'personal_data tabbed'
-      grid-template-columns: 49% 50%
-      grid-column-gap: 1%
+      grid-template: 'title title' 1fr 'personal_data tabbed' 1fr
+      grid-column-gap: .5rem
 
       h1
         grid-area: title

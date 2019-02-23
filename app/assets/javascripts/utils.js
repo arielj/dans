@@ -1,13 +1,3 @@
-function triggerEvent(element, event) {
-  if ("createEvent" in document) {
-      var evt = document.createEvent("HTMLEvents");
-      evt.initEvent(event, false, true);
-      element.dispatchEvent(evt);
-  }
-  else
-      element.fireEvent("on"+event);
-}
-
 function serializePair(name, value) {
   encoded = [name, value].map(encodeURIComponent);
   return encoded.join('=');
@@ -19,7 +9,9 @@ function serializeForm(form) {
   return pairs.join('&');
 }
 
-function ajax(method, type, options) {
+function ajax(method, type, url, options) {
+  if (!options) options = {}
+  options.url = url
   options.type = method;
   options.dataType = type;
 
@@ -34,20 +26,20 @@ function ajax(method, type, options) {
   return xhrObject;
 }
 
-function getScript(options) {
-  return ajax('GET', 'script', options);
+function getScript(url, options) {
+  return ajax('GET', 'script', url, options);
 }
 
-function getJSON(options) {
-  return ajax('GET', 'json', options);
+function getJSON(url, options) {
+  return ajax('GET', 'json', url, options);
 }
 
-function postScript(options) {
-  return ajax('POST', 'script', options);
+function postScript(url, options) {
+  return ajax('POST', 'script', url, options);
 }
 
-function postJSON(options) {
-  return ajax('POST', 'json', options);
+function postJSON(url, options) {
+  return ajax('POST', 'json', url, options);
 }
 
 function qs(selector, element) {
@@ -62,4 +54,12 @@ function qsa(selector, element) {
 
 function byid(id) {
   return document.getElementById(id);
+}
+
+HTMLElement.prototype.qs = HTMLDocument.prototype.qs = function(selector){
+  return this.querySelector(selector);
+}
+
+HTMLElement.prototype.qsa = HTMLDocument.prototype.qsa = function(selector){
+  return this.querySelectorAll(selector);
 }

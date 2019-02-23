@@ -1,19 +1,15 @@
 .klass_fields
   .form-group
-    = f.label :name
-    = f.text_field :name, class: 'form-control'
+    = f.label :name, class: 'form-label'
+    = f.text_field :name, class: 'form-input'
   .form-group
-    = f.label :fixed_fee
+    = f.label :fixed_fee, class: 'form-label'
     .input-group
-      .input-group-prepend
-        .input-group-text $
-      = f.text_field :fixed_fee, class: 'form-control'
-  -# .form-group.col
-  -#   = f.label :teacher
-  -#   = f.text_field :teacher, class: 'form-control'
+      %span.input-group-addon $
+      = f.text_field :fixed_fee, class: 'form-input'
   .form-group
-    = f.label :status
-    = f.select :status, options_for_select(Klass.statuses_for_select, f.object.status), {}, class: 'form-control'
+    = f.label :status, class: 'form-label'
+    = f.select :status, options_for_select(Klass.statuses_for_select, f.object.status), {}, class: 'form-select'
   -# .form-group
   -#   = f.label :info
   -#   = f.text_area :info, class: 'form-control'
@@ -22,6 +18,6 @@
   = f.fields_for :schedules do |schedule|
     %h3
       = t('schedules')
-      = link_to_add_association t('add.schedule'), f, :schedules, {class: 'small', data: {'association-insertion-node' => '.klass_schedules #schedules', 'association-insertion-method' => 'append'}}
+      = link_to_add_association t('add.schedule'), f, :schedules, {class: 'btn', data: {'association-insertion-node' => '.klass_schedules #schedules', 'association-insertion-method' => 'append'}}
     #schedules
       = render 'schedule_fields', f: schedule

@@ -1,7 +1,7 @@
 window.bindAddPriceModal = (form) ->
-  hoursField = qs('input.hours', form)
-  valueField = qs('input.value', form)
-  add = qs('button', form)
+  hoursField = form.qs('input.hours')
+  valueField = form.qs('input.value')
+  add = form.qs('button')
   add.addEventListener 'click', (e) ->
     e.preventDefault()
     hours = parseFloat(hoursField.value)
@@ -29,10 +29,10 @@ window.bindAddPriceModal = (form) ->
       row.appendChild(col2)
 
       tbody = qs('.hourly_fees tbody')
-      trs = qsa('tr', tbody)
+      trs = tbody.qsa('tr')
       inserted = false
       for tr in trs
-        h = parseFloat(tr.querySelector('input').id.replace('fee_',''))
+        h = parseFloat(tr.qs('input').id.replace('fee_',''))
         if h > hours
           tbody.insertBefore(row, tr)
           inserted = true

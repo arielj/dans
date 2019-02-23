@@ -9,12 +9,13 @@
     Subtotal: $0,00
     %br
     Total: $0,00
-  .from-group
-    = f.check_box :use_custom_amount
-    = f.label :use_custom_amount
-    .input-group
-      .input-group-prepend
-        .input-group-text $
-      = f.text_field :amount, value: '', class: 'form-control', placeholder: 'Monto manual'
+  = label_tag '', class: 'form-checkbox' do
+    = check_box_tag "membership[use_custom_amount]"
+    = t 'activerecord.attributes.membership.use_custom_amount'
+    %i.form-icon
+
+  .input-group
+    %span.input-group-addon $
+    = f.text_field :amount, value: '', class: 'form-input', placeholder: 'Monto manual'
   .modal-footer
     = f.submit t('save.membership'), class: 'btn btn-primary'

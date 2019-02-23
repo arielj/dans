@@ -1,5 +1,6 @@
 es:
   actions: Acciones
+  add_family_member: Agregar familiar
   assign_teachers: Asignar profesores
   birthdays: Cumpleaños
   close_daily_cash: Marcar cierre
@@ -47,6 +48,7 @@ es:
     schedule: Agregar horario
     student: Agregar alumno/a
     teacher: Agregar profesor/a
+    teachers: Agregar profesores
   new:
     klass: Nueva clase
     package: Nuevo paquete

@@ -18,60 +18,59 @@
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
 
   %body{class: "c_#{params[:controller].gsub('/','__')} a_#{params[:action]}"}
-    #trumbowyg-icons= inline_svg Rails.root.join('node_modules','trumbowyg','dist','ui','icons.svg').to_s
-    %nav.navbar.navbar-expand-lg.navbar-light.bg-light.justify-content-between
-      %button.navbar-toggler{type: "button", data: {toggle: "collapse", target: "#navbarNav"}, aria: {controls: "navbarNav", expanded: "false", label: "Toggle navigation"}}
-        %span.navbar-toggler-icon
+    %nav.navbar
+      .navbar-section
+        = link_to root_path, class: 'btn btn-link' do
+          %i.fa.fa-home
+          = t('home')
+        = link_to settings_path, class: 'btn btn-link' do
+          %i.fa.fa-cogs
+          = t('options')
+        = link_to rooms_path, class: 'btn btn-link' do
+          %i.fa.fa-columns
+          = t('rooms')
+        = link_to klasses_path, class: 'btn btn-link' do
+          %i.fa.fa-music
+          = t('klasses')
+        = link_to packages_path, class: 'btn btn-link' do
+          %i.fa.fa-music
+          = t('packages')
+        = link_to people_path, class: 'btn btn-link' do
+          %i.fa.fa-address-card
+          = t('people')
+        .dropdown
+          %a.btn.btn-link.dropdown-toggle{tabindex: 0}
+            = t('reports')
+            %i.icon.icon-caret
 
-      #navbarNav.collapse.navbar-collapse
-        %ul.navbar-nav
-          %li.nav-item
-            = link_to root_path, class: 'nav-link' do
-              %i.fa.fa-home
-              = t('home')
-          %li.nav-item
-            = link_to settings_path, class: 'nav-link' do
-              %i.fa.fa-cogs
-              = t('options')
-          %li.nav-item
-            = link_to rooms_path, class: 'nav-link' do
-              %i.fa.fa-columns
-              = t('rooms')
-          %li.nav-item
-            = link_to klasses_path, class: 'nav-link' do
-              %i.fa.fa-music
-              = t('klasses')
-          %li.nav-item
-            = link_to packages_path, class: 'nav-link' do
-              %i.fa.fa-music
-              = t('packages')
-          %li.nav-item
-            = link_to people_path, class: 'nav-link' do
-              %i.fa.fa-address-card
-              = t('people')
-          %li.nav-item.dropdown
-            %a#navbarDropdown.nav-link.dropdown-toggle{href: "#", role: "button", data: {toggle: "dropdown"}, aria: {haspopup: "true", expanded: "false"}}
-              %i.fa.fa-bar-chart
-              = t('reports')
-            .dropdown-menu{aria: {labelledby: "navbarDropdown"}}
-              = link_to t('daily_cash'), reports_daily_cash_path, class: "dropdown-item"
-              = link_to t('payments'), reports_payments_path, class: "dropdown-item"
-              = link_to 'LALA', '#', class: "dropdown-item"
+          %ul.menu
+            %li.menu-item= link_to t('daily_cash'), reports_daily_cash_path
+            %li.menu-item= link_to t('payments'), reports_payments_path
+            %li.menu-item= link_to 'LALA', '#'
 
-        - if admin_signed_in?
-          .ml-auto= link_to t('session.close'), destroy_admin_session_path, method: :delete, class: 'nav-link nav-item'
+      - if admin_signed_in?
+        .navbar-section= link_to t('session.close'), destroy_admin_session_path, method: :delete, class: 'btn btn-link'
 
-    %section
+    %main= yield
+
+    %footer
       - flash.keys.each do |k|
         - aux = case k
           - when 'notice', :notice then :success
-          - when 'alert', :alert then :danger
+          - when 'alert', :alert then :error
           - else k
-        .alert{class: "alert-#{aux}"}
-          %a.close{href: "#", data: {dismiss: "alert"}, aria: {label: "close"}} &times;
+        .toast{class: "toast-#{aux}"}
+          %button.btn.btn-clear.float-right
           = flash[k]
 
-      = yield
-
-  %footer
-    .status
+    .hidden
+      .modal-template
+        .modal
+          %a.modal-overlay{href: "#close", 'aria-label' => "Close"}
+          .modal-container
+            .modal-header
+              %a.btn.btn-clear.float-right{href: "#close", 'aria-label' => "Close"}
+              .modal-title.h5
+            .modal-body
+              .content
+            .modal-footer
