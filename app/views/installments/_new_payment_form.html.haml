@@ -1,10 +1,6 @@
-= form_for MoneyTransaction.new, url: add_payment_installment_path(@installment), as: 'payment', id: 'add_installment_payment', remote: true do |f|
-  .form-group
-    = f.label :created_at, class: 'form-label'
-    = f.text_field :created_at, placeholder: 'aaaa-mm-dd', class: 'form-input datepicker'
-  .form-group
-    = f.label :description, class: 'form-label'
-    = f.text_field :description, class: 'form-input'
+= simple_form_for MoneyTransaction.new, url: add_payment_installment_path(@installment), as: 'payment', id: 'add_installment_payment', remote: true do |f|
+  = f.input :created_at, as: :string, input_html: {placeholder: 'aaaa-mm-dd', class: 'datepicker', value: Date.today}
+  = f.input :description
   .form-group
     = f.label :amount, class: 'form-label'
     .input-group

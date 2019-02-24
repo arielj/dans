@@ -2,7 +2,7 @@
 
 %h1= t('new.package')
 
-= form_with model: @package, local: true do |f|
+= simple_form_for @package do |f|
   = render partial: 'package_fields', locals: {f: f}
   .actions
     = submit_tag t('create.package'), class: 'btn btn-primary'

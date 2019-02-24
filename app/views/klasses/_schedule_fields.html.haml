@@ -1,14 +1,6 @@
 .nested-fields
   = link_to_remove_association "X", f
-  .form-group
-    = f.label :from_time, class: 'form-label'
-    = f.time_field :from_time, class: 'form-input', value: f.object.from_time_s, min: Setting.fetch(:opening_time, '00:00'), max: Setting.fetch(:closing_time, '24:00'), step: 1800
-  .form-group
-    = f.label :to_time, class: 'form-label'
-    = f.time_field :to_time, class: 'form-input', value: f.object.to_time_s, min: Setting.fetch(:opening_time, '00:00'), max: Setting.fetch(:closing_time, '24:00'), step: 1800
-  .form-group
-    = f.label :day, class: 'form-label'
-    = f.select :day, options_for_select(Schedule.days_for_select, f.object.day), {}, class: 'form-select'
-  .form-group
-    = f.label :room_id, class: 'form-label'
-    = f.select :room_id, options_from_collection_for_select(Room.all, :id, :name, f.object.room_id), {}, class: 'form-select'
+  = f.input :from_time, input_html: {type: 'time', value: f.object.from_time_s, min: Setting.fetch(:opening_time, '00:00'), max: Setting.fetch(:closing_time, '24:00'), step: 1800}
+  = f.input :to_time, input_html: {type: 'time', value: f.object.to_time_s, min: Setting.fetch(:opening_time, '00:00'), max: Setting.fetch(:closing_time, '24:00'), step: 1800}
+  = f.input :day, collection: Schedule.days_for_select, include_blank: false, input_html: {class: 'form-select'}
+  = f.input :room_id, collection: Room.all, value_method: :id, label_method: :name, include_blank: false, input_html: {class: 'form-select'}
