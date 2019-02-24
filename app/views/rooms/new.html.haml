@@ -2,7 +2,7 @@
 
 %h1= t('new.room')
 
-= form_with model: @room, local: true do |f|
+= simple_form_with @room do |f|
   = render partial: 'room_fields', locals: {f: f}
   .actions
     = submit_tag t('create.room'), class: 'btn btn-primary'

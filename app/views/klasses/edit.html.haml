@@ -2,7 +2,7 @@
 
 %h1 #{t('edit.klass')}: #{@klass.name}
 
-= form_for @klass, class: 'edit_klass' do |f|
+= simple_form_for @klass do |f|
   = render partial: 'klass_fields', locals: {f: f}
   .actions
     = submit_tag t('save.klass'), class: 'btn btn-primary'

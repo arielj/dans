@@ -36,6 +36,7 @@ gem 'devise', git: 'https://github.com/plataformatec/devise.git', branch: 'maste
 gem 'erubis'
 gem "haml-rails"
 gem 'tinymce-rails'
+gem 'simple_form'
 
 gem "cocoon"
 gem 'jquery-rails'

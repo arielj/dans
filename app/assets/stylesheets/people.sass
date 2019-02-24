@@ -23,10 +23,10 @@ body.c_people
 
             &:hover
               background: #ced4da
-  &.a_edit
+  &.a_edit, &.a_new_teacher, &.a_new_student
     main
       display: grid
-      grid-template: 'title title' 1fr 'personal_data tabbed' 1fr
+      grid-template: 'title title' min-content 'personal_data tabbed' 1fr / 1fr 1fr
       grid-column-gap: .5rem
 
       h1
@@ -35,6 +35,20 @@ body.c_people
       .personal_data
         grid-area: personal_data
 
+        form
+          display: grid
+          grid-template-columns: 1fr 1fr
+          grid-column-gap: .5rem
+
+          .actions
+            grid-column: 1/2
+
+          .family_field
+            grid-column: 1/1
+
+          .person_comments
+            grid-template: 2/2
+
       .tabbed
         grid-area: tabbed
 
@@ -42,16 +56,6 @@ body.c_people
           .selector
             display: flex
 
-      .edit_person
-        display: grid
-        grid-template-columns: 49.5% 49.5%
-        grid-column-gap: 1%
-
-        .actions
-          grid-column: 1/2
-
-        .family_field
-          grid-column: 1/1
-
-        .comments_field
-          grid-template: 2/2
+  &.a_new_teacher, &.a_new_student
+    main
+      grid-template: 'title' min-content 'personal_data' 1fr / 1fr

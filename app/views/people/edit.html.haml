@@ -4,7 +4,7 @@
 
 .personal_data
   %h3= t('personal_data')
-  = form_for @person, html: {class: 'form-compact edit_person'} do |f|
+  = simple_form_for @person, html: {class: 'form-compact'} do |f|
     = render partial: 'person_fields', locals: {f: f}
     .actions
       = submit_tag t("save.#{@person.type}"), class: 'btn btn-primary'
