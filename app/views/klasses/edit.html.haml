@@ -2,7 +2,7 @@
 
 %h1 #{t('edit.klass')}: #{@klass.name}
 
-= simple_form_for @klass do |f|
+= simple_form_for @klass, html: {class: 'scrollable'} do |f|
   = render partial: 'klass_fields', locals: {f: f}
   .actions
     = submit_tag t('save.klass'), class: 'btn btn-primary'
@@ -23,11 +23,12 @@
           %td.actions= link_to 'X', remove_teacher_klass_path(@klass, teacher_id: t.id), method: :delete
 
   %h2= t('students')
-  %table.table.table-striped.table-small
-    %thead.thead-dark
-      %tr
-        %th= t('activerecord.attributes.person.name')
-    %tbody
-      - @students.each do |st|
+  .scrollable
+    %table.table.table-striped.table-small
+      %thead.thead-dark
         %tr
-          %td= link_to st.to_label, edit_person_path(st)
+          %th= t('activerecord.attributes.person.name')
+      %tbody
+        - @students.each do |st|
+          %tr
+            %td= link_to st.to_label, edit_person_path(st)

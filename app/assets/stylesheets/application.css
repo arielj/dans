@@ -14,7 +14,7 @@
  *= require spectre.css/dist/spectre-exp.min
  *= require spectre.css/dist/spectre-icons.min
  *= require font-awesome/css/font-awesome.min
- *= require tail.datetime/css/tail.datetime-default
+ *= require flatpickr/dist/flatpickr.min
  *= require_tree .
  *= require_self
  */
@@ -22,10 +22,6 @@
 .modal-xlg .modal-container {
   max-width: 90%;
   width: 1200px;
-}
-
-.tail-datetime-calendar {
-  z-index: 1100 !important;
 }
 
 .hidden {

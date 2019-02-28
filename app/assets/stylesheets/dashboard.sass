@@ -4,6 +4,7 @@ body.c_dashboard.a_index
   main
     grid-template: 'classes classes dailycash' 1fr 'notes birthdays dailycash' 1fr / 35% auto auto
     grid-gap: .5rem
+    display: grid
 
     .classes
       grid-area: classes
@@ -18,7 +19,7 @@ body.c_dashboard.a_index
     .dailycash
       grid-area: dailycash
       display: grid
-      grid-template-rows: max-content auto max-content
+      grid-template-rows: max-content max-content 1fr max-content 1fr max-content
 
       .small
         font-size: 50%

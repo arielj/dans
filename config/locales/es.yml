@@ -78,6 +78,10 @@ es:
     room: Editar sala
     student: Editar alumno/a
     teacher: Editar profesor/a
+  tab:
+    person_payments: Pagos de la persona
+    debts: Deudas
+    memberships: Cuotas
 
   session:
     close: Cerrar sesión
