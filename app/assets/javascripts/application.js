@@ -15,7 +15,8 @@
 //= require jquery
 //= require cocoon
 //= require tinymce
-//= require tail.datetime/js/tail.datetime-full.min
+//= require flatpickr/dist/flatpickr
+//= require flatpickr/dist/l10n/es.js
 //= require_tree .
 
 document.addEventListener('turbolinks:load', function (ev) {
@@ -27,10 +28,10 @@ function getLocale() {
 }
 
 function initDatepicker(selector) {
-  tail.DateTime(selector, {
-    locale: getLocale(),
-    position: 'right',
-    timeFormat: false,
-    stayOpen: false,
-  });
+  qsa(selector).forEach(function(el){
+    flatpickr(el, {
+      locale: getLocale(),
+      disableMobile: true
+    });
+  })
 }

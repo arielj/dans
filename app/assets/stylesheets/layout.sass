@@ -17,15 +17,18 @@ body
     color: #000 !important
 
   > main
-    display: grid
-    padding: 0 1rem 1rem
-    grid-template-rows: max-content auto max-content
+    padding: 0 1rem
     overflow: hidden
     min-height: 0
+    display: flex
+    flex-direction: column
+
+    & .scrollable
+      overflow: auto
+      flex: 0px 1 1
 
     > div, .scrollable
       min-height: 0
-      overflow: auto
 
       & > table th
         position: sticky
@@ -37,14 +40,15 @@ body
         border-top: 1px solid #dee2e6
 
   &.a_index > main
-    grid-template-rows: max-content max-content auto max-content
+    display: flex
+    flex-direction: column
 
     & > .actions
-      padding: 1rem
+      padding: .5rem
       background: $actions_background
       border-radius: .5rem
 
-  &.a_edit >content
+  &.a_edit > content
     grid-template: 'title' min-content 'form' auto
 
   table
@@ -60,7 +64,7 @@ body
         text-decoration: none !important
 
     thead
-      a
+      a, a:visited
         color: #fff
 
         &.current_sort

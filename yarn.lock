@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+flatpickr@^4.5.4:
+  version "4.5.4"
+  resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-4.5.4.tgz#7d46fc539d2a97daf80ac261994d4b45d5a4e5f6"
+  integrity sha512-AZOu3l6jUJtNofUKW4UGf9R5wKoLBb52VcQJhbL88G1sekJiXTPqqWJyZwGShjIMFjAIgnajEPglRd2fv/FaYg==
+
 font-awesome@^4.7.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.7.0.tgz#8fa8cf0411a1a31afd07b06d2902bb9fc815a133"
@@ -10,8 +15,3 @@ spectre.css@^0.5.8:
   version "0.5.8"
   resolved "https://registry.yarnpkg.com/spectre.css/-/spectre.css-0.5.8.tgz#e543e58a52dd83409286a065b0fb1e9e1c16e077"
   integrity sha512-3N4WocWY+Dl6b3e5v3nsZYyp+VSDcBfGDzyyHw/H78ie9BoAhHkxmrhLxo9y8RadxYzVrPjfPdlev3hXEUzR2w==
-
-tail.datetime@^0.4.6:
-  version "0.4.6"
-  resolved "https://registry.yarnpkg.com/tail.datetime/-/tail.datetime-0.4.6.tgz#48b1cfdf0d6d51f0488c089ba78cdcc7cbc69f87"
-  integrity sha512-xjCfIR16bdLGTY/0h5OeHvE9e/s1XCWaIFAxPjPWWMmfL+peCJjmr5UKaKPco4FucUBk2YOYzgOxqeUSqR6svA==

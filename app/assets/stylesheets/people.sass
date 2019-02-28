@@ -34,6 +34,8 @@ body.c_people
 
       .personal_data
         grid-area: personal_data
+        display: flex
+        flex-direction: column
 
         form
           display: grid
@@ -55,6 +57,7 @@ body.c_people
         .memberships
           .selector
             display: flex
+            flex-shrink: 0
 
   &.a_new_teacher, &.a_new_student
     main

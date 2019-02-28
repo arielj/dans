@@ -6,7 +6,9 @@ class PeopleController < ApplicationController
     :add_debt, :do_add_debt, :new_membership_calculator]
 
   def index
-    @people = get_sorted(name: :asc, lastname: :asc)
+    params[:sort] ||= 'name'
+    params[:direction] ||= 'asc'
+    @people = get_sorted(name: :asc)
     @people = @people.where(is_teacher: ('teachers') == params[:type]) if params[:type].present?
     case q = params[:q]
       when /\A\d+\z/ then @people = @people.where('dni LIKE ?', "%#{q}%")

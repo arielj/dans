@@ -2,8 +2,8 @@
   "name": "Dans",
   "private": true,
   "dependencies": {
+    "flatpickr": "^4.5.4",
     "font-awesome": "^4.7.0",
-    "spectre.css": "^0.5.8",
-    "tail.datetime": "^0.4.6"
+    "spectre.css": "^0.5.8"
   }
 }

@@ -4,10 +4,11 @@
 
 .personal_data
   %h3= t('personal_data')
-  = simple_form_for @person, html: {class: 'form-compact'} do |f|
-    = render partial: 'person_fields', locals: {f: f}
-    .actions
-      = submit_tag t("save.#{@person.type}"), class: 'btn btn-primary'
+  .scrollable
+    = simple_form_for @person, html: {class: 'form-compact'} do |f|
+      = render partial: 'person_fields', locals: {f: f}
+      .actions
+        = submit_tag t("save.#{@person.type}"), class: 'btn btn-primary'
 
 .tabbed
   .tabs
@@ -53,6 +54,6 @@
       .selector
         = select_tag :membership, options_from_collection_for_select(@person.memberships, :id, :to_label), class: 'form-select'
         = link_to t('add.membership'), new_membership_person_path(@person), class: 'btn btn-light', remote: true
-      .installments
+      .installments.scrollable
         - if m = @person.memberships.first
           = render partial: 'people/membership', locals: {membership: m}

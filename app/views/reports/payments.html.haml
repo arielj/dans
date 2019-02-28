@@ -4,10 +4,10 @@
   = form_tag reports_payments_path, method: :get do
     .form-group
       = label_tag :date_from, nil, class: 'form-label'
-      = date_field_tag :date_from, @date_from, class: 'form-input'
+      = date_field_tag :date_from, @date_from, class: 'form-input datepicker'
     .form-group
       = label_tag :date_to, nil, class: 'form-label'
-      = date_field_tag :date_to, @date_to, class: 'form-input'
+      = date_field_tag :date_to, @date_to, class: 'form-input datepicker'
     .from-group
       = label_tag '', class: 'form-radio form-inline' do
         = radio_button_tag :direction, :done, params[:direction] == 'done'
