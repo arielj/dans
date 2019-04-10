@@ -14,9 +14,10 @@
   -#   = f.text_area :info, class: 'form-control'
 
 .klass_schedules
-  = f.fields_for :schedules do |schedule|
-    %h3
-      = t('schedules')
-      = link_to_add_association t('add.schedule'), f, :schedules, {class: 'btn', data: {'association-insertion-node' => '.klass_schedules #schedules', 'association-insertion-method' => 'append'}}
-    #schedules
+  %h3
+    = t('schedules')
+    = link_to_add_nested(f, :schedules, '#schedules', partial_form_variable: :f, link_text: 'Agregar Horario')
+
+  #schedules
+    = f.fields_for :schedules do |schedule|
       = render 'schedule_fields', f: schedule

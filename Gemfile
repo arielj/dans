@@ -37,9 +37,7 @@ gem 'erubis'
 gem "haml-rails"
 gem 'tinymce-rails'
 gem 'simple_form'
-
-gem "cocoon"
-gem 'jquery-rails'
+gem 'vanilla_nested', git: 'https://github.com/arielj/vanilla-nested', branch: 'master' #path: '../vanilla-nested'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
