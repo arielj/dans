@@ -12,8 +12,7 @@
 //
 //= require rails-ujs
 //= require turbolinks
-//= require jquery
-//= require cocoon
+//= require vanilla_nested
 //= require tinymce
 //= require flatpickr/dist/flatpickr
 //= require flatpickr/dist/l10n/es.js
