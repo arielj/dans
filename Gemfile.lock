@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/arielj/vanilla-nested
-  revision: fedf695afd8eb93ad13381acb8bbbf4ba5d3e348
+  revision: b7faf9c7d4311b19bc439b4ddd75815d7cced365
   branch: master
   specs:
     vanilla_nested (0.0.1)
