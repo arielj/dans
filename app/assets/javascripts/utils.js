@@ -1,11 +1,10 @@
 function serializePair(name, value) {
-  encoded = [name, value].map(encodeURIComponent);
-  return encoded.join('=');
+  return [name, value].map(encodeURIComponent).join('=');
 }
 
 function serializeForm(form) {
-  enabled = form.elements.filter(function(node) { return !node.disabled });
-  pairs = enabled.map(function(node) { return serializePair(node.name, node.value) });
+  const enabled = form.elements.filter( node => !node.disabled );
+  const pairs = enabled.map( node => serializePair(node.name, node.value) );
   return pairs.join('&');
 }
 
@@ -15,7 +14,7 @@ function ajax(method, type, url, options) {
   options.type = method;
   options.dataType = type;
 
-  xhrObject = false;
+  let xhrObject = false;
   options.beforeSend = function(xhr, options) {
     xhrObject = xhr;
     return true
@@ -40,26 +39,4 @@ function postScript(url, options) {
 
 function postJSON(url, options) {
   return ajax('POST', 'json', url, options);
-}
-
-function qs(selector, element) {
-  if (!element) element = document;
-  return element.querySelector(selector);
-}
-
-function qsa(selector, element) {
-  if (!element) element = document;
-  return element.querySelectorAll(selector);
-}
-
-function byid(id) {
-  return document.getElementById(id);
-}
-
-HTMLElement.prototype.qs = HTMLDocument.prototype.qs = function(selector){
-  return this.querySelector(selector);
-}
-
-HTMLElement.prototype.qsa = HTMLDocument.prototype.qsa = function(selector){
-  return this.querySelectorAll(selector);
 }

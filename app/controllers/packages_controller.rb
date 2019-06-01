@@ -2,7 +2,7 @@ class PackagesController < ApplicationController
   before_action :load_package, only: [:edit, :update]
 
   def index
-    @packages = Package.all.order('name ASC')
+    @packages = Package.all.includes(:klasses).order('name ASC')
     unless params[:include_personal_packages].present?
       @packages = @packages.where(person_id: 0).where.not('name LIKE "Clases ____ %"')
     end

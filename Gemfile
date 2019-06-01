@@ -9,7 +9,7 @@ ruby '2.4.4'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2'
-gem 'sqlite3'
+# gem 'sqlite3'
 # Use sqlite3 as the database for Active Record
 gem 'mysql2'
 # Use Puma as the app server
@@ -21,10 +21,6 @@ gem 'uglifier'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
-# Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.2'
-# Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
 # Use Redis adapter to run Action Cable in production
@@ -37,7 +33,8 @@ gem 'erubis'
 gem "haml-rails"
 gem 'tinymce-rails'
 gem 'simple_form'
-gem 'vanilla_nested', git: 'https://github.com/arielj/vanilla-nested', branch: 'master' #path: '../vanilla-nested' # 
+gem 'vanilla_nested', '~> 1.0'
+#gem 'vanilla_nested', path: '../vanilla-nested'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
