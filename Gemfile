@@ -5,28 +5,23 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-ruby '2.4.4'
-
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+ruby '2.5.3'
 gem 'rails', '~> 5.2'
-# gem 'sqlite3'
-# Use sqlite3 as the database for Active Record
 gem 'mysql2'
-# Use Puma as the app server
 gem 'puma'
-# Use SCSS for stylesheets
-gem 'sass-rails'
-# Use Uglifier as compressor for JavaScript assets
+gem 'sassc-rails'
 gem 'uglifier'
+
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
+
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
+
 gem 'money-rails'
 gem 'devise', git: 'https://github.com/plataformatec/devise.git', branch: 'master'
 gem 'erubis'
