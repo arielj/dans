@@ -12,11 +12,11 @@
 
 .tabbed
   .tabs
-    = link_to t('tab.person_payments'), edit_person_path(@person, tab: 'person_payments'), class: "tab#{('person_payments' == params[:tab] or params[:tab].blank?) ? ' current' : ''}", data: {turbolinks: false}
+    = link_to t('tab.person_payments'), edit_person_path(@person, tab: 'person_payments'), class: "tab#{('person_payments' == params[:tab] or params[:tab].blank?) ? ' current' : ''}"
     - if @person.is_teacher?
-      = link_to t('tab.payments_to_teacher'), edit_person_path(@person, tab: 'payments_to_teacher'), class: "tab#{'payments_to_teacher' == params[:tab] ? ' current' : ''}", data: {turbolinks: false}
-    = link_to t('tab.debts'), edit_person_path(@person, tab: 'debts'), class: "tab#{'debts' == params[:tab] ? ' current' : ''}", data: {turbolinks: false}
-    = link_to t('tab.memberships'), edit_person_path(@person, tab: 'memberships'), class: "tab#{'memberships' == params[:tab] ? ' current' : ''}", data: {turbolinks: false}
+      = link_to t('tab.payments_to_teacher'), edit_person_path(@person, tab: 'payments_to_teacher'), class: "tab#{'payments_to_teacher' == params[:tab] ? ' current' : ''}"
+    = link_to t('tab.debts'), edit_person_path(@person, tab: 'debts'), class: "tab#{'debts' == params[:tab] ? ' current' : ''}"
+    = link_to t('tab.memberships'), edit_person_path(@person, tab: 'memberships'), class: "tab#{'memberships' == params[:tab] ? ' current' : ''}"
   .tabs_contents
     .tab_content{data: {'tab-content' => 'person_payments'}, class: (('person_payments' == params[:tab] or params[:tab].blank?) ? ' current' : '')}
       = render partial: 'payments_table', locals: {payments: @person_payments, url: add_payment_person_path(@person)}

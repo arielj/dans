@@ -1,0 +1,30 @@
+:javascript
+  function onLoad(callback) {
+    document.addEventListener('DOMContentLoaded', callback);
+  }
+  HTMLElement.prototype.qs = function(selector){
+    return this.querySelector(selector);
+  }
+
+  HTMLDocument.prototype.qs = function(selector){
+    return this.querySelector(selector);
+  }
+
+  HTMLElement.prototype.qsa = function(selector){
+    return this.querySelectorAll(selector);
+  }
+
+  HTMLDocument.prototype.qsa = function(selector){
+    return this.querySelectorAll(selector);
+  }
+  function qs(selector, element) {
+    if (!element) element = document;
+    return element.querySelector(selector);
+  };
+  function qsa(selector, element) {
+    if (!element) element = document;
+    return element.querySelectorAll(selector);
+  };
+  function byid(id) {
+    return document.getElementById(id);
+  };

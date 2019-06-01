@@ -3,7 +3,7 @@ class KlassesController < ApplicationController
     :do_add_teachers, :remove_teacher]
 
   def index
-    @klasses = Klass.all.order('name ASC')
+    @klasses = Klass.all.includes(:schedules).order('name ASC')
     @klasses = @klasses.where('name LIKE ?', "%#{params[:q]}%") if params[:q]
     @klasses = @klasses.active unless params[:include_inactive]
   end

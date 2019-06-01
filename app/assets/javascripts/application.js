@@ -11,14 +11,13 @@
 // about supported directives.
 //
 //= require rails-ujs
-//= require turbolinks
 //= require vanilla_nested
 //= require tinymce
 //= require flatpickr/dist/flatpickr
 //= require flatpickr/dist/l10n/es.js
 //= require_tree .
 
-document.addEventListener('turbolinks:load', function (ev) {
+onLoad(function() {
   initDatepicker('.datepicker');
 })
 
