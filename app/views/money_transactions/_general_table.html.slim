@@ -1,0 +1,23 @@
+- hide_actions ||= false
+
+h3 Movimientos generales
+.scrollable
+  table.table.table-striped.table-small
+    thead.thead-dark
+      tr
+        th= t('money.in')
+        th= t('money.out')
+        th= t('money.details')
+        - unless hide_actions
+          th
+    tbody
+      - transactions.each do |tran|
+        tr
+          td= tran.done ? '' : tran.amount
+          td= tran.done ? tran.amount : ''
+          td= tran.description
+          - unless hide_actions
+            td= link_to 'X', tran, method: :delete, data: {confirm: 'Seguro?'}
+    tfoot
+      tr
+        td colspan=(hide_actions ? 4 : 5) #{t('money.in')}: $#{transactions.total_in}; #{t('money.out')}: $#{transactions.total_out}

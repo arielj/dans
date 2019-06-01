@@ -1,0 +1,9 @@
+- page_title(t("add.#{@person.type}"))
+
+h1= t("add.#{@person.type}")
+
+.personal_data
+  = simple_form_for @person do |f|
+    = render partial: 'person_fields', locals: {f: f}
+    .actions
+      = submit_tag t("create.#{@person.type}"), class: 'btn btn-primary'

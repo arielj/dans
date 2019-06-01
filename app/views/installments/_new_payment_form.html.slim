@@ -1,0 +1,20 @@
+= simple_form_for MoneyTransaction.new, url: add_payment_installment_path(@installment), as: 'payment', id: 'add_installment_payment', remote: true do |f|
+  = f.input :created_at, as: :string, input_html: {placeholder: 'aaaa-mm-dd', class: 'datepicker', value: Date.today}
+  = f.input :description
+  .form-group
+    = f.label :amount, class: 'form-label'
+    .input-group
+      span.input-group-addon $
+      = f.text_field :amount, value: @installment.to_pay, class: 'form-input payment_amount', data: {amount: @installment.to_pay.to_f}
+  - if (r = @installment.get_first_recharge) > 0
+    = label_tag '', class: 'form-checkbox' do
+      = check_box_tag :ignore_recharge, '1', false, class: 'update_amount', data: {recharge: r.to_f}
+      ' Ignorar recargo por fecha ($#{r})
+      i.form-icon
+  - if (r = @installment.get_month_recharge) > 0
+    = label_tag '', class: 'form-checkbox' do
+      = check_box_tag :ignore_month_recharge, '1', false, class: 'update_amount', data: {recharge: r.to_f}
+      ' Ignorar recargo a mes vencido ($#{r})
+      i.form-icon
+  .modal-footer
+    = f.submit 'Guardar', class: 'btn btn-primary'

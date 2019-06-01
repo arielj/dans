@@ -1,0 +1,17 @@
+h1= t('titles.daily_cash')
+.filters
+  h2= t('filters')
+  = form_tag reports_daily_cash_path, method: :get do
+    .form-group
+      = label_tag :date, nil, class: 'form-label'
+      = date_field_tag :date, @date, class: 'form-input datepicker'
+    .form-group
+      = label_tag :text, nil, class: 'form-label'
+      = text_field_tag :text, params[:text], class: 'form-input', placeholder: 'Desc/Name/Lastname'
+
+    = submit_tag t('labels.filter'), class: 'btn btn-primary'
+
+.people_table= render partial: 'money_transactions/people_table', locals: {transactions: @people_transactions, hide_actions: true}
+.general_table= render partial: 'money_transactions/general_table', locals: {transactions: @general_transactions, hide_actions: true}
+.totals
+  b Entradas: $#{@totals[:in]}; Salidas: $#{@totals[:out]}; Total: $#{@totals[:total]}
