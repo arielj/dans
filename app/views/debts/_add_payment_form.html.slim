@@ -1,0 +1,11 @@
+= simple_form_for MoneyTransaction.new, url: add_payment_debt_path(@debt), as: 'payment', id: 'add_debt_payment', remote: true do |f|
+  = f.input :created_at, as: :string, input_html: {placeholder: 'aaaa-mm-dd', class: 'datepicker', value: Date.today}
+  = f.input :description
+  .form-group
+    = f.label :amount, class: 'form-label'
+    .input-group
+      .input-group
+        span.input-group-addon $
+      = f.text_field :amount, value: @debt.to_pay, class: 'form-input payment_amount', data: {amount: @debt.to_pay.to_f}
+  .modal-footer
+    = f.submit t('save.payment'), class: 'btn btn-primary'

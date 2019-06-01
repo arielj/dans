@@ -1,0 +1,78 @@
+doctype html
+html xmlns:fb="http://www.facebook.com/2008/fbml" lang='es-AR'
+  head
+    title
+      - if content_for(:page_title)
+        = yield(:page_title)
+        | |
+      - if name = Setting.fetch('name', nil)
+        = "#{name} | "
+      | Dans
+    = csrf_meta_tags
+    meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"
+
+    = render partial: 'layouts/scripts'
+
+    javascript:
+      window.userLocale = '#{Setting.fetch("language", "es")}'
+
+    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_include_tag 'application'
+
+  body class="c_#{params[:controller].gsub('/','__')} a_#{params[:action]}"
+    nav.navbar
+      .navbar-section
+        = link_to root_path, class: 'btn btn-link' do
+          i.fa.fa-home>
+          = t('home')
+        = link_to settings_path, class: 'btn btn-link' do
+          i.fa.fa-cogs>
+          = t('options')
+        = link_to rooms_path, class: 'btn btn-link' do
+          i.fa.fa-columns>
+          = t('rooms')
+        = link_to klasses_path, class: 'btn btn-link' do
+          i.fa.fa-music>
+          = t('klasses')
+        = link_to packages_path, class: 'btn btn-link' do
+          i.fa.fa-music>
+          = t('packages')
+        = link_to people_path, class: 'btn btn-link' do
+          i.fa.fa-address-card>
+          = t('people')
+        .dropdown
+          a.btn.btn-link.dropdown-toggle{tabindex: 0}
+            => t('reports')
+            i.icon.icon-caret
+
+          ul.menu
+            li.menu-item= link_to t('daily_cash'), reports_daily_cash_path
+            li.menu-item= link_to t('payments'), reports_payments_path
+            li.menu-item= link_to 'LALA', '#'
+
+      - if admin_signed_in?
+        .navbar-section= link_to t('session.close'), destroy_admin_session_path, method: :delete, class: 'btn btn-link'
+
+    main= yield
+
+    footer
+      - flash.keys.each do |k|
+        - aux = case k
+        - when 'notice', :notice then :success
+        - when 'alert', :alert then :error
+        - else k
+        .toast class="toast-#{aux}"
+          button.btn.btn-clear.float-right
+          = flash[k]
+
+    .hidden
+      .modal-template
+        .modal
+          a.modal-overlay href="#close" aria-label="Close"
+          .modal-container
+            .modal-header
+              a.btn.btn-clear.float-right href="#close" aria-label="Close"
+              .modal-title.h5
+            .modal-body
+              .content
+            .modal-footer

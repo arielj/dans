@@ -1,0 +1,46 @@
+.classes
+  h2= t('klasses')
+  .scrollable
+    table.table.table-striped.table-small
+      thead.thead-dark
+        tr
+          th= t('schedule')
+          - @today_classes.keys.each do |r|
+            th= r.name
+      tbody
+        - Setting.opened_range.each do |t|
+          tr
+            td= t.to_s.insert(-3, ':')
+            - @today_classes.keys.each do |r|
+              - s = @today_classes[r].select{|s| s.from_time <= t and s.to_time > t}[0]
+              td= s ? s.klass.name : ''
+
+= form_tag 'save_setting', class: 'notes' do
+  h2
+    => t('notes')
+    = submit_tag t('save.notes'), class: 'btn btn-primary'
+  = hidden_field_tag :setting_key, 'notes'
+  .form-group
+    = text_area_tag 'key[notes]', Setting.fetch(:notes, ''), class: 'form-control tinymce'
+    = tinymce
+
+.birthdays
+  h2
+    => t('birthdays')
+    i.fa.fa-birthday-cake
+  - if @birthday.any?
+    ul
+      - @birthday.each do |p|
+        li= link_to p.to_label, edit_person_path(p)
+  - else
+    = t('no_birthdays')
+.dailycash
+  h2
+    = t('daily_cash')
+    .small
+      b #{t('money.in')}: $#{@totals[:in]}; #{t('money.out')}: $#{@totals[:out]}; #{t('money.total')}: $#{@totals[:total]}
+  = render partial: 'money_transactions/people_table', locals: {transactions: @people_transactions, hide_actions: true}
+  = render partial: 'money_transactions/general_table', locals: {transactions: @general_transactions}
+  .actions
+    = link_to t('add.movement'), new_money_transaction_path, class: 'btn btn-light', remote: true
+    = link_to t('close_daily_cash'), '#', class: 'btn btn-light'

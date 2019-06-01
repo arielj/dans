@@ -1,0 +1,8 @@
+- page_title(t('new.room'))
+
+h1= t('new.room')
+
+= simple_form_for @room do |f|
+  = render partial: 'room_fields', locals: {f: f}
+  .actions
+    = submit_tag t('create.room'), class: 'btn btn-primary'

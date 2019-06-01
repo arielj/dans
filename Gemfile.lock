@@ -73,20 +73,6 @@ GEM
     ffi (1.11.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    haml (5.1.1)
-      temple (>= 0.8.0)
-      tilt
-    haml-rails (2.0.1)
-      actionpack (>= 5.1)
-      activesupport (>= 5.1)
-      haml (>= 4.0.6, < 6.0)
-      html2haml (>= 1.0.1)
-      railties (>= 5.1)
-    html2haml (2.2.0)
-      erubis (~> 2.7.0)
-      haml (>= 4.0, < 6)
-      nokogiri (>= 1.6.0)
-      ruby_parser (~> 3.5)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     jbuilder (2.9.1)
@@ -174,8 +160,6 @@ GEM
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
     ruby_dep (1.5.0)
-    ruby_parser (3.13.1)
-      sexp_processor (~> 4.9)
     sassc (2.0.1)
       ffi (~> 1.9)
       rake
@@ -185,10 +169,12 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    sexp_processor (4.12.0)
     simple_form (4.1.0)
       actionpack (>= 5.0)
       activemodel (>= 5.0)
+    slim (4.0.1)
+      temple (>= 0.7.6, < 0.9)
+      tilt (>= 2.0.6, < 2.1)
     spring (2.0.2)
       activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
@@ -232,7 +218,6 @@ DEPENDENCIES
   erubis
   factory_bot
   factory_bot_rails
-  haml-rails
   jbuilder
   listen (>= 3.0.5, < 3.2)
   money-rails
@@ -242,6 +227,7 @@ DEPENDENCIES
   rspec-rails (~> 3.7)
   sassc-rails
   simple_form
+  slim (~> 4.0, >= 4.0.1)
   spring
   spring-watcher-listen (~> 2.0.0)
   tinymce-rails

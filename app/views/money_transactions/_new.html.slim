@@ -1,0 +1,18 @@
+= simple_form_for @tran do |f|
+  .form-group
+    = f.label :amount, class: 'form-label'
+    .input-group
+      span.input-group-addon $
+      = f.text_field :amount, class: 'form-input'
+  = f.input :description
+  .form-group
+    = label_tag '', class: 'form-radio form-inline' do
+      = f.radio_button :done, true
+      = t('money.in')
+      i.form-icon
+    = label_tag '', class: 'form-radio form-inline' do
+      = f.radio_button :done, false
+      = t('money.out')
+      i.form-icon
+  .actions.modal-footer
+    = f.submit t('save.money_transaction'), class: 'btn btn-primary'

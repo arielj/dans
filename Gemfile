@@ -25,7 +25,7 @@ gem 'jbuilder'
 gem 'money-rails'
 gem 'devise', git: 'https://github.com/plataformatec/devise.git', branch: 'master'
 gem 'erubis'
-gem "haml-rails"
+gem 'slim', '~> 4.0', '>= 4.0.1'
 gem 'tinymce-rails'
 gem 'simple_form'
 gem 'vanilla_nested', '~> 1.0'

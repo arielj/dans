@@ -1,0 +1,9 @@
+= simple_form_for @trans, url: @form_url do |f|
+  .form-group
+    = f.label :amount, class: 'form-label'
+    .input-group
+      span.input-group-addon $
+      = f.text_field :amount, class: 'form-input'
+  = f.input :description
+  .actions.modal-footer
+    = f.submit t('save.money_transaction'), class: 'btn btn-primary'

@@ -1,0 +1,48 @@
+- page_title(t('people'))
+
+h1
+  = t('people')
+  | (#{@people.count})
+
+= form_tag '', method: :get do
+  .form-group.form-inline= select_tag :type, options_for_select([['Profesores','teachers'],['Almuno/as','students']], params[:type]), prompt: 'Mostar todos', class: 'form-select'
+  .form-group.form-inline= text_field_tag :q, params[:q], placeholder: t('labels.people.search'), class: 'form-input'
+  = label_tag '', class: 'form-checkbox form-inline' do
+    = check_box_tag :include_inactive, '1', params[:include_inactive]
+    = t('labels.include_inactive')
+    i.form-icon
+  = submit_tag t('labels.filter'), class: 'btn btn-primary'
+
+.scrollable
+  table.table.table-striped.table-small
+    thead.thead-dark
+      tr
+        th= sortable_link 'name'
+        th= sortable_link 'lastname'
+        th= sortable_link 'dni'
+        th= sortable_link 'address'
+        th= sortable_link 'email'
+        th.actions
+    tbody
+      - @people.each do |person|
+        tr class=(person.inactive? ? 'table-warning' : '')
+          td
+            - if person.is_teacher?
+              i.fa.fa-star title='profe'
+            = person.name
+            - if person.inactive?
+              | (#{person.status})
+          td= person.lastname
+          td= person.dni
+          td= person.address
+          td= person.email
+          td.actions
+            = link_to edit_person_path(person) do
+              i.icon.icon-edit
+            | |
+            - active_text = person.active? ? :deactivate : :activate
+            = link_to t(active_text, scope: 'labels.people'), toggle_active_person_path(person, include_inactive: params[:include_inactive]), method: :put
+
+.actions
+  = link_to t('add.teacher'), new_teacher_person_path, class: 'btn btn-primary'
+  = link_to t('add.student'), new_student_person_path, class: 'btn btn-primary'
