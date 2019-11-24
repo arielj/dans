@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Payable
   extend ActiveSupport::Concern
 
@@ -12,7 +14,7 @@ module Payable
   included do
     has_many :payments, class_name: 'MoneyTransaction', inverse_of: :payable, foreign_key: :payable_id, foreign_type: :payable_type
 
-    enum status: [:waiting, :paid, :paid_with_interests]
+    enum status: %i[waiting paid paid_with_interests]
 
     monetize :amount_cents
   end

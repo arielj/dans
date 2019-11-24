@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class KlassesController < ApplicationController
-  before_action :load_klass, only: [:edit, :update, :toggle_active, :add_teachers,
-    :do_add_teachers, :remove_teacher]
+  before_action :load_klass,
+                only: %i[edit update toggle_active add_teachers do_add_teachers remove_teacher]
 
   def index
     @klasses = Klass.all.includes(:schedules).order('name ASC')
@@ -15,10 +17,10 @@ class KlassesController < ApplicationController
   def create
     @klass = Klass.new create_klass_params
     if @klass.save
-      flash[:success] = "Class created"
+      flash[:success] = 'Class created'
       redirect_to edit_klass_path(@klass)
     else
-      flash.now[:danger] = "Error creating class"
+      flash.now[:danger] = 'Error creating class'
       render action: :new
     end
   end
@@ -30,21 +32,21 @@ class KlassesController < ApplicationController
   def update
     updated = @klass.update_attributes(update_klass_params)
     respond_to do |format|
-      format.html {
+      format.html do
         if updated
           flash[:notice] = 'Guardada'
         else
           flash[:alert] = 'Error'
         end
         redirect_to edit_klass_path(@klass)
-      }
-      format.js {
+      end
+      format.js do
         if updated
           flash.now[:notice] = 'Guardada'
         else
           flash.now[:alert] = 'Error'
         end
-      }
+      end
     end
   end
 
@@ -72,13 +74,20 @@ class KlassesController < ApplicationController
     redirect_to edit_klass_path(@klass)
   end
 
-private
+  private
+
   def create_klass_params
-    params.require(:klass).permit(:name,:status,:teacher_id,:fixed_fee,schedules_attributes: [:id, :from_time, :to_time, :day, :room_id, :_destroy])
+    params
+      .require(:klass)
+      .permit(:name, :status, :teacher_id, :fixed_fee, 
+              schedules_attributes: %i[id from_time to_time day room_id _destroy])
   end
 
   def update_klass_params
-    params.require(:klass).permit(:name,:status,:teacher_id,:fixed_fee,schedules_attributes: [:id, :from_time, :to_time, :day, :room_id, :_destroy])
+    params
+      .require(:klass)
+      .permit(:name, :status, :teacher_id, :fixed_fee,
+              schedules_attributes: %i[id from_time to_time day room_id _destroy])
   end
 
   def load_klass

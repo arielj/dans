@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class PackagesController < ApplicationController
-  before_action :load_package, only: [:edit, :update]
+  before_action :load_package, only: %i[edit update]
 
   def index
-    @packages = Package.all.includes(:klasses).order('name ASC')
+    @packages = Package.all.includes(:klasses).order(name: :asc)
     unless params[:include_personal_packages].present?
       @packages = @packages.where(person_id: 0).where.not('name LIKE "Clases ____ %"')
     end
@@ -16,10 +18,10 @@ class PackagesController < ApplicationController
   def create
     @package = Package.new create_package_params
     if @package.save
-      flash[:success] = "Package created"
+      flash[:success] = 'Package created'
       redirect_to edit_package_path(@package)
     else
-      flash.now[:danger] = "Error creating package"
+      flash.now[:danger] = 'Error creating package'
       render action: :new
     end
   end
@@ -31,25 +33,26 @@ class PackagesController < ApplicationController
   def update
     updated = @package.update_attributes(update_package_params)
     respond_to do |format|
-      format.html {
+      format.html do
         if updated
           flash[:notice] = 'Guardado'
         else
           flash[:alert] = 'Error'
         end
         redirect_to edit_package_path(@package)
-      }
-      format.js {
+      end
+      format.js do
         if updated
           flash.now[:notice] = 'Guardado'
         else
           flash.now[:alert] = 'Error'
         end
-      }
+      end
     end
   end
 
-private
+  private
+
   def create_package_params
     params.require(:package).permit(:name,:fee)
   end

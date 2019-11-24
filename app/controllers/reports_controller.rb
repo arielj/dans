@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ReportsController < ApplicationController
   include MoneyTransactionsHelper
 
@@ -22,11 +24,12 @@ class ReportsController < ApplicationController
     range = @date_from.beginning_of_day..@date_to.end_of_day
 
     @payments = MoneyTransaction.where(created_at: range).joins(:person)
-    case params[:direction]
-    when 'done'; @payments = @payments.done
-    else
-      params[:direction] = 'received'
-      @payments = @payments.received
-    end
+
+    @payments = case params[:direction]
+                when 'done' then @payments.done
+                else
+                  params[:direction] = 'received'
+                  @payments.received
+                end
   end
 end

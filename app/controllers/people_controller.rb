@@ -1,18 +1,21 @@
+# frozen_string_literal: true
+
 class PeopleController < ApplicationController
   include SortableHelper
 
-  before_action :person, only: [:edit, :add_family_member, :toggle_active,
-    :add_payment, :do_add_payment, :add_payment_done, :do_add_payment_done,
-    :add_debt, :do_add_debt, :new_membership_calculator]
+  before_action :person,
+                only: %i[edit add_family_member toggle_active add_payment
+                         do_add_payment add_payment_done do_add_payment_done
+                         add_debt do_add_debt new_membership_calculator]
 
   def index
     params[:sort] ||= 'name'
     params[:direction] ||= 'asc'
     @people = get_sorted(name: :asc)
-    @people = @people.where(is_teacher: ('teachers') == params[:type]) if params[:type].present?
+    @people = @people.where(is_teacher: params[:type] == 'teachers') if params[:type].present?
     case q = params[:q]
-      when /\A\d+\z/ then @people = @people.where('dni LIKE ?', "%#{q}%")
-      when /\A.+\z/ then @people = @people.where('name LIKE :q OR lastname LIKE :q', {q: "%#{q}%"})
+    when /\A\d+\z/ then @people = @people.where('dni LIKE ?', "%#{q}%")
+    when /\A.+\z/ then @people = @people.where('name LIKE :q OR lastname LIKE :q', q: "%#{q}%")
     end
     @people = @people.active unless params[:include_inactive]
   end
@@ -61,8 +64,7 @@ class PeopleController < ApplicationController
     render json: calculation.to_json
   end
 
-  def add_family_member
-  end
+  def add_family_member; end
 
   def do_add_family_member
     @other = Person.find(params[:new_family_member_id])
@@ -71,7 +73,7 @@ class PeopleController < ApplicationController
 
   def search_new_family_member
     @results = person.suggest_family(params[:q])
-    render json: @results.map{|p| {label: p.to_label, value: p.id}}.to_json
+    render json: @results.map { |p| { label: p.to_label, value: p.id } }.to_json
   end
 
   def remove_family_member
@@ -114,14 +116,20 @@ class PeopleController < ApplicationController
     redirect_back fallback_location: edit_person_path(@person, tab: 'debts')
   end
 
+  private
 
-private
   def create_person_params
-    params.require(:person).permit(:name,:status,:is_teacher,:lastname,:birthday,:age,:dni,:address,:cellphone,:alt_phone,:female,:email,:group,:comments)
+    params
+      .require(:person)
+      .permit(:name, :status, :is_teacher, :lastname, :birthday, :age, :dni,
+              :address, :cellphone, :alt_phone, :female, :email, :group, :comments)
   end
 
   def update_person_params
-    params.require(:person).permit(:name,:status,:is_teacher,:lastname,:birthday,:age,:dni,:address,:cellphone,:alt_phone,:female,:email,:group,:comments)
+    params
+      .require(:person)
+      .permit(:name, :status, :is_teacher, :lastname, :birthday, :age, :dni,
+              :address, :cellphone, :alt_phone, :female, :email, :group, :comments)
   end
 
   def money_transaction_params

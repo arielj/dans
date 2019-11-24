@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 class Schedule < ApplicationRecord
   belongs_to :klass
   belongs_to :room
 
   has_and_belongs_to_many :memberships
 
-  enum day: [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
+  enum day: %i[sunday monday tuesday wednesday thursday friday saturday]
 
   def self.days_for_select
     ds = I18n.t('date.day_names')
@@ -14,18 +16,18 @@ class Schedule < ApplicationRecord
 
   def from_time=(value)
     v = case value
-          when /(\d\d):(\d\d)/ then "#{$1}#{$2}".to_i
-          when /(\d):(\d\d)/ then "#{$1}:#{$2}".to_i
-          else value
+        when /(\d\d):(\d\d)/ then "#{$1}#{$2}".to_i
+        when /(\d):(\d\d)/ then "#{$1}:#{$2}".to_i
+        else value
         end
     self[:from_time] = v
   end
 
   def to_time=(value)
     v = case value
-          when /(\d\d):(\d\d)/ then "#{$1}#{$2}".to_i
-          when /(\d):(\d\d)/ then "#{$1}#{$2}".to_i
-          else value
+        when /(\d\d):(\d\d)/ then "#{$1}#{$2}".to_i
+        when /(\d):(\d\d)/ then "#{$1}#{$2}".to_i
+        else value
         end
     self[:to_time] = v
   end
@@ -46,7 +48,7 @@ class Schedule < ApplicationRecord
   def duration
     to = DateTime.parse(to_time_s, '%H:%M')
     fr = DateTime.parse(from_time_s, '%H:%M')
-    (to-fr)*24.0
+    (to - fr) * 24.0
   end
 
   def half_hours
@@ -65,8 +67,8 @@ class Schedule < ApplicationRecord
     t_obj = get_datetime(from_time_s)
     to = get_datetime(to_time_s)
     while t_obj < to do
-      ints.append(t_obj.strftime("%H:%M"))
-      t_obj = t_obj + 30.minutes
+      ints.append(t_obj.strftime('%H:%M'))
+      t_obj += 30.minutes
     end
     ints
   end
@@ -77,22 +79,23 @@ class Schedule < ApplicationRecord
     end.to_h
   end
 
-private
-  def get_datetime(t)
-    h, m = t.split(':').map(&:to_i)
-    return DateTime.new(2000,1,1,h,m,0)
+  private
+
+  def get_datetime(tim)
+    h, m = tim.split(':').map(&:to_i)
+    DateTime.new(2000, 1, 1, h, m, 0)
   end
 
-  def time_to_s(t)
-    t ||= 0
-    if t < 10
-      "00:0#{t}"
-    elsif t < 60
-      "00:#{t}"
-    elsif t < 1000
-      "0#{t}".insert(-3, ':')
+  def time_to_s(tim)
+    tim ||= 0
+    if tim < 10
+      "00:0#{tim}"
+    elsif tim < 60
+      "00:#{tim}"
+    elsif tim < 1000
+      "0#{tim}".insert(-3, ':')
     else
-      t.to_s.insert(-3, ':')
+      tim.to_s.insert(-3, ':')
     end
   end
 end

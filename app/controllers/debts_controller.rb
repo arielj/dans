@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 class DebtsController < ApplicationController
   before_action :load_debt
 
-  def add_payment
-  end
+  def add_payment; end
 
   def do_add_payment
     @payment = @debt.create_payment add_payment_attributes
   end
 
-private
+  private
+
   def load_debt
     @debt = Debt.find(params[:id])
   end

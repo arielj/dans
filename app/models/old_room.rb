@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OldRoom < OldRecord
   self.table_name = :rooms
 

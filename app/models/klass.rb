@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Klass < ApplicationRecord
   monetize :fixed_fee_cents
 
@@ -15,7 +17,7 @@ class Klass < ApplicationRecord
 
   validates :name, presence: true
 
-  enum status: [:inactive, :active]
+  enum status: %i[inactive active]
 
   def get_memberships
     memberships + packages.map(&:memberships).flatten

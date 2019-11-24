@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 class MoneyTransaction < ApplicationRecord
-  CATEGORIES = ['installment','inscription','general']
+  CATEGORIES = %w[installment inscription general].freeze
   belongs_to :person, optional: true
   belongs_to :payable, optional: true, polymorphic: true
 
   monetize :amount_cents
 
-  validates :amount, numericality: {greater_than: 0}
+  validates :amount, numericality: { greater_than: 0 }
 
   scope :done, -> { where(done: true) }
   scope :received, -> { where(done: false) }
@@ -19,11 +21,11 @@ class MoneyTransaction < ApplicationRecord
   end
 
   def self.total
-    sum(:amount_cents)/100.0
+    sum(:amount_cents) / 100.0
   end
 
   def self.close_day
-    if aux = where('DATE(created_at) = ?', Date.today).last
+    if (aux = where('DATE(created_at) = ?', Date.today).last)
       aux.update_column(:daily_cash_closer, true)
     end
   end

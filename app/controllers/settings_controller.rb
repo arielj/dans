@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SettingsController < ApplicationController
   def save_setting
     Setting.set(params[:setting_key], params[:key][params[:setting_key]])
@@ -9,14 +11,13 @@ class SettingsController < ApplicationController
   end
 
   def save_options
-    params[:key].each do |k,v|
-      v = v.permit!.to_h if 'hour_fees' == k
-      Setting.set(k,v)
+    params[:key].each do |k, v|
+      v = v.permit!.to_h if k 'hour_fees'
+      Setting.set(k, v)
     end
     flash[:success] = 'Configuración guardada'
     redirect_back fallback_location: settings_path
   end
 
-  def add_price
-  end
+  def add_price; end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Setting < ApplicationRecord
   self.primary_key = 'key'
   serialize :value
@@ -9,6 +11,7 @@ class Setting < ApplicationRecord
   def self.fetch(key, default)
     k = key.to_sym
     return cache[k] if cache[k]
+
     cache[k] = find(k).value rescue default
   end
 
@@ -23,14 +26,14 @@ class Setting < ApplicationRecord
   end
 
   def self.get_hours_fees
-    fetch("hour_fees", {})
+    fetch('hour_fees', {})
   end
 
   def self.set_hours_fee(hours, fee)
     aux = hours == hours.to_i ? hours.to_i : hours
     fees = get_hours_fees
     fees[aux.to_s] = fee
-    set("hour_fees", fees)
+    set('hour_fees', fees)
   end
 
   def self.get_hours_fee(hours)
@@ -41,15 +44,15 @@ class Setting < ApplicationRecord
 
   def self.opened_range
     o = opening_time_i
-    c = closing_time_i-1
-    (o..c).step(100).map{|t| [t, t+30]}.flatten
+    c = closing_time_i - 1
+    (o..c).step(100).map { |t| [t, t + 30] }.flatten
   end
 
   def self.opening_time_i
-    fetch(:opening_time, '00:00').gsub(':','').to_i
+    fetch(:opening_time, '00:00').gsub(':', '').to_i
   end
 
   def self.closing_time_i
-    fetch(:closing_time, '24:00').gsub(':','').to_i
+    fetch(:closing_time, '24:00').gsub(':', '').to_i
   end
 end

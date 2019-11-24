@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Package < ApplicationRecord
   has_and_belongs_to_many :klasses
   has_many :schedules, through: :klasses
@@ -7,5 +9,4 @@ class Package < ApplicationRecord
 
   monetize :fee_cents
   monetize :alt_fee_cents
-
 end

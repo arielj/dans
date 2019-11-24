@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MoneyTransactionsController < ApplicationController
   def new
     @tran = MoneyTransaction.new
@@ -17,7 +19,8 @@ class MoneyTransactionsController < ApplicationController
     redirect_back fallback_location: root_path
   end
 
-private
+  private
+
   def create_transaction_params
     params.require(:money_transaction).permit(:amount, :description, :done)
   end

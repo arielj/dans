@@ -1,11 +1,15 @@
+# frozen_string_literal: true
+
 class OldSetting < OldRecord
   self.table_name = :settings
 
   def self.to_new
-    [:notes, :export_path, :name, [:opening_time, :opening], [:closing_time, :closing],
-     [:recharge_after_day, :recharge_after], :recharge_value,
-     [:month_recharge_value, :second_recharge_value], :language, :date_format,
-     ].each do |k|
+    aux = [
+      :notes, :export_path, :name, %i[opening_time opening], %i[closing_time closing],
+      %i[recharge_after_day recharge_after], :recharge_value,
+      %i[month_recharge_value second_recharge_value], :language, :date_format
+    ]
+    aux.each do |k|
       if k.is_a?(Array)
         k, old_k = k
       else

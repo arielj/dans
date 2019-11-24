@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RoomsController < ApplicationController
   def index
     @rooms = Room.all
@@ -34,7 +36,8 @@ class RoomsController < ApplicationController
     end
   end
 
-private
+  private
+
   def room_params
     params.require(:room).permit(:name)
   end

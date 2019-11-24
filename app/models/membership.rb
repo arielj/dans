@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Membership < ApplicationRecord
   monetize :amount_cents, numericality: false
 
@@ -8,7 +10,7 @@ class Membership < ApplicationRecord
   has_many :klasses, through: :schedules
   has_many :installments
 
-  enum status: [:inactive, :active]
+  enum status: %i[inactive active]
 
   validates :person, presence: true
 
@@ -16,14 +18,14 @@ class Membership < ApplicationRecord
 
   attr_accessor :skip_installments
 
-  def package=(p)
-    self[:package_id] = p.id
-    self.schedules = p.schedules
+  def package=(pkg)
+    self[:package_id] = pkg.id
+    self.schedules = pkg.schedules
   end
 
   def to_label
     y = created_at.year
-    y = package.name.gsub(/\AClases (\d{4}) .*/, '\1') if package and package.name =~ /\AClases \d{4} /
+    y = package.name.gsub(/\AClases (\d{4}) .*/, '\1') if package && package.name =~ /\AClases \d{4} /
     "#{y} - (#{klasses.pluck(:name).uniq.join(', ')})"
   end
 
@@ -35,7 +37,8 @@ class Membership < ApplicationRecord
     end
   end
 
-private
+  private
+
   def create_installments
     (0..11).each do |m|
       installments.create year: Date.today.year, month: m, amount: amount

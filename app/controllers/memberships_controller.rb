@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MembershipsController < ApplicationController
   def create
     @membership = Membership.new create_membership_params
@@ -12,7 +14,8 @@ class MembershipsController < ApplicationController
     @membership = Membership.find(params[:id])
   end
 
-private
+  private
+
   def create_membership_params
     params.require(:membership).permit(:person_id, :amount, :use_custom_amount, schedule_ids: [])
   end
