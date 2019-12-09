@@ -6,7 +6,9 @@ class InstallmentsController < ApplicationController
   def new_payment; end
 
   def add_payment
-    @payment = @installment.create_payment add_payment_attributes, params[:ignore_recharge] == '1', params[:ignore_month_recharge] == '1'
+    ignore_recharge = params[:ignore_recharge] == '1'
+    ignore_month_recharge = params[:ignore_month_recharge] == '1'
+    @payment = @installment.create_payment add_payment_attributes, ignore_recharge, ignore_month_recharge
   end
 
   private

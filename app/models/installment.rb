@@ -7,7 +7,7 @@ class Installment < ApplicationRecord
 
   enum month: %i[january february march april may june july august september october november december]
 
-  validates :year, presence: true
+  validates :year, :month, presence: true
 
   def self.months_for_select
     ds = I18n.t('date.month_names')

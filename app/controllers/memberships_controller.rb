@@ -17,6 +17,8 @@ class MembershipsController < ApplicationController
   private
 
   def create_membership_params
-    params.require(:membership).permit(:person_id, :amount, :use_custom_amount, schedule_ids: [])
+    params
+      .require(:membership)
+      .permit(:person_id, :amount, :use_custom_amount, schedule_ids: [])
   end
 end

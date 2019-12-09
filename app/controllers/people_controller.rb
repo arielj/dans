@@ -121,19 +121,20 @@ class PeopleController < ApplicationController
   def create_person_params
     params
       .require(:person)
-      .permit(:name, :status, :is_teacher, :lastname, :birthday, :age, :dni,
-              :address, :cellphone, :alt_phone, :female, :email, :group, :comments)
+      .permit(:name, :status, :is_teacher, :lastname, :birthday, :age, :address,
+              :dni, :cellphone, :alt_phone, :female, :email, :group, :comments)
   end
 
   def update_person_params
     params
       .require(:person)
-      .permit(:name, :status, :is_teacher, :lastname, :birthday, :age, :dni,
-              :address, :cellphone, :alt_phone, :female, :email, :group, :comments)
+      .permit(:name, :status, :is_teacher, :lastname, :birthday, :age, :address,
+              :dni, :cellphone, :alt_phone, :female, :email, :group, :comments)
   end
 
   def money_transaction_params
-    params.require(:money_transaction).permit(:amount, :created_at, :description)
+    params
+      .require(:money_transaction).permit(:amount, :created_at, :description)
   end
 
   def create_debt_params

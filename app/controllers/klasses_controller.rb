@@ -5,7 +5,7 @@ class KlassesController < ApplicationController
                 only: %i[edit update toggle_active add_teachers do_add_teachers remove_teacher]
 
   def index
-    @klasses = Klass.all.includes(:schedules).order('name ASC')
+    @klasses = Klass.all.includes(:schedules).order(name: :asc)
     @klasses = @klasses.where('name LIKE ?', "%#{params[:q]}%") if params[:q]
     @klasses = @klasses.active unless params[:include_inactive]
   end

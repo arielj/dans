@@ -54,11 +54,11 @@ class PackagesController < ApplicationController
   private
 
   def create_package_params
-    params.require(:package).permit(:name,:fee)
+    params.require(:package).permit(:name, :fee)
   end
 
   def update_package_params
-    params.require(:package).permit(:name,:fee)
+    params.require(:package).permit(:name, :fee)
   end
 
   def load_package
