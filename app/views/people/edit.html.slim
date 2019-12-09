@@ -8,13 +8,13 @@ h1= "#{t("edit.#{@person.type}")}: #{@person.to_label}"
     = simple_form_for @person, html: {class: 'form-compact'} do |f|
       = render partial: 'person_fields', locals: {f: f}
       .actions
-        = submit_tag t("save.#{@person.type}"), class: 'btn btn-primary'
+        = submit_tag tg("save.#{@person.type}", @person.gender), class: 'btn btn-primary'
 
 .tabbed
   .tabs
     = link_to t('tab.person_payments'), edit_person_path(@person, tab: 'person_payments'), class: "tab#{('person_payments' == params[:tab] or params[:tab].blank?) ? ' current' : ''}"
     - if @person.is_teacher?
-      = link_to t('tab.payments_to_teacher'), edit_person_path(@person, tab: 'payments_to_teacher'), class: "tab#{'payments_to_teacher' == params[:tab] ? ' current' : ''}"
+      = link_to tg('tab.payments_to_teacher', @person.gender), edit_person_path(@person, tab: 'payments_to_teacher'), class: "tab#{'payments_to_teacher' == params[:tab] ? ' current' : ''}"
     = link_to t('tab.debts'), edit_person_path(@person, tab: 'debts'), class: "tab#{'debts' == params[:tab] ? ' current' : ''}"
     = link_to t('tab.memberships'), edit_person_path(@person, tab: 'memberships'), class: "tab#{'memberships' == params[:tab] ? ' current' : ''}"
   .tabs_contents

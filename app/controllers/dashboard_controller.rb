@@ -4,7 +4,7 @@ class DashboardController < ApplicationController
   include MoneyTransactionsHelper
 
   def index
-    scp = MoneyTransaction.where('created_at >= ?', Date.today.beginning_of_day)
+    scp = MoneyTransaction.today
     @today_classes = Schedule.by_room_for_day(Date.today.wday)
     @people_transactions = scp.where.not(person_id: nil)
     @general_transactions = scp.where(category: 'general')

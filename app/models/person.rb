@@ -18,6 +18,13 @@ class Person < ApplicationRecord
   scope :birthday_today, -> { where('DAYOFMONTH(birthday) = ? AND MONTH(birthday) = ?', Date.today.day, Date.today.month) }
   scope :teachers, -> { where(is_teacher: true) }
   scope :students, -> { where(is_teacher: false) }
+  scope :search, (lambda do |q|
+    case q
+    when /\A\d+\z/ then where('dni LIKE ?', "%#{q}%")
+    when /\A.+\z/ then where('name LIKE :q OR lastname LIKE :q', q: "%#{q}%")
+    else none
+    end
+  end)
 
   def self.genders_for_select
     ds = I18n.t('genders')

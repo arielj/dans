@@ -48,6 +48,26 @@ class Setting < ApplicationRecord
     (o..c).step(100).map { |t| [t, t + 30] }.flatten
   end
 
+  def self.opened_range_str
+    opened_range.map do |aux|
+      if aux < 10
+        "00:0#{aux}"
+      elsif aux < 100
+        "00:#{aux}"
+      else
+        mins = aux % 100
+        hours = (aux - mins) / 100
+
+        mins = mins < 10 ? "0#{mins}" : mins.to_s
+        if hours < 10
+          "0#{hours}:#{mins}"
+        else
+          "#{hours}:#{mins}"
+        end
+      end
+    end
+  end
+
   def self.opening_time_i
     fetch(:opening_time, '00:00').gsub(':', '').to_i
   end

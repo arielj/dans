@@ -12,7 +12,7 @@ class SettingsController < ApplicationController
 
   def save_options
     params[:key].each do |k, v|
-      v = v.permit!.to_h if k 'hour_fees'
+      v = v.permit!.to_h if k == 'hour_fees'
       Setting.set(k, v)
     end
     flash[:success] = 'Configuración guardada'

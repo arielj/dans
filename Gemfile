@@ -39,6 +39,7 @@ group :development, :test do
   gem 'byebug'
   gem 'factory_bot'
   gem 'factory_bot_rails'
+  gem 'faker'
   gem 'rspec-rails', '~> 3.7'
   # Adds support for Capybara system testing and selenium driver
   # gem 'capybara', '~> 2.13'

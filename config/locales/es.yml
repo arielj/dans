@@ -66,6 +66,26 @@ es:
     room: Guardar sala
     student: Guardar alumno/a
     teacher: Guardar profesor/a
+    student_m: Guardar alumno
+    teacher_m: Guardar profesor
+    student_f: Guardar alumna
+    teacher_f: Guardar profesora
+  saved:
+    debt: Guardada
+    klass: Guardada
+    membership: Guardada
+    money_transaction: Guardado
+    notes: Guardada
+    options: Guardadas
+    package: Guardado
+    payment: Guardado
+    room: Guardada
+    student: Guardao/a
+    teacher: Guardao/a
+    student_m: Guardado
+    teacher_m: Guardado
+    student_f: Guardada
+    teacher_f: Guardada
   create:
     klass: Crear clase
     package: Crear paquete
@@ -80,6 +100,9 @@ es:
     teacher: Editar profesor/a
   tab:
     person_payments: Pagos de la persona
+    payments_to_teacher_m: Pagos a al profesor
+    payments_to_teacher_f: Pagos a la profesora
+    payments_to_teacher: Pagos a el/la profesor/a
     debts: Deudas
     memberships: Cuotas
 

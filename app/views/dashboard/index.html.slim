@@ -8,11 +8,12 @@
           - @today_classes.keys.each do |r|
             th= r.name
       tbody
-        - Setting.opened_range.each do |t|
+        - Setting.opened_range_str.each do |t|
           tr
-            td= t.to_s.insert(-3, ':')
+            td= t
+            - aux = t.sub(':','').to_i
             - @today_classes.keys.each do |r|
-              - s = @today_classes[r].select{|s| s.from_time <= t and s.to_time > t}[0]
+              - s = @today_classes[r].select{ |s| s.from_time <= aux && s.to_time > aux }[0]
               td= s ? s.klass.name : ''
 
 = form_tag 'save_setting', class: 'notes' do

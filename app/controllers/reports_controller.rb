@@ -7,7 +7,7 @@ class ReportsController < ApplicationController
     @date = params[:date] || Date.today
     @date = Date.parse(@date) unless @date.is_a?(Date)
 
-    scp = MoneyTransaction.where('created_at >= ? AND created_at <= ?', @date.beginning_of_day, @date.end_of_day)
+    scp = MoneyTransaction.for_day(@date)
     scp = scp.where('description LIKE ?', "%#{params[:text]}%") if params[:text].present?
 
     @people_transactions = scp.where('category IS NULL OR category != "general"').where.not(person_id: nil)

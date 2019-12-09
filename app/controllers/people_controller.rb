@@ -13,10 +13,7 @@ class PeopleController < ApplicationController
     params[:direction] ||= 'asc'
     @people = get_sorted(name: :asc)
     @people = @people.where(is_teacher: params[:type] == 'teachers') if params[:type].present?
-    case q = params[:q]
-    when /\A\d+\z/ then @people = @people.where('dni LIKE ?', "%#{q}%")
-    when /\A.+\z/ then @people = @people.where('name LIKE :q OR lastname LIKE :q', q: "%#{q}%")
-    end
+    @people = @people.search(params[:q]) if params[:q].present?
     @people = @people.active unless params[:include_inactive]
   end
 
@@ -47,11 +44,11 @@ class PeopleController < ApplicationController
 
   def update
     if person.update_attributes(update_person_params)
-      flash[:notice] = 'Guardada'
+      flash[:notice] = tg("saved.#{@person.type}", @person.gender)
     else
       flash[:alert] = 'Error'
     end
-    render action: :edit
+    redirect_to action: :edit
   end
 
   def new_membership
@@ -122,14 +119,14 @@ class PeopleController < ApplicationController
     params
       .require(:person)
       .permit(:name, :status, :is_teacher, :lastname, :birthday, :age, :address,
-              :dni, :cellphone, :alt_phone, :female, :email, :group, :comments)
+              :dni, :cellphone, :alt_phone, :gender, :email, :group, :comments)
   end
 
   def update_person_params
     params
       .require(:person)
       .permit(:name, :status, :is_teacher, :lastname, :birthday, :age, :address,
-              :dni, :cellphone, :alt_phone, :female, :email, :group, :comments)
+              :dni, :cellphone, :alt_phone, :gender, :email, :group, :comments)
   end
 
   def money_transaction_params
