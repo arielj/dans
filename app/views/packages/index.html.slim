@@ -3,9 +3,9 @@
 h1= t('packages')
 
 = form_tag '', method: :get do
-  .form-group.form-inline= text_field_tag :q, params[:q], placeholder: t('labels.search'), class: 'form-input'
-  = label_tag '', class: 'form-checkbox form-inline' do
-    = check_box_tag :include_personal_packages, '1', params[:include_personal_packages]
+  .form-group.form-inline=> text_field_tag :q, params[:q], placeholder: t('labels.search'), class: 'form-input'
+  => label_tag '', class: 'form-checkbox form-inline' do
+    => check_box_tag :include_personal_packages, '1', params[:include_personal_packages]
     = t('labels.include_personal_packages')
     i.form-icon
   = submit_tag t('labels.filter'), class: 'btn btn-primary'

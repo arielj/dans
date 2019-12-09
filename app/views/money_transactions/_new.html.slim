@@ -8,11 +8,11 @@
   .form-group
     = label_tag '', class: 'form-radio form-inline' do
       = f.radio_button :done, true
-      = t('money.in')
+      = t('money.out')
       i.form-icon
     = label_tag '', class: 'form-radio form-inline' do
       = f.radio_button :done, false
-      = t('money.out')
+      = t('money.in')
       i.form-icon
   .actions.modal-footer
     = f.submit t('save.money_transaction'), class: 'btn btn-primary'
