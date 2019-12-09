@@ -1,6 +1,6 @@
-- page_title("#{t("edit.#{@person.type}")}: #{@person.to_label}")
+- page_title("#{tg("edit.#{@person.type}", @person.gender)}: #{@person.to_label}")
 
-h1= "#{t("edit.#{@person.type}")}: #{@person.to_label}"
+h1= "#{tg("edit.#{@person.type}", @person.gender)}: #{@person.to_label}"
 
 .personal_data
   h3= t('personal_data')
@@ -13,10 +13,14 @@ h1= "#{t("edit.#{@person.type}")}: #{@person.to_label}"
 .tabbed
   .tabs
     = link_to t('tab.person_payments'), edit_person_path(@person, tab: 'person_payments'), class: "tab#{('person_payments' == params[:tab] or params[:tab].blank?) ? ' current' : ''}"
+
     - if @person.is_teacher?
       = link_to tg('tab.payments_to_teacher', @person.gender), edit_person_path(@person, tab: 'payments_to_teacher'), class: "tab#{'payments_to_teacher' == params[:tab] ? ' current' : ''}"
+
     = link_to t('tab.debts'), edit_person_path(@person, tab: 'debts'), class: "tab#{'debts' == params[:tab] ? ' current' : ''}"
+
     = link_to t('tab.memberships'), edit_person_path(@person, tab: 'memberships'), class: "tab#{'memberships' == params[:tab] ? ' current' : ''}"
+
   .tabs_contents
     .tab_content data-tab-content='person_payments' class=(('person_payments' == params[:tab] or params[:tab].blank?) ? ' current' : '')
       = render partial: 'payments_table', locals: {payments: @person_payments, url: add_payment_person_path(@person)}

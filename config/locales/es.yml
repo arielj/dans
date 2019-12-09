@@ -98,9 +98,13 @@ es:
     room: Editar sala
     student: Editar alumno/a
     teacher: Editar profesor/a
+    student_f: Editar alumna
+    teacher_f: Editar profesora
+    student_m: Editar alumno
+    teacher_m: Editar profesor
   tab:
     person_payments: Pagos de la persona
-    payments_to_teacher_m: Pagos a al profesor
+    payments_to_teacher_m: Pagos al profesor
     payments_to_teacher_f: Pagos a la profesora
     payments_to_teacher: Pagos a el/la profesor/a
     debts: Deudas

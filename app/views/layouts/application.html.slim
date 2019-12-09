@@ -41,7 +41,8 @@ html xmlns:fb="http://www.facebook.com/2008/fbml" lang='es-AR'
           i.fa.fa-address-card>
           = t('people')
         .dropdown
-          a.btn.btn-link.dropdown-toggle{tabindex: 0}
+          a.btn.btn-link.dropdown-toggle tabindex=0
+            i.fa.fa-line-chart>
             => t('reports')
             i.icon.icon-caret
 
@@ -51,7 +52,10 @@ html xmlns:fb="http://www.facebook.com/2008/fbml" lang='es-AR'
             li.menu-item= link_to 'LALA', '#'
 
       - if admin_signed_in?
-        .navbar-section= link_to t('session.close'), destroy_admin_session_path, method: :delete, class: 'btn btn-link'
+        .navbar-section
+          = link_to destroy_admin_session_path, method: :delete, class: 'btn btn-link' do
+            i.fa.fa-sign-out>
+            = t('session.close')
 
     main= yield
 
