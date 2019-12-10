@@ -39,6 +39,7 @@ es:
   add:
     debt: Agregar deuda
     klass: Agregar clase
+    label: Agregar
     membership: Agregar inscripción
     movement: Agregar movimiento
     package: Agregar paquete
@@ -49,6 +50,8 @@ es:
     student: Agregar alumno/a
     teacher: Agregar profesor/a
     teachers: Agregar profesores
+  added:
+    teachers: Profesores/as agregados/as
   new:
     klass: Nueva clase
     package: Nuevo paquete
@@ -102,6 +105,31 @@ es:
     teacher_f: Editar profesora
     student_m: Editar alumno
     teacher_m: Editar profesor
+  destroy:
+    klass: Borrar clase
+    package: Borrar paquete
+    room: Borrar sala
+    student: Borrar alumno/a
+    teacher: Borrar profesor/a
+    student_f: Borrar alumna
+    teacher_f: Borrar profesora
+    student_m: Borrar alumno
+    teacher_m: Borrar profesor
+  destroyed:
+    klass: Clase borrada
+    package: Paquete borrado
+    room: Sala borrada
+    student: Alumno/a borrado/a
+    teacher: Profesor/a borrado/a
+    student_f: Alumna borrada
+    teacher_f: Profesora borrada
+    student_m: Alumno borrado
+    teacher_m: Profesor borrado
+  removed:
+    teacher: Profesor/a removido/a
+    teacher_f: Profesora removida
+    teacher_m: Profesor removido
+
   tab:
     person_payments: Pagos de la persona
     payments_to_teacher_m: Pagos al profesor
@@ -116,6 +144,7 @@ es:
   labels:
     filter: Filtrar
     include_inactive: Incluir inactivos/as
+    include_inactive_klasses: Incluir inactivas
     include_personal_packages: Incluir paquetes personales
     search: Buscar
     klasses:
@@ -144,13 +173,13 @@ es:
       closing_time: Cierra a las
       dates_format: Formato de fechas
       family_discount: Descuento para grupos familiares
+      month_recharge_value: Recargo después de 30 días (XX para valor fijo, YY% para pocentaje)
       name: Nombre del instituto
       language: Idioma
-      month_recharge_value: Recargo después de 30 días (XX para valor fijo, YY% para pocentaje)
       opening_time: Abre a las
       preselected_installments_month: Meses preseleccionados al cargar cuotas
-      preselected_installments_month_from: Mes inicial
-      preselected_installments_month_to: Mes final
+      preselected_installments_month_from: Mes inicial al cargar cuotas
+      preselected_installments_month_to: Mes final al cargar cuotas
       recharge_after_day: Recargo luego del día número X
       recharge_value: Valor rel recargo (XX para valor fijo, YY% para pocentaje)
   activerecord:

@@ -63,15 +63,18 @@ class KlassesController < ApplicationController
     selected_teachers = Person.where(id: params[:teacher_ids])
     @klass.teachers = selected_teachers
     @klass.save
-    flash[:notice] = 'Teachers assigned'
+    flash[:notice] = t('added.teachers')
     redirect_to edit_klass_path(@klass)
   end
 
   def remove_teacher
     teacher = Person.find(params[:teacher_id])
     @klass.teachers.delete(teacher)
-    flash[:notice] = 'Teacher removed'
+    flash[:notice] = tg('removed.teacher', teacher.gender)
     redirect_to edit_klass_path(@klass)
+  end
+
+  def export_students
   end
 
   private

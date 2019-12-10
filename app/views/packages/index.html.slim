@@ -23,10 +23,10 @@ h1= t('packages')
           td= package.name
           td= package.klasses.map{|kls| "#{kls.name}"}.join(', ')
           td.actions
-            = link_to edit_package_path(package) do
+            = link_to edit_package_path(package), title: t('edit.package') do
               i.icon.icon-edit
             | |
-            = link_to package, method: :delete, data: {confirm: '¿Re seguro?'} do
+            = link_to package, title: t('destroy.package'), method: :delete, data: {confirm: '¿Re seguro?'} do
               i.icon.icon-delete
 
 .actions

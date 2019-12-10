@@ -12,7 +12,7 @@ class RoomsController < ApplicationController
   def create
     @room = Room.new(room_params)
     if @room.save
-      flash[:success] = 'Sala creada'
+      flash[:success] = t('saved.room')
       redirect_to edit_room_path(@room)
     else
       flash.now[:error] = 'Error al crear sala, revisá los campos'
@@ -21,14 +21,14 @@ class RoomsController < ApplicationController
   end
 
   def edit
-    @room = Room.find(params[:id])
+    find_room
   end
 
   def update
-    @room = Room.find(params[:id])
+    find_room
     @room.attributes = room_params
     if @room.save
-      flash[:success] = 'Sala actualizada'
+      flash[:success] = t('saved.room')
       redirect_to edit_room_path(@room)
     else
       flash.now[:error] = 'Error al guardarsala, revisá los campos'
@@ -36,7 +36,18 @@ class RoomsController < ApplicationController
     end
   end
 
+  def destroy
+    find_room
+    @room.destroy
+    flash[:success] = t('destroyed.room')
+    redirect_to action: :index
+  end
+
   private
+
+  def find_room
+    @room = Room.find(params[:id])
+  end
 
   def room_params
     params.require(:room).permit(:name)

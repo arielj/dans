@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class Package < ApplicationRecord
-  has_and_belongs_to_many :klasses
-  has_many :schedules, through: :klasses
+  has_and_belongs_to_many :schedules
+  has_many :klasses, -> { distinct }, through: :schedules
   belongs_to :person, optional: true
   has_many :memberships, inverse_of: :package
   has_many :students, through: :memberships, source: :person

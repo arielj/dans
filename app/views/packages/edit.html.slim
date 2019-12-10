@@ -1,0 +1,8 @@
+- page_title("#{t('edit.package')}: #{@package.name}")
+
+h1= "#{t('edit.package')}: #{@package.name}"
+
+= simple_form_for @package do |f|
+  = render partial: 'package_fields', locals: {f: f}
+  .actions
+    = submit_tag t('save.package'), class: 'btn btn-primary'

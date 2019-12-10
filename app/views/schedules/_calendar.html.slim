@@ -5,6 +5,6 @@
       h4= I18n.t('date.day_names')[d]
       - Schedule.joins(:klass).where(Klass.arel_table[:status].eq(:active)).where(day: d).each do |sch|
         = label_tag '', class: 'form-checkbox' do
-          = check_box_tag "#{object.class.to_s.downcase}[schedule_ids][]", sch.id, object.schedules.pluck(:id).include?(sch.id), class: 'schedule'
+          = check_box_tag "#{object.class.to_s.downcase}[schedule_ids][]", sch.id, object.schedule_ids.include?(sch.id), class: 'schedule'
           = sch.to_label
           i.form-icon

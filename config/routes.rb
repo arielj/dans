@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :admins
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  root to: "dashboard#index"
+  root to: 'dashboard#index'
 
   resources :rooms
 
@@ -10,7 +10,8 @@ Rails.application.routes.draw do
       put :toggle_active
       get :add_teachers
       patch :add_teachers, action: :do_add_teachers
-      delete "remove_teacher/:teacher_id", action: :remove_teacher, as: :remove_teacher
+      delete 'remove_teacher/:teacher_id', action: :remove_teacher, as: :remove_teacher
+      get :export_students
     end
   end
 
@@ -22,7 +23,7 @@ Rails.application.routes.draw do
     member do
       get :new_membership
       get :new_membership_calculator
-      #post :create_membership
+      # post :create_membership
       get :search_new_family_member
       get :add_family_member
       post :add_family_member, action: :do_add_family_member
@@ -65,6 +66,5 @@ Rails.application.routes.draw do
     post '/', action: :save_options
     post :setting, action: :save_setting
     get :add_price
-
   end
 end

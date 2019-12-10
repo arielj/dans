@@ -9,7 +9,7 @@ h1 #{t('edit.klass')}: #{@klass.name}
 
 .people
   h2
-    = t('teachers')
+    => t('teachers')
     = link_to t('add.teacher'), add_teachers_klass_path(@klass), class: 'btn', remote: true
   table.table.table-striped.table-small
     thead.thead-dark
@@ -19,10 +19,12 @@ h1 #{t('edit.klass')}: #{@klass.name}
     tbody
       - @klass.teachers.each do |t|
         tr
-          td= link_to t.to_label, edit_person_path(t)
+          td= link_to t.to_label, edit_person_path(t), title: tg('edit.teacher', t.gender)
           td.actions= link_to 'X', remove_teacher_klass_path(@klass, teacher_id: t.id), method: :delete
 
-  h2= t('students')
+  h2
+    => t('students')
+    / = link_to t('labels.export'), export_students_klass_path(@klass), class: 'btn'
   .scrollable
     table.table.table-striped.table-small
       thead.thead-dark

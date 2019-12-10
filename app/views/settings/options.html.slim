@@ -12,6 +12,13 @@
       .form-group
         = label_tag "key[language]", t(:language, scope: 'form.options'), class: 'form-label'
         = select_tag "key[language]", options_for_select([['Español','es'],['English','en']], Setting.fetch('language', 'es')), class: 'form-input'
+      
+      - [[:preselected_installments_month_from, :january],
+         [:preselected_installments_month_to, :december]].each do |key, default|
+        .form-group
+          = label_tag "key[#{key}]", t(key, scope: 'form.options'), class: 'form-label'
+          = select_tag "key[#{key}]", options_for_select(Installment.months_for_select, Setting.fetch(key, default)), class: 'form-input'
+
   .hourly_fees
     h2
       => t 'hourly_fees'
@@ -29,5 +36,6 @@
             tr
               td= k
               td= number_field_tag "key[hour_fees][#{k}]", v, id: "fee_#{k}"
+  
   .actions
     = submit_tag t('save.options'), class: 'btn btn-primary'

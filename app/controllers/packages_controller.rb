@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
 class PackagesController < ApplicationController
-  before_action :load_package, only: %i[edit update]
-
   def index
     @packages = Package.all.includes(:klasses).order(name: :asc)
-    unless params[:include_personal_packages].present?
+    if params[:include_personal_packages].present?
       @packages = @packages.where(person_id: 0).where.not('name LIKE "Clases ____ %"')
     end
     @packages = @packages.where('name LIKE ?', "%#{params[:q]}%") if params[:q]
@@ -27,10 +25,12 @@ class PackagesController < ApplicationController
   end
 
   def edit
+    find_package
     @students = @package.students.active
   end
 
   def update
+    find_package
     updated = @package.update_attributes(update_package_params)
     respond_to do |format|
       format.html do
@@ -51,17 +51,24 @@ class PackagesController < ApplicationController
     end
   end
 
+  def destroy
+    find_package
+    @package.destroy
+    flash[:success] = t('destroyed.package')
+    redirect_to action: :index
+  end
+
   private
 
   def create_package_params
-    params.require(:package).permit(:name, :fee)
+    params.require(:package).permit(:name, :fee, schedule_ids: [])
   end
 
   def update_package_params
-    params.require(:package).permit(:name, :fee)
+    params.require(:package).permit(:name, :fee, schedule_ids: [])
   end
 
-  def load_package
+  def find_package
     @package = Package.find(params[:id])
   end
 end

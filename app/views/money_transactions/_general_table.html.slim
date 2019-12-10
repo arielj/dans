@@ -17,7 +17,7 @@ h3 Movimientos generales
           td= tran.done ? tran.amount : ''
           td= tran.description
           - unless hide_actions
-            td= link_to 'X', tran, method: :delete, data: {confirm: 'Seguro?'}
+            td= link_to 'X', tran, title: 'Eliminar', method: :delete, data: {confirm: 'Seguro?'}
     tfoot
       tr
         td colspan=(hide_actions ? 4 : 5) #{t('money.in')}: $#{transactions.total_in}; #{t('money.out')}: $#{transactions.total_out}

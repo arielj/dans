@@ -15,10 +15,10 @@ h1= t('rooms')
         tr
           td= room.name
           td.actions
-            = link_to edit_room_path(room) do
+            = link_to edit_room_path(room), title: t('edit.room') do
               i.icon.icon-edit
             | |
-            = link_to room, method: :delete, data: {confirm: '¿Re seguro?'} do
+            = link_to room, title: t('destroy.room'), method: :delete, data: {confirm: '¿Re seguro?'} do
               i.icon.icon-delete
 
 .actions

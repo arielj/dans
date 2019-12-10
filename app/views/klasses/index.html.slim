@@ -7,7 +7,7 @@ h1= t('klasses')
     = text_field_tag :q, params[:q], placeholder: t('labels.search'), class: 'form-input'
   => label_tag '', class: 'form-checkbox form-inline' do
     => check_box_tag :include_inactive, '1', params[:include_inactive]
-    = t('labels.include_inactive')
+    = t('labels.include_inactive_klasses')
     i.form-icon
   = submit_tag t('labels.filter'), class: 'btn btn-primary'
 
@@ -22,15 +22,16 @@ h1= t('klasses')
       - @klasses.each do |klass|
         tr class=(klass.inactive? ? 'table-warning' : '')
           td
-            = klass.name
-            - if klass.inactive?
-              | (#{klass.status})
+            = link_to edit_klass_path(klass), title: t('edit.klass') do
+              => klass.name
+              - if klass.inactive?
+                | (#{t(klass.status, scope: 'enums.klass.status')})
           td= klass.schedules.map{|sch| "#{sch.day_name}: #{sch.from_time_s}-#{sch.to_time_s}"}.join(', ')
           td.actions
-            = link_to edit_klass_path(klass) do
+            = link_to edit_klass_path(klass), title: t('edit.klass') do
               i.icon.icon-edit
             | |
-            = link_to klass, method: :delete, data: {confirm: '¿Re seguro?'} do
+            = link_to klass, title: t('destroy.klass'), method: :delete, data: {confirm: '¿Re seguro?'} do
               i.icon.icon-delete
             | |
             - active_text = klass.active? ? :deactivate : :activate

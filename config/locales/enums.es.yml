@@ -1,0 +1,6 @@
+es:
+  enums:
+    klass:
+      status:
+        active: Activa
+        inactive: Inactiva
