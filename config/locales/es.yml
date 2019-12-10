@@ -38,6 +38,7 @@ es:
   value: Valor
   add:
     debt: Agregar deuda
+    family_member: Agregar miembro familiar
     klass: Agregar clase
     label: Agregar
     membership: Agregar inscripción
@@ -97,7 +98,9 @@ es:
     teacher: Crear profesor/a
   edit:
     klass: Editar clase
+    label: Editar
     package: Editar paquete
+    person: Editar persona
     room: Editar sala
     student: Editar alumno/a
     teacher: Editar profesor/a

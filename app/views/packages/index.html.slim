@@ -20,7 +20,8 @@ h1= t('packages')
     tbody
       - @packages.each do |package|
         tr
-          td= package.name
+          td= link_to edit_package_path(package), title: t('edit.package') do
+            = package.name
           td= package.klasses.map{|kls| "#{kls.name}"}.join(', ')
           td.actions
             = link_to edit_package_path(package), title: t('edit.package') do

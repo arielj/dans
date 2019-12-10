@@ -27,22 +27,23 @@ h1
       - @people.each do |person|
         tr class=(person.inactive? ? 'table-warning' : '')
           td
-            - if person.is_teacher?
-              i.fa.fa-star title='profe'
-            = person.name
-            - if person.inactive?
-              | (#{person.status})
+            = link_to edit_person_path(person), title: t('edit.person') do
+              - if person.is_teacher?
+                i.fa.fa-star title='profe'
+              = person.name
+              - if person.inactive?
+                | (#{person.status})
           td= person.lastname
           td= person.dni
           td= person.address
           td= person.email
           td.actions
-            = link_to edit_person_path(person) do
+            = link_to edit_person_path(person), title: t('edit.person') do
               i.icon.icon-edit
             | |
             - active_text = person.active? ? :deactivate : :activate
-            = link_to t(active_text, scope: 'labels.people'), toggle_active_person_path(person, include_inactive: params[:include_inactive]), method: :put
+            = link_to t(active_text, title: t('destroy.person'), scope: 'labels.people'), toggle_active_person_path(person, include_inactive: params[:include_inactive]), method: :put
 
 .actions
-  = link_to t('add.teacher'), new_teacher_person_path, class: 'btn btn-primary'
-  = link_to t('add.student'), new_student_person_path, class: 'btn btn-primary'
+  => link_to t('add.teacher'), new_teacher_person_path, class: 'btn btn-primary'
+  => link_to t('add.student'), new_student_person_path, class: 'btn btn-primary'

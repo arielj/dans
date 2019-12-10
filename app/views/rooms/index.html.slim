@@ -13,7 +13,8 @@ h1= t('rooms')
     tbody
       - @rooms.each do |room|
         tr
-          td= room.name
+          td= link_to edit_room_path(room), title: t('edit.room') do
+            = room.name
           td.actions
             = link_to edit_room_path(room), title: t('edit.room') do
               i.icon.icon-edit

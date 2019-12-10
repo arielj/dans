@@ -1,7 +1,7 @@
 @import 'configuration'
 
 body.c_people
-  &.a_show
+  &.a_edit
     #add_family_member
       .with_autocomplete
         position: relative
@@ -23,6 +23,15 @@ body.c_people
 
             &:hover
               background: #ced4da
+        #family_autocomplete
+          display: none
+          &.show
+            display: flex
+            flex-direction: column
+          
+          span
+            cursor: pointer
+
   &.a_edit, &.a_new_teacher, &.a_new_student
     main
       display: grid

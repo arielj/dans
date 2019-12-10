@@ -40,9 +40,11 @@ function initFamilyAutocomplete() {
 
       onSelectClick = function(e) {
         e.preventDefault();
-        byid('new_family_member_id').value = e.target.data.value;
-        self.value = this.innerText;
+        byid('new_family_member_id').value = e.target.dataset.id;
+        self.value = e.target.dataset.label;
         div.remove();
+        autocompleteOptions.classList.remove('show');
+        autocompleteOptions.innerHtml = '';
       };
 
       let val = this.value;
@@ -53,14 +55,18 @@ function initFamilyAutocomplete() {
           success: function(response) {
             autocompleteOptions.innerHTML = '';
             response.forEach( person => {
-              const option = document.createElement('option');
-              option.value = person.label;
-              option.innerText = person.value;
-              autocompleteOptions.appendChild(option);
+              const option = document.createElement('span');
+              option.innerText = `${person.label} (${person.value})`;
+              option.dataset.label = person.label;
+              option.dataset.id = person.value;
               option.addEventListener('click', onSelectClick);
+              autocompleteOptions.appendChild(option);
             });
+
             if (response.length === 0)
-              div.innerHTML = '<div class="option">No hay resultados</div>';
+              autocompleteOptions.innerHTML = '<div class="option">No hay resultados</div>';
+            
+            autocompleteOptions.classList.add('show');
           }
         });
       } else {
