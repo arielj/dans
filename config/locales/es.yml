@@ -53,6 +53,7 @@ es:
     teachers: Agregar profesores
   added:
     teachers: Profesores/as agregados/as
+    money_transaction: Movimiento agregado
   new:
     klass: Nueva clase
     package: Nuevo paquete
@@ -120,6 +121,7 @@ es:
     teacher_m: Borrar profesor
   destroyed:
     klass: Clase borrada
+    money_transaction: Movimiento eliminado
     package: Paquete borrado
     room: Sala borrada
     student: Alumno/a borrado/a

@@ -3,7 +3,17 @@
 class SettingsController < ApplicationController
   def save_setting
     Setting.set(params[:setting_key], params[:key][params[:setting_key]])
-    redirect_back fallback_location: root_path
+
+    respond_to do |format|
+      format.html do
+        flash[:success] = 'Guardado'
+        redirect_back fallback_location: root_path
+      end
+
+      format.js do
+        flash.now[:success] = 'Guardado'
+      end
+    end
   end
 
   def options
@@ -15,6 +25,7 @@ class SettingsController < ApplicationController
       v = v.permit!.to_h if k == 'hour_fees'
       Setting.set(k, v)
     end
+
     flash[:success] = 'Configuración guardada'
     redirect_back fallback_location: settings_path
   end

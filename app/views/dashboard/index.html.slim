@@ -16,7 +16,7 @@
               - s = @today_classes[r].select{ |s| s.from_time <= aux && s.to_time > aux }[0]
               td= s ? s.klass.name : ''
 
-= form_tag 'save_setting', class: 'notes' do
+= form_tag 'settings/setting', class: 'notes', remote: true do
   h2
     => t('notes')
     = submit_tag t('save.notes'), class: 'btn btn-primary'
@@ -44,4 +44,4 @@
   = render partial: 'money_transactions/general_table', locals: {transactions: @general_transactions}
   .actions
     = link_to t('add.movement'), new_money_transaction_path, class: 'btn btn-light', remote: true
-    = link_to t('close_daily_cash'), '#', class: 'btn btn-light'
+    = link_to t('close_daily_cash'), close_daily_cash_path, class: 'btn btn-light', remote: true, method: :patch

@@ -61,13 +61,7 @@ html xmlns:fb="http://www.facebook.com/2008/fbml" lang='es-AR'
 
     footer
       - flash.keys.each do |k|
-        - aux = case k
-        - when 'notice', :notice then :success
-        - when 'alert', :alert then :error
-        - else k
-        .toast class="toast-#{aux}"
-          button.btn.btn-clear.float-right
-          = flash[k]
+        = render_flash_message(k)
 
     .hidden
       .modal-template

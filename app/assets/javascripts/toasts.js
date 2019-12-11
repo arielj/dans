@@ -4,3 +4,7 @@ onLoad(function() {
     this.parentNode.remove();
   })
 })
+
+function showToast(html) {
+  qs('footer').insertAdjacentHTML('beforeend', html);
+}
