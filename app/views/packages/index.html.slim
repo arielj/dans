@@ -1,14 +1,21 @@
 - page_title(t('packages'))
 
-h1= t('packages')
+header
+  h1
+    => t('packages')
+    | (#{@packages.count})
 
-= form_tag '', method: :get do
+  .actions
+    => link_to t('add.package'), new_package_path, class: 'btn btn-primary'
+    = button_tag t('export'), type: :submit, form: :filter_packages, formaction: export_packages_path, class: 'btn'
+
+= form_tag '', method: :get, id: :filter_packages do
   .form-group.form-inline=> text_field_tag :q, params[:q], placeholder: t('labels.search'), class: 'form-input'
   => label_tag '', class: 'form-checkbox form-inline' do
     => check_box_tag :include_personal_packages, '1', params[:include_personal_packages]
     = t('labels.include_personal_packages')
     i.form-icon
-  = submit_tag t('labels.filter'), class: 'btn btn-primary'
+  = button_tag t('labels.filter'), type: :submit, class: 'btn btn-primary'
 
 .scrollable
   table.table.table-striped.table-small
@@ -29,6 +36,3 @@ h1= t('packages')
             | |
             = link_to package, title: t('destroy.package'), method: :delete, data: {confirm: '¿Re seguro?'} do
               i.icon.icon-delete
-
-.actions
-  = link_to t('add.package'), new_package_path, class: 'btn btn-primary'

@@ -24,6 +24,7 @@ gem 'jbuilder'
 
 gem 'devise', git: 'https://github.com/plataformatec/devise.git', branch: 'master'
 gem 'erubis'
+gem 'fast_excel'
 gem 'money-rails'
 gem 'simple_form'
 gem 'slim', '~> 4.0', '>= 4.0.1'

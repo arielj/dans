@@ -10,6 +10,14 @@ class KlassesController < ApplicationController
     @klasses = @klasses.active unless params[:include_inactive]
   end
 
+  def export
+    klasses = Klass.all.includes(:schedules).order(name: :asc)
+    klasses = klasses.where('name LIKE ?', "%#{params[:q]}%") if params[:q]
+    klasses = klasses.active unless params[:include_inactive]
+
+    send_file ExcelExporter.to_xls(klasses)
+  end
+
   def new
     @klass = Klass.new
   end

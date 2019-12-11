@@ -1,15 +1,21 @@
 - page_title(t('klasses'))
 
-h1= t('klasses')
+header
+  h1
+    => t('klasses')
+    | (#{@klasses.count})
+  .actions
+    => link_to t('add.klass'), new_klass_path, class: 'btn btn-primary'
+    = button_tag t('export'), type: :submit, form: :filter_klasses, formaction: export_klasses_path, class: 'btn'
 
-= form_tag '', method: :get do
+= form_tag '', method: :get, id: :filter_klasses do
   .form-group.form-inline>
     = text_field_tag :q, params[:q], placeholder: t('labels.search'), class: 'form-input'
   => label_tag '', class: 'form-checkbox form-inline' do
     => check_box_tag :include_inactive, '1', params[:include_inactive]
     = t('labels.include_inactive_klasses')
     i.form-icon
-  = submit_tag t('labels.filter'), class: 'btn btn-primary'
+  = button_tag t('labels.filter'), type: :submit, class: 'btn btn-primary'
 
 .scrollable
   table.table.table-striped.table-small
@@ -36,6 +42,3 @@ h1= t('klasses')
             | |
             - active_text = klass.active? ? :deactivate : :activate
             = link_to t(active_text, scope: 'labels.klasses'), toggle_active_klass_path(klass, include_inactive: params[:include_inactive]), method: :put
-
-.actions
-  = link_to t('add.klass'), new_klass_path, class: 'btn btn-primary'

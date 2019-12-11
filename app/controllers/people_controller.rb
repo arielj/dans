@@ -17,6 +17,17 @@ class PeopleController < ApplicationController
     @people = @people.active unless params[:include_inactive]
   end
 
+  def export
+    params[:sort] ||= 'name'
+    params[:direction] ||= 'asc'
+    people = get_sorted(name: :asc)
+    people = people.where(is_teacher: params[:type] == 'teachers') if params[:type].present?
+    people = people.search(params[:q]) if params[:q].present?
+    people = people.active unless params[:include_inactive]
+
+    send_file ExcelExporter.to_xls(people)
+  end
+
   def new_student
     @person = Person.new is_teacher: false
     render template: 'people/new'

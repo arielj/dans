@@ -3,9 +3,17 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: 'dashboard#index'
 
-  resources :rooms
+  resources :rooms do
+    collection do
+      get :export
+    end
+  end
 
   resources :klasses do
+    collection do
+      get :export
+    end
+
     member do
       put :toggle_active
       get :add_teachers
@@ -15,11 +23,19 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :packages
+  resources :packages do
+    collection do
+      get :export
+    end
+  end
 
-  get 'people/new_teacher', to: 'people#new_teacher', as: :new_teacher_person
-  get 'people/new_student', to: 'people#new_student', as: :new_student_person
   resources :people do
+    collection do
+      get :new_teacher
+      get :new_student
+      get :export
+    end
+
     member do
       get :new_membership
       get :new_membership_calculator

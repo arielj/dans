@@ -1,6 +1,13 @@
 - page_title(t('rooms'))
 
-h1= t('rooms')
+header
+  h1
+    => t('rooms')
+    | (#{@rooms.count})
+
+  .actions
+    = link_to t('add.room'), new_room_path, class: 'btn btn-primary'
+    = link_to t('export'), export_rooms_path, class: 'btn'
 
 .filters
 
@@ -21,6 +28,3 @@ h1= t('rooms')
             | |
             = link_to room, title: t('destroy.room'), method: :delete, data: {confirm: '¿Re seguro?'} do
               i.icon.icon-delete
-
-.actions
-  = link_to t('add.room'), new_room_path, class: 'btn btn-primary'

@@ -10,6 +10,7 @@ es:
   hours: Horas
   hourly_fees: Precio x Horas
   klasses: Clases
+  export: Exportar
   money:
     details: Detalles
     in: Entradas

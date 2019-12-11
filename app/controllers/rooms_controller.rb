@@ -43,6 +43,10 @@ class RoomsController < ApplicationController
     redirect_to action: :index
   end
 
+  def export
+    send_file ExcelExporter.to_xls(Room.all)
+  end
+
   private
 
   def find_room
