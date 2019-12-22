@@ -56,3 +56,10 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 end
+
+def log_in(admin = nil)
+  admin ||= Admin.new
+  allow_any_instance_of(ApplicationController).to receive(:authenticate_admin!).and_return(true)
+  allow_any_instance_of(ApplicationController).to receive(:current_admin).and_return(admin)
+  admin
+end

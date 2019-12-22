@@ -4,7 +4,7 @@ class Room < ApplicationRecord
   has_many :schedules
   has_many :klasses, through: :schedules
 
-  validates :name, uniqueness: true, presence: true
+  validates :name, uniqueness: { case_sensitive: false }, presence: true
 
   def schedules_for_day(day)
     schedules

@@ -6,16 +6,18 @@ table.table.table-striped.table-small
     th= t('activerecord.attributes.installment.status')
     th= t('activerecord.attributes.installment.payments')
   - membership.installments.includes(:payments).each do |i|
-    tr id="installment_#{i.id}"
+    tr.installment id="installment_#{i.id}"
       td= i.year
       td= i.month_name
       td
         | $#{i.amount}
-        - if (r = i.get_recharge) > 0
+        - if i.paid_with_interests?
+          | (+#{i.amount_paid - i.amount})
+        - elsif (r = i.get_recharge) > 0
           | (+#{r})
       td= t("payment_status.#{i.status}")
       td
         = render partial: 'money_transactions/payments_detail', locals: {payable: i}
         - if i.to_pay > 0
-          = link_to new_payment_installment_path(i), remote: true do
+          = link_to new_payment_installment_path(i), remote: true, title: t('add.payment') do
             i.fa.fa-plus title=t('add.payment')

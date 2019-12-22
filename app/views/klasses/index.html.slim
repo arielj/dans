@@ -34,11 +34,11 @@ header
                 | (#{t(klass.status, scope: 'enums.klass.status')})
           td= klass.schedules.map{|sch| "#{sch.day_name}: #{sch.from_time_s}-#{sch.to_time_s}"}.join(', ')
           td.actions
-            = link_to edit_klass_path(klass), title: t('edit.klass') do
+            => link_to edit_klass_path(klass), title: t('edit.klass') do
               i.icon.icon-edit
-            | |
-            = link_to klass, title: t('destroy.klass'), method: :delete, data: {confirm: '¿Re seguro?'} do
+            ' |
+            => link_to klass, title: t('destroy.klass'), method: :delete, data: {confirm: '¿Re seguro?'} do
               i.icon.icon-delete
-            | |
+            ' |
             - active_text = klass.active? ? :deactivate : :activate
             = link_to t(active_text, scope: 'labels.klasses'), toggle_active_klass_path(klass, include_inactive: params[:include_inactive]), method: :put

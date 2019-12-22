@@ -35,7 +35,7 @@ class Installment < ApplicationRecord
     month_recharge_value = Setting.fetch(:month_recharge_value, nil)
 
     return 0 if month_recharge_value.nil?
-    return 0 unless created_at < Date.today.beginning_of_month
+    return 0 unless date < Date.today.beginning_of_month
 
     _calculate_recharge(month_recharge_value)
   end
@@ -79,7 +79,7 @@ class Installment < ApplicationRecord
   end
 
   def to_pay(ignore_recharge = nil, ignore_month_recharge = nil)
-    return 0 if paid?
+    return 0 if paid? || paid_with_interests?
 
     total(ignore_recharge, ignore_month_recharge) - amount_paid
   end

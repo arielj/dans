@@ -29,7 +29,7 @@ gem 'money-rails'
 gem 'simple_form'
 gem 'slim', '~> 4.0', '>= 4.0.1'
 gem 'tinymce-rails'
-gem 'vanilla_nested', '~> 1.1'
+gem 'vanilla_nested', '~> 1.2'
 # gem 'vanilla_nested', path: '../vanilla-nested'
 
 # Use Capistrano for deployment
@@ -41,10 +41,8 @@ group :development, :test do
   gem 'factory_bot'
   gem 'factory_bot_rails'
   gem 'faker'
+  gem 'launchy'
   gem 'rspec-rails', '~> 3.7'
-  # Adds support for Capybara system testing and selenium driver
-  # gem 'capybara', '~> 2.13'
-  # gem 'selenium-webdriver'
 end
 
 group :development do
@@ -54,6 +52,11 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+end
+
+group :test do
+  gem 'capybara'
+  gem 'webdrivers'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

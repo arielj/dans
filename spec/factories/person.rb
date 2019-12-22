@@ -4,5 +4,9 @@ FactoryBot.define do
     lastname { 'Doe' }
     status { Person.statuses.keys.sample }
     gender { Person.genders.keys.sample }
+
+    factory :student do
+      is_teacher { false }
+    end
   end
 end

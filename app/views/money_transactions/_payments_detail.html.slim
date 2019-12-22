@@ -2,7 +2,7 @@
   ul
     - payable.payments.each do |p|
       li
-        i.fa.fa-calendar title=l(p.created_at)
-        | $#{p.amount}
+        i.fa.fa-calendar> title=l(p.created_at)
+        ' $#{p.amount}
         - if p.description.present?
           span title=p.description (*)

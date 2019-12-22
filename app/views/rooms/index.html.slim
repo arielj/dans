@@ -23,8 +23,8 @@ header
           td= link_to edit_room_path(room), title: t('edit.room') do
             = room.name
           td.actions
-            = link_to edit_room_path(room), title: t('edit.room') do
+            => link_to edit_room_path(room), title: t('edit.room') do
               i.icon.icon-edit
-            | |
+            ' |
             = link_to room, title: t('destroy.room'), method: :delete, data: {confirm: '¿Re seguro?'} do
               i.icon.icon-delete

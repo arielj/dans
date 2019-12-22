@@ -43,8 +43,8 @@ header
           td= person.address
           td= person.email
           td.actions
-            = link_to edit_person_path(person), title: t('edit.person') do
+            => link_to edit_person_path(person), title: t('edit.person') do
               i.icon.icon-edit
-            | |
+            ' |
             - active_text = person.active? ? :deactivate : :activate
             = link_to t(active_text, title: t('destroy.person'), scope: 'labels.people'), toggle_active_person_path(person, include_inactive: params[:include_inactive]), method: :put

@@ -44,7 +44,7 @@ h1= "#{tg("edit.#{@person.type}", @person.gender)}: #{@person.to_label}"
               tr
                 td title=l(d.created_at) = l d.created_at, format: :date
                 td= d.description
-                td= d.amount
+                td $#{d.amount}
                 td= t("payment_status.#{d.status}")
                 td.actions
                   = render partial: 'money_transactions/payments_detail', locals: {payable: d}
