@@ -18,6 +18,6 @@ class InstallmentsController < ApplicationController
   end
 
   def add_payment_attributes
-    params.require(:payment).permit(:amount, :description, :created_at)
+    params.require(:payment).permit(:amount, :description, :paid_at)
   end
 end

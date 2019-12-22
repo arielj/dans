@@ -14,6 +14,13 @@ class MoneyTransaction < ApplicationRecord
   scope :today, -> { where('created_at >= ?', Date.today.beginning_of_day) }
   scope :for_day, ->(date) { where('created_at >= ? AND created_at <= ?', date.beginning_of_day, date.end_of_day) }
 
+  def paid_at=(value)
+    return if value.blank?
+
+    d = Date.parse(value)
+    self.created_at = d.end_of_day if d != Date.today
+  end
+
   def self.total_in
     where(done: false).total
   end
