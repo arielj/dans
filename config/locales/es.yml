@@ -228,20 +228,21 @@ es:
         alt_fee: Valor alternativo
         klasses: Clases
       person:
-        name: Nombre
-        lastname: Apellido
-        birthday: Cumpleaños
         age: Edad
-        dni: DNI
-        document: DNI
-        gender: Género
-        cellphone: Celular
         alt_phone: Teléfono alternativo
         address: Dirección
-        email: Email
-        group: Grupo
-        family: Familiares
+        birthday: Cumpleaños
+        cellphone: Celular
         comments: Comentarios
+        dni: DNI
+        document: DNI
+        email: Email
+        family: Familiares
+        gender: Género
+        group: Grupo
+        is_teacher: Es profesor?
+        lastname: Apellido
+        name: Nombre
       room:
         name: Nombre
       schedule:

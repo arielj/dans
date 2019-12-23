@@ -19,4 +19,19 @@ module ApplicationHelper
       concat flash[key]
     end
   end
+
+  # use a helper methods instead of a partial, it's faster
+  def payments_detail(payable)
+    return if payable.payments.empty?
+
+    content_tag 'ul' do
+      payable.payments.each do |p|
+        concat(content_tag('li') do
+          concat tag.i(class: 'fa fa-calendar', title: l(p.created_at))
+          concat " $#{p.amount} "
+          concat content_tag('span', '(*)', title: p.description) if p.description.present?
+        end)
+      end
+    end
+  end
 end

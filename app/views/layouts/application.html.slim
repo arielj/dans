@@ -3,17 +3,46 @@ html xmlns:fb="http://www.facebook.com/2008/fbml" lang='es-AR'
   head
     title
       - if content_for(:page_title)
-        = yield(:page_title)
-        | |
+        => yield(:page_title)
+        ' |
       - if name = Setting.fetch('name', nil)
-        = "#{name} | "
-      | Dans
+        => "#{name} | "
+      ' Dans
+
     = csrf_meta_tags
     meta name="viewport" content="width=device-width, initial-scale=1.0"
 
-    = render partial: 'layouts/scripts'
-
     javascript:
+      function onLoad(callback) {
+        document.addEventListener('DOMContentLoaded', callback);
+      }
+      HTMLElement.prototype.qs = function(selector){
+        return this.querySelector(selector);
+      }
+
+      HTMLDocument.prototype.qs = function(selector){
+        return this.querySelector(selector);
+      }
+
+      HTMLElement.prototype.qsa = function(selector){
+        return this.querySelectorAll(selector);
+      }
+
+      HTMLDocument.prototype.qsa = function(selector){
+        return this.querySelectorAll(selector);
+      }
+      function qs(selector, element) {
+        if (!element) element = document;
+        return element.querySelector(selector);
+      };
+      function qsa(selector, element) {
+        if (!element) element = document;
+        return element.querySelectorAll(selector);
+      };
+      function byid(id) {
+        return document.getElementById(id);
+      };
+
       window.userLocale = '#{Setting.fetch("language", "es")}'
 
     = stylesheet_link_tag    'application', media: 'all'

@@ -10,14 +10,14 @@ table.table.table-striped.table-small
       td= i.year
       td= i.month_name
       td
-        | $#{i.amount}
+        ' $#{i.amount}
         - if i.paid_with_interests?
-          | (+#{i.amount_paid - i.amount})
+          ' (+#{i.amount_paid - i.amount})
         - elsif (r = i.get_recharge) > 0
-          | (+#{r})
+          ' (+#{r})
       td= t("payment_status.#{i.status}")
       td
-        = render partial: 'money_transactions/payments_detail', locals: {payable: i}
+        = payments_detail(i)
         - if i.to_pay > 0
           = link_to new_payment_installment_path(i), remote: true, title: t('add.payment') do
             i.fa.fa-plus title=t('add.payment')

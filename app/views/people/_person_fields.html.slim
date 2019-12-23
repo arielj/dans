@@ -1,4 +1,3 @@
-= f.hidden_field :is_teacher
 = f.input :name
 = f.input :lastname
 = f.input :birthday, as: :string, input_html: {placeholder: 'aaaa-mm-dd', class: 'datepicker'}
@@ -10,8 +9,14 @@
 = f.input :address
 = f.input :email, as: :string
 = f.input :group
+.form-group
+  = label_tag '', class: 'form-checkbox' do
+    = Person.human_attribute_name(:is_teacher)
+    div style='position: relative'
+      = f.check_box :is_teacher, class: 'checkbox'
+      i class="form-icon"
+    
 
--# = f.input :is_teacher
 -# = f.input :status
 
 - unless f.object.new_record?
