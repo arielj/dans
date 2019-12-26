@@ -16,8 +16,8 @@ Rails.application.routes.draw do
 
     member do
       put :toggle_active
-      get :add_teachers
-      patch :add_teachers, action: :do_add_teachers
+      get :assign_teachers
+      patch :assign_teachers, action: :do_assign_teachers
       delete 'remove_teacher/:teacher_id', action: :remove_teacher, as: :remove_teacher
       get :export_students
     end

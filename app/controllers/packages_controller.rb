@@ -3,20 +3,13 @@
 class PackagesController < ApplicationController
   def index
     @packages = Package.all.includes(:klasses).order(name: :asc)
-    if params[:include_personal_packages].present?
-      @packages = @packages.where(person_id: 0).where.not('name LIKE "Clases ____ %"')
-    end
-    @packages = @packages.where('name LIKE ?', "%#{params[:q]}%") if params[:q]
+    # @packages = @packages.not_personal unless params[:include_personal_packages].present?
+    @packages = @packages.search(params[:q]) if params[:q]
   end
 
   def export
-    packages = Package.all.includes(:klasses).order(name: :asc)
-    if params[:include_personal_packages].present?
-      packages = packages.where(person_id: 0).where.not('name LIKE "Clases ____ %"')
-    end
-    packages = packages.where('name LIKE ?', "%#{params[:q]}%") if params[:q]
-
-    send_file ExcelExporter.to_xls(packages)
+    index
+    send_file ExcelExporter.to_xls(@packages)
   end
 
   def new
@@ -26,8 +19,7 @@ class PackagesController < ApplicationController
   def create
     @package = Package.new create_package_params
     if @package.save
-      flash[:success] = 'Package created'
-      redirect_to edit_package_path(@package)
+      redirect_to edit_package_path(@package), notice: t('created.package')
     else
       flash.now[:danger] = 'Error creating package'
       render action: :new
@@ -35,13 +27,11 @@ class PackagesController < ApplicationController
   end
 
   def edit
-    find_package
-    @students = @package.students.active
+    @students = package.students.active
   end
 
   def update
-    find_package
-    updated = @package.update_attributes(update_package_params)
+    updated = package.update_attributes(update_package_params)
     respond_to do |format|
       format.html do
         if updated
@@ -49,7 +39,7 @@ class PackagesController < ApplicationController
         else
           flash[:alert] = 'Error'
         end
-        redirect_to edit_package_path(@package)
+        redirect_to edit_package_path(package)
       end
       format.js do
         if updated
@@ -62,11 +52,16 @@ class PackagesController < ApplicationController
   end
 
   def destroy
-    find_package
-    @package.destroy
-    flash[:success] = t('destroyed.package')
+    package.destroy
+
+    flash[:notice] = t('destroyed.package')
     redirect_to action: :index
   end
+
+  def package
+    @package ||= Package.find(params[:id])
+  end
+  helper_method :package
 
   private
 
@@ -76,9 +71,5 @@ class PackagesController < ApplicationController
 
   def update_package_params
     params.require(:package).permit(:name, :fee, schedule_ids: [])
-  end
-
-  def find_package
-    @package = Package.find(params[:id])
   end
 end

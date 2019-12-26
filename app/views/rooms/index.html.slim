@@ -15,7 +15,7 @@ header
   table.table.table-striped.table-small
     thead.thead-dark
       tr
-        th= t('activerecord.attributes.room.name')
+        th= Room.human_attribute_name(:name)
         th.actions
     tbody
       - @rooms.each do |room|

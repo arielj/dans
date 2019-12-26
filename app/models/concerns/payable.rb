@@ -12,7 +12,7 @@ module Payable
   end
 
   included do
-    has_many :payments, class_name: 'MoneyTransaction', inverse_of: :payable, foreign_key: :payable_id, foreign_type: :payable_type
+    has_many :payments, class_name: 'MoneyTransaction', as: :payable
 
     enum status: %i[waiting paid paid_with_interests]
 

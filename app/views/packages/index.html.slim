@@ -11,18 +11,18 @@ header
 
 = form_tag '', method: :get, id: :filter_packages do
   .form-group.form-inline=> text_field_tag :q, params[:q], placeholder: t('labels.search'), class: 'form-input'
-  => label_tag '', class: 'form-checkbox form-inline' do
-    => check_box_tag :include_personal_packages, '1', params[:include_personal_packages]
-    = t('labels.include_personal_packages')
-    i.form-icon
+  / => label_tag '', class: 'form-checkbox form-inline' do
+  /   => check_box_tag :include_personal_packages, '1', params[:include_personal_packages]
+  /   = t('labels.include_personal_packages')
+  /   i.form-icon
   = button_tag t('labels.filter'), type: :submit, class: 'btn btn-primary'
 
 .scrollable
   table.table.table-striped.table-small
     thead.thead-dark
       tr
-        th= t('activerecord.attributes.package.name')
-        th= t('activerecord.attributes.package.klasses')
+        th= Package.human_attribute_name(:name)
+        th= Package.human_attribute_name(:klasses)
         th.actions
     tbody
       - @packages.each do |package|

@@ -1,43 +1,43 @@
-- page_title("#{tg("edit.#{@person.type}", @person.gender)}: #{@person.to_label}")
+- page_title("#{tg("edit.#{person.type}", person.gender)}: #{person.to_label}")
 
-h1= "#{tg("edit.#{@person.type}", @person.gender)}: #{@person.to_label}"
+h1= "#{tg("edit.#{person.type}", person.gender)}: #{person.to_label}"
 
 .personal_data
   h3= t('personal_data')
   .scrollable
-    = simple_form_for @person, html: {class: 'form-compact'} do |f|
+    = simple_form_for person, html: {class: 'form-compact'} do |f|
       = render partial: 'person_fields', locals: {f: f}
       .actions
-        = submit_tag tg("save.#{@person.type}", @person.gender), class: 'btn btn-primary'
+        = submit_tag tg("save.#{person.type}", person.gender), class: 'btn btn-primary'
 
 .tabbed
   .tabs
-    = link_to t('tab.person_payments'), edit_person_path(@person, tab: 'person_payments'), class: "tab#{('person_payments' == params[:tab] or params[:tab].blank?) ? ' current' : ''}"
+    = link_to t('tab.person_payments'), edit_person_path(person, tab: 'person_payments'), class: "tab#{('person_payments' == params[:tab] or params[:tab].blank?) ? ' current' : ''}"
 
-    - if @person.is_teacher?
-      = link_to tg('tab.payments_to_teacher', @person.gender), edit_person_path(@person, tab: 'payments_to_teacher'), class: "tab#{'payments_to_teacher' == params[:tab] ? ' current' : ''}"
+    - if person.is_teacher?
+      = link_to tg('tab.payments_to_teacher', person.gender), edit_person_path(person, tab: 'payments_to_teacher'), class: "tab#{'payments_to_teacher' == params[:tab] ? ' current' : ''}"
 
-    = link_to t('tab.debts'), edit_person_path(@person, tab: 'debts'), class: "tab#{'debts' == params[:tab] ? ' current' : ''}"
+    = link_to t('tab.debts'), edit_person_path(person, tab: 'debts'), class: "tab#{'debts' == params[:tab] ? ' current' : ''}"
 
-    = link_to t('tab.memberships'), edit_person_path(@person, tab: 'memberships'), class: "tab#{'memberships' == params[:tab] ? ' current' : ''}"
+    = link_to t('tab.memberships'), edit_person_path(person, tab: 'memberships'), class: "tab#{'memberships' == params[:tab] ? ' current' : ''}"
 
   .tabs_contents
     .tab_content data-tab-content='person_payments' class=(('person_payments' == params[:tab] or params[:tab].blank?) ? ' current' : '')
-      = render partial: 'payments_table', locals: {payments: @person_payments, url: add_payment_person_path(@person)}
+      = render partial: 'payments_table', locals: {payments: @person_payments, url: add_payment_person_path(person)}
 
-    - if @person.is_teacher?
+    - if person.is_teacher?
       .tab_content data-tab-content='payments_to_teacher' class=('payments_to_teacher' == params[:tab] ? ' current' : '')
-        = render partial: 'payments_table', locals: {payments: @payments_to_person, url: add_payment_done_person_path(@person)}
+        = render partial: 'payments_table', locals: {payments: @payments_to_person, url: add_payment_done_person_path(person)}
 
     .tab_content.debts data-tab-content='debts' class=('debts' == params[:tab] ? ' current' : '')
       .scrollable
         table.table.table-striped.table-small
           thead.thead-dark
             tr
-              th= t('activerecord.attributes.debt.date')
-              th= t('activerecord.attributes.debt.description')
-              th= t('activerecord.attributes.debt.amount')
-              th= t('activerecord.attributes.debt.status')
+              th= Debt.human_attribute_name(:date)
+              th= Debt.human_attribute_name(:description)
+              th= Debt.human_attribute_name(:amount)
+              th= Debt.human_attribute_name(:status)
               th.actions
           tbody
             - @debts.each do |d|
@@ -52,12 +52,12 @@ h1= "#{tg("edit.#{@person.type}", @person.gender)}: #{@person.to_label}"
                     = link_to add_payment_debt_path(d), remote: true do
                       i.fa.fa-plus title=t('add.payment')
       .actions
-        = link_to t('add.debt'), add_debt_person_path(@person), class: 'btn', remote: true
+        = link_to t('add.debt'), add_debt_person_path(person), class: 'btn', remote: true
 
     .tab_content.memberships data-tab-content='memberships' class=('memberships' == params[:tab] ? ' current' : '')
       .selector
-        = select_tag :membership, options_from_collection_for_select(@person.memberships, :id, :to_label), class: 'form-select'
-        = link_to t('add.membership'), new_membership_person_path(@person), class: 'btn btn-light', remote: true
+        = select_tag :membership, options_from_collection_for_select(person.memberships, :id, :to_label), class: 'form-select'
+        = link_to t('add.membership'), new_membership_person_path(person), class: 'btn btn-light', remote: true
       .installments.scrollable
-        - if m = @person.memberships.first
+        - if m = person.memberships.first
           = render partial: 'people/membership', locals: {membership: m}

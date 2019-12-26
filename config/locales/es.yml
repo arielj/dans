@@ -50,11 +50,13 @@ es:
     room: Agregar sala
     schedule: Agregar horario
     student: Agregar alumno/a
-    teacher: Agregar profesor/a
-    teachers: Agregar profesores
   added:
-    teachers: Profesores/as agregados/as
     money_transaction: Movimiento agregado
+  assign:
+    label: Asignar
+    teachers: Asignar profesores/as
+  assigned:
+    teachers: Profesores/as asignados/as
   new:
     klass: Nueva clase
     package: Nuevo paquete
@@ -98,6 +100,16 @@ es:
     room: Crear sala
     student: Crear alumno/a
     teacher: Crear profesor/a
+  created:
+    klass: Clase creada
+    package: Paquete creado
+    room: Sala creada
+    student: Alumno/a creado/a
+    teacher: Profesor/a creado/a
+    student_m: Alumno creado
+    student_f: Alumna creada
+    teacher_m: Profesor creado
+    teacher_m: Profesora creada
   edit:
     klass: Editar clase
     label: Editar

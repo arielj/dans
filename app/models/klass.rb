@@ -19,6 +19,8 @@ class Klass < ApplicationRecord
 
   enum status: %i[inactive active]
 
+  scope :search, ->(q) { where('name LIKE ?', "%#{q}%") }
+
   def get_memberships
     memberships + packages.map(&:memberships).flatten
   end

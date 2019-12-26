@@ -1,21 +1,15 @@
 # frozen_string_literal: true
 
 class KlassesController < ApplicationController
-  before_action :load_klass,
-                only: %i[edit update toggle_active add_teachers do_add_teachers remove_teacher]
-
   def index
     @klasses = Klass.all.includes(:schedules).order(name: :asc)
-    @klasses = @klasses.where('name LIKE ?', "%#{params[:q]}%") if params[:q]
+    @klasses = @klasses.search(params[:q]) if params[:q]
     @klasses = @klasses.active unless params[:include_inactive]
   end
 
   def export
-    klasses = Klass.all.includes(:schedules).order(name: :asc)
-    klasses = klasses.where('name LIKE ?', "%#{params[:q]}%") if params[:q]
-    klasses = klasses.active unless params[:include_inactive]
-
-    send_file ExcelExporter.to_xls(klasses)
+    index
+    send_file ExcelExporter.to_xls(@klasses)
   end
 
   def new
@@ -25,8 +19,7 @@ class KlassesController < ApplicationController
   def create
     @klass = Klass.new create_klass_params
     if @klass.save
-      flash[:success] = 'Class created'
-      redirect_to edit_klass_path(@klass)
+      redirect_to edit_klass_path(@klass), notice: t('created.klass')
     else
       flash.now[:danger] = 'Error creating class'
       render action: :new
@@ -34,11 +27,11 @@ class KlassesController < ApplicationController
   end
 
   def edit
-    @students = @klass.students.active
+    @students = klass.students.active
   end
 
   def update
-    updated = @klass.update_attributes(update_klass_params)
+    updated = klass.update_attributes(update_klass_params)
     respond_to do |format|
       format.html do
         if updated
@@ -46,7 +39,7 @@ class KlassesController < ApplicationController
         else
           flash[:alert] = 'Error'
         end
-        redirect_to edit_klass_path(@klass)
+        redirect_to edit_klass_path(klass)
       end
       format.js do
         if updated
@@ -59,38 +52,45 @@ class KlassesController < ApplicationController
   end
 
   def toggle_active
-    @klass.toggle_active
+    klass.toggle_active
+
     redirect_back fallback_location: klasses_path
   end
 
-  def add_teachers
+  def assign_teachers
     @teachers = Person.active.teachers
   end
 
-  def do_add_teachers
+  def do_assign_teachers
     selected_teachers = Person.where(id: params[:teacher_ids])
-    @klass.teachers = selected_teachers
-    @klass.save
-    flash[:notice] = t('added.teachers')
-    redirect_to edit_klass_path(@klass)
+    klass.teachers = selected_teachers
+    klass.save
+
+    redirect_to edit_klass_path(klass), notice: t('assigned.teachers')
   end
 
   def remove_teacher
     teacher = Person.find(params[:teacher_id])
-    @klass.teachers.delete(teacher)
-    flash[:notice] = tg('removed.teacher', teacher.gender)
-    redirect_to edit_klass_path(@klass)
+    klass.teachers.delete(teacher)
+
+    redirect_to edit_klass_path(klass), notice: tg('removed.teacher', teacher.gender)
   end
 
   def export_students
+    send_file ExcelExporter.to_xls(klass.students)
   end
+
+  def klass
+    @klass ||= Klass.find(params[:id])
+  end
+  helper_method :klass
 
   private
 
   def create_klass_params
     params
       .require(:klass)
-      .permit(:name, :status, :teacher_id, :fixed_fee, 
+      .permit(:name, :status, :teacher_id, :fixed_fee,
               schedules_attributes: %i[id from_time to_time day room_id _destroy])
   end
 
@@ -99,9 +99,5 @@ class KlassesController < ApplicationController
       .require(:klass)
       .permit(:name, :status, :teacher_id, :fixed_fee,
               schedules_attributes: %i[id from_time to_time day room_id _destroy])
-  end
-
-  def load_klass
-    @klass = Klass.find(params[:id])
   end
 end

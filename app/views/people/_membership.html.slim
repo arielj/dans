@@ -1,10 +1,10 @@
 table.table.table-striped.table-small
   tr
-    th= t('activerecord.attributes.installment.year')
-    th= t('activerecord.attributes.installment.month')
-    th= t('activerecord.attributes.installment.amount')
-    th= t('activerecord.attributes.installment.status')
-    th= t('activerecord.attributes.installment.payments')
+    th= Installment.human_attribute_name(:year)
+    th= Installment.human_attribute_name(:month)
+    th= Installment.human_attribute_name(:amount)
+    th= Installment.human_attribute_name(:status)
+    th= Installment.human_attribute_name(:payments)
   - membership.installments.includes(:payments).each do |i|
     tr.installment id="installment_#{i.id}"
       td= i.year

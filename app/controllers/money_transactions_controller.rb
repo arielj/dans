@@ -8,8 +8,7 @@ class MoneyTransactionsController < ApplicationController
   def create
     @tran = MoneyTransaction.create create_transaction_params.merge(category: 'general')
     if @tran.save
-      flash[:success] = t('added.money_transaction')
-      redirect_to root_path
+      redirect_to root_path, success: t('added.money_transaction')
     else
       render action: :new
     end

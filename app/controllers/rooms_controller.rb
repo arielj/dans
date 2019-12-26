@@ -5,6 +5,11 @@ class RoomsController < ApplicationController
     @rooms = Room.all
   end
 
+  def export
+    index
+    send_file ExcelExporter.to_xls(@rooms)
+  end
+
   def new
     @room = Room.new
   end
@@ -12,24 +17,19 @@ class RoomsController < ApplicationController
   def create
     @room = Room.new(room_params)
     if @room.save
-      flash[:success] = t('saved.room')
-      redirect_to edit_room_path(@room)
+      redirect_to edit_room_path(@room), notice: t('saved.room')
     else
       flash.now[:error] = 'Error al crear sala, revisá los campos'
       render action: :new
     end
   end
 
-  def edit
-    find_room
-  end
+  def edit; end
 
   def update
-    find_room
-    @room.attributes = room_params
-    if @room.save
-      flash[:success] = t('saved.room')
-      redirect_to edit_room_path(@room)
+    room.attributes = room_params
+    if room.save
+      redirect_to edit_room_path(@room), notice: t('saved.room')
     else
       flash.now[:error] = 'Error al guardarsala, revisá los campos'
       render action: :new
@@ -37,21 +37,18 @@ class RoomsController < ApplicationController
   end
 
   def destroy
-    find_room
-    @room.destroy
-    flash[:success] = t('destroyed.room')
+    room.destroy
+
+    flash[:notice] = t('destroyed.room')
     redirect_to action: :index
   end
 
-  def export
-    send_file ExcelExporter.to_xls(Room.all)
+  def room
+    @room ||= Room.find(params[:id])
   end
+  helper_method :room
 
   private
-
-  def find_room
-    @room = Room.find(params[:id])
-  end
 
   def room_params
     params.require(:room).permit(:name)

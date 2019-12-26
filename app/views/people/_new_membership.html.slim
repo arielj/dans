@@ -11,7 +11,7 @@
     | Total: $0,00
   = label_tag '', class: 'form-checkbox' do
     = check_box_tag "membership[use_custom_amount]"
-    = t 'activerecord.attributes.membership.use_custom_amount'
+    = t Membership.human_attribute_name(:use_custom_amount)
     i.form-icon
 
   .input-group

@@ -21,8 +21,8 @@ header
   table.table.table-striped.table-small
     thead.thead-dark
       tr
-        th= t('activerecord.attributes.klass.name')
-        th= t('activerecord.attributes.klass.schedules')
+        th= Klass.human_attribute_name(:name)
+        th= Klass.human_attribute_name(:schedules)
         th.actions
     tbody
       - @klasses.each do |klass|
