@@ -46,7 +46,7 @@ class PeopleController < ApplicationController
     if person.update_attributes(update_person_params)
       flash[:notice] = tg("saved.#{person.type}", person.gender)
     else
-      flash[:alert] = 'Error'
+      flash[:error] = 'Error'
     end
     redirect_to action: :edit
   end

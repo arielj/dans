@@ -31,7 +31,7 @@ class RoomsController < ApplicationController
     if room.save
       redirect_to edit_room_path(@room), notice: t('saved.room')
     else
-      flash.now[:error] = 'Error al guardarsala, revisá los campos'
+      flash.now[:error] = 'Error al guardar sala, revisá los campos'
       render action: :new
     end
   end

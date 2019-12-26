@@ -50,6 +50,7 @@ es:
     room: Agregar sala
     schedule: Agregar horario
     student: Agregar alumno/a
+    teacher: Agregar profesor/a
   added:
     money_transaction: Movimiento agregado
   assign:

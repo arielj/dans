@@ -21,7 +21,7 @@ class KlassesController < ApplicationController
     if @klass.save
       redirect_to edit_klass_path(@klass), notice: t('created.klass')
     else
-      flash.now[:danger] = 'Error creating class'
+      flash.now[:error] = 'Error creating class'
       render action: :new
     end
   end
@@ -37,7 +37,7 @@ class KlassesController < ApplicationController
         if updated
           flash[:notice] = 'Guardada'
         else
-          flash[:alert] = 'Error'
+          flash[:error] = 'Error'
         end
         redirect_to edit_klass_path(klass)
       end
@@ -45,7 +45,7 @@ class KlassesController < ApplicationController
         if updated
           flash.now[:notice] = 'Guardada'
         else
-          flash.now[:alert] = 'Error'
+          flash.now[:error] = 'Error'
         end
       end
     end

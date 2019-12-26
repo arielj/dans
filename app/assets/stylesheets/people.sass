@@ -32,7 +32,7 @@ body.c_people
           span
             cursor: pointer
 
-  &.a_edit, &.a_new_teacher, &.a_new_student
+  &.a_edit, &.a_create, &.a_new_teacher, &.a_new_student
     main
       display: grid
       grid-template: 'title title' min-content 'personal_data tabbed' 1fr / 1fr 1fr
@@ -78,6 +78,6 @@ body.c_people
             display: flex
             flex-shrink: 0
 
-  &.a_new_teacher, &.a_new_student
+  &.a_new_teacher, &.a_new_student, &.a_create
     main
       grid-template: 'title' min-content 'personal_data' 1fr / 1fr

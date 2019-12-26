@@ -21,7 +21,7 @@ class PackagesController < ApplicationController
     if @package.save
       redirect_to edit_package_path(@package), notice: t('created.package')
     else
-      flash.now[:danger] = 'Error creating package'
+      flash.now[:error] = 'Error creating package'
       render action: :new
     end
   end
@@ -37,7 +37,7 @@ class PackagesController < ApplicationController
         if updated
           flash[:notice] = 'Guardado'
         else
-          flash[:alert] = 'Error'
+          flash[:error] = 'Error'
         end
         redirect_to edit_package_path(package)
       end
@@ -45,7 +45,7 @@ class PackagesController < ApplicationController
         if updated
           flash.now[:notice] = 'Guardado'
         else
-          flash.now[:alert] = 'Error'
+          flash.now[:error] = 'Error'
         end
       end
     end

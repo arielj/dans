@@ -10,6 +10,8 @@ class Package < ApplicationRecord
   monetize :fee_cents
   monetize :alt_fee_cents
 
+  validates :name, uniqueness: true, presence: true
+
   scope :not_personal, -> { where(person_id: 0) }
   scope :search, ->(q) { where('name LIKE ?', "%#{q}%") }
 end
