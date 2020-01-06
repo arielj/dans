@@ -11,6 +11,7 @@ es:
   hourly_fees: Precio x Horas
   klasses: Clases
   export: Exportar
+  select_installments_to_pay: 'Seleccionar cuotas a pagar'
   money:
     details: Detalles
     in: Entradas
@@ -46,6 +47,7 @@ es:
     movement: Agregar movimiento
     package: Agregar paquete
     payment: Agregar pago
+    payments: Agregar pagos
     price: Agregar precio
     room: Agregar sala
     schedule: Agregar horario
@@ -72,6 +74,9 @@ es:
     options: Guardar opciones
     package: Guardar paquete
     payment: Guardar pago
+    payment_and_receipt: Guardar pago y descargar recibo
+    payments: Guardar pagos
+    payments_and_receipt: Guardar pagos y descargar recibo
     room: Guardar sala
     student: Guardar alumno/a
     teacher: Guardar profesor/a
@@ -88,6 +93,7 @@ es:
     options: Guardadas
     package: Guardado
     payment: Guardado
+    payments: Pagos guardados
     room: Guardada
     student: Guardao/a
     teacher: Guardao/a
@@ -221,6 +227,8 @@ es:
         amount: Monto
         status: Estado
         payments: Pagos
+        person: Persona
+        to_pay: Saldo
       klass:
         name: Nombre
         fixed_fee: Valor fijo
@@ -235,6 +243,7 @@ es:
         description: Detalle
         created_at: Fecha
         date: Fecha
+        paid_at: Fecha de pago
       package:
         name: Nombre
         fee: Valor

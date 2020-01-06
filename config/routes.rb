@@ -51,11 +51,14 @@ Rails.application.routes.draw do
       post :add_payment_done, action: :do_add_payment_done
       get :add_debt
       post :add_debt, action: :do_add_debt
+      get :add_payments
+      post :add_payments, action: :do_add_payments
     end
   end
 
   resources :money_transactions
   patch :close_daily_cash, to: 'money_transactions#close_daily_cash', as: :close_daily_cash
+  get 'receipt/:number', to: 'money_transactions#receipt', as: :receipt
 
   resources :memberships
 

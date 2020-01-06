@@ -61,3 +61,5 @@ h1= "#{tg("edit.#{person.type}", person.gender)}: #{person.to_label}"
       .installments.scrollable
         - if m = person.memberships.first
           = render partial: 'people/membership', locals: {membership: m}
+      .actions
+        = link_to t('add.payments'), add_payments_person_path(person), class: 'btn btn-light', remote: true

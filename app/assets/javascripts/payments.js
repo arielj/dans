@@ -1,9 +1,9 @@
 (function(){
   let form = byid('add_installment_payment');
-  if (form) bindInstallPaymentForm(form);
+  if (form) bindInstallmentPaymentForm(form);
 })();
 
-function bindInstallPaymentForm(form) {
+function bindInstallmentPaymentForm(form) {
   let toPayHint = byid('to_pay');
   let amountField = byid('payment_amount');
   let dateRechargeCheck = form.qs('#ignore_recharge');
@@ -51,4 +51,27 @@ function setNewToPay(toPayHint, amountField, dateRechargeCheck, monthRechargeChe
   let currentAmount = parseFloat(amountField.value.replace(',', '.'));
   if (currentAmount > newValue)
     amountField.value = newValue.toFixed(2).toString().replace('.', ',');
+}
+
+function bindAddPaymentsForm(form) {
+  this.form = form;
+  this.checkboxes = form.qsa('input[type=checkbox]');
+  this.amountInput = form.qs('input[name=amount]');
+
+  this.recalculateAmount = _ => {
+    let total = 0;
+    this.checkboxes.forEach( check => {
+      debugger;
+      if (check.checked)
+        total += parseFloat(check.dataset.toPay.replace(',', '.'));
+    })
+
+    this.amountInput.value = total.toFixed(2).replace('.', ',');
+  }
+  
+  this.checkboxes.forEach( check => {
+    check.addEventListener('change', e => {
+      this.recalculateAmount();
+    })
+  })
 }

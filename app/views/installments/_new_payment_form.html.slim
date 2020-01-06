@@ -23,4 +23,5 @@
       i.form-icon
 
   .modal-footer
-    = f.submit 'Guardar', class: 'btn btn-primary'
+    => button_tag t('save.payment'), type: :submit, name: :button, value: :save, class: 'btn btn-primary'
+    => button_tag t('save.payment_and_receipt'), type: :submit, name: :button, value: :save_and_receipt, class: 'btn btn-primary'

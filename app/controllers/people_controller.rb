@@ -104,6 +104,16 @@ class PeopleController < ApplicationController
     redirect_back fallback_location: edit_person_path(person, tab: 'payments_to_teacher')
   end
 
+  def add_payments
+    @unpaid_installments = person.installments.waiting
+  end
+
+  def do_add_payments
+    @result = person.add_multi_payments(params[:installments_to_pay], params[:amount])
+
+    flash[:notice] = t('saved.payments') if @result.is_a?(Array)
+  end
+
   def add_debt
     @debt = person.debts.build
   end

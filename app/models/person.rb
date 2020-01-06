@@ -82,6 +82,27 @@ class Person < ApplicationRecord
     update_column(:status, to)
   end
 
+  def add_multi_payments(installment_ids, amount)
+    amount = Money.new(amount.to_i * 100)
+    return :no_amount if amount.cents.zero?
+
+    ins = installments.waiting.where(id: installment_ids).order(id: :asc)
+    return :no_installments_selected if ins.empty?
+
+    to_pay = 0
+    to_pay += ins.map(&:to_pay).sum
+    return :excesive_amount if amount > to_pay
+
+    rest = amount
+    ins.each do |installment|
+      break if rest.zero?
+
+      paid_amount = installment.to_pay > rest ? rest : installment.to_pay
+      installment.create_payment({ amount: paid_amount }, false, false)
+      rest -= paid_amount
+    end
+  end
+
   def new_membership_amount_calculator(sch_ids)
     fixed_total = Money.new(0)
     duration = 0

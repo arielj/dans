@@ -9,12 +9,7 @@ table.table.table-striped.table-small
     tr.installment id="installment_#{i.id}"
       td= i.year
       td= i.month_name
-      td
-        ' $#{i.amount}
-        - if i.paid_with_interests?
-          ' (+#{i.amount_paid - i.amount})
-        - elsif (r = i.get_recharge) > 0
-          ' (+#{r})
+      td= installment_amount(i)
       td= t("payment_status.#{i.status}")
       td
         = payments_detail(i)

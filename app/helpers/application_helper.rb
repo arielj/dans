@@ -34,4 +34,14 @@ module ApplicationHelper
       end
     end
   end
+
+  def installment_amount(ins)
+    s = "$#{ins.amount}"
+    if ins.paid_with_interests?
+      s += " (+#{ins.amount_paid - ins.amount})"
+    elsif (r = ins.get_recharge).positive?
+      s += " (+#{r})"
+    end
+    s
+  end
 end
