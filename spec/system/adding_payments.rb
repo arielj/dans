@@ -64,10 +64,14 @@ RSpec.describe 'Adding payments', type: :system, js: true do
 
     travel_to Time.zone.local(2020, 7, 1, 18, 0, 0) do
       student = FactoryBot.create(:student)
+      family = FactoryBot.create(:student)
+      student.add_family_member(family)
+
       klass = FactoryBot.create(:klass_with_schedules)
       student.memberships.create(schedules: klass.schedules, amount: 50_000)
+      family.memberships.create(schedules: klass.schedules, amount: 50_000)
 
-      unpaid_installments_count = student.installments.waiting.count
+      unpaid_installments_count = student.installments_for_multi_payments.size
 
       visit edit_person_path(student, tab: :memberships)
 
@@ -80,9 +84,19 @@ RSpec.describe 'Adding payments', type: :system, js: true do
 
         expect(amount_field.value).to eq '0,00'
 
-        student.installments.waiting.first(2).each do |ins|
-          find(:css, "#installments_to_pay_#{ins.id}").set(true)
+        student.installments.waiting.each do |ins|
+          expect(page).to have_selector "#installments_to_pay_#{ins.id}"
         end
+
+        family.installments.waiting.each do |ins|
+          expect(page).to have_selector "#installments_to_pay_#{ins.id}"
+        end
+
+        ins = student.installments.waiting.first
+        find(:css, "#installments_to_pay_#{ins.id}").set(true)
+
+        ins = family.installments.waiting.first
+        find(:css, "#installments_to_pay_#{ins.id}").set(true)
 
         # checking two payments with value $500 and $100 recharge
         expect(amount_field.value).to eq '1200,00'
@@ -92,7 +106,7 @@ RSpec.describe 'Adding payments', type: :system, js: true do
 
       expect(page).to have_text I18n.t('saved.payments')
 
-      expect(student.installments.waiting.count).to eq(unpaid_installments_count - 2)
+      expect(student.installments_for_multi_payments.count).to eq(unpaid_installments_count - 2)
     end
   end
 end

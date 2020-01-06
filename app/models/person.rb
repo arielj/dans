@@ -57,6 +57,8 @@ class Person < ApplicationRecord
 
   def add_family_member(person)
     fgid = family_group_id || person.family_group_id || id
+    self.family_group_id = fgid
+    person.family_group_id = fgid
     Person.where(id: [id, person.id]).update_all(family_group_id: fgid, updated_at: DateTime.current) == 2
   end
 
@@ -82,11 +84,17 @@ class Person < ApplicationRecord
     update_column(:status, to)
   end
 
+  def installments_for_multi_payments
+    pids = [id] + family_members.pluck(:id)
+    mids = Membership.where(person_id: pids).pluck(:id)
+    Installment.where(membership_id: mids).waiting
+  end
+
   def add_multi_payments(installment_ids, amount)
     amount = Money.new(amount.to_i * 100)
     return :no_amount if amount.cents.zero?
 
-    ins = installments.waiting.where(id: installment_ids).order(id: :asc)
+    ins = installments_for_multi_payments.where(id: installment_ids).order(id: :asc)
     return :no_installments_selected if ins.empty?
 
     to_pay = 0

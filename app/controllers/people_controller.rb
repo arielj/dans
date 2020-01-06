@@ -105,7 +105,7 @@ class PeopleController < ApplicationController
   end
 
   def add_payments
-    @unpaid_installments = person.installments.waiting
+    @unpaid_installments = person.installments_for_multi_payments
   end
 
   def do_add_payments

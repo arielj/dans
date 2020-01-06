@@ -67,4 +67,21 @@ RSpec.describe Person, type: :model do
       end
     end
   end
+
+  describe '.installments_for_multi_payments' do
+    it 'returns unpaid installment from all family members' do
+      student = FactoryBot.create(:student)
+      family = FactoryBot.create(:student)
+      student.add_family_member(family)
+
+      klass = FactoryBot.create(:klass_with_schedules)
+      student.memberships.create(schedules: klass.schedules, amount: 50_000)
+      family.memberships.create(schedules: klass.schedules, amount: 50_000)
+
+      result = student.installments_for_multi_payments
+
+      student.installments.waiting.each { |x| expect(result).to include x }
+      family.installments.waiting.each { |x| expect(result).to include x }
+    end
+  end
 end
