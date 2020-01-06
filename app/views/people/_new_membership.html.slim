@@ -1,21 +1,22 @@
-= form_for @membership, data: {'auto-price-url' => new_membership_calculator_person_path(@membership.person)} do |f|
+= form_for @membership, data: { 'auto-price-url' => new_membership_calculator_person_path(@membership.person) } do |f|
   = f.hidden_field :person_id
   - if @membership.errors.any?
     = @membership.errors.full_messages
   .new_membership_days
-    = render partial: 'schedules/calendar', locals: {object: @membership}
+    = render partial: 'schedules/calendar', locals: { object: @membership }
 
   .auto_calculation
     | Subtotal: $0,00
     br
     | Total: $0,00
   = label_tag '', class: 'form-checkbox' do
-    = check_box_tag "membership[use_custom_amount]"
-    = t Membership.human_attribute_name(:use_custom_amount)
+    = f.check_box :use_custom_amount
+    = Membership.human_attribute_name(:use_custom_amount)
     i.form-icon
 
-  .input-group
+  .input-group.hidden
     span.input-group-addon $
     = f.text_field :amount, value: '', class: 'form-input', placeholder: 'Monto manual'
+
   .modal-footer
     = f.submit t('save.membership'), class: 'btn btn-primary'

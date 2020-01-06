@@ -24,10 +24,20 @@ function refreshAmount(form) {
 };
 
 function bindNewMembership() {
-  const form = byid('new_membership');
-  const cal = form.qs('.schedules_calendar');
-  Rails.delegate(cal, 'input.schedule', 'change', function(e) {
+  this.form = byid('new_membership');
+  this.cal = this.form.qs('.schedules_calendar');
+  Rails.delegate(this.cal, 'input.schedule', 'change', e => {
     refreshAmount(this.form);
   });
   bindSchedulesCalendar();
+
+  this.useCustomAmountCheck = byid('membership_use_custom_amount');
+  this.useCustomAmountInput = byid('membership_amount');
+  this.useCustomAmountCheck.addEventListener('change', e => {
+    let parent = this.useCustomAmountInput.closest('.input-group');
+    if (e.target.checked)
+      parent.classList.remove('hidden');
+    else
+      parent.classList.add('hidden');
+  })
 }
