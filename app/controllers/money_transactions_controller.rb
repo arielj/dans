@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class MoneyTransactionsController < ApplicationController
+  include MoneyTransactionsHelper
+
   def new
     @tran = MoneyTransaction.new
   end
@@ -24,6 +26,11 @@ class MoneyTransactionsController < ApplicationController
     MoneyTransaction.today.update_all daily_cash_closer: false
     MoneyTransaction.today.last.update_column :daily_cash_closer, true
     flash.now[:success] = 'Cierre marcado'
+  end
+
+  def receipt
+    @receipt_items = MoneyTransaction.where(receipt: params[:number])
+    send_data generate_pdf(@receipt_items), filename: "receipt_#{@receipt_items.first.receipt}.pdf", type: "application/pdf", disposition: :attachment
   end
 
   private

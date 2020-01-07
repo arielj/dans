@@ -32,6 +32,9 @@ gem 'tinymce-rails'
 gem 'vanilla_nested', '~> 1.2'
 # gem 'vanilla_nested', path: '../vanilla-nested'
 
+gem 'prawn'
+gem 'prawn-table'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

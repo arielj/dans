@@ -1,0 +1,38 @@
+h1= t('titles.receipts')
+.filters
+  h2= t('filters')
+  = form_tag reports_receipts_path, method: :get do
+    .form-group
+      = label_tag :receipt, 'Recibo Nº', class: 'form-label'
+      = number_field_tag :receipt, params[:receipt], class: 'form-input'
+
+    = submit_tag t('labels.filter'), class: 'btn btn-primary'
+
+.scrollable
+  - if params[:receipt]
+    - if @receipt_items.empty?
+      .flash No se encontró el recibo con ese número
+    - else
+      .receipt
+        .person = @receipt_items.first.person.to_label
+        .number = @receipt_items.first.receipt
+        .date = l Date.today
+        table
+          thead
+            tr
+              th = t(:date, scope: :receipts)
+              th = t(:description, scope: :receipts)
+              th = t(:amount, scope: :receipts)
+          tbody
+            - @receipt_items.each do |item|
+              tr
+                td = l item.created_at.to_date, format: :default
+                td = item.description
+                td = "$#{item.amount}"
+          tfoot
+            tr
+              td colspan=3 = "Total: $#{@receipt_items.map(&:amount).sum}"
+        .name = Setting.fetch(:name, '')
+        .signature .....................
+      
+      => link_to 'Download', receipt_path(number: @receipt_items.first.receipt)

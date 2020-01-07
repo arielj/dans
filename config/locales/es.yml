@@ -193,6 +193,11 @@ es:
       - Inactiva
       - Activa
 
+  receipts:
+    date: Fecha
+    description: Descripción
+    amount: Monto
+
   form:
     options:
       closing_time: Cierra a las

@@ -32,4 +32,8 @@ class ReportsController < ApplicationController
                   @payments.received
                 end
   end
+
+  def receipts
+    @receipt_items = MoneyTransaction.where(receipt: params[:receipt]) if params[:receipt]
+  end
 end

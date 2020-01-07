@@ -36,3 +36,45 @@ body.c_reports
 
       & > .scrollable
         grid-area: table
+
+.receipt
+  display: grid
+  grid-template-areas: 'person number date' 'table table table' 'name name signature'
+  grid-template-columns: 1fr 1fr 1fr
+  grid-template-rows: 2rem 1fr 3rem
+  width: 800px
+  height: 400px
+  margin: 0 auto
+  
+  .person
+    grid-area: person
+  
+  .number
+    grid-area: number
+    text-align: center
+  
+  .date
+    grid-area: date
+    text-align: right
+  
+  table
+    grid-area: table
+
+    th
+      text-align: left
+    
+    th:first-child
+      width: 5%
+    th:last-child
+      width: 5%
+      text-align: right
+
+    td:last-child
+      text-align: right
+  
+  .name
+    grid-area: name
+
+  .signature
+    grid-area: signature
+    text-align: center
