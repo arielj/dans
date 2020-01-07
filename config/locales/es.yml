@@ -194,9 +194,10 @@ es:
       - Activa
 
   receipts:
+    amount: Monto
     date: Fecha
     description: Descripción
-    amount: Monto
+    title: Recibos
 
   form:
     options:

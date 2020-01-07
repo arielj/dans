@@ -97,6 +97,11 @@ en:
     - Female
     - Male
     - Other
+  
+  date:
+    format:
+      receipt: "%Y, %B, %d"
+      receipt_item: "%Y/%m/%d"
 
   form:
     options:
