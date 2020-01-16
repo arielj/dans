@@ -37,6 +37,42 @@ body.c_reports
       & > .scrollable
         grid-area: table
 
+  &.a_debts
+    & > main
+      display: grid
+      grid-template: 'title title' min-content 'filters table' 2fr / 25% auto
+      grid-column-gap: 1rem
+      grid-row-gap: .5rem
+
+      & > h1
+        grid-area: title
+
+      & > .filters
+        grid-area: filters
+
+      & > .scrollable
+        grid-area: table
+        table 
+          width: 100%
+  
+  &.a_students_hours
+    & > main
+      display: grid
+      grid-template: 'title title' min-content 'filters table' min-content 'stats table' 2fr / 20% auto
+      grid-column-gap: 1rem
+      grid-row-gap: .5rem
+
+      & > h1
+        grid-area: title
+      & > .filters
+        grid-area: filters
+      & > .stats
+        grid-area: stats
+      & > .scrollable
+        grid-area: table
+        table
+          width: 100%
+
 .receipt
   display: grid
   grid-template-areas: 'person number date' 'table table table' 'name name signature'

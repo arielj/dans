@@ -1,0 +1,31 @@
+h1= t('titles.students_hours')
+.filters
+  h2= t('labels.filters')
+  = form_tag '', method: :get do
+    .form-group
+      = label_tag :year, 'Año', class: 'form-label'
+      = number_field_tag :year, params[:year], class: 'form-input'
+
+    = submit_tag t('labels.filter'), class: 'btn btn-primary'
+
+.stats
+  h2 Estadísticas por hora
+  ul
+    - @stats.each do |hours, total|
+      li #{hours} hora(s): #{total} alumno/a(s)
+
+.scrollable
+  table
+    thead
+      tr
+        th Alumno/a
+        - @klasses.each do |kls|
+          th = kls.name
+        th Total
+    tbody
+      - @students.each do |std|
+        tr
+          td = std.to_label
+          - @klasses.each do |kls|
+            td = @data.dig(std.id, kls.id) || 0
+          td = (@data.dig(std.id) || {}).values.sum

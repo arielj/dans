@@ -36,4 +36,30 @@ class ReportsController < ApplicationController
   def receipts
     @receipt_items = MoneyTransaction.where(receipt: params[:receipt]) if params[:receipt]
   end
+
+  def students_hours
+    @year = (params[:year] || Date.today.year).to_i
+    @klasses = Klass.all
+    @students = Person.students.order(name: :asc)
+    @data = {}
+    Membership.where(person_id: @students.pluck(:id)).where('YEAR(created_at) = ?', @year).includes(:schedules).each do |m|
+      @data[m.person_id] ||= {}
+      m.schedules.each do |sch|
+        @data[m.person_id][sch.klass_id] ||= 0
+        @data[m.person_id][sch.klass_id] += sch.duration
+      end
+    end
+    @stats = {}
+    @data.each do |_std, klasses|
+      sum = klasses.values.sum
+      @stats[sum] ||= 0
+      @stats[sum] += 1
+    end
+  end
+
+  def debts
+    @debts = Debt.waiting.includes(:person)
+    @debts = @debts.search(params[:term]) if params[:term]
+    @total = @debts.map(&:amount).sum
+  end
 end

@@ -1,0 +1,26 @@
+h1= t('titles.debts')
+.filters
+  h2= t('labels.search')
+  = form_tag '', method: :get do
+    .form-group
+      = label_tag :term, 'Buscar:', class: 'form-label'
+      = text_field_tag :term, params[:term], class: 'form-input'
+
+    = submit_tag t('labels.search'), class: 'btn btn-primary'
+
+.scrollable
+  table
+    thead
+      tr
+        th = Person.model_name.human
+        th = Debt.human_attribute_name(:description)
+        th = Debt.human_attribute_name(:amount)
+    tbody
+      - @debts.each do |debt|
+        tr
+          td = debt.person.to_label
+          td = debt.description
+          td = number_to_currency(debt.amount)
+    tfoot
+      tr
+        td colspan=3 = "Total: #{number_to_currency(@total)}"

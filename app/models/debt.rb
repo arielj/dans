@@ -7,6 +7,8 @@ class Debt < ApplicationRecord
   validates :description, :amount, presence: true
   validates :amount, numericality: { greater_than: 0 }
 
+  scope :search, ->(term) { includes(:person).references(:person).where('description LIKE :q OR people.name LIKE :q OR people.lastname LIKE :q', { q: "%#{term}%" }) }
+
   def to_pay
     return 0 if paid?
 

@@ -80,6 +80,8 @@ Rails.application.routes.draw do
     get :daily_cash
     get :payments
     get :receipts
+    get :students_hours
+    get :debts
   end
 
   namespace :settings do

@@ -162,12 +162,27 @@ es:
     payments_to_teacher: Pagos a el/la profesor/a
     debts: Deudas
     memberships: Cuotas
+  
+  titles:
+    daily_cash: Caja Diaria
+    debts: Deudas
+    payments: Pagos
+    receipts: Recibos
+    students_hours: Alumnos/as por Hora
+  
+  menu:
+    daily_cash: Caja Diaria
+    debts: Deudas
+    payments: Pagos
+    receipts: Recibos
+    students_hours: Alums. por Hora
 
   session:
     close: Cerrar sesión
 
   labels:
     filter: Filtrar
+    filters: Filtros
     include_inactive: Incluir inactivos/as
     include_inactive_klasses: Incluir inactivas
     include_personal_packages: Incluir paquetes personales

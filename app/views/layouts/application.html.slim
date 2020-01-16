@@ -76,9 +76,11 @@ html xmlns:fb="http://www.facebook.com/2008/fbml" lang='es-AR'
             i.icon.icon-caret
 
           ul.menu
-            li.menu-item= link_to t('daily_cash'), reports_daily_cash_path
-            li.menu-item= link_to t('payments'), reports_payments_path
-            li.menu-item= link_to t('receipts.title'), reports_receipts_path
+            li.menu-item= link_to t('menu.daily_cash'), reports_daily_cash_path
+            li.menu-item= link_to t('menu.payments'), reports_payments_path
+            li.menu-item= link_to t('menu.receipts'), reports_receipts_path
+            li.menu-item= link_to t('menu.students_hours'), reports_students_hours_path
+            li.menu-item= link_to t('menu.debts'), reports_debts_path
 
       - if admin_signed_in?
         .navbar-section
