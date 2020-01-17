@@ -82,6 +82,7 @@ Rails.application.routes.draw do
     get :receipts
     get :students_hours
     get :debts
+    get :installments
   end
 
   namespace :settings do

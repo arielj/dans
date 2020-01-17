@@ -73,6 +73,22 @@ body.c_reports
         table
           width: 100%
 
+  &.a_installments
+    & > main
+      display: grid
+      grid-template: 'title title' min-content 'filters table' auto / 20% auto
+      grid-column-gap: 1rem
+      grid-row-gap: .5rem
+
+      & > h1
+        grid-area: title
+      & > .filters
+        grid-area: filters
+      & > .scrollable
+        grid-area: table
+        table
+          width: 100%
+
 .receipt
   display: grid
   grid-template-areas: 'person number date' 'table table table' 'name name signature'

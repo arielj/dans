@@ -62,4 +62,20 @@ class ReportsController < ApplicationController
     @debts = @debts.search(params[:term]) if params[:term]
     @total = @debts.map(&:amount).sum
   end
+
+  def installments
+    ins = Installment.includes(:person)
+
+    if params[:klass_id].present?
+      membership_ids = Klass.find(params[:klass_id]).membership_ids
+      ins = ins.where(membership_id: membership_ids)
+    end
+
+    ins = ins.waiting unless params[:include_paid].present?
+    ins = ins.where(year: params[:year]) if params[:year].present?
+    ins = ins.where(month: params[:month]) if params[:month].present?
+    ins = ins.for_active_users unless params[:include_inactive_users].present?
+    ins = ins.with_recharge if params[:only_with_recharge].present?
+    @installments = ins
+  end
 end

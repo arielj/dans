@@ -4,10 +4,15 @@ class Installment < ApplicationRecord
   include Payable
   belongs_to :membership
   has_one :person, through: :membership
+  has_many :klasses, through: :membership
 
   enum month: %i[january february march april may june july august september october november december]
 
   validates :year, :month, presence: true
+
+  def self.for_active_users
+    references(:person).where(people: { status: :active })
+  end
 
   def self.months_for_select
     ds = I18n.t('date.month_names')

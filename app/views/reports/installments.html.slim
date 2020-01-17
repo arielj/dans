@@ -1,0 +1,56 @@
+h1= t('titles.installments')
+.filters
+  h2= t('labels.filters')
+  = form_tag reports_installments_path, method: :get do
+    .form-group
+      = label_tag :klass_id, 'Clase:', class: 'form-label'
+      = select_tag :klass_id, options_from_collection_for_select(Klass.all, :id, :name, params[:klass_id]), prompt: 'Todas', class: 'form-input'
+    .form-group
+      = label_tag :year, 'Año:', class: 'form-label'
+      = text_field_tag :year, params[:year], class: 'form-input'
+    .form-group
+      = label_tag :month, 'Mes:', class: 'form-label'
+      = text_field_tag :month, params[:month], class: 'form-input'
+    .from-group
+      = label_tag '', class: 'form-check form-inline' do
+        = check_box_tag :include_paid, '1', params[:include_paid] == '1'
+        i.form-icon
+        | Incluir cuotas pagadas
+      = label_tag '', class: 'form-check form-inline' do
+        = check_box_tag :include_inactive_users, '1', params[:include_inactive_users] == '1'
+        i.form-icon
+        | Incluir cuotas de usuarios inactivos
+      = label_tag '', class: 'form-check form-inline' do
+        = check_box_tag :only_with_reacharge, '1', params[:only_with_reacharge] == '1'
+        i.form-icon
+        | Mostrar sólo cuotas con recargo
+
+    = submit_tag t('labels.filter'), class: 'btn btn-primary'
+
+.scrollable
+  table.table.table-striped.table-sm
+    thead.thead-dark
+      tr
+        th Alumno/a
+        th Año
+        th Mes
+        th Clase
+        th Resto
+    
+    - total = Money.new(0)
+    - @installments.each do |ins|
+      - total += ins.to_pay
+      tr
+        td= link_to ins.person.to_label, edit_person_path(ins.person)
+        td= ins.year
+        td= ins.month_name
+        td= ins.klasses.map(&:name).join(' ; ')
+        td
+          => installment_amount(ins)
+          - unless ins.waiting?
+            | (Pagada)
+
+    tfoot
+      tr
+        td colspan=5
+          b Total: #{number_to_currency(total)}
