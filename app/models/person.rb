@@ -1,3 +1,4 @@
+# typed: false
 # frozen_string_literal: true
 
 class Person < ApplicationRecord
@@ -35,8 +36,8 @@ class Person < ApplicationRecord
     I18n.t('gender')[gender_num]
   end
 
-  def month_num
-    Person.genders[gender]
+  def gender_num
+    Person.genders[T.must(gender)]
   end
 
   def name=(value)

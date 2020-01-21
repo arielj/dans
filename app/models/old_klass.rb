@@ -1,3 +1,4 @@
+# typed: false
 # frozen_string_literal: true
 
 class OldKlass < OldRecord
@@ -11,7 +12,7 @@ class OldKlass < OldRecord
 
   def to_new
     unless (k = Klass.where(id: id).first)
-      f = normal_fee != 0 ? normal_fee * 100 : 0
+      f = normal_fee != 0 ? T.must(normal_fee) * 100 : 0
       s = inactive == 1 ? 0 : 1
       k = Klass.create id: id, name: name, fixed_fee_cents: f, status: s
 

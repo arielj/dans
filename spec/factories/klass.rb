@@ -1,3 +1,4 @@
+# typed: false
 FactoryBot.define do
   factory :klass do
     sequence(:name) { |n| "Klass #{n}" }

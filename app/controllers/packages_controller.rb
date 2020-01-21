@@ -1,3 +1,4 @@
+# typed: true
 # frozen_string_literal: true
 
 class PackagesController < ApplicationController
@@ -66,10 +67,14 @@ class PackagesController < ApplicationController
   private
 
   def create_package_params
-    params.require(:package).permit(:name, :fee, schedule_ids: [])
+    params
+      .require_typed(:package, TA[ActionController::Parameters].new)
+      .permit(:name, :fee, schedule_ids: [])
   end
 
   def update_package_params
-    params.require(:package).permit(:name, :fee, schedule_ids: [])
+    params
+      .require_typed(:package, TA[ActionController::Parameters].new)
+      .permit(:name, :fee, schedule_ids: [])
   end
 end

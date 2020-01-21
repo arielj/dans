@@ -166,6 +166,7 @@ es:
   titles:
     daily_cash: Caja Diaria
     debts: Deudas
+    installments: Cuotas
     payments: Pagos
     receipts: Recibos
     students_hours: Alumnos/as por Hora

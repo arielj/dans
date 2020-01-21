@@ -1,3 +1,4 @@
+# typed: strong
 require 'rails_helper'
 
 describe 'Klass' do

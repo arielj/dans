@@ -1,3 +1,4 @@
+# typed: true
 # frozen_string_literal: true
 
 class MoneyTransactionsController < ApplicationController
@@ -24,18 +25,20 @@ class MoneyTransactionsController < ApplicationController
 
   def close_daily_cash
     MoneyTransaction.today.update_all daily_cash_closer: false
-    MoneyTransaction.today.last.update_column :daily_cash_closer, true
+    T.must(MoneyTransaction.today.last).update_column :daily_cash_closer, true
     flash.now[:success] = 'Cierre marcado'
   end
 
   def receipt
     @receipt_items = MoneyTransaction.where(receipt: params[:number])
-    send_data generate_pdf(@receipt_items), filename: "receipt_#{@receipt_items.first.receipt}.pdf", type: "application/pdf", disposition: :attachment
+    send_data generate_pdf(@receipt_items), filename: "receipt_#{T.must(@receipt_items.first).receipt}.pdf", type: "application/pdf", disposition: :attachment
   end
 
   private
 
   def create_transaction_params
-    params.require(:money_transaction).permit(:amount, :description, :done)
+    params
+      .require_typed(:money_transaction, TA[ActionController::Parameters].new)
+      .permit(:amount, :description, :done)
   end
 end

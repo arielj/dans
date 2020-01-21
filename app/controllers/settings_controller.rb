@@ -1,8 +1,10 @@
+# typed: true
 # frozen_string_literal: true
 
 class SettingsController < ApplicationController
   def save_setting
-    Setting.set(params[:setting_key], params[:key][params[:setting_key]])
+    key = params.fetch_typed(:setting_key, TA[String].new)
+    Setting.set(key, T.must(params[:key])[key])
 
     respond_to do |format|
       format.html do
@@ -21,7 +23,8 @@ class SettingsController < ApplicationController
   end
 
   def save_options
-    params[:key].each do |k, v|
+    options = T.must(params.fetch_typed(:key, TA[ActionController::Parameters].new))
+    options.each do |k, v|
       v = v.permit!.to_h if k == 'hour_fees'
       Setting.set(k, v)
     end

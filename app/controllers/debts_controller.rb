@@ -1,3 +1,4 @@
+# typed: true
 # frozen_string_literal: true
 
 class DebtsController < ApplicationController
@@ -16,6 +17,6 @@ class DebtsController < ApplicationController
   end
 
   def add_payment_attributes
-    params.require(:payment).permit(:amount, :description)
+    params.require_typed(:payment, TA[ActionController::Parameters].new).permit(:amount, :description)
   end
 end

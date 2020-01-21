@@ -1,3 +1,4 @@
+# typed: false
 # frozen_string_literal: true
 
 class Klass < ApplicationRecord
@@ -22,7 +23,7 @@ class Klass < ApplicationRecord
   scope :search, ->(q) { where('name LIKE ?', "%#{q}%") }
 
   def get_memberships
-    memberships + packages.map(&:memberships).flatten
+    memberships.to_a + packages.map(&:memberships).flatten
   end
 
   def students

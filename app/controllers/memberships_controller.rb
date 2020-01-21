@@ -1,3 +1,4 @@
+# typed: true
 # frozen_string_literal: true
 
 class MembershipsController < ApplicationController
@@ -18,7 +19,7 @@ class MembershipsController < ApplicationController
 
   def create_membership_params
     params
-      .require(:membership)
+      .require_typed(:membership, TA[ActionController::Parameters].new)
       .permit(:person_id, :amount, :use_custom_amount, schedule_ids: [])
   end
 end

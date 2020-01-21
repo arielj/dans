@@ -1,3 +1,4 @@
+# typed: false
 class ChangeSchedulesTimeColumns < ActiveRecord::Migration[5.2]
   def self.up
     remove_column :schedules, :from_time

@@ -1,3 +1,4 @@
+# typed: false
 class OldMembership < OldRecord
   self.table_name = :memberships
 

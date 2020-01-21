@@ -1,3 +1,4 @@
+# typed: true
 # frozen_string_literal: true
 
 module ApplicationHelper
@@ -27,7 +28,7 @@ module ApplicationHelper
     content_tag 'ul' do
       payable.payments.each do |p|
         concat(content_tag('li') do
-          concat tag.i(class: 'fa fa-calendar', title: l(p.created_at))
+          concat tag.i(class: 'fa fa-calendar', title: I18n.l(p.created_at))
           concat " $#{p.amount} "
           concat content_tag('span', '(*)', title: p.description) if p.description.present?
         end)

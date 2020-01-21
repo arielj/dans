@@ -1,3 +1,4 @@
+# typed: true
 # frozen_string_literal: true
 
 class KlassesController < ApplicationController
@@ -89,14 +90,14 @@ class KlassesController < ApplicationController
 
   def create_klass_params
     params
-      .require(:klass)
+      .require_typed(:klass, TA[ActionController::Parameters].new)
       .permit(:name, :status, :teacher_id, :fixed_fee,
               schedules_attributes: %i[id from_time to_time day room_id _destroy])
   end
 
   def update_klass_params
     params
-      .require(:klass)
+      .require_typed(:klass, TA[ActionController::Parameters].new)
       .permit(:name, :status, :teacher_id, :fixed_fee,
               schedules_attributes: %i[id from_time to_time day room_id _destroy])
   end

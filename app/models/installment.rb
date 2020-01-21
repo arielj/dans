@@ -1,3 +1,4 @@
+# typed: true
 # frozen_string_literal: true
 
 class Installment < ApplicationRecord
@@ -26,7 +27,7 @@ class Installment < ApplicationRecord
   end
 
   def month_num
-    Installment.months[month] + 1
+    T.must(Installment.months[T.must(month)]) + 1
   end
 
   def date(day = nil)

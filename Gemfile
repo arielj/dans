@@ -7,6 +7,7 @@ end
 
 ruby '2.6.5'
 gem 'mysql2'
+gem 'sqlite3'
 gem 'puma'
 gem 'rails', '~> 6.0'
 gem 'sassc-rails'
@@ -34,6 +35,10 @@ gem 'vanilla_nested', '~> 1.2'
 
 gem 'prawn'
 gem 'prawn-table'
+
+gem 'sorbet', :group => :development
+gem 'sorbet-runtime'
+gem 'sorbet-rails'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

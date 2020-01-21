@@ -1,3 +1,4 @@
+# typed: true
 class AppFeeAndAltFeeToPackages < ActiveRecord::Migration[5.2]
   def change
     add_money :packages, :fee, currency: { present: false }

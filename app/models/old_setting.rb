@@ -1,3 +1,4 @@
+# typed: true
 # frozen_string_literal: true
 
 class OldSetting < OldRecord
@@ -16,10 +17,10 @@ class OldSetting < OldRecord
         old_k = k
       end
 
-      Setting.set(k, find_by(key: old_k).value)
+      Setting.set(k, T.must(find_by(key: old_k)).value)
     end
 
-    old_fees = JSON.parse(OldSetting.find_by(key: :fees).value)
+    old_fees = JSON.parse(T.must(T.must(find_by(key: :fees)).value))
     Setting.set(:hour_fees, old_fees)
   end
 end

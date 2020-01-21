@@ -1,3 +1,4 @@
+# typed: true
 # frozen_string_literal: true
 
 class RoomsController < ApplicationController
@@ -51,6 +52,8 @@ class RoomsController < ApplicationController
   private
 
   def room_params
-    params.require(:room).permit(:name)
+    params
+      .require_typed(:room, TA[ActionController::Parameters].new)
+      .permit(:name)
   end
 end
