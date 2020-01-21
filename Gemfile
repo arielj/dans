@@ -7,10 +7,10 @@ end
 
 ruby '2.6.5'
 gem 'mysql2'
-gem 'sqlite3'
 gem 'puma'
 gem 'rails', '~> 6.0'
 gem 'sassc-rails'
+gem 'sqlite3'
 gem 'uglifier'
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
@@ -36,9 +36,9 @@ gem 'vanilla_nested', '~> 1.2'
 gem 'prawn'
 gem 'prawn-table'
 
-gem 'sorbet', :group => :development
-gem 'sorbet-runtime'
+gem 'sorbet', group: :development
 gem 'sorbet-rails'
+gem 'sorbet-runtime'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -50,7 +50,6 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'launchy'
-  gem 'rspec-rails', '~> 3.7'
 end
 
 group :development do

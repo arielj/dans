@@ -103,13 +103,16 @@ class Person < ApplicationRecord
     return :excesive_amount if amount > to_pay
 
     rest = amount
+    payments = []
     ins.each do |installment|
       break if rest.zero?
 
       paid_amount = installment.to_pay > rest ? rest : installment.to_pay
-      installment.create_payment({ amount: paid_amount }, false, false)
+      payments << installment.create_payment({ amount: paid_amount }, false, false)
       rest -= paid_amount
     end
+
+    payments
   end
 
   def new_membership_amount_calculator(sch_ids)
