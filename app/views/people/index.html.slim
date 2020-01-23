@@ -30,14 +30,12 @@ header
         th.actions
     tbody
       - @people.each do |person|
-        tr class=(person.inactive? ? 'table-warning' : '')
-          td
+        tr class=(person.inactive? ? 'inactive' : '')
+          td.to_label
             = link_to edit_person_path(person), title: t('edit.person') do
               - if person.is_teacher?
                 i.fa.fa-star title='profe'
               = person.name
-              - if person.inactive?
-                | (#{person.status})
           td= person.lastname
           td= person.dni
           td= person.address
