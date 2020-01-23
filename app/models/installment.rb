@@ -27,7 +27,15 @@ class Installment < ApplicationRecord
   end
 
   def month_num
-    T.must(Installment.months[T.must(month)]) + 1
+    self.class.month_num(month)
+  end
+
+  def self.month_num(month_sym)
+    T.must(Installment.months[T.must(month_sym)]) + 1
+  end
+
+  def self.month_sym(month_num)
+    Installment.months.select { |_k, v| v == month_num }.keys.first
   end
 
   def date(day = nil)

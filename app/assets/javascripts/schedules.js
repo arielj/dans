@@ -3,7 +3,7 @@ function bindSchedulesCalendar() {
   if (filter) {
     filter.addEventListener('input', function(e) {
       const val = this.value;
-      const regexp = new RegExp(".*" + val + ".*");
+      const regexp = new RegExp(".*" + val + ".*", 'i');
       const schs = this.parentElement.qsa('.day label');
       schs.forEach( sch => {
         cls = sch.classList;

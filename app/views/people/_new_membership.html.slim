@@ -17,6 +17,12 @@
   .input-group.hidden
     span.input-group-addon $
     = f.text_field :amount, value: '', class: 'form-input', placeholder: 'Monto manual'
+  
+  .form-group
+    => f.label :create_installments_from
+    => f.select :create_installments_from, Installment.months_for_select, class: 'form-select'
+    => f.label :create_installments_to
+    => f.select :create_installments_to, Installment.months_for_select, class: 'form-select'
 
   .modal-footer
     = f.submit t('save.membership'), class: 'btn btn-primary'

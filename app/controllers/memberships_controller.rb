@@ -20,6 +20,7 @@ class MembershipsController < ApplicationController
   def create_membership_params
     params
       .require_typed(:membership, TA[ActionController::Parameters].new)
-      .permit(:person_id, :amount, :use_custom_amount, schedule_ids: [])
+      .permit(:person_id, :amount, :use_custom_amount, :create_installments_from,
+              :create_installments_to, schedule_ids: [])
   end
 end

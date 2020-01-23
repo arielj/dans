@@ -17,7 +17,7 @@ class Membership < ApplicationRecord
 
   after_create :create_installments, unless: :skip_installments
 
-  attr_accessor :skip_installments
+  attr_accessor :skip_installments, :create_installments_from, :create_installments_to
 
   def package=(pkg)
     self[:package_id] = pkg.id
@@ -41,7 +41,13 @@ class Membership < ApplicationRecord
   private
 
   def create_installments
-    (0..11).each do |m|
+    from = @create_installments_from
+    from = from ? Installment.month_num(from) - 1 : 0
+
+    to = @create_installments_to
+    to = to ? Installment.month_num(to) - 1 : 11
+
+    (from..to).each do |m|
       installments.create year: Date.today.year, month: m, amount: amount
     end
   end
