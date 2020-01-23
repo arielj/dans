@@ -5,18 +5,24 @@ class OldPayment < OldRecord
   self.table_name = :payments
 
   def to_new
-    payable = if installment_id.present?
-                Installment.find(installment_id)
-              elsif liability_id.present?
-                Debt.find(liability_id)
-              end
+    puts "Payment #{id}"
 
-    m = MoneyTransaction.new amount_cents: amount, payable: payable, person_id: user_id,
-                             description: description, done: done, created_at: date,
-                             daily_cash_closer: daily_cash_closer, receipt: receipt_number
+    if amount.zero?
+      puts 'monto 0'
+    else
+      payable = if installment_id.present?
+                  Installment.where(id: installment_id).first
+                elsif liability_id.present?
+                  Debt.where(id: liability_id).first
+                end
 
-    puts m.errors.full_messages if m.invalid?
-
-    m.save
+      if (installment_id.present? || liability_id.present?) && !payable
+        puts 'no installment/debt'
+      else
+        MoneyTransaction.create! amount_cents: amount, payable: payable, person_id: user_id,
+                                 description: description, done: done, created_at: date,
+                                 daily_cash_closer: daily_cash_closer, receipt: receipt_number
+      end
+    end
   end
 end

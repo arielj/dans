@@ -10,12 +10,13 @@ class OldMembership < OldRecord
   end
 
   def to_new
+    puts "Membership #{id}"
+
     s = inactive == 1 ? 0 : 1
     m = Membership.new id: id, person_id: student_id, status: s, skip_installments: true
 
     m.package = Package.find(for_id) if for_type == 'Package'
 
-    m.save
-    puts m.errors.full_messages
+    m.save!
   end
 end
