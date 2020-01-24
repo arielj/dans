@@ -141,6 +141,7 @@ es:
     student_m: Borrar alumno
     teacher_m: Borrar profesor
   destroyed:
+    installment: Cuota borrada
     klass: Clase borrada
     money_transaction: Movimiento eliminado
     package: Paquete borrado

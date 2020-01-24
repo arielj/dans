@@ -5,7 +5,7 @@ h1= "#{tg("edit.#{person.type}", person.gender)}: #{person.to_label}"
 .personal_data
   h3= t('personal_data')
   .scrollable
-    = simple_form_for person, html: {class: 'form-compact edit_person'} do |f|
+    = simple_form_for person, html: { class: 'form-compact edit_person' } do |f|
       = render partial: 'person_fields', locals: {f: f}
       .actions
         = submit_tag tg("save.#{person.type}", person.gender), class: 'btn btn-primary'
@@ -55,11 +55,9 @@ h1= "#{tg("edit.#{person.type}", person.gender)}: #{person.to_label}"
         = link_to t('add.debt'), add_debt_person_path(person), class: 'btn', remote: true
 
     .tab_content.memberships data-tab-content='memberships' class=('memberships' == params[:tab] ? ' current' : '')
-      .selector
-        = form_tag '', method: :get do
-          = hidden_field_tag :tab, 'memberships'
-          = select_tag :membership_id, options_from_collection_for_select(person.memberships, :id, :to_label, params[:membership_id]), class: 'form-select', id: 'select_membership'
-        = link_to t('add.membership'), new_membership_person_path(person), class: 'btn btn-light', remote: true
+      = form_tag '', method: :get do
+        = hidden_field_tag :tab, 'memberships'
+        = select_tag :membership_id, options_from_collection_for_select(person.memberships, :id, :to_label, params[:membership_id]), class: 'form-select', id: 'select_membership'
       .installments.scrollable
         - if @membership
           = render partial: 'people/membership', locals: { membership: @membership }
@@ -67,3 +65,4 @@ h1= "#{tg("edit.#{person.type}", person.gender)}: #{person.to_label}"
         => link_to t('add.payments'), add_payments_person_path(person), class: 'btn btn-light', remote: true
         - if @membership
           => link_to 'Agregar cuotas', add_installments_membership_path(@membership), class: 'btn btn-secondary', remote: true
+        => link_to t('add.membership'), new_membership_person_path(person), class: 'btn btn-light', remote: true

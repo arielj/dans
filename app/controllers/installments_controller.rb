@@ -17,6 +17,7 @@ class InstallmentsController < ApplicationController
     person = ins.person
     ins.destroy
 
+    flash[:success] = t('destroyed.installment')
     redirect_back fallback_location: edit_person_path(person, tab: :memberships)
   end
 

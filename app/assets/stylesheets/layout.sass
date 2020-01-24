@@ -4,7 +4,7 @@ body
   display: grid
   height: 100vh
   width: 100vw
-  grid-template: 'navbar' max-content 'main' auto 'footer' 1.5rem / 1fr
+  grid-template: 'navbar' max-content 'main' auto / 1fr
 
   .toast
     position: fixed
@@ -13,11 +13,13 @@ body
     max-width: 100%
     width: 400px
 
-  nav a
-    color: #000 !important
+  nav
+    border-bottom: 1px solid #555
+    a
+      color: #000 !important
 
   > main
-    padding: 0 1rem
+    padding: .4rem 1rem
     overflow: hidden
     min-height: 0
     display: flex
