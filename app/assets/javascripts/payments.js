@@ -15,14 +15,15 @@ function bindInstallmentPaymentForm(form) {
       setNewToPay(toPayHint, amountField, dateRechargeCheck, monthRechargeCheck);
     })
 
-  if (monthRechargeCheck)
+  if (monthRechargeCheck) {
     dateRechargeCheck.disabled = true;
-    monthRechargeCheck.addEventListener('change', e => {
+    monthRechargeCheck.addEventListener('change', _e => {
       // disable the other checkbox
       dateRechargeCheck.disabled = !monthRechargeCheck.checked;
       // update rest to pay
       setNewToPay(toPayHint, amountField, dateRechargeCheck, monthRechargeCheck);
     })
+  }
 }
 
 function calculateRecharge(dateRechargeCheck, monthRechargeCheck) {

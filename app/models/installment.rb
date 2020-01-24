@@ -10,6 +10,9 @@ class Installment < ApplicationRecord
   enum month: %i[january february march april may june july august september october november december]
 
   validates :year, :month, presence: true
+  validates :membership_id, uniqueness: { scope: %i[month year] }
+
+  before_destroy :fix_payments
 
   def self.for_active_users
     references(:person).where(people: { status: :active })
@@ -116,5 +119,17 @@ class Installment < ApplicationRecord
       end
     end
     payment
+  end
+
+  private
+
+  def fix_payments
+    payments.each do |pay|
+      pay.payable = nil
+      pay.description ||= ''
+      pay.description += " (Cuota #{month_name} - #{year})"
+      pay.description.strip!
+      pay.save(validate: false)
+    end
   end
 end

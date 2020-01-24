@@ -5,14 +5,19 @@ table.table.table-striped.table-small
     th= Installment.human_attribute_name(:amount)
     th= Installment.human_attribute_name(:status)
     th= Installment.human_attribute_name(:payments)
-  - membership.installments.includes(:payments).each do |i|
-    tr.installment id="installment_#{i.id}"
-      td= i.year
-      td= i.month_name
-      td= installment_amount(i)
-      td= t("payment_status.#{i.status}")
+    th
+  - membership.installments.includes(:payments).order(year: :asc, month: :asc).each do |ins|
+    tr.installment id="installment_#{ins.id}"
+      td= ins.year
+      td= ins.month_name
+      td= installment_amount(ins)
+      td.payments= t("payment_status.#{ins.status}")
       td
-        = payments_detail(i)
-        - if i.to_pay > 0
-          = link_to new_payment_installment_path(i), remote: true, title: t('add.payment') do
-            i.fa.fa-plus title=t('add.payment')
+        = payments_detail(ins)
+        - if ins.to_pay > 0
+          = link_to new_payment_installment_path(ins), remote: true, title: t('add.payment') do
+            i.fa.fa-plus
+      td
+        = link_to ins, method: :delete, data: { confirm: '¿Eliminar cuota?' }, title: 'Eliminar cuota' do
+          i.fa.fa-trash
+  

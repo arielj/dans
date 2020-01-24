@@ -1,0 +1,15 @@
+= form_tag add_installments_membership_path(@membership), method: :post do
+  .form-group
+    = label_tag :year, 'Año', class: 'form-label'
+    = select_tag :year, options_for_select((2018..2021).to_a, Date.today.year), class: 'form-input'
+  .form-group
+    = label_tag :month_from, 'Desde', class: 'form-label'
+    = select_tag :month_from, options_for_select(Installment.months_for_select, :january), class: 'form-input'
+  .form-group
+    = label_tag :month_to, 'Hasta', class: 'form-label'
+    = select_tag :month_to, options_for_select(Installment.months_for_select, :december), class: 'form-input'
+  .form-group
+    = label_tag :amount, 'Monto', class: 'form-label'
+    = text_field_tag :amount, @membership.amount, class: 'form-input'
+  
+  = submit_tag 'Agregar', class: 'btn btn-primary'

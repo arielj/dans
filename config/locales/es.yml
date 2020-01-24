@@ -41,6 +41,7 @@ es:
   add:
     debt: Agregar deuda
     family_member: Agregar miembro familiar
+    installments: Agregar cuotas
     klass: Agregar clase
     label: Agregar
     membership: Agregar inscripción

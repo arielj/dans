@@ -1,3 +1,5 @@
-inst = qs('.memberships .installments');
-if (inst)
-  inst.innerHTML = '<%= j(render partial: "people/membership", locals: {membership: @membership}) -%>';
+(function() {
+  let inst = qs('.memberships .installments');
+  if (inst)
+    inst.innerHTML = '<%= j(render partial: "people/membership", locals: {membership: @membership}) -%>';
+})()

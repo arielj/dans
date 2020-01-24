@@ -12,6 +12,14 @@ class InstallmentsController < ApplicationController
     @payment = @installment.create_payment add_payment_attributes, ignore_recharge, ignore_month_recharge
   end
 
+  def destroy
+    ins = Installment.find(params[:id])
+    person = ins.person
+    ins.destroy
+
+    redirect_back fallback_location: edit_person_path(person, tab: :memberships)
+  end
+
   private
 
   def load_installment

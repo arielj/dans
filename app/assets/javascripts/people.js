@@ -10,8 +10,8 @@ onLoad(function(ev) {
       });
       Rails.fire(age, 'change');
     }
-    qs('.memberships select#membership').addEventListener('change', function(e) {
-      getScript('/memberships/' + this.value);
+    qs('#select_membership').addEventListener('change', function(e) {
+      e.target.form.submit();
     });
   }
 });

@@ -41,6 +41,7 @@ class PeopleController < ApplicationController
     @person_payments = person.money_transactions.received.where(payable_id: nil)
     @payments_to_person = person.money_transactions.done.where(payable_id: nil)
     @debts = person.debts
+    @membership = person.memberships.where(id: params[:membership_id]).first || person.memberships.last
   end
 
   def update

@@ -15,7 +15,7 @@ class Membership < ApplicationRecord
 
   validates :person, presence: true
 
-  after_create :create_installments, unless: :skip_installments
+  after_create :create_installments_on_create, unless: :skip_installments
 
   attr_accessor :skip_installments, :create_installments_from, :create_installments_to
 
@@ -38,17 +38,20 @@ class Membership < ApplicationRecord
     end
   end
 
-  private
-
-  def create_installments
-    from = @create_installments_from
-    from = from ? Installment.month_num(from) - 1 : 0
-
-    to = @create_installments_to
-    to = to ? Installment.month_num(to) - 1 : 11
+  def create_installments(from, to, year, amount)
+    from = Installment.month_num(from) - 1
+    to = Installment.month_num(to) - 1
 
     (from..to).each do |m|
-      installments.create year: Date.today.year, month: m, amount: amount
+      installments.create year: year, month: m, amount: amount
     end
+  end
+
+  private
+
+  def create_installments_on_create
+    from = @create_installments_from || :january
+    to = @create_installments_to || :december
+    create_installments(from, to, Date.today.year, amount)
   end
 end
