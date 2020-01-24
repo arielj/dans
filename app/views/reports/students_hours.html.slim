@@ -4,15 +4,16 @@ h1= t('titles.students_hours')
   = form_tag '', method: :get do
     .form-group
       = label_tag :year, 'Año', class: 'form-label'
-      = number_field_tag :year, params[:year], class: 'form-input'
+      = number_field_tag :year, @year, class: 'form-input'
 
-    = submit_tag t('labels.filter'), class: 'btn btn-primary'
+    => button_tag t('labels.filter'), value: :filter, type: :submit, class: 'btn btn-primary'
+    => button_tag t('labels.export'), value: :export, type: :submit, class: 'btn btn-secondary'
 
 .stats
   h2 Estadísticas por hora
   ul
-    - @stats.each do |hours, total|
-      li #{hours} hora(s): #{total} alumno/a(s)
+    - @stats.keys.sort { |x, y| x.to_f <=> y.to_f }.each do |hours|
+      li #{hours} hora(s): #{@stats[hours]} alumno/a(s)
 
 .scrollable
   table

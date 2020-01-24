@@ -7,7 +7,7 @@ class OldPayment < OldRecord
   def to_new
     puts "Payment #{id}"
 
-    if amount.zero?
+    if amount&.zero?
       puts 'monto 0'
     else
       payable = if installment_id.present?

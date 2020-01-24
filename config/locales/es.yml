@@ -185,6 +185,7 @@ es:
     close: Cerrar sesión
 
   labels:
+    export: Exportar
     filter: Filtrar
     filters: Filtros
     include_inactive: Incluir inactivos/as

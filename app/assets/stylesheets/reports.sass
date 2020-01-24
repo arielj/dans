@@ -68,6 +68,12 @@ body.c_reports
         grid-area: filters
       & > .stats
         grid-area: stats
+        display: flex
+        flex-direction: column
+
+        ul
+          min-height: 0
+          overflow: auto
       & > .scrollable
         grid-area: table
         table

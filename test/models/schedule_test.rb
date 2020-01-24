@@ -1,4 +1,4 @@
-# typed: strong
+# typed: false
 require 'test_helper'
 
 class ScheduleTest < ActiveSupport::TestCase

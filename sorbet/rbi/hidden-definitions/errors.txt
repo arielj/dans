@@ -6633,7 +6633,7 @@
 # wrong constant name define_attribute_method
 # wrong constant name define_attribute_methods
 # wrong constant name undefine_attribute_methods
-# undefined method `initialize<defaultArg>1' for class `#<Class:0x000056052be6c270>'
+# undefined method `initialize<defaultArg>1' for class `#<Class:0x000056201de90438>'
 # Did you mean?  initialize_dup
 # wrong constant name <Class:AttributeMethodMatch>
 # wrong constant name initialize<defaultArg>1
@@ -8398,7 +8398,7 @@
 # wrong constant name initialize
 # wrong constant name to_hash
 # wrong constant name <static-init>
-# undefined method `resolve<defaultArg>1' for class `#<Class:0x000056052e0279f0>'
+# undefined method `resolve<defaultArg>1' for class `#<Class:0x00005620209a5d30>'
 # wrong constant name configurations
 # wrong constant name initialize
 # wrong constant name resolve<defaultArg>1
@@ -23502,7 +23502,7 @@
 # wrong constant name hero
 # wrong constant name primordial
 # wrong constant name titan
-# A copy of Faker::App has been removed from the module tree but is still active!
+# wrong constant name Fix San
 # A copy of Faker::App has been removed from the module tree but is still active!
 # A copy of Faker::App has been removed from the module tree but is still active!
 # A copy of Faker::App has been removed from the module tree but is still active!
@@ -23529,10 +23529,10 @@
 # wrong constant name <static-init>
 # wrong constant name brand
 # wrong constant name equipment
-# wrong constant name Ansel Adams
 # A copy of Faker::Artist has been removed from the module tree but is still active!
 # A copy of Faker::Artist has been removed from the module tree but is still active!
-# wrong constant name Da Vinci
+# A copy of Faker::Artist has been removed from the module tree but is still active!
+# A copy of Faker::Artist has been removed from the module tree but is still active!
 # wrong constant name <static-init>
 # uninitialized constant Faker::Avatar::LLetters
 # uninitialized constant Faker::Avatar::Letters
@@ -23560,10 +23560,10 @@
 # wrong constant name image<defaultArg>8
 # wrong constant name image<defaultArg>9
 # wrong constant name image
-# wrong constant name AAC CAPITAL PARTNERS LIMITED
-# wrong constant name ABG SUNDAL COLLIER LIMITED
+# wrong constant name SANTANDER UK PLC
+# wrong constant name ABBEY LIFE
 # wrong constant name ABN AMRO MEZZANINE (UK) LIMITED
-# wrong constant name ABN AMRO MEZZANINE (UK) LIMITED
+# wrong constant name ABBEY LIFE
 # undefined singleton method `account_number<defaultArg>1' for `Faker::Bank'
 # undefined singleton method `account_number<defaultArg>2' for `Faker::Bank'
 # undefined singleton method `iban<defaultArg>1' for `Faker::Bank'
@@ -23610,10 +23610,10 @@
 # wrong constant name with_locale
 # wrong constant name <static-init>
 # wrong constant name encode
-# wrong constant name La Fin Du Monde
-# wrong constant name Stone Imperial Russian Stout
-# wrong constant name Bell’s Expedition
-# wrong constant name Chimay Grande Réserve
+# wrong constant name Yeti Imperial Stout
+# wrong constant name Ten FIDY
+# wrong constant name Edmund Fitzgerald Porter
+# A copy of Faker::Beer has been removed from the module tree but is still active!
 # wrong constant name <static-init>
 # wrong constant name alcohol
 # wrong constant name blg
@@ -23877,10 +23877,10 @@
 # wrong constant name notes
 # wrong constant name origin
 # wrong constant name variety
-# wrong constant name Jordanian Dinar
-# wrong constant name Singapore Dollar
-# wrong constant name Turkish Lira
+# wrong constant name European Unit of Account 17(E.U.A.-17)
 # A copy of Faker::Coin has been removed from the module tree but is still active!
+# wrong constant name CFP Franc
+# wrong constant name Belarussian Ruble
 # wrong constant name <static-init>
 # wrong constant name flip
 # uninitialized constant Faker::Color::LLetters
@@ -23925,10 +23925,10 @@
 # wrong constant name promotion_code<defaultArg>1
 # wrong constant name promotion_code<defaultArg>2
 # wrong constant name promotion_code
-# wrong constant name Tamez y Mares
-# wrong constant name Vásquez Miranda e Hijos
-# wrong constant name Carrillo, Zaragoza y Olivas Asociados
-# wrong constant name Heredia e Hijos
+# wrong constant name Delafuente y Esquivel
+# wrong constant name Pineda Castro S.A.
+# wrong constant name Cabrera, Varela y Arellano Asociados
+# wrong constant name Bernal Reyna e Hijos
 # undefined singleton method `brazilian_company_number<defaultArg>1' for `Faker::Company'
 # undefined singleton method `brazilian_company_number<defaultArg>2' for `Faker::Company'
 # undefined singleton method `polish_register_of_national_economy<defaultArg>1' for `Faker::Company'
@@ -24019,10 +24019,10 @@
 # wrong constant name <Class:Cat>
 # wrong constant name <Class:Dog>
 # wrong constant name <Class:Horse>
-# wrong constant name goat
-# wrong constant name panda
-# wrong constant name fox
-# wrong constant name seal
+# wrong constant name ant
+# wrong constant name rabbit
+# wrong constant name baboon
+# wrong constant name porcupine
 # wrong constant name <static-init>
 # A copy of Faker::Creature::Cat has been removed from the module tree but is still active!
 # A copy of Faker::Creature::Cat has been removed from the module tree but is still active!
@@ -24045,7 +24045,7 @@
 # wrong constant name sound
 # A copy of Faker::Creature::Horse has been removed from the module tree but is still active!
 # A copy of Faker::Creature::Horse has been removed from the module tree but is still active!
-# wrong constant name Debutante 
+# A copy of Faker::Creature::Horse has been removed from the module tree but is still active!
 # A copy of Faker::Creature::Horse has been removed from the module tree but is still active!
 # wrong constant name <static-init>
 # wrong constant name breed
@@ -24080,10 +24080,10 @@
 # wrong constant name url_logo<defaultArg>1
 # wrong constant name url_logo<defaultArg>2
 # wrong constant name url_logo
-# wrong constant name Lebanese Pound
-# wrong constant name Brazilian Real
+# wrong constant name Falkland Islands Pound
 # A copy of Faker::Currency has been removed from the module tree but is still active!
-# wrong constant name Mauritius Rupee
+# wrong constant name Netherlands Antillian Guilder
+# A copy of Faker::Currency has been removed from the module tree but is still active!
 # wrong constant name <static-init>
 # wrong constant name code
 # wrong constant name symbol
@@ -24128,10 +24128,10 @@
 # wrong constant name in_date_period<defaultArg>1
 # wrong constant name in_date_period<defaultArg>2
 # wrong constant name in_date_period
-# wrong constant name Hal Jordan
 # wrong constant name Harvey Bullock
-# wrong constant name Wesley Dodds
-# wrong constant name Bruce Wayne
+# wrong constant name Tim Drake
+# wrong constant name John Constantine
+# wrong constant name Michael Jon Carter
 # wrong constant name <static-init>
 # wrong constant name hero
 # wrong constant name heroine
@@ -24305,10 +24305,10 @@
 # wrong constant name metric_measurement
 # wrong constant name spice
 # wrong constant name vegetables
-# wrong constant name Kay Neine
-# wrong constant name Macon Paine
-# wrong constant name Kim Payne Slogan
-# wrong constant name Ethel L. Cahall
+# wrong constant name Claire Voyance
+# wrong constant name Anna Mull
+# wrong constant name Bonnie Ann Clyde
+# wrong constant name Dee Liver
 # wrong constant name <static-init>
 # wrong constant name four_word_name
 # wrong constant name name_with_initial
@@ -24351,10 +24351,10 @@
 # wrong constant name quote<defaultArg>2
 # wrong constant name quote
 # wrong constant name team
-# wrong constant name Brand-shei Hunter
-# wrong constant name Ahkari Ember-Master
-# wrong constant name Sapphire Cruel-Sea
-# wrong constant name Inigo Gray-Mane
+# wrong constant name Ralof Twice-Killed
+# wrong constant name Faralda The Old
+# wrong constant name Eorlund Rarnis
+# wrong constant name Athis Rarnis
 # wrong constant name <static-init>
 # wrong constant name city
 # wrong constant name creature
@@ -24483,7 +24483,7 @@
 # wrong constant name short_binary_type
 # wrong constant name type
 # A copy of Faker::GreekPhilosophers has been removed from the module tree but is still active!
-# A copy of Faker::GreekPhilosophers has been removed from the module tree but is still active!
+# wrong constant name Zeno of Elea
 # A copy of Faker::GreekPhilosophers has been removed from the module tree but is still active!
 # A copy of Faker::GreekPhilosophers has been removed from the module tree but is still active!
 # wrong constant name <static-init>
@@ -25273,10 +25273,10 @@
 # uninitialized constant Faker::Music::Phish::ULetters
 # wrong constant name <static-init>
 # wrong constant name song
-# wrong constant name Derek and the Dominos
-# A copy of Faker::Music::RockBand has been removed from the module tree but is still active!
-# A copy of Faker::Music::RockBand has been removed from the module tree but is still active!
-# A copy of Faker::Music::RockBand has been removed from the module tree but is still active!
+# wrong constant name The Clash
+# wrong constant name Lynyrd Skynyrd
+# wrong constant name James Brown and the JBs
+# wrong constant name Dire Straits
 # wrong constant name <static-init>
 # uninitialized constant Faker::Music::UmphreysMcgee::LLetters
 # uninitialized constant Faker::Music::UmphreysMcgee::Letters
@@ -25295,10 +25295,10 @@
 # wrong constant name key_types
 # wrong constant name key_variants
 # wrong constant name keys
-# wrong constant name Guillermo León Meza
-# wrong constant name Raúl Gaitán Cotto
-# wrong constant name Rosario Urrutia Aguayo
-# wrong constant name Sta. Homero Carmona Delarosa
+# wrong constant name Jerónimo Ulibarri Elizondo
+# wrong constant name Maricarmen Villanueva Hidalgo
+# wrong constant name Cecilia Santana Esquivel
+# wrong constant name Natalia Apodaca Águilar
 # undefined singleton method `initials<defaultArg>1' for `Faker::Name'
 # undefined singleton method `initials<defaultArg>2' for `Faker::Name'
 # wrong constant name <static-init>
@@ -25561,10 +25561,10 @@
 # wrong constant name image<defaultArg>8
 # wrong constant name image<defaultArg>9
 # wrong constant name image
+# wrong constant name ALGOL 60
+# wrong constant name Game Maker Language
 # A copy of Faker::ProgrammingLanguage has been removed from the module tree but is still active!
 # A copy of Faker::ProgrammingLanguage has been removed from the module tree but is still active!
-# A copy of Faker::ProgrammingLanguage has been removed from the module tree but is still active!
-# wrong constant name Franz Lisp
 # wrong constant name <static-init>
 # wrong constant name creator
 # uninitialized constant Faker::Quote::LLetters
@@ -25606,10 +25606,10 @@
 # wrong constant name in_law
 # wrong constant name sibling
 # wrong constant name spouse
-# wrong constant name 2120 Creamery
-# wrong constant name Spice King
-# wrong constant name Green BBQ
-# wrong constant name KKN Cafe
+# wrong constant name 3586 Gastropub
+# wrong constant name Hungry Cafe
+# wrong constant name 23 Box
+# wrong constant name 738 Brasserie
 # wrong constant name <static-init>
 # wrong constant name description
 # wrong constant name review
@@ -25763,19 +25763,19 @@
 # wrong constant name plan
 # wrong constant name status
 # wrong constant name subscription_term
-# wrong constant name Magnificent Mystique
-# wrong constant name Magnificent Jack of Hearts Ivy
-# wrong constant name Rachel Pirzad
-# wrong constant name Rachel Pirzad Claw
+# A copy of Faker::Superhero has been removed from the module tree but is still active!
+# wrong constant name Ultra Beast Machine
+# wrong constant name Firestar Girl
+# wrong constant name Brother Voodoo Knight
 # wrong constant name <static-init>
 # wrong constant name descriptor
 # wrong constant name power
 # wrong constant name prefix
 # wrong constant name suffix
-# wrong constant name Galicia lycanthropes
-# wrong constant name Navarra bees
-# wrong constant name Castilla-La Mancha frogs
-# wrong constant name Cataluña banshees
+# wrong constant name Baleares chickens
+# wrong constant name Región de Murcia goblins
+# wrong constant name Galicia spiders
+# wrong constant name Castilla y León penguins
 # wrong constant name <static-init>
 # wrong constant name creature
 # wrong constant name mascot
@@ -26187,10 +26187,10 @@
 # wrong constant name <static-init>
 # wrong constant name clear
 # wrong constant name marked_unique
-# wrong constant name The Navarra Academy
-# wrong constant name East Alejandro Institute
-# wrong constant name Candelaria University
-# wrong constant name The Delagarza
+# wrong constant name East Colunga Institute
+# wrong constant name Eastern Principado de Asturias College
+# wrong constant name East Vargas College
+# wrong constant name Southern Guevara University
 # wrong constant name <static-init>
 # wrong constant name greek_alphabet
 # wrong constant name greek_organization
@@ -27882,6 +27882,7 @@
 # wrong constant name august
 # wrong constant name december
 # wrong constant name february
+# wrong constant name for_active_users
 # wrong constant name january
 # wrong constant name july
 # wrong constant name june
@@ -42294,25 +42295,6 @@
 # wrong constant name variables=
 # wrong constant name <static-init>
 # wrong constant name <static-init>
-# wrong constant name <Class:Rails>
-# wrong constant name <Class:FeatureCheck>
-# wrong constant name <Class:Railtie>
-# wrong constant name <static-init>
-# wrong constant name can_check_pending_migrations?
-# wrong constant name can_maintain_test_schema?
-# wrong constant name has_1_9_hash_syntax?
-# wrong constant name has_action_mailer?
-# wrong constant name has_action_mailer_preview?
-# wrong constant name has_action_mailer_show_preview?
-# wrong constant name has_active_job?
-# wrong constant name has_active_record?
-# wrong constant name has_active_record_migration?
-# wrong constant name has_file_fixture?
-# wrong constant name type_metatag
-# uninitialized constant RSpec::Rails::Railtie::ABSTRACT_RAILTIES
-# wrong constant name <static-init>
-# wrong constant name <static-init>
-# wrong constant name <static-init>
 # wrong constant name <Class:CparseParams>
 # wrong constant name <static-init>
 # wrong constant name <Class:Auth>
@@ -44154,7 +44136,7 @@
 # wrong constant name <static-init>
 # wrong constant name properties
 # wrong constant name properties=
-# undefined singleton method `property<defaultArg>1' for `#<Module:0x000056053a4f49e0>'
+# undefined singleton method `property<defaultArg>1' for `#<Module:0x000056202afeba28>'
 # wrong constant name <static-init>
 # wrong constant name properties
 # wrong constant name properties=
@@ -44400,111 +44382,15 @@
 # wrong constant name logger=
 # wrong constant name public_path
 # wrong constant name version
-# wrong constant name <Class:Color>
-# wrong constant name <Class:NullPresenter>
-# wrong constant name <Class:Presenter>
-# wrong constant name <Class:StringUtils>
-# wrong constant name <Class:Wrapper>
-# wrong constant name <Class:X11ColorNames>
-# wrong constant name <Class:Indexed>
-# wrong constant name <Class:Named>
-# wrong constant name <Class:RGB>
-# wrong constant name <Class:X11Named>
-# wrong constant name ground
-# wrong constant name codes
-# wrong constant name initialize
-# wrong constant name num
-# wrong constant name <static-init>
-# wrong constant name initialize
-# wrong constant name <static-init>
-# wrong constant name color_names
-# wrong constant name valid_names
-# wrong constant name b
-# wrong constant name g
-# wrong constant name initialize
-# wrong constant name r
-# wrong constant name <static-init>
 # wrong constant name to_ansi_domain
-# uninitialized constant Rainbow::Color::X11Named::NAMES
-# wrong constant name initialize
-# wrong constant name <static-init>
-# wrong constant name color_names
-# wrong constant name valid_names
-# wrong constant name <static-init>
-# wrong constant name build
-# wrong constant name parse_hex_color
 # uninitialized constant Rainbow::NullPresenter::BLANK_RE
 # uninitialized constant Rainbow::NullPresenter::ENCODED_BLANKS
-# wrong constant name background
-# wrong constant name bg
-# wrong constant name black
-# wrong constant name blink
-# wrong constant name blue
-# wrong constant name bold
-# wrong constant name bright
-# wrong constant name color
-# wrong constant name cyan
-# wrong constant name dark
-# wrong constant name faint
-# wrong constant name fg
-# wrong constant name foreground
-# wrong constant name green
-# wrong constant name hide
-# wrong constant name inverse
-# wrong constant name italic
-# wrong constant name magenta
 # wrong constant name method_missing
-# wrong constant name red
-# wrong constant name reset
-# wrong constant name underline
-# wrong constant name white
-# wrong constant name yellow
-# wrong constant name <static-init>
 # uninitialized constant Rainbow::Presenter::BLANK_RE
 # uninitialized constant Rainbow::Presenter::ENCODED_BLANKS
-# wrong constant name background
-# wrong constant name bg
-# wrong constant name black
-# wrong constant name blink
-# wrong constant name blue
-# wrong constant name bold
-# wrong constant name bright
-# wrong constant name color
-# wrong constant name cyan
-# wrong constant name dark
-# wrong constant name faint
-# wrong constant name fg
-# wrong constant name foreground
-# wrong constant name green
-# wrong constant name hide
-# wrong constant name inverse
-# wrong constant name italic
-# wrong constant name magenta
 # wrong constant name method_missing
-# wrong constant name red
-# wrong constant name reset
-# wrong constant name underline
-# wrong constant name white
-# wrong constant name yellow
-# wrong constant name <static-init>
-# wrong constant name <static-init>
 # wrong constant name uncolor
-# wrong constant name wrap_with_sgr
-# undefined method `initialize<defaultArg>1' for class `Rainbow::Wrapper'
-# Did you mean?  initialize_dup
-# wrong constant name enabled
-# wrong constant name enabled=
-# wrong constant name initialize<defaultArg>1
-# wrong constant name initialize
-# wrong constant name wrap
-# wrong constant name <static-init>
-# wrong constant name <static-init>
-# wrong constant name <static-init>
-# wrong constant name enabled
-# wrong constant name enabled=
-# wrong constant name global
 # wrong constant name new
-# wrong constant name uncolor
 # wrong constant name <Class:Cloneable>
 # wrong constant name <Class:DSL>
 # wrong constant name <Class:FileList>

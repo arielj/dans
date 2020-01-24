@@ -14,15 +14,15 @@ h1= t('titles.installments')
     .from-group
       = label_tag '', class: 'form-check form-inline' do
         = check_box_tag :include_paid, '1', params[:include_paid] == '1'
-        i.form-icon
+        i.form-icon>
         | Incluir cuotas pagadas
       = label_tag '', class: 'form-check form-inline' do
         = check_box_tag :include_inactive_users, '1', params[:include_inactive_users] == '1'
-        i.form-icon
+        i.form-icon>
         | Incluir cuotas de usuarios inactivos
       = label_tag '', class: 'form-check form-inline' do
-        = check_box_tag :only_with_reacharge, '1', params[:only_with_reacharge] == '1'
-        i.form-icon
+        = check_box_tag :only_with_recharge, '1', params[:only_with_recharge] == '1'
+        i.form-icon>
         | Mostrar sólo cuotas con recargo
 
     = submit_tag t('labels.filter'), class: 'btn btn-primary'

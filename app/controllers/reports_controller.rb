@@ -1,4 +1,4 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class ReportsController < ApplicationController
@@ -41,9 +41,10 @@ class ReportsController < ApplicationController
   def students_hours
     @year = (params[:year] || Date.today.year).to_i
     @klasses = Klass.all
-    @students = Person.students.order(name: :asc)
+    @students = Person.active.students.order(name: :asc)
     @data = {}
-    Membership.where(person_id: @students.pluck(:id)).where('YEAR(created_at) = ?', @year).includes(:schedules).each do |m|
+    mids = Installment.where(year: @year).pluck('distinct(membership_id)')
+    Membership.where(person_id: @students.pluck(:id), id: mids).includes(:schedules).each do |m|
       @data[m.person_id] ||= {}
       m.schedules.each do |sch|
         @data[m.person_id][sch.klass_id] ||= 0
@@ -55,6 +56,10 @@ class ReportsController < ApplicationController
       sum = klasses.values.sum
       @stats[sum] ||= 0
       @stats[sum] += 1
+    end
+
+    if params[:button] == 'export'
+      send_file(StudentsHoursReportExporter.to_xls(@year, @klasses, @students, @data, @stats)) and return
     end
   end
 

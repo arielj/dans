@@ -44980,6 +44980,8 @@ module Installment::GeneratedRelationMethods
 
   def february(*args, &block); end
 
+  def for_active_users(*args, &block); end
+
   def january(*args, &block); end
 
   def july(*args, &block); end
@@ -55655,13 +55657,7 @@ end
 class Net::HTTPAlreadyReported
 end
 
-class Net::HTTPClientError
-end
-
-Net::HTTPClientErrorCode::EXCEPTION_TYPE = Net::HTTPServerException
-
-class Net::HTTPClientError
-end
+Net::HTTPClientErrorCode = Net::HTTPClientError
 
 Net::HTTPClientException = Net::HTTPServerException
 
@@ -55672,7 +55668,13 @@ end
 class Net::HTTPEarlyHints
 end
 
-Net::HTTPFatalErrorCode = Net::HTTPClientError
+class Net::HTTPClientError
+end
+
+Net::HTTPFatalErrorCode::EXCEPTION_TYPE = Net::HTTPServerException
+
+class Net::HTTPClientError
+end
 
 class Net::HTTPGatewayTimeout
   HAS_BODY = ::T.let(nil, ::T.untyped)
@@ -66002,51 +66004,6 @@ end
 module REXML
 end
 
-module RSpec
-end
-
-module RSpec::Rails
-end
-
-module RSpec::Rails::FeatureCheck
-end
-
-module RSpec::Rails::FeatureCheck
-  def self.can_check_pending_migrations?(); end
-
-  def self.can_maintain_test_schema?(); end
-
-  def self.has_1_9_hash_syntax?(); end
-
-  def self.has_action_mailer?(); end
-
-  def self.has_action_mailer_preview?(); end
-
-  def self.has_action_mailer_show_preview?(); end
-
-  def self.has_active_job?(); end
-
-  def self.has_active_record?(); end
-
-  def self.has_active_record_migration?(); end
-
-  def self.has_file_fixture?(); end
-
-  def self.type_metatag(type); end
-end
-
-class RSpec::Rails::Railtie
-end
-
-class RSpec::Rails::Railtie
-end
-
-module RSpec::Rails
-end
-
-module RSpec
-end
-
 module Racc
   Racc_No_Extensions = ::T.let(nil, ::T.untyped)
 end
@@ -69454,212 +69411,24 @@ module Rails
   def self.version(); end
 end
 
-module Rainbow
-end
-
-class Rainbow::Color
-  def ground(); end
-end
-
-class Rainbow::Color::Indexed
-  def codes(); end
-
-  def initialize(ground, num); end
-
-  def num(); end
-end
-
-class Rainbow::Color::Indexed
-end
-
-class Rainbow::Color::Named
-  def initialize(ground, name); end
-  NAMES = ::T.let(nil, ::T.untyped)
-end
-
-class Rainbow::Color::Named
-  def self.color_names(); end
-
-  def self.valid_names(); end
-end
-
-class Rainbow::Color::RGB
-  def b(); end
-
-  def g(); end
-
-  def initialize(ground, *values); end
-
-  def r(); end
-end
-
 class Rainbow::Color::RGB
   def self.to_ansi_domain(value); end
 end
 
-class Rainbow::Color::X11Named
-  include ::Rainbow::X11ColorNames
-  def initialize(ground, name); end
-end
-
-class Rainbow::Color::X11Named
-  def self.color_names(); end
-
-  def self.valid_names(); end
-end
-
-class Rainbow::Color
-  def self.build(ground, values); end
-
-  def self.parse_hex_color(hex); end
-end
-
 class Rainbow::NullPresenter
-  def background(*_values); end
-
-  def bg(*_values); end
-
-  def black(); end
-
-  def blink(); end
-
-  def blue(); end
-
-  def bold(); end
-
-  def bright(); end
-
-  def color(*_values); end
-
-  def cyan(); end
-
-  def dark(); end
-
-  def faint(); end
-
-  def fg(*_values); end
-
-  def foreground(*_values); end
-
-  def green(); end
-
-  def hide(); end
-
-  def inverse(); end
-
-  def italic(); end
-
-  def magenta(); end
-
   def method_missing(method_name, *args); end
-
-  def red(); end
-
-  def reset(); end
-
-  def underline(); end
-
-  def white(); end
-
-  def yellow(); end
-end
-
-class Rainbow::NullPresenter
 end
 
 class Rainbow::Presenter
-  def background(*values); end
-
-  def bg(*values); end
-
-  def black(); end
-
-  def blink(); end
-
-  def blue(); end
-
-  def bold(); end
-
-  def bright(); end
-
-  def color(*values); end
-
-  def cyan(); end
-
-  def dark(); end
-
-  def faint(); end
-
-  def fg(*values); end
-
-  def foreground(*values); end
-
-  def green(); end
-
-  def hide(); end
-
-  def inverse(); end
-
-  def italic(); end
-
-  def magenta(); end
-
   def method_missing(method_name, *args); end
-
-  def red(); end
-
-  def reset(); end
-
-  def underline(); end
-
-  def white(); end
-
-  def yellow(); end
-  TERM_EFFECTS = ::T.let(nil, ::T.untyped)
-end
-
-class Rainbow::Presenter
-end
-
-class Rainbow::StringUtils
 end
 
 class Rainbow::StringUtils
   def self.uncolor(string); end
-
-  def self.wrap_with_sgr(string, codes); end
-end
-
-class Rainbow::Wrapper
-  def enabled(); end
-
-  def enabled=(enabled); end
-
-  def initialize(enabled=T.unsafe(nil)); end
-
-  def wrap(string); end
-end
-
-class Rainbow::Wrapper
-end
-
-module Rainbow::X11ColorNames
-  NAMES = ::T.let(nil, ::T.untyped)
-end
-
-module Rainbow::X11ColorNames
 end
 
 module Rainbow
-  def self.enabled(); end
-
-  def self.enabled=(value); end
-
-  def self.global(); end
-
   def self.new(); end
-
-  def self.uncolor(string); end
 end
 
 module Rake

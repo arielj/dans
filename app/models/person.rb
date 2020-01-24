@@ -1,4 +1,4 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class Person < ApplicationRecord
@@ -92,7 +92,7 @@ class Person < ApplicationRecord
   end
 
   def add_multi_payments(installment_ids, amount)
-    amount = Money.new(amount.to_i * 100)
+    amount = T.let(Money.new(amount.to_i * 100), T.untyped)
     return :no_amount if amount.cents.zero?
 
     ins = installments_for_multi_payments.where(id: installment_ids).order(id: :asc)
@@ -116,7 +116,7 @@ class Person < ApplicationRecord
   end
 
   def new_membership_amount_calculator(sch_ids)
-    fixed_total = Money.new(0)
+    fixed_total = T.let(Money.new(0), T.untyped)
     duration = 0
     discount = family_group_id.present? ? Setting.fetch('family_group_discount', '0') : 0
 

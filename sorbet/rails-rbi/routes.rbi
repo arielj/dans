@@ -385,6 +385,13 @@ module GeneratedUrlHelpers
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
   def receipt_url(*args, **kwargs); end
 
+  # Sigs for route /memberships/:id/add_installments(.:format)
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def add_installments_membership_path(*args, **kwargs); end
+
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def add_installments_membership_url(*args, **kwargs); end
+
   # Sigs for route /memberships(.:format)
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
   def memberships_path(*args, **kwargs); end

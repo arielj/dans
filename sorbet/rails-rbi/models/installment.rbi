@@ -258,6 +258,9 @@ class Installment < ApplicationRecord
   def self.february(*args); end
 
   sig { params(args: T.untyped).returns(Installment::ActiveRecord_Relation) }
+  def self.for_active_users(*args); end
+
+  sig { params(args: T.untyped).returns(Installment::ActiveRecord_Relation) }
   def self.january(*args); end
 
   sig { params(args: T.untyped).returns(Installment::ActiveRecord_Relation) }
@@ -334,6 +337,9 @@ class Installment < ApplicationRecord
 
   sig { params(args: T.untyped).returns(Installment::ActiveRecord_Relation) }
   def self.waiting(*args); end
+
+  sig { params(args: T.untyped).returns(Installment::ActiveRecord_Relation) }
+  def self.with_recharge(*args); end
 
   sig { returns(Installment::ActiveRecord_Relation) }
   def self.all; end
@@ -525,6 +531,9 @@ class Installment::ActiveRecord_Relation < ActiveRecord::Relation
   def february(*args); end
 
   sig { params(args: T.untyped).returns(Installment::ActiveRecord_Relation) }
+  def for_active_users(*args); end
+
+  sig { params(args: T.untyped).returns(Installment::ActiveRecord_Relation) }
   def january(*args); end
 
   sig { params(args: T.untyped).returns(Installment::ActiveRecord_Relation) }
@@ -601,6 +610,9 @@ class Installment::ActiveRecord_Relation < ActiveRecord::Relation
 
   sig { params(args: T.untyped).returns(Installment::ActiveRecord_Relation) }
   def waiting(*args); end
+
+  sig { params(args: T.untyped).returns(Installment::ActiveRecord_Relation) }
+  def with_recharge(*args); end
 
   sig { returns(Installment::ActiveRecord_Relation) }
   def all; end
@@ -723,6 +735,9 @@ class Installment::ActiveRecord_AssociationRelation < ActiveRecord::AssociationR
   def february(*args); end
 
   sig { params(args: T.untyped).returns(Installment::ActiveRecord_AssociationRelation) }
+  def for_active_users(*args); end
+
+  sig { params(args: T.untyped).returns(Installment::ActiveRecord_AssociationRelation) }
   def january(*args); end
 
   sig { params(args: T.untyped).returns(Installment::ActiveRecord_AssociationRelation) }
@@ -799,6 +814,9 @@ class Installment::ActiveRecord_AssociationRelation < ActiveRecord::AssociationR
 
   sig { params(args: T.untyped).returns(Installment::ActiveRecord_AssociationRelation) }
   def waiting(*args); end
+
+  sig { params(args: T.untyped).returns(Installment::ActiveRecord_AssociationRelation) }
+  def with_recharge(*args); end
 
   sig { returns(Installment::ActiveRecord_AssociationRelation) }
   def all; end
@@ -997,6 +1015,9 @@ class Installment::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Ass
   def february(*args); end
 
   sig { params(args: T.untyped).returns(Installment::ActiveRecord_AssociationRelation) }
+  def for_active_users(*args); end
+
+  sig { params(args: T.untyped).returns(Installment::ActiveRecord_AssociationRelation) }
   def january(*args); end
 
   sig { params(args: T.untyped).returns(Installment::ActiveRecord_AssociationRelation) }
@@ -1073,6 +1094,9 @@ class Installment::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Ass
 
   sig { params(args: T.untyped).returns(Installment::ActiveRecord_AssociationRelation) }
   def waiting(*args); end
+
+  sig { params(args: T.untyped).returns(Installment::ActiveRecord_AssociationRelation) }
+  def with_recharge(*args); end
 
   sig { returns(Installment::ActiveRecord_AssociationRelation) }
   def all; end

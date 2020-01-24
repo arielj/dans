@@ -14,9 +14,17 @@ class Installment < ApplicationRecord
 
   before_destroy :fix_payments
 
-  def self.for_active_users
-    references(:person).where(people: { status: :active })
-  end
+  scope :for_active_users, -> { references(:person).where(people: { status: :active }) }
+  scope :with_recharge, lambda {
+    recharge_day = Setting.fetch(:recharge_after_day, nil)
+    if recharge_day
+      d = Date.today.day <= recharge_day.to_i ? 1.month.ago : Date.today
+
+      where('year < :y OR (year = :y AND month < :m)', y: d.year, m: d.month)
+    else
+      none
+    end
+  }
 
   def self.months_for_select
     ds = I18n.t('date.month_names')
@@ -127,8 +135,8 @@ class Installment < ApplicationRecord
     payments.each do |pay|
       pay.payable = nil
       pay.description ||= ''
-      pay.description += " (Cuota #{month_name} - #{year})"
-      pay.description.strip!
+      pay.description&.concat(" (Cuota #{month_name} - #{year})")
+      pay.description&.strip!
       pay.save(validate: false)
     end
   end

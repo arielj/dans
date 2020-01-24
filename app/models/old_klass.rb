@@ -1,4 +1,4 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class OldKlass < OldRecord
@@ -20,7 +20,7 @@ class OldKlass < OldRecord
 
       days = %i[monday tuesday wednesday thursday friday saturday sunday]
       schedules.each do |sch|
-        Schedule.create! id: sch.id, klass: k, day: days[sch.day], from_time: sch.from_time, to_time: sch.to_time, room_id: sch.room_id
+        Schedule.create! id: sch.id, klass: k, day: days[T.must(sch.day)], from_time: sch.from_time, to_time: sch.to_time, room_id: sch.room_id
       end
     end
     new_teachers = Person.where(id: teacher_ids)

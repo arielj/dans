@@ -26,7 +26,8 @@ class Membership < ApplicationRecord
 
   def to_label
     y = created_at.year
-    y = package.name.gsub(/\AClases (\d{4}) .*/, '\1') if package && package.name =~ /\AClases \d{4} /
+    pkg_name = package&.name || ''
+    y = pkg_name.gsub(/\AClases (\d{4}) .*/, '\1') if pkg_name =~ /\AClases \d{4} /
     "#{y} - (#{klasses.pluck(:name).uniq.join(', ')})"
   end
 
