@@ -40,9 +40,6 @@ gem 'sorbet', group: :development
 gem 'sorbet-rails'
 gem 'sorbet-runtime'
 
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -59,6 +56,12 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console', '>= 3.3.0'
+
+  gem 'capistrano'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails'
+  gem 'capistrano-rvm'
+  gem 'capistrano3-puma'
 end
 
 group :test do
