@@ -7,6 +7,7 @@ header
 
   .actions
     => link_to t('add.package'), new_package_path, class: 'btn btn-primary'
+    = button_tag t('labels.filter'), type: :submit, form: :filter_packages, class: 'hidden'
     = button_tag t('export'), type: :submit, form: :filter_packages, formaction: export_packages_path, class: 'btn'
 
 = form_tag '', method: :get, id: :filter_packages do

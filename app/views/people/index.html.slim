@@ -7,10 +7,11 @@ header
   .actions
     => link_to t('add.teacher'), new_teacher_people_path, class: 'btn btn-primary'
     => link_to t('add.student'), new_student_people_path, class: 'btn btn-primary'
+    = button_tag t('labels.filter'), type: :submit, form: :filter_people, class: 'hidden' # hidden to make it the default action when pressing "return" key
     = button_tag t('export'), type: :submit, form: :filter_people, formaction: export_people_path, class: 'btn'
 
 = form_tag '', method: :get, id: :filter_people do
-  .form-group.form-inline=> select_tag :type, options_for_select([['Profesores','teachers'],['Almuno/as','students']], params[:type]), prompt: 'Mostar todos', class: 'form-select'
+  .form-group.form-inline=> select_tag :type, options_for_select([['Almuno/as','students'],['Todos', 'all'],['Profesores','teachers']], @type), allow_nil: false, class: 'form-select'
   .form-group.form-inline=> text_field_tag :q, params[:q], placeholder: t('labels.people.search'), class: 'form-input'
   => label_tag '', class: 'form-checkbox form-inline' do
     = check_box_tag :include_inactive, '1', params[:include_inactive]

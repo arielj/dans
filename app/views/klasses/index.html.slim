@@ -6,6 +6,7 @@ header
     | (#{@klasses.count})
   .actions
     => link_to t('add.klass'), new_klass_path, class: 'btn btn-primary'
+    = button_tag t('labels.filter'), type: :submit, form: :filter_klasses, class: 'hidden'
     = button_tag t('export'), type: :submit, form: :filter_klasses, formaction: export_klasses_path, class: 'btn'
 
 = form_tag '', method: :get, id: :filter_klasses do

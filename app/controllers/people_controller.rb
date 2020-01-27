@@ -7,8 +7,10 @@ class PeopleController < ApplicationController
   def index
     params[:sort] ||= 'name'
     params[:direction] ||= 'asc'
+    @type = params[:type] || 'students'
+
     @people = get_sorted(name: :asc)
-    @people = @people.where(is_teacher: params[:type] == 'teachers') if params[:type].present?
+    @people = @people.where(is_teacher: @type == 'teachers') if @type != 'all'
     @people = @people.search(params[:q]) if params[:q].present?
     @people = @people.active unless params[:include_inactive]
   end
