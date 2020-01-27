@@ -11,7 +11,7 @@ gem 'pg'
 gem 'puma'
 gem 'rails', '~> 6.0'
 gem 'sassc-rails'
-gem 'sqlite3'
+# gem 'sqlite3'
 gem 'uglifier'
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
