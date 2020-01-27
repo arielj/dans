@@ -86,6 +86,11 @@ class PersonTest < ActiveSupport::TestCase
     student = FactoryBot.create(:student)
     assert student.missing_inscription?(Date.today.year)
 
+    student.money_transactions.create(created_at: 1.year.ago, description: 'insc', amount: 500)
+    assert student.missing_inscription?(Date.today.year)
+    refute student.missing_inscription?(1.year.ago.year)
 
+    student.money_transactions.create(description: 'insc', amount: 400)
+    refute student.missing_inscription?(Date.today.year)
   end
 end
