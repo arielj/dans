@@ -24,6 +24,7 @@ gem 'jbuilder'
 # gem 'bcrypt', '~> 3.1.7'
 
 gem 'devise'
+gem 'devise-i18n'
 gem 'erubis'
 gem 'fast_excel'
 gem 'money-rails'

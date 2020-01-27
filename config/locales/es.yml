@@ -242,6 +242,8 @@ es:
       schedule: Horario
       person: Persona
     attributes:
+      admin:
+        remember_me: Recordarme
       debt:
         amount: Monto
         status: Estado
