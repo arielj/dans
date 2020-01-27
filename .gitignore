@@ -47,3 +47,7 @@ bower.json
 
 # Ignore Byebug command history file.
 .byebug_history
+
+config/deploy.rb
+config/deploy/*
+public/assets/*
