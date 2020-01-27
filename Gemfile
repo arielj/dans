@@ -6,7 +6,8 @@ git_source(:github) do |repo_name|
 end
 
 ruby '2.6.5'
-gem 'mysql2'
+#gem 'mysql2'
+gem 'pg'
 gem 'puma'
 gem 'rails', '~> 6.0'
 gem 'sassc-rails'
