@@ -2,6 +2,9 @@
 
 h1= "#{tg("edit.#{person.type}", person.gender)}: #{person.to_label}"
 
+- if person.missing_inscription?(Date.today.year)
+  .inscription_warning.bg-error Falta pagar inscripción
+
 .personal_data
   h3= t('personal_data')
   .scrollable

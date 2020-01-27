@@ -40,8 +40,8 @@ class PeopleController < ApplicationController
   end
 
   def edit
-    @person_payments = person.money_transactions.received.where(payable_id: nil)
-    @payments_to_person = person.money_transactions.done.where(payable_id: nil)
+    @person_payments = person.money_transactions.received.where(payable_id: nil).order(created_at: :desc)
+    @payments_to_person = person.money_transactions.done.where(payable_id: nil).order(created_at: :desc)
     @debts = person.debts
     @membership = person.memberships.where(id: params[:membership_id]).first || person.memberships.first
   end

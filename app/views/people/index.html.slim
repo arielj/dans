@@ -7,7 +7,8 @@ header
   .actions
     => link_to t('add.teacher'), new_teacher_people_path, class: 'btn btn-primary'
     => link_to t('add.student'), new_student_people_path, class: 'btn btn-primary'
-    = button_tag t('labels.filter'), type: :submit, form: :filter_people, class: 'hidden' # hidden to make it the default action when pressing "return" key
+    - # hidden to make it the default action when pressing "return" key
+    = button_tag t('labels.filter'), type: :submit, form: :filter_people, class: 'hidden'
     = button_tag t('export'), type: :submit, form: :filter_people, formaction: export_people_path, class: 'btn'
 
 = form_tag '', method: :get, id: :filter_people do

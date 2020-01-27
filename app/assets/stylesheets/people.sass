@@ -35,11 +35,18 @@ body.c_people
   &.a_edit, &.a_create, &.a_new_teacher, &.a_new_student
     main
       display: grid
-      grid-template: 'title title' min-content 'personal_data tabbed' 1fr / 1fr 1fr
+      grid-template: 'warning warning' min-content 'title title' min-content 'personal_data tabbed' 1fr / 1fr 1fr
       grid-column-gap: .5rem
 
       h1
         grid-area: title
+      
+      .inscription_warning
+        grid-area: warning
+        color: white
+        text-align: center
+        padding: .3rem
+        font-weight: bold
 
       .personal_data
         grid-area: personal_data

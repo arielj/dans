@@ -76,4 +76,16 @@ class PersonTest < ActiveSupport::TestCase
     @student.installments.waiting.each { |x| assert_includes result, x }
     family.installments.waiting.each { |x| assert_includes result, x }
   end
+
+  test '.missing_inscription? returns false for teachers' do
+    teacher = FactoryBot.create(:teacher)
+    refute teacher.missing_inscription?(Date.today.year)
+  end
+
+  test '.missing_inscription? returns false for students when payments includes "insc"' do
+    student = FactoryBot.create(:student)
+    assert student.missing_inscription?(Date.today.year)
+
+
+  end
 end

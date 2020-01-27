@@ -1,4 +1,6 @@
 # typed: false
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :person do
     name { 'Jon' }
@@ -8,6 +10,10 @@ FactoryBot.define do
 
     factory :student do
       is_teacher { false }
+    end
+
+    factory :teacher do
+      is_teacher { true }
     end
   end
 end

@@ -149,4 +149,10 @@ class Person < ApplicationRecord
       duration: duration, discount: discount, subtotal: subtotal.to_s,
       discountTotal: discount_total.to_s, total: total.to_s }
   end
+
+  def missing_inscription?(year)
+    return false if is_teacher?
+
+    money_transactions.where('YEAR(created_at) = ? AND description LIKE ?', year, '%insc%').empty?
+  end
 end
