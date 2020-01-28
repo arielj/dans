@@ -1,11 +1,13 @@
 # typed: false
 require "application_system_test_case"
  
-class UsersTest < ApplicationSystemTestCase
+class AddingPaymentsTest < ApplicationSystemTestCase
+  include Devise::Test::IntegrationHelpers
+
   driven_by :selenium, using: :headless_chrome
 
   test 'can ignore the recharge' do
-    log_in
+    sign_in admins(:one)
 
     student = FactoryBot.create(:student)
     klass = FactoryBot.create(:klass_with_schedules)
@@ -14,7 +16,7 @@ class UsersTest < ApplicationSystemTestCase
     Setting.set(:month_recharge_value, '20%')
 
     travel_to Time.zone.local(2020, 1, 1, 18, 0, 0) do
-      student.memberships.create(schedules: klass.schedules, amount: 50_000)
+      student.memberships.create(schedules: klass.schedules, amount: 500_00)
     end
 
     travel_to Time.zone.local(2020, 7, 1, 18, 0, 0) do
@@ -31,27 +33,53 @@ class UsersTest < ApplicationSystemTestCase
       assert_selector '.modal #add_installment_payment'
 
       within '.modal #add_installment_payment' do
-        assert_match 'Restante: $600,00', page.body
+        assert_match 'Restante: $600,00', page.text
 
-        assert_match 'Ignorar recargo a mes vencido', page.body
+        assert_match 'Ignorar recargo a mes vencido', page.text
 
         find('#ignore_month_recharge_label').click
 
-        assert_match 'Restante: $550,00', page.body
+        assert_match 'Restante: $550,00', page.text
 
-        assert_match 'Ignorar recargo por fecha', page.body
+        assert_match 'Ignorar recargo por fecha', page.text
 
         find('#ignore_recharge_label').click
 
-        assert_match 'Restante: $500,00', page.body
+        assert_match 'Restante: $500,00', page.text
+
+        click_button 'Guardar pago'
+      end
+
+      within "#installment_#{student.installments.second.id}" do
+        click_link 'Agregar pago'
+      end
+
+      assert_selector '.modal #add_installment_payment'
+
+      within '.modal #add_installment_payment' do
+        assert_match 'Restante: $600,00', page.text
+
+        assert_match 'Ignorar recargo a mes vencido', page.text
+
+        find('#ignore_month_recharge_label').click
+
+        assert_match 'Restante: $550,00', page.text
+
+        assert_match 'Ignorar recargo por fecha', page.text
+
+        find('#ignore_recharge_label').click
+
+        assert_match 'Restante: $500,00', page.text
+
+        fill_in :payment_amount, with: '400'
 
         click_button 'Guardar pago'
       end
 
       sleep(1)
 
-      within "#installment_#{student.installments.first.id}" do
-        assert_match 'Pagado', page.body
+      within "#installment_#{student.installments.second.id}" do
+        assert_match 'Pendiente', page.text
       end
     end
   end

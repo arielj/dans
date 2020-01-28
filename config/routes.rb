@@ -97,4 +97,6 @@ Rails.application.routes.draw do
     post :setting, action: :save_setting
     get :add_price
   end
+
+  get 'receipts/:number', to: 'money_transactions#receipt'
 end

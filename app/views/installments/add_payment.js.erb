@@ -1,8 +1,13 @@
-<% if @payment.new_record? %>
-  alert('<%= j @payment.errors.full_messages.join("\n") -%>');
-<% else %>
-  <% if params[:button] == 'save_and_receipt' %>
-    fetch('<%= receipt_path(@payment.receipt) %>');
+(function(){
+  <% if @payment.new_record? %>
+    alert('<%= j @payment.errors.full_messages.join("\n") -%>');
+  <% else %>
+    let tr = byid('installment_<%= @installment.id -%>');
+    tr.insertAdjacentHTML('afterend', '<%= j(installment_tr(@installment)) %>');
+    tr.remove();
+    closeModal();
+    <% if params[:button] == 'save_and_receipt' %>
+      showReceiptModal(<%= @payment.receipt %>);
+    <% end %>
   <% end %>
-  window.location.reload()
-<% end %>
+})()

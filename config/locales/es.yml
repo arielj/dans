@@ -44,7 +44,7 @@ es:
     installments: Agregar cuotas
     klass: Agregar clase
     label: Agregar
-    membership: Agregar inscripción
+    membership: Agregar paquete
     movement: Agregar movimiento
     package: Agregar paquete
     payment: Agregar pago
@@ -69,7 +69,7 @@ es:
   save:
     debt: Guardar deuda
     klass: Guardar clase
-    membership: Guardar inscripción
+    membership: Guardar paquete
     money_transaction: Guardar movimiento
     notes: Guardar notas
     options: Guardar opciones
@@ -88,7 +88,7 @@ es:
   saved:
     debt: Guardada
     klass: Guardada
-    membership: Guardada
+    membership: Guardado
     money_transaction: Guardado
     notes: Guardada
     options: Guardadas

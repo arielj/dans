@@ -39,3 +39,13 @@ onLoad(function(e) {
     closeModal();
   });
 });
+
+function showReceiptModal(receiptNumber) {
+  const viewer = document.createElement('object');
+  viewer.type = 'application/pdf';
+  viewer.data = `/receipts/${receiptNumber}.pdf`;
+  viewer.width = '800px';
+  viewer.style = 'margin: 0 auto; display: block';
+  viewer.height = '500px';
+  showLargeModal(`Recibo ${receiptNumber}`, viewer.outerHTML);
+}

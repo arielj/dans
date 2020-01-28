@@ -35,4 +35,4 @@ h1= t('titles.receipts')
         .name = Setting.fetch(:name, '')
         .signature .....................
       
-      => link_to 'Download', receipt_path(number: @receipt_items.first.receipt)
+      => link_to 'Ver', receipt_path(number: @receipt_items.first.receipt), id: 'show_receipt', data: { receipt_number: @receipt_items.first.receipt }

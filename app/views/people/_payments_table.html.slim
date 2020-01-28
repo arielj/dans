@@ -8,14 +8,7 @@
         th= MoneyTransaction.human_attribute_name(:receipt)
         th.actions
     tbody
-      - payments.each do |p|
-        tr
-          td title=l(p.created_at) = l p.created_at, format: :date
-          td= p.description
-          td $#{p.amount}
-          td= p.receipt
-          td.actions
-            = link_to p, method: :delete, data: { confirm: '¿Borrar pago?' } do
-              i.fa.fa-trash
+      - payments.each do |pay|
+        = payment_tr(pay)
 .actions
   = link_to t('add.payment'), url, class: 'btn', remote: true

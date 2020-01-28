@@ -8,3 +8,7 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
 end
+
+def saos
+  save_and_open_screenshot
+end

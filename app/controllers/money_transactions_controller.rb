@@ -31,7 +31,7 @@ class MoneyTransactionsController < ApplicationController
 
   def receipt
     @receipt_items = MoneyTransaction.where(receipt: params[:number])
-    send_data generate_pdf(@receipt_items), filename: "receipt_#{T.must(@receipt_items.first).receipt}.pdf", type: "application/pdf", disposition: :attachment
+    send_data generate_pdf(@receipt_items), filename: "receipt_#{T.must(@receipt_items.first).receipt}.pdf", type: "application/pdf", disposition: :inline
   end
 
   private
