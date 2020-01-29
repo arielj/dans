@@ -14,7 +14,7 @@ class PaymentsController < ApplicationController
     @payment = @installment.create_payment add_payment_attributes, ignore_recharge, ignore_month_recharge
 
     if params[:button] == 'save_and_receipt'
-      num = (MoneyTransaction.order(receipt: :desc).first&.receipt || 0) + 1
+      num = MoneyTransaction.last_receipt + 1
       @payment.update_attribute :receipt, num
     end
   end

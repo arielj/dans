@@ -41,4 +41,8 @@ class MoneyTransaction < ApplicationRecord
       aux.update_column(:daily_cash_closer, true)
     end
   end
+
+  def self.last_receipt
+    order(receipt: :desc).first&.receipt || 0
+  end
 end

@@ -1,0 +1,6 @@
+(function(){
+  showReceiptModal('<%= @receipt_items.first.receipt %>');
+  <% @receipt_items.each do |pay| %>
+    document.querySelector('tr#payment_<%= pay.id %> td.receipt span').innerHTML = '<%= pay.receipt %>';
+  <% end %>
+})()

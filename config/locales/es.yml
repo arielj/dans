@@ -30,7 +30,6 @@ es:
   people: Personas
   person: Persona
   personal_data: Datos personales
-  reports: Reportes
   room: Sala
   rooms: Salas
   schedule: Horario
@@ -182,6 +181,7 @@ es:
     installments: Cuotas
     payments: Pagos
     receipts: Recibos
+    reports: Reportes
     students_hours: Alums. por Hora
 
   session:
@@ -221,6 +221,16 @@ es:
     date: Fecha
     description: Descripción
     title: Recibos
+  
+  reports:
+    payments:
+      date_from: Desde
+      date_to: Hasta
+      done: Hechos
+      person: Alumno/a / Profesor/a
+      received: Recibidos
+      search: Buscar
+      search_placeholder: 'Desc/Nombre/Apellido'
 
   form:
     options:
@@ -271,10 +281,11 @@ es:
         use_custom_amount: Usar monto manual (con la casilla desmarcada se usa el valor calculado)
       money_transaction:
         amount: Monto
+        date: Fecha
         description: Detalle
         created_at: Fecha
-        date: Fecha
         paid_at: Fecha de pago
+        receipt: Recibo Nº
       package:
         name: Nombre
         fee: Valor

@@ -34,6 +34,15 @@ class MoneyTransactionsController < ApplicationController
     send_data generate_pdf(@receipt_items), filename: "receipt_#{T.must(@receipt_items.first).receipt}.pdf", type: "application/pdf", disposition: :inline
   end
 
+  def receipt_multiple
+    @receipt_items = MoneyTransaction.where(id: params[:print])
+    nums = @receipt_items.pluck(:receipt).uniq
+
+    if nums.count != 1
+      @receipt_items.update_all receipt: MoneyTransaction.last_receipt + 1
+    end
+  end
+
   private
 
   def create_transaction_params

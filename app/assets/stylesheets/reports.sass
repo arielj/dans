@@ -99,54 +99,57 @@ body.c_reports
   display: block
   margin: 0 auto
 
-.receipt
-  display: grid
-  grid-template-areas: 'person number date' 'table table table' 'name name signature'
-  grid-template-columns: 1fr 1fr 1fr
-  grid-template-rows: 2rem 1fr 3rem
-  width: 800px
-  height: 400px
-  margin: 0 auto
-  border: 1px solid #000
-  padding: 1rem
-  
-  .person
-    grid-area: person
-  
-  .number
-    grid-area: number
-    text-align: center
-  
-  .date
-    grid-area: date
-    text-align: right
-  
-  table
-    grid-area: table
-    border-collapse: collapse
+.c_reports.a_payments td.receipt input
+  float: right
 
-    thead tr
-      border-bottom: 2px solid #000
-    tbody tr
-      border-bottom: 1px solid #000
-    tfoot
-      font-weight: bold
+// .receipt
+//   display: grid
+//   grid-template-areas: 'person number date' 'table table table' 'name name signature'
+//   grid-template-columns: 1fr 1fr 1fr
+//   grid-template-rows: 2rem 1fr 3rem
+//   width: 800px
+//   height: 400px
+//   margin: 0 auto
+//   border: 1px solid #000
+//   padding: 1rem
+  
+//   .person
+//     grid-area: person
+  
+//   .number
+//     grid-area: number
+//     text-align: center
+  
+//   .date
+//     grid-area: date
+//     text-align: right
+  
+//   table
+//     grid-area: table
+//     border-collapse: collapse
 
-    th
-      text-align: left
+//     thead tr
+//       border-bottom: 2px solid #000
+//     tbody tr
+//       border-bottom: 1px solid #000
+//     tfoot
+//       font-weight: bold
+
+//     th
+//       text-align: left
     
-      &:first-child
-        width: 5%
-      &:last-child
-        width: 5%
-        text-align: right
+//       &:first-child
+//         width: 5%
+//       &:last-child
+//         width: 5%
+//         text-align: right
 
-    td:last-child
-      text-align: right
+//     td:last-child
+//       text-align: right
   
-  .name
-    grid-area: name
+//   .name
+//     grid-area: name
 
-  .signature
-    grid-area: signature
-    text-align: center
+//   .signature
+//     grid-area: signature
+//     text-align: center

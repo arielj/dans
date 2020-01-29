@@ -57,9 +57,13 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :money_transactions
-  patch :close_daily_cash, to: 'money_transactions#close_daily_cash', as: :close_daily_cash
-  get 'receipt/:number', to: 'money_transactions#receipt', as: :receipt
+  resources :money_transactions do
+    collection do
+      patch :close_daily_cash
+      get 'receipt/:number', action: 'receipt', as: :receipt
+      post 'receipt/multiple', action: 'receipt_multiple'
+    end
+  end
 
   resources :memberships do
     member do

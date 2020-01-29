@@ -1,45 +1,48 @@
 h1= t('titles.payments')
 .filters
-  h2= t('filters')
+  h2= t('labels.filters')
   = form_tag reports_payments_path, method: :get do
     .form-group
-      = label_tag :date_from, nil, class: 'form-label'
+      = label_tag :date_from, t(:date_from, scope: 'reports.payments'), class: 'form-label'
       = date_field_tag :date_from, @date_from, class: 'form-input datepicker'
     .form-group
-      = label_tag :date_to, nil, class: 'form-label'
+      = label_tag :date_to, t(:date_to, scope: 'reports.payments'), class: 'form-label'
       = date_field_tag :date_to, @date_to, class: 'form-input datepicker'
     .from-group
       = label_tag '', class: 'form-radio form-inline' do
         = radio_button_tag :direction, :done, params[:direction] == 'done'
         i.form-icon
-        | Done
+        = t(:done, scope: 'reports.payments')
       = label_tag '', class: 'form-radio form-inline' do
         = radio_button_tag :direction, :received, params[:direction] == 'received'
         i.form-icon
-        | Received
+        = t(:received, scope: 'reports.payments')
     .form-group
-      = label_tag :search, nil, class: 'form-label'
-      = text_field_tag :search, params[:search], class: 'form-input', placeholder: 'Desc/Name/Lastname'
+      = label_tag :search, t(:search, scope: 'reports.payments'), class: 'form-label'
+      = text_field_tag :search, params[:search], class: 'form-input', placeholder: t(:search_placeholder, scope: 'reports.payments')
 
     = submit_tag t('labels.filter'), class: 'btn btn-primary'
 
 .scrollable
-  table.table.table-striped.table-sm
-    thead.thead-dark
-      tr
-        th Person
-        th Date
-        th Amount
-        th Description
-        th Receipt
-    - @payments.each do |tran|
-      tr
-        td= tran.person.to_label
-        td= l tran.created_at
-        td= tran.amount
-        td= tran.description
-        td= ''
-    tfoot
-      tr
-        td colspan=5
-          b Total: $#{@payments.total}
+  = form_tag receipt_multiple_money_transactions_path, method: :post, remote: true, id: 'print_payments' do
+    table.table.table-striped.table-sm
+      thead.thead-dark
+        tr
+          th = MoneyTransaction.human_attribute_name(:person)
+          th = MoneyTransaction.human_attribute_name(:created_at)
+          th = MoneyTransaction.human_attribute_name(:amount)
+          th = MoneyTransaction.human_attribute_name(:description)
+          th = MoneyTransaction.human_attribute_name(:receipt)
+      - @payments.each do |tran|
+        tr id="payment_#{tran.id}"
+          td= tran.person.to_label
+          td= l tran.created_at
+          td= tran.amount
+          td= tran.description
+          td.receipt
+            span = tran.receipt
+            = check_box_tag 'print[]', tran.id, false, id: "print_#{tran.id}", data: { receipt: tran.receipt }
+      tfoot
+        tr
+          td colspan=4 : b Total: $#{@payments.total}
+          td = button_tag 'Imprimir', value: 'print', class: 'btn btn-secondary'
