@@ -61,6 +61,13 @@ h1= "#{tg("edit.#{person.type}", person.gender)}: #{person.to_label}"
       = form_tag '', method: :get do
         = hidden_field_tag :tab, 'memberships'
         = select_tag :membership_id, options_from_collection_for_select(person.memberships, :id, :to_label, params[:membership_id]), class: 'form-select', id: 'select_membership'
+      .membership_klasses
+        span El paquete incluye:
+        ul
+          - @membership.klasses.each do |klass|
+            li
+              ' -
+              = klass.name
       .installments.scrollable
         - if @membership
           = render partial: 'people/membership', locals: { membership: @membership }
