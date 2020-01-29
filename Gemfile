@@ -26,12 +26,13 @@ gem 'jbuilder'
 gem 'devise'
 gem 'devise-i18n'
 gem 'erubis'
-gem 'fast_excel'
+gem 'fast_excel' # exports
 gem 'money-rails'
+gem 'paper_trail'
 gem 'simple_form'
-gem 'slim', '~> 4.0', '>= 4.0.1'
-gem 'tinymce-rails'
-gem 'vanilla_nested', '~> 1.2'
+gem 'slim', '~> 4.0', '>= 4.0.1' # templates
+gem 'tinymce-rails' # wysiwyg on home
+gem 'vanilla_nested', '~> 1.2' # dynamic nested forms
 # gem 'vanilla_nested', path: '../vanilla-nested'
 
 gem 'prawn'

@@ -2,6 +2,8 @@
 # frozen_string_literal: true
 
 class MoneyTransaction < ApplicationRecord
+  has_paper_trail
+
   CATEGORIES = %w[installment inscription general].freeze
   belongs_to :person, optional: true
   belongs_to :payable, optional: true, polymorphic: true

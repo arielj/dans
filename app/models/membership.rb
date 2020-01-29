@@ -2,6 +2,8 @@
 # frozen_string_literal: true
 
 class Membership < ApplicationRecord
+  has_paper_trail
+
   monetize :amount_cents, numericality: false
 
   belongs_to :person

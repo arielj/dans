@@ -2,6 +2,8 @@
 # frozen_string_literal: true
 
 class Package < ApplicationRecord
+  has_paper_trail
+
   has_and_belongs_to_many :schedules
   has_many :klasses, -> { distinct }, through: :schedules
   belongs_to :person, optional: true

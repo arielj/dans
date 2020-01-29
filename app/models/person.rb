@@ -2,6 +2,8 @@
 # frozen_string_literal: true
 
 class Person < ApplicationRecord
+  has_paper_trail
+
   has_many :memberships, -> { order(id: :desc) }, inverse_of: :person, dependent: :destroy
   has_many :installments, through: :memberships
 
