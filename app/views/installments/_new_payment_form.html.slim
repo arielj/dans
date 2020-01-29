@@ -1,4 +1,4 @@
-= simple_form_for MoneyTransaction.new, url: add_payment_installment_path(@installment), as: 'payment', remote: true, html: { id: 'add_installment_payment' } do |f|
+= simple_form_for @new_payment, url: add_payment_installment_path(@installment), as: 'payment', remote: true, html: { id: 'add_installment_payment' } do |f|
   = f.input :paid_at, as: :string, input_html: {placeholder: 'aaaa-mm-dd', class: 'datepicker', value: Date.today}
   = f.input :description
   .form-group

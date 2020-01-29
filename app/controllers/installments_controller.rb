@@ -4,7 +4,9 @@
 class InstallmentsController < ApplicationController
   before_action :load_installment
 
-  def new_payment; end
+  def new_payment
+    @new_payment = MoneyTransaction.new description: 'cuota'
+  end
 
   def add_payment
     ignore_recharge = params[:ignore_recharge] == '1'
