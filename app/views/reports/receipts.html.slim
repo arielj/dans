@@ -13,26 +13,27 @@ h1= t('titles.receipts')
     - if @receipt_items.empty?
       .flash No se encontró el recibo con ese número
     - else
-      .receipt
-        .person = @receipt_items.first.person.to_label
-        .number = @receipt_items.first.receipt
-        .date = l Date.today
-        table
-          thead
-            tr
-              th = t(:date, scope: :receipts)
-              th = t(:description, scope: :receipts)
-              th = t(:amount, scope: :receipts)
-          tbody
-            - @receipt_items.each do |item|
-              tr
-                td = l item.created_at.to_date, format: :default
-                td = item.description
-                td = "$#{item.amount}"
-          tfoot
-            tr
-              td colspan=3 = "Total: $#{@receipt_items.map(&:amount).sum}"
-        .name = Setting.fetch(:name, '')
-        .signature .....................
+      object type='application/pdf' data='/receipts/#{@receipt_items.first.receipt}.pdf' width='800px' height='500px'
+      / .receipt
+      /   .person = @receipt_items.first.person.to_label
+      /   .number = @receipt_items.first.receipt
+      /   .date = l Date.today
+      /   table
+      /     thead
+      /       tr
+      /         th = t(:date, scope: :receipts)
+      /         th = t(:description, scope: :receipts)
+      /         th = t(:amount, scope: :receipts)
+      /     tbody
+      /       - @receipt_items.each do |item|
+      /         tr
+      /           td = l item.created_at.to_date, format: :default
+      /           td = item.description
+      /           td = "$#{item.amount}"
+      /     tfoot
+      /       tr
+      /         td colspan=3 = "Total: $#{@receipt_items.map(&:amount).sum}"
+      /   .name = Setting.fetch(:name, '')
+      /   .signature .....................
       
-      => link_to 'Ver', receipt_path(number: @receipt_items.first.receipt), id: 'show_receipt', data: { receipt_number: @receipt_items.first.receipt }
+      / => link_to 'Ver', receipt_path(number: @receipt_items.first.receipt), id: 'show_receipt', data: { receipt_number: @receipt_items.first.receipt }
