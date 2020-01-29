@@ -1,0 +1,10 @@
+<% if @payment.errors.any? %>
+  alert('ocurrió un error al editar el pago');
+<% else %>
+  (function(){
+    let tr = byid('installment_<%= @installment.id -%>');
+    tr.insertAdjacentHTML('afterend', '<%= j(installment_tr(@installment)) %>');
+    tr.remove();
+    closeModal();
+  })()
+<% end %>

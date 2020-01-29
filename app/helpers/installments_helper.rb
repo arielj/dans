@@ -10,7 +10,7 @@ module InstallmentsHelper
       concat(content_tag(:td) do
         concat(payments_detail(ins))
         if ins.to_pay.positive?
-          concat(link_to(new_payment_installment_path(ins), remote: true, title: t('add.payment')) do
+          concat(link_to(new_installment_payment_path(ins), remote: true, title: t('add.payment')) do
             tag(:i, class: 'fa fa-plus')
           end)
         end
@@ -20,6 +20,40 @@ module InstallmentsHelper
           concat(tag(:i, class: 'fa fa-trash'))
         end)
       end)
+    end
+  end
+
+  def installment_amount(ins)
+    s = "$#{ins.amount}"
+    if ins.paid_with_interests?
+      s += " (+#{ins.amount_paid - ins.amount})"
+    elsif (r = ins.get_recharge).positive?
+      s += " (+#{r})"
+    end
+    s
+  end
+
+  # use a helper methods instead of a partial, it's faster
+  def payments_detail(payable)
+    return if payable.payments.empty?
+
+    content_tag 'ul', class: 'payment-details' do
+      payable.payments.each do |p|
+        concat(content_tag('li') do
+          concat(tag.i(class: 'fa fa-calendar', title: I18n.l(p.created_at)))
+          concat(" $#{p.amount} ")
+
+          if p.description.present? && p.description != 'cuota'
+            concat(content_tag('span', '(*)', title: p.description))
+          end
+
+          concat(
+            link_to(edit_installment_payment_path(payable, p), class: 'edit', remote: true) do
+              content_tag(:i, '', class: 'fa fa-edit')
+            end
+          )
+        end)
+      end
     end
   end
 end

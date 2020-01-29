@@ -1,4 +1,5 @@
-= simple_form_for @new_payment, url: add_payment_installment_path(@installment), as: 'payment', remote: true, html: { id: 'add_installment_payment' } do |f|
+- url = @payment.new_record? ? installment_payments_path(@installment) : installment_payment_path(@installment, @payment)
+= simple_form_for @payment, url: url, as: 'payment', remote: true, html: { id: 'installment_payment' } do |f|
   = f.input :paid_at, as: :string, input_html: {placeholder: 'aaaa-mm-dd', class: 'datepicker', value: Date.today}
   = f.input :description
   .form-group
@@ -9,7 +10,7 @@
 
     .input-group
       span.input-group-addon $
-      = f.text_field :amount, value: @installment.to_pay, class: 'form-input payment_amount'
+      = f.text_field :amount, class: 'form-input payment_amount'
       
   - if (r = @installment.get_month_recharge) > 0
     = label_tag '', class: 'form-checkbox update_amount', id: 'ignore_month_recharge_label' do
@@ -24,4 +25,7 @@
 
   .modal-footer
     => button_tag t('save.payment'), type: :submit, name: :button, value: :save, class: 'btn btn-primary'
-    => button_tag t('save.payment_and_receipt'), type: :submit, name: :button, value: :save_and_receipt, class: 'btn btn-primary'
+    - if @payment.new_record?
+      => button_tag t('save.payment_and_receipt'), type: :submit, name: :button, value: :save_and_receipt, class: 'btn btn-primary'
+    - else
+      = link_to t('destroy.payment'), installment_payment_path(@installment, @payment), method: :delete, data: {confirm: '¿Seguro?'}, class: 'btn btn-error'

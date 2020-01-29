@@ -35,7 +35,7 @@ body.c_people
   &.a_edit, &.a_create, &.a_new_teacher, &.a_new_student
     main
       display: grid
-      grid-template: 'warning warning' min-content 'title title' min-content 'personal_data tabbed' 1fr / 1fr 1fr
+      grid-template: 'warning warning' min-content 'title title' min-content 'personal_data tabbed' 1fr / 4fr 5fr
       grid-column-gap: .5rem
 
       h1
@@ -94,3 +94,10 @@ body.c_people
       .inactive
         .to_label a
           text-decoration: line-through
+
+ul.payment-details li
+  i.fa-edit
+    opacity: 0
+  
+  &:hover i.fa-edit
+    opacity: 1

@@ -72,7 +72,7 @@ module MoneyTransactionsHelper
       concat(content_tag(:td, payment.receipt))
       concat(content_tag(:td, class: :actions) do
         link_to payment, method: :delete, data: { confirm: '¿Borrar pago?' } do
-          tag(:i, class: 'fa fa-trash')
+          content_tag(:i, '', class: 'fa fa-trash')
         end
       end)
     end

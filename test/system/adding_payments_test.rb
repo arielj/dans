@@ -30,9 +30,9 @@ class AddingPaymentsTest < ApplicationSystemTestCase
         click_link 'Agregar pago'
       end
 
-      assert_selector '.modal #add_installment_payment'
+      assert_selector '.modal #installment_payment'
 
-      within '.modal #add_installment_payment' do
+      within '.modal #installment_payment' do
         assert_match 'Restante: $600,00', page.text
 
         assert_match 'Ignorar recargo a mes vencido', page.text
@@ -54,9 +54,9 @@ class AddingPaymentsTest < ApplicationSystemTestCase
         click_link 'Agregar pago'
       end
 
-      assert_selector '.modal #add_installment_payment'
+      assert_selector '.modal #installment_payment'
 
-      within '.modal #add_installment_payment' do
+      within '.modal #installment_payment' do
         assert_match 'Restante: $600,00', page.text
 
         assert_match 'Ignorar recargo a mes vencido', page.text

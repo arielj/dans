@@ -69,10 +69,12 @@ Rails.application.routes.draw do
   end
 
   resources :installments do
-    member do
-      get :new_payment
-      post :add_payment
-    end
+    resources :payments
+    # member do
+    #   get :new_payment
+    #   post :add_payment
+    #   get 'edit_payment/:pid', action: :edit_payment, as: :edit_payment
+    # end
   end
 
   resources :debts do

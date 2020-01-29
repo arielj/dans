@@ -122,6 +122,7 @@ es:
     klass: Editar clase
     label: Editar
     package: Editar paquete
+    payment: Editar pago
     person: Editar persona
     room: Editar sala
     student: Editar alumno/a
@@ -133,6 +134,7 @@ es:
   destroy:
     klass: Borrar clase
     package: Borrar paquete
+    payment: Borrar pago
     room: Borrar sala
     student: Borrar alumno/a
     teacher: Borrar profesor/a
@@ -145,6 +147,7 @@ es:
     klass: Clase borrada
     money_transaction: Movimiento eliminado
     package: Paquete borrado
+    payment: Pago borrado
     room: Sala borrada
     student: Alumno/a borrado/a
     teacher: Profesor/a borrado/a
