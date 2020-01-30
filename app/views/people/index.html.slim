@@ -13,7 +13,7 @@ header
 
 = form_tag '', method: :get, id: :filter_people do
   .form-group.form-inline=> select_tag :type, options_for_select([['Almuno/as','students'],['Todos', 'all'],['Profesores','teachers']], @type), allow_nil: false, class: 'form-select'
-  .form-group.form-inline=> text_field_tag :q, params[:q], placeholder: t('labels.people.search'), class: 'form-input'
+  .form-group.form-inline=> text_field_tag :q, params[:q], placeholder: t('labels.people.search'), class: 'form-input', autofocus: true
   => label_tag '', class: 'form-checkbox form-inline' do
     = check_box_tag :include_inactive, '1', params[:include_inactive]
     = t('labels.include_inactive')

@@ -4,7 +4,7 @@ h1= t('titles.receipts')
   = form_tag reports_receipts_path, method: :get do
     .form-group
       = label_tag :receipt, 'Recibo Nº', class: 'form-label'
-      = number_field_tag :receipt, params[:receipt], class: 'form-input'
+      = number_field_tag :receipt, params[:receipt], class: 'form-input', autofocus: true
 
     = submit_tag t('labels.filter'), class: 'btn btn-primary'
 
