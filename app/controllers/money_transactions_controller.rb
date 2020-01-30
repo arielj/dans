@@ -17,6 +17,19 @@ class MoneyTransactionsController < ApplicationController
     end
   end
 
+  def edit
+    @tran = MoneyTransaction.find(params[:id])
+  end
+
+  def update
+    @tran = MoneyTransaction.find(params[:id])
+    @tran.attributes = update_transaction_params
+    if params[:button] == 'save_and_receipt'
+      @tran.receipt ||= MoneyTransaction.last_receipt + 1
+    end
+    @tran.save
+  end
+
   def destroy
     MoneyTransaction.find(params[:id]).destroy
     flash[:success] = t('destroyed.money_transaction')
@@ -49,5 +62,11 @@ class MoneyTransactionsController < ApplicationController
     params
       .require_typed(:money_transaction, TA[ActionController::Parameters].new)
       .permit(:amount, :description, :done)
+  end
+
+  def update_transaction_params
+    params
+      .require_typed(:money_transaction, TA[ActionController::Parameters].new)
+      .permit(:amount, :description)
   end
 end

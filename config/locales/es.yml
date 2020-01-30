@@ -120,6 +120,7 @@ es:
   edit:
     klass: Editar clase
     label: Editar
+    movement: Editar pago
     package: Editar paquete
     payment: Editar pago
     person: Editar persona

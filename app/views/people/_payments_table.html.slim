@@ -13,10 +13,12 @@
         tr id="payment_#{pay.id}"
           td = check_box_tag 'print[]', pay.id, false, id: "print_#{pay.id}", form: "print_payments_#{table_id}"
           td title=l(pay.created_at) = I18n.l(pay.created_at, format: :date)
-          td = pay.description
-          td = "$#{pay.amount}"
+          td.description = pay.description
+          td.amount = "$#{pay.amount}"
           td.receipt: span = pay.receipt
           td.actions
+            => link_to edit_money_transaction_path(pay), remote: true do
+              i.fa.fa-edit
             = link_to pay, method: :delete, data: { confirm: '¿Borrar pago?' } do
               i.fa.fa-trash
 

@@ -1,0 +1,24 @@
+- remote = @tran.persisted?
+
+= simple_form_for @tran, remote: remote do |f|
+  .form-group
+    = f.label :amount, class: 'form-label'
+    .input-group
+      span.input-group-addon $
+      = f.text_field :amount, class: 'form-input'
+  = f.input :description
+  - if @tran.new_record?
+    .form-group
+      = label_tag '', class: 'form-radio form-inline' do
+        = f.radio_button :done, true
+        = t('money.out')
+        i.form-icon
+      = label_tag '', class: 'form-radio form-inline' do
+        = f.radio_button :done, false
+        = t('money.in')
+        i.form-icon
+  .actions.modal-footer
+    - label = @tran.person ? t('save.payment') : t('save.money_transaction')
+    => button_tag label, name: :button, name: :save, class: 'btn btn-primary'
+    - if @tran.person
+      = button_tag t('save.payment_and_receipt'), name: :button, value: :save_and_receipt, class: 'btn'
