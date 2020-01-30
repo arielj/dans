@@ -17,7 +17,9 @@ h3 Pagos
           td= tran.done ? '' : tran.amount
           td= tran.done ? tran.amount : ''
           td= tran.description
-          td= link_to tran.person.to_label, edit_person_path(tran.person)
+          td
+            - if tran.person
+              = link_to tran.person.to_label, edit_person_path(tran.person)
           - unless hide_actions
             td X
     tfoot
