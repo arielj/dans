@@ -63,18 +63,4 @@ module MoneyTransactionsHelper
       end
     end.render
   end
-
-  def payment_tr(payment)
-    content_tag :tr do
-      concat(content_tag(:td, I18n.l(payment.created_at, format: :date), title: l(payment.created_at)))
-      concat(content_tag(:td, payment.description))
-      concat(content_tag(:td, "$#{payment.amount}"))
-      concat(content_tag(:td, payment.receipt))
-      concat(content_tag(:td, class: :actions) do
-        link_to payment, method: :delete, data: { confirm: '¿Borrar pago?' } do
-          content_tag(:i, '', class: 'fa fa-trash')
-        end
-      end)
-    end
-  end
 end

@@ -1,7 +1,8 @@
 .scrollable
-  table.table.table-striped.table-small
+  table.table.table-striped.table-small id=table_id
     thead.thead-dark
       tr
+        th
         th= MoneyTransaction.human_attribute_name(:date)
         th= MoneyTransaction.human_attribute_name(:description)
         th= MoneyTransaction.human_attribute_name(:amount)
@@ -9,6 +10,17 @@
         th.actions
     tbody
       - payments.each do |pay|
-        = payment_tr(pay)
+        tr id="payment_#{pay.id}"
+          td = check_box_tag 'print[]', pay.id, false, id: "print_#{pay.id}", form: "print_payments_#{table_id}"
+          td title=l(pay.created_at) = I18n.l(pay.created_at, format: :date)
+          td = pay.description
+          td = "$#{pay.amount}"
+          td.receipt: span = pay.receipt
+          td.actions
+            = link_to pay, method: :delete, data: { confirm: '¿Borrar pago?' } do
+              i.fa.fa-trash
+
 .actions
-  = link_to t('add.payment'), url, class: 'btn', remote: true
+  => link_to t('add.payment'), url, class: 'btn', remote: true
+  = form_tag receipt_multiple_money_transactions_path, method: :post, remote: true, id: "print_payments_#{table_id}" do
+    = submit_tag 'Recibo', class: 'btn', disabled: true

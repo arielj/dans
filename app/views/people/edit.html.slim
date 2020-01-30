@@ -26,11 +26,11 @@ h1= "#{tg("edit.#{person.type}", person.gender)}: #{person.to_label}"
 
   .tabs_contents
     .tab_content data-tab-content='person_payments' class=(('person_payments' == params[:tab] or params[:tab].blank?) ? ' current' : '')
-      = render partial: 'payments_table', locals: {payments: @person_payments, url: add_payment_person_path(person)}
+      = render partial: 'payments_table', locals: {table_id: 'from_person', payments: @person_payments, url: add_payment_person_path(person)}
 
     - if person.is_teacher?
       .tab_content data-tab-content='payments_to_teacher' class=('payments_to_teacher' == params[:tab] ? ' current' : '')
-        = render partial: 'payments_table', locals: {payments: @payments_to_person, url: add_payment_done_person_path(person)}
+        = render partial: 'payments_table', locals: {table_id: 'to_person', payments: @payments_to_person, url: add_payment_done_person_path(person)}
 
     .tab_content.debts data-tab-content='debts' class=('debts' == params[:tab] ? ' current' : '')
       .scrollable

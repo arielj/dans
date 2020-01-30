@@ -13,6 +13,14 @@ onLoad(function(ev) {
     qs('#select_membership').addEventListener('change', function(e) {
       e.target.form.submit();
     });
+
+    qsa('input[name^=print]').forEach( el => {
+      el.addEventListener('change', e => {
+        let receiptButton = e.target.form.qs('input[type=submit]');
+        let toPrint = qsa(`[form=${e.target.form.id}]:checked`);
+        receiptButton.disabled = toPrint.length == 0;
+      })
+    })
   }
 });
 
