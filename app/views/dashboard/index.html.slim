@@ -44,4 +44,4 @@
   = render partial: 'money_transactions/general_table', locals: {transactions: @general_transactions}
   .actions
     = link_to t('add.movement'), new_money_transaction_path, class: 'btn btn-light', remote: true
-    = link_to t('close_daily_cash'), close_daily_cash_path, class: 'btn btn-light', remote: true, method: :patch
+    = link_to t('close_daily_cash'), close_daily_cash_money_transactions_path, class: 'btn btn-light', remote: true, method: :patch
