@@ -32,6 +32,12 @@ class ReportsController < ApplicationController
                   params[:direction] = 'received'
                   @payments.received
                 end
+
+    @payments = @payments.search(params[:search]) if params[:search].present?
+
+    if params[:button] == 'export'
+      send_file(PaymentsReportExporter.to_xls(@date_from, @date_to, @payments)) and return
+    end
   end
 
   def receipts

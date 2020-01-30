@@ -21,7 +21,8 @@ h1= t('titles.payments')
       = label_tag :search, t(:search, scope: 'reports.payments'), class: 'form-label'
       = text_field_tag :search, params[:search], class: 'form-input', placeholder: t(:search_placeholder, scope: 'reports.payments')
 
-    = submit_tag t('labels.filter'), class: 'btn btn-primary'
+    => button_tag t('labels.filter'), type: :submit, value: :filter, class: 'btn btn-primary'
+    => button_tag t('labels.export'), type: :submit, value: :export, class: 'btn btn-secondary'
 
 .scrollable
   = form_tag receipt_multiple_money_transactions_path, method: :post, remote: true, id: 'print_payments' do

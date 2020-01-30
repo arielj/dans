@@ -16,6 +16,19 @@ class MoneyTransaction < ApplicationRecord
   scope :received, -> { where(done: false) }
   scope :today, -> { where('created_at >= ?', Date.today.beginning_of_day) }
   scope :for_day, ->(date) { where('created_at >= ? AND created_at <= ?', date.beginning_of_day, date.end_of_day) }
+  scope :search, ->(q) {
+    wheres = []
+    values = {}
+
+    q.split(' ').each_with_index do |word, idx|
+      placeholder = "q#{idx}"
+      wheres << "(description LIKE :#{placeholder} OR people.name LIKE :#{placeholder} OR people.lastname LIKE :#{placeholder})"
+      values[placeholder.to_sym] = "%#{word}%"
+    end
+
+    references(:person)
+      .where(wheres.join(' AND '), values)
+  }
 
   def paid_at=(value)
     return if value.blank?
