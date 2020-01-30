@@ -26,6 +26,11 @@ class PaymentsController < ApplicationController
   def update
     @payment = @installment.payments.find(params[:id])
     @payment.attributes = add_payment_attributes
+
+    if params[:button] == 'save_and_receipt'
+      @payment.receipt ||= MoneyTransaction.last_receipt + 1
+    end
+
     @payment.save
   end
 

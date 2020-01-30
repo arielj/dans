@@ -6,5 +6,8 @@
     tr.insertAdjacentHTML('afterend', '<%= j(installment_tr(@installment)) %>');
     tr.remove();
     closeModal();
+    <% if params[:button] == 'save_and_receipt' %>
+      showReceiptModal(<%= @payment.receipt %>);
+    <% end %>
   })()
 <% end %>
