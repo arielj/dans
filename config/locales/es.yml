@@ -251,12 +251,24 @@ es:
       recharge_value: Valor rel recargo (XX para valor fijo, YY% para pocentaje)
   activerecord:
     models:
-      debt: Deuda
-      installment: Cuota
-      klass: Clase
-      room: Sala
-      schedule: Horario
-      person: Persona
+      debt:
+        one: Deuda
+        other: Deudas
+      installment:
+        one: Cuota
+        other: Cuotas
+      klass:
+        one: Clase
+        other: Clases
+      room:
+        one: Sala
+        other: Salas
+      schedule:
+        one: Horario
+        other: Horarios
+      person:
+        one: Persona
+        other: Personas
     attributes:
       admin:
         remember_me: Recordarme

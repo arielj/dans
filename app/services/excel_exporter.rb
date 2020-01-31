@@ -5,7 +5,7 @@ require 'fast_excel'
 
 class ExcelExporter
   def self.to_xls(collection)
-    filename = "export-#{collection.klass}-#{Time.now}.xlsx"
+    filename = "export-#{collection.klass.model_name.human(count: 100)}-#{Time.now.to_i}.xlsx"
     filepath = Rails.root.join('tmp', filename)
     workbook = FastExcel.open(filepath, constant_memory: true)
 
