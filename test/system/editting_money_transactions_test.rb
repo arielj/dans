@@ -77,9 +77,51 @@ class EdittingMoneyTransactionsTest < ApplicationSystemTestCase
     end
   end
 
-  # test 'can edit a debt payment' do
-    
-  # end
+  test 'can edit a debt payment' do
+    student = FactoryBot.create(:student)
+
+    debt = student.debts.create!(amount: 300, description: 'tela')
+
+    visit edit_person_path(student)
+
+    click_link 'Deudas'
+
+    assert_selector "#debt_#{debt.id}"
+
+    within "#debt_#{debt.id}" do
+      click_link 'Agregar pago'
+    end
+
+    assert_selector '.modal'
+
+    within '.modal' do
+      fill_in 'Monto', with: 200
+      click_button 'Guardar'
+    end
+
+    assert_selector '.toast', text: 'Guardado'
+
+    tran = debt.payments.first
+
+    find("#edit_payment_#{tran.id}").click
+
+    assert_selector '.modal'
+
+    assert_match 'Editar pago', page.text
+
+    within '.modal' do
+      fill_in 'Monto', with: 100
+      click_button 'Guardar'
+    end
+
+    assert_selector '.toast'
+    assert_match(/actualizado/i, page.text)
+
+    within "#debt_#{debt.id}" do
+      assert_match(/100.00/, page.text)
+      assert_no_match(/200.00/, page.text)
+    end
+  end
 
   test 'can edit an installment payment' do
     student = FactoryBot.create(:student)

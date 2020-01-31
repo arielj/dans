@@ -1,5 +1,0 @@
-<%- if @payment.new_record? -%>
-  alert('<%= j @payment.errors.full_messages.join("\n") -%>');
-<%- else -%>
-  window.location.reload()
-<%- end -%>

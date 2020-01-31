@@ -15,6 +15,9 @@ class MoneyTransactionsController < ApplicationController
         ignore_recharge = params[:ignore_recharge] == '1'
         ignore_month_recharge = params[:ignore_month_recharge] == '1'
         installment.create_payment installment_payment_attributes, ignore_recharge, ignore_month_recharge
+      elsif params[:money_transaction][:payable_type] == 'Debt'
+        debt = Debt.find(params[:money_transaction][:payable_id])
+        debt.create_payment debt_payment_attributes
       else
         MoneyTransaction.create create_transaction_params.merge(category: 'general')
       end
@@ -105,6 +108,12 @@ class MoneyTransactionsController < ApplicationController
   def installment_payment_attributes
     params
       .require_typed(:money_transaction, TA[ActionController::Parameters].new)
-      .permit(:amount, :description, :done, :payable_type, :payable_id, :paid_at)
+      .permit(:amount, :description, :done, :paid_at)
+  end
+
+  def debt_payment_attributes
+    params
+      .require_typed(:money_transaction, TA[ActionController::Parameters].new)
+      .permit(:amount, :description, :paid_at)
   end
 end

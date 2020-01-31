@@ -43,17 +43,8 @@ h1= "#{tg("edit.#{person.type}", person.gender)}: #{person.to_label}"
               th= Debt.human_attribute_name(:status)
               th.actions
           tbody
-            - @debts.each do |d|
-              tr
-                td title=l(d.created_at) = l d.created_at, format: :date
-                td= d.description
-                td $#{d.amount}
-                td= t("payment_status.#{d.status}")
-                td.actions
-                  = payments_detail(d)
-                  - if d.to_pay > 0
-                    = link_to add_payment_debt_path(d), remote: true do
-                      i.fa.fa-plus title=t('add.payment')
+            - @debts.each do |debt|
+              = debt_tr(debt)
       .actions
         = link_to t('add.debt'), add_debt_person_path(person), class: 'btn', remote: true
 
