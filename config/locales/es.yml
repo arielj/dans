@@ -68,15 +68,16 @@ es:
   save:
     debt: Guardar deuda
     klass: Guardar clase
+    label: Guardar
     membership: Guardar paquete
     money_transaction: Guardar movimiento
     notes: Guardar notas
     options: Guardar opciones
     package: Guardar paquete
     payment: Guardar pago
-    payment_and_receipt: Guardar pago y descargar recibo
+    payment_and_receipt: Guardar y recibo
     payments: Guardar pagos
-    payments_and_receipt: Guardar pagos y descargar recibo
+    payments_and_receipt: Guardar y recibo
     room: Guardar sala
     student: Guardar alumno/a
     teacher: Guardar profesor/a
@@ -133,6 +134,7 @@ es:
     teacher_m: Editar profesor
   destroy:
     klass: Borrar clase
+    label: Borrar
     package: Borrar paquete
     payment: Borrar pago
     room: Borrar sala

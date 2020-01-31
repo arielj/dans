@@ -10,7 +10,7 @@ class Debt < ApplicationRecord
 
   scope :search, ->(term) { includes(:person).references(:person).where('description LIKE :q OR people.name LIKE :q OR people.lastname LIKE :q', { q: "%#{term}%" }) }
 
-  def to_pay
+  def to_pay(_options = {})
     return 0 if paid?
 
     amount - amount_paid

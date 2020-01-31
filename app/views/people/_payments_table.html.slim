@@ -17,7 +17,7 @@
           td.amount = "$#{pay.amount}"
           td.receipt: span = pay.receipt
           td.actions
-            => link_to edit_money_transaction_path(pay), remote: true do
+            => link_to edit_money_transaction_path(pay), remote: true, id: "edit_payment_#{pay.id}" do
               i.fa.fa-edit
             = link_to pay, method: :delete, data: { confirm: '¿Borrar pago?' } do
               i.fa.fa-trash

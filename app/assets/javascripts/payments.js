@@ -1,11 +1,15 @@
-(function(){
-  let form = byid('add_installment_payment');
+onLoad(function(){  
+  let form = byid('installment_payment');
   if (form) bindInstallmentPaymentForm(form);
-})();
+
+  let params = new URLSearchParams(window.location.search);
+  let receipt = parseInt(params.get("show_receipt"));
+  if (receipt) showReceiptModal(receipt);
+});
 
 function bindInstallmentPaymentForm(form) {
   let toPayHint = byid('to_pay');
-  let amountField = byid('payment_amount');
+  let amountField = byid('money_transaction_amount');
   let dateRechargeCheck = form.qs('#ignore_recharge');
   let monthRechargeCheck = form.qs('#ignore_month_recharge');
 

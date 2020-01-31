@@ -1,9 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  key: MyString
-  value: MyText
+recharge_after_day:
+  key: recharge_after_day
+  value: 2
 
-two:
-  key: MyString
-  value: MyText
+recharge_value:
+  key: recharge_value
+  value: '10%'
+
+month_recharge_value:
+  key: month_recharge_value
+  value: '20%'

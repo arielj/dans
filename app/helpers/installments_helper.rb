@@ -48,7 +48,7 @@ module InstallmentsHelper
           end
 
           concat(
-            link_to(edit_installment_payment_path(payable, p), class: 'edit', remote: true) do
+            link_to(edit_money_transaction_path(p), class: 'edit', remote: true, id: "edit_payment_#{p.id}") do
               content_tag(:i, '', class: 'fa fa-edit')
             end
           )

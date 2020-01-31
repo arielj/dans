@@ -1,0 +1,3 @@
+let tr = byid('installment_<%= @tran.payable.id -%>');
+tr.insertAdjacentHTML('afterend', '<%= j(installment_tr(@tran.payable)) %>');
+tr.remove();

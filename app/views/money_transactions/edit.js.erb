@@ -1,1 +1,6 @@
-showModal('<%= t("edit.movement") -%>', '<%= j(render partial: "form") -%>', false)
+showModal('<%= t("edit.movement") -%>', '<%= j(render partial: "form", locals: { tran: @tran }) -%>', false)
+
+<% if @tran.payable&.is_a?(Installment) %>
+  bindInstallmentPaymentForm(qs('#installment_payment'));
+  initDatepicker('.datepicker');
+<% end %>

@@ -1,0 +1,4 @@
+let tr = byid('payment_<%= @tran.id -%>');
+tr.qs('.description').innerText = '<%= j(@tran.description) %>';
+tr.qs('.amount').innerText = '<%= j("$#{@tran.amount}") %>';
+tr.qs('.receipt').innerText = '<%= @tran.receipt %>';

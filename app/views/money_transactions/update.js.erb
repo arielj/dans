@@ -1,12 +1,17 @@
 <% if @tran.errors.any? %>
-  alert('ocurrió un error al editar el pago');
+  alert('ocurrió un error al editarlo');
 <% else %>
   (function(){
-    let tr = byid('payment_<%= @tran.id -%>');
-    tr.qs('.description').innerText = '<%= j(@tran.description) %>';
-    tr.qs('.amount').innerText = '<%= j("$#{@tran.amount}") %>';
-    tr.qs('.receipt').innerText = '<%= @tran.receipt %>';
+    showToastText('Actualizado');
     closeModal();
+
+    <% if @tran.payable %>
+      <%= render partial: "update_#{@tran.payable.class.name.underscore}" %>
+    <% elsif @tran.person %>
+      <%= render partial: 'update_person' %>
+    <% else %>
+    <% end %>
+
     <% if params[:button] == 'save_and_receipt' %>
       showReceiptModal(<%= @tran.receipt %>);
     <% end %>

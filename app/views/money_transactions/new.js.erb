@@ -1,1 +1,1 @@
-showModal('<%= t("new.movement") -%>', '<%= j(render partial: "form") -%>', false)
+showModal('<%= t("new.movement") -%>', '<%= j(render partial: 'form', locals: { tran: @tran }) -%>', false)

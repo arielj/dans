@@ -103,7 +103,7 @@ class Installment < ApplicationRecord
     amount + get_recharge(ignore_recharge, ignore_month_recharge)
   end
 
-  def to_pay(ignore_recharge = nil, ignore_month_recharge = nil)
+  def to_pay(ignore_recharge: nil, ignore_month_recharge: nil)
     return 0 if paid? || paid_with_interests?
 
     total(ignore_recharge, ignore_month_recharge) - amount_paid
@@ -113,7 +113,7 @@ class Installment < ApplicationRecord
     payment = MoneyTransaction.new attrs
     payment.person = person
     payment.done = false
-    rest = to_pay(ignore_recharge, ignore_month_recharge)
+    rest = to_pay(ignore_recharge: ignore_recharge, ignore_month_recharge: ignore_month_recharge)
     if payment.amount > rest
       payment.errors.add(:base, :amount_too_high)
     else

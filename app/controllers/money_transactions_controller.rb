@@ -9,9 +9,41 @@ class MoneyTransactionsController < ApplicationController
   end
 
   def create
-    @tran = MoneyTransaction.create create_transaction_params.merge(category: 'general')
+    @tran =
+      if params[:money_transaction][:payable_type] == 'Installment'
+        installment = Installment.find(params[:money_transaction][:payable_id])
+        ignore_recharge = params[:ignore_recharge] == '1'
+        ignore_month_recharge = params[:ignore_month_recharge] == '1'
+        installment.create_payment installment_payment_attributes, ignore_recharge, ignore_month_recharge
+      else
+        MoneyTransaction.create create_transaction_params.merge(category: 'general')
+      end
+
+    if params[:button] == 'save_and_receipt'
+      num = MoneyTransaction.last_receipt + 1
+      @tran.update_attribute :receipt, num
+    end
+
     if @tran.save
-      redirect_to root_path, success: t('added.money_transaction')
+      flash[:success] = 'Guardado'
+
+      redirect =
+        if @tran.person
+          options =
+            case @tran.payable
+            when Installment then { tab: :memberships, membership_id: @tran.payable.membership_id }
+            when Debt then { tab: :debts }
+            else {}
+            end
+
+          options[:show_receipt] = @tran.receipt if params[:button] == 'save_and_receipt'
+
+          edit_person_path(@tran.person, options)
+        else
+          root_path
+        end
+
+      redirect_to redirect
     else
       render action: :new
     end
@@ -68,5 +100,11 @@ class MoneyTransactionsController < ApplicationController
     params
       .require_typed(:money_transaction, TA[ActionController::Parameters].new)
       .permit(:amount, :description)
+  end
+
+  def installment_payment_attributes
+    params
+      .require_typed(:money_transaction, TA[ActionController::Parameters].new)
+      .permit(:amount, :description, :done, :payable_type, :payable_id, :paid_at)
   end
 end
