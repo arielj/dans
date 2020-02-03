@@ -76,4 +76,10 @@ class Setting < ApplicationRecord
   def self.closing_time_i
     fetch(:closing_time, '24:00').gsub(':', '').to_i
   end
+
+  def self.family_group_discount
+    value = Setting.fetch('family_group_discount', nil)
+    value = '0' if value.blank?
+    value
+  end
 end

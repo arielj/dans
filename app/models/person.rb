@@ -120,7 +120,7 @@ class Person < ApplicationRecord
   def new_membership_amount_calculator(sch_ids)
     fixed_total = T.let(Money.new(0), T.untyped)
     duration = 0
-    discount = family_group_id.present? ? Setting.fetch('family_group_discount', '0') : 0
+    discount = family_group? ? Setting.fetch('family_group_discount', '0') : 0
 
     fixed_fee_klasses_ids = []
 
@@ -156,5 +156,9 @@ class Person < ApplicationRecord
     return false if is_teacher?
 
     money_transactions.where('YEAR(created_at) = ? AND description LIKE ?', year, '%insc%').empty?
+  end
+
+  def family_group?
+    family_group_id.present?
   end
 end
