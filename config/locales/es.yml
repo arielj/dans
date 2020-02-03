@@ -239,7 +239,7 @@ es:
     options:
       closing_time: Cierra a las
       dates_format: Formato de fechas
-      family_discount: Descuento para grupos familiares
+      family_group_discount: Descuento para grupos familiares
       month_recharge_value: Recargo después de 30 días (XX para valor fijo, YY% para pocentaje)
       name: Nombre del instituto
       language: Idioma
