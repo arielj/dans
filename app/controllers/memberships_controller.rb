@@ -31,6 +31,6 @@ class MembershipsController < ApplicationController
     params
       .require_typed(:membership, TA[ActionController::Parameters].new)
       .permit(:person_id, :amount, :use_custom_amount, :create_installments_from,
-              :create_installments_to, schedule_ids: [])
+              :create_installments_to, :use_non_regular_fee, schedule_ids: [])
   end
 end

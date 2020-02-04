@@ -117,7 +117,7 @@ class Person < ApplicationRecord
     payments
   end
 
-  def new_membership_amount_calculator(sch_ids)
+  def new_membership_amount_calculator(sch_ids, use_non_regular_fees = false)
     fixed_total = T.let(Money.new(0), T.untyped)
     duration = 0
     discount = family_group? ? Setting.fetch('family_group_discount', '0') : 0
@@ -125,10 +125,13 @@ class Person < ApplicationRecord
     fixed_fee_klasses_ids = []
 
     Schedule.where(id: sch_ids).joins(:klass).each do |sch|
-      f = sch.klass.fixed_fee
+      kls = sch.klass
+      f = kls.fixed_fee
+      f = kls.non_regular_fee if kls.non_regular_fee && use_non_regular_fees
+
       if f&.positive?
-        unless fixed_fee_klasses_ids.include?(sch.klass_id)
-          fixed_fee_klasses_ids << sch.klass_id
+        unless fixed_fee_klasses_ids.include?(kls.id)
+          fixed_fee_klasses_ids << kls.id
           fixed_total += f
         end
       else

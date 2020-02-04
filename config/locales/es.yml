@@ -287,13 +287,15 @@ es:
         to_pay: Saldo
       klass:
         name: Nombre
-        fixed_fee: Valor fijo
+        non_regular_fee: 'Precio alumnos/as no regulares'
+        fixed_fee: 'Precio alumnos/as regulares'
         status: Estado
         schedules: Horarios
         info: Información
       membership:
         amount: Monto
         use_custom_amount: Usar monto manual (con la casilla desmarcada se usa el valor calculado)
+        use_non_regular_fee: Usar precios de alumnos/as no regulares
       money_transaction:
         amount: Monto
         date: Fecha

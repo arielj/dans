@@ -37,7 +37,7 @@ class Membership < ApplicationRecord
     if use_custom_amount
       self[:amount]
     else
-      person.new_membership_amount_calculator(schedule_ids)[:total]
+      person.new_membership_amount_calculator(schedule_ids, use_non_regular_fee)[:total]
     end
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_29_215821) do
+ActiveRecord::Schema.define(version: 2020_02_04_001707) do
 
   create_table "admins", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 2020_01_29_215821) do
     t.integer "status", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "non_regular_fee_cents"
     t.index ["teacher_id"], name: "index_klasses_on_teacher_id"
   end
 
@@ -84,6 +85,7 @@ ActiveRecord::Schema.define(version: 2020_01_29_215821) do
     t.datetime "updated_at", null: false
     t.integer "amount_cents", default: 0, null: false
     t.boolean "use_custom_amount", default: false
+    t.boolean "use_non_regular_fee"
     t.index ["package_id"], name: "index_memberships_on_package_id"
     t.index ["person_id"], name: "index_memberships_on_person_id"
   end

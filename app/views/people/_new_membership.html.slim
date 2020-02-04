@@ -14,6 +14,11 @@
       | Descuento por grupo familiar (#{Setting.family_group_discount}): $0.00
 
   = label_tag '', class: 'form-checkbox' do
+    = f.check_box :use_non_regular_fee
+    = Membership.human_attribute_name(:use_non_regular_fee)
+    i.form-icon
+
+  = label_tag '', class: 'form-checkbox' do
     = f.check_box :use_custom_amount
     = Membership.human_attribute_name(:use_custom_amount)
     i.form-icon

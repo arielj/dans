@@ -2,6 +2,11 @@ function refreshAmount(form) {
   let schedulesIds = [...form.qsa('input.schedule:checked')].map( i => i.value);
   schedulesIds = schedulesIds.map( x => serializePair('schedules_ids[]', x)).join('&');
 
+  let nonRegularFeeInput = byid('membership_use_non_regular_fee');
+  if (nonRegularFeeInput)
+    if (nonRegularFeeInput.checked)
+      schedulesIds = schedulesIds + "&use_non_regular_fee=1"
+
   getJSON(form.dataset.autoPriceUrl, {
     data: schedulesIds,
     success: function(resp) {
@@ -39,5 +44,10 @@ function bindNewMembership() {
       parent.classList.remove('hidden');
     else
       parent.classList.add('hidden');
+  })
+
+  this.nonRegularFeeInput = byid('membership_use_non_regular_fee');
+  this.nonRegularFeeInput.addEventListener('change', e => {
+    refreshAmount(this.form);
   })
 }

@@ -2,7 +2,8 @@
 # frozen_string_literal: true
 
 class Klass < ApplicationRecord
-  monetize :fixed_fee_cents
+  monetize :fixed_fee_cents, allow_nil: true
+  monetize :non_regular_fee_cents, allow_nil: true
 
   has_many :schedules, inverse_of: :klass, dependent: :destroy
   accepts_nested_attributes_for :schedules, reject_if: :all_blank, allow_destroy: true
