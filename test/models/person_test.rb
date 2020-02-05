@@ -60,35 +60,56 @@ class PersonTest < ActiveSupport::TestCase
     end
   end
 
-  test '.installments_for_multi_payments returns unpaid installment from all family members' do
-    @student = FactoryBot.create(:student)
-    family = FactoryBot.create(:student)
-    @student.add_family_member(family)
+  class WithFamilyMembers < self
+    test '.installments_for_multi_payments returns unpaid installment from all family members' do
+      @student = FactoryBot.create(:student)
+      family = FactoryBot.create(:student)
+      @student.add_family_member(family)
 
-    @klass = FactoryBot.create(:klass_with_schedules)
-    @student.memberships.create(schedules: @klass.schedules, amount: 500_00)
-    family.memberships.create(schedules: @klass.schedules, amount: 500_00)
+      @klass = FactoryBot.create(:klass_with_schedules)
+      @student.memberships.create(schedules: @klass.schedules, amount: 500_00)
+      family.memberships.create(schedules: @klass.schedules, amount: 500_00)
 
-    result = @student.installments_for_multi_payments
+      result = @student.installments_for_multi_payments
 
-    @student.installments.waiting.each { |x| assert_includes result, x }
-    family.installments.waiting.each { |x| assert_includes result, x }
+      @student.installments.waiting.each { |x| assert_includes result, x }
+      family.installments.waiting.each { |x| assert_includes result, x }
+    end
   end
 
-  test '.missing_inscription? returns false for teachers' do
-    teacher = FactoryBot.create(:teacher)
-    refute teacher.missing_inscription?(Date.today.year)
+  class MissingInscriptionTest < self
+    test '.missing_inscription? returns false for teachers' do
+      teacher = FactoryBot.create(:teacher)
+      refute teacher.missing_inscription?(Date.today.year)
+    end
+
+    test '.missing_inscription? returns false for students when payments includes "insc"' do
+      student = FactoryBot.create(:student)
+      assert student.missing_inscription?(Date.today.year)
+
+      student.money_transactions.create(created_at: 1.year.ago, description: 'insc', amount: 500)
+      assert student.missing_inscription?(Date.today.year)
+      refute student.missing_inscription?(1.year.ago.year)
+
+      student.money_transactions.create(description: 'insc', amount: 400)
+      refute student.missing_inscription?(Date.today.year)
+    end
   end
 
-  test '.missing_inscription? returns false for students when payments includes "insc"' do
-    student = FactoryBot.create(:student)
-    assert student.missing_inscription?(Date.today.year)
+  class ActiveFamilyTest < self
+    test '.active_family? returns true if family members are active' do
+      student = FactoryBot.create(:student)
 
-    student.money_transactions.create(created_at: 1.year.ago, description: 'insc', amount: 500)
-    assert student.missing_inscription?(Date.today.year)
-    refute student.missing_inscription?(1.year.ago.year)
+      refute student.active_family?
 
-    student.money_transactions.create(description: 'insc', amount: 400)
-    refute student.missing_inscription?(Date.today.year)
+      student2 = FactoryBot.create(:student)
+      student.add_family_member(student2)
+
+      assert student.active_family?
+
+      student2.inactive!
+
+      refute student.active_family?
+    end
   end
 end

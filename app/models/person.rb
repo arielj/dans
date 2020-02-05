@@ -55,7 +55,7 @@ class Person < ApplicationRecord
   end
 
   def family_members
-    family_group_id.present? ? Person.where(family_group_id: family_group_id).where.not(id: id) : []
+    family_group? ? Person.where(family_group_id: family_group_id).where.not(id: id) : Person.none
   end
 
   def add_family_member(person)
@@ -120,7 +120,7 @@ class Person < ApplicationRecord
   def new_membership_amount_calculator(sch_ids, use_non_regular_fees = false)
     fixed_total = T.let(Money.new(0), T.untyped)
     duration = 0
-    discount = family_group? ? Setting.fetch('family_group_discount', '0') : 0
+    discount = active_family? ? Setting.fetch('family_group_discount', '0') : 0
 
     fixed_fee_klasses_ids = []
 
@@ -163,5 +163,11 @@ class Person < ApplicationRecord
 
   def family_group?
     family_group_id.present?
+  end
+
+  def active_family?
+    return false unless family_group?
+
+    family_members.active.any?
   end
 end

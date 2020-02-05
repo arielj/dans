@@ -9,7 +9,7 @@
     | Subtotal: $0,00
     br
     | Total: $0,00
-    - if @membership.person.family_group? && Setting.family_group_discount != '0'
+    - if @membership.person.active_family? && Setting.family_group_discount != '0'
       br
       | Descuento por grupo familiar (#{Setting.family_group_discount}): $0.00
 

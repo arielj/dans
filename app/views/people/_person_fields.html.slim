@@ -24,7 +24,7 @@
     = f.label :family, class: 'form-label'
     ul
       - f.object.family_members.each do |u|
-        li
+        li class=u.status
           => link_to u.to_label, edit_person_path(u), title: t('edit.label')
           | (#{link_to('X', remove_family_member_person_path(f.object, {family_member_id: u.id}), method: :put, data: {confirm: '¿Seguro?'})})
       li= link_to t('add.family_member'), add_family_member_person_path(f.object), remote: true
