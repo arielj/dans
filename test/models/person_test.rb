@@ -100,12 +100,20 @@ class PersonTest < ActiveSupport::TestCase
     test '.active_family? returns true if family members are active' do
       student = FactoryBot.create(:student)
 
+      refute student.family_group?
       refute student.active_family?
 
       student2 = FactoryBot.create(:student)
+
+      refute student2.family_group?
+
       student.add_family_member(student2)
 
+      assert student.family_group?
+      assert student2.family_group?
+
       assert student.active_family?
+      assert student2.active_family?
 
       student2.inactive!
 

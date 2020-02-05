@@ -9,7 +9,7 @@ class DailyCashReportExporter
     filepath = Rails.root.join('tmp', filename)
     workbook = FastExcel.open(filepath, constant_memory: true)
 
-    worksheet = workbook.add_worksheet('Pagos')
+    worksheet = workbook.add_worksheet('Caja Diaria')
 
     headers = %w[Entradas Salidas Detalle Persona]
     worksheet.append_row(headers)
@@ -34,7 +34,8 @@ class DailyCashReportExporter
     worksheet.append_row([])
     worksheet.append_row([ins, outs])
 
-    worksheet = workbook.add_worksheet('Movimientos generales')
+    worksheet.append_row([])
+    worksheet.append_row([])
 
     headers = %w[Entradas Salidas Detalle]
     worksheet.append_row(headers)
@@ -58,7 +59,8 @@ class DailyCashReportExporter
     worksheet.append_row([])
     worksheet.append_row([ins, outs])
 
-    worksheet = workbook.add_worksheet('Totales')
+    worksheet.append_row([])
+    worksheet.append_row([])
     headers = %w[Entradas Salidas Total]
     worksheet.append_row(headers)
     worksheet.append_row([totals[:in], totals[:out], totals[:total]])
