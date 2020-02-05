@@ -11,8 +11,8 @@ h3 Movimientos generales
         - unless hide_actions
           th
     tbody
-      - transactions.each do |tran|
-        tr
+      - transactions.includes(:versions).each do |tran|
+        tr title="Creado por #{tran.creator&.email}"
           td= tran.done ? '' : tran.amount
           td= tran.done ? tran.amount : ''
           td= tran.description

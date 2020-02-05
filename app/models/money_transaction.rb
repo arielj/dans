@@ -59,4 +59,11 @@ class MoneyTransaction < ApplicationRecord
   def self.last_receipt
     order(receipt: :desc).first&.receipt || 0
   end
+
+  def creator
+    id = versions.first&.whodunnit
+    return nil unless id =~ /\A\d+\z/
+
+    Admin.find_by(id: id)
+  end
 end
