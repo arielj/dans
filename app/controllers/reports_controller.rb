@@ -14,6 +14,10 @@ class ReportsController < ApplicationController
     @people_transactions = scp.where('category IS NULL OR category != "general"').where.not(person_id: nil)
     @general_transactions = scp.where('category = "general" OR person_id IS NULL')
     @totals = transactions_totals(@people_transactions, @general_transactions)
+
+    if params[:button] == 'export'
+      send_file(DailyCashReportExporter.to_xls(@date, @people_transactions, @general_transactions, @totals)) and return
+    end
   end
 
   def payments

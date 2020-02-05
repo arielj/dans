@@ -9,7 +9,8 @@ h1= t('titles.daily_cash')
       = label_tag :text, nil, class: 'form-label'
       = text_field_tag :text, params[:text], class: 'form-input', placeholder: 'Desc/Name/Lastname'
 
-    = submit_tag t('labels.filter'), class: 'btn btn-primary'
+    => button_tag t('labels.filter'), value: :filter, class: 'btn btn-primary'
+    = button_tag t('labels.export'), value: :export, class: 'btn btn.secondary'
 
 .people_table= render partial: 'money_transactions/people_table', locals: {transactions: @people_transactions, hide_actions: true}
 .general_table= render partial: 'money_transactions/general_table', locals: {transactions: @general_transactions, hide_actions: true}

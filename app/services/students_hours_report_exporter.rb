@@ -5,7 +5,7 @@ require 'fast_excel'
 
 class StudentsHoursReportExporter
   def self.to_xls(year, klasses, students, data, stats)
-    filename = "export-alumos-por-hora-#{year}-#{Time.now}.xlsx"
+    filename = "export-alumnos-por-hora-#{year}-#{Time.now.to_i}.xlsx"
     filepath = Rails.root.join('tmp', filename)
     workbook = FastExcel.open(filepath, constant_memory: true)
 

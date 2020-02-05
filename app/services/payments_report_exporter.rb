@@ -5,7 +5,7 @@ require 'fast_excel'
 
 class PaymentsReportExporter
   def self.to_xls(date_from, date_to, payments)
-    filename = "export-pagos-#{date_from}-#{date_to}-#{Time.now}.xlsx"
+    filename = "export-pagos-#{date_from}-#{date_to}-#{Time.now.to_i}.xlsx"
     filepath = Rails.root.join('tmp', filename)
     workbook = FastExcel.open(filepath, constant_memory: true)
 
