@@ -18,7 +18,7 @@ class Installment < ApplicationRecord
   scope :with_recharge, lambda {
     recharge_day = Setting.fetch(:recharge_after_day, nil)
     if recharge_day
-      d = Date.today.day <= recharge_day.to_i ? 1.month.ago : Date.today
+      d = DateTime.current.day <= recharge_day.to_i ? 1.month.ago : DateTime.current.to_date
 
       where('year < :y OR (year = :y AND month < :m)', y: d.year, m: d.month)
     else
@@ -60,7 +60,7 @@ class Installment < ApplicationRecord
     month_recharge_value = Setting.fetch(:month_recharge_value, nil)
 
     return 0 if month_recharge_value.nil?
-    return 0 unless date < Date.today.beginning_of_month
+    return 0 unless date < DateTime.current.beginning_of_month.to_date
 
     _calculate_recharge(month_recharge_value)
   end
@@ -72,7 +72,7 @@ class Installment < ApplicationRecord
     recharge_value = Setting.fetch(:recharge_value, nil)
 
     return 0 if after_day.nil? || recharge_value.nil?
-    return 0 unless Date.today > date(after_day)
+    return 0 unless DateTime.current.to_date > date(after_day)
 
     _calculate_recharge(recharge_value)
   end

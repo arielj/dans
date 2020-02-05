@@ -55,6 +55,6 @@ class Membership < ApplicationRecord
   def create_installments_on_create
     from = @create_installments_from || :january
     to = @create_installments_to || :december
-    create_installments(from, to, Date.today.year, amount)
+    create_installments(from, to, DateTime.current.year, amount)
   end
 end

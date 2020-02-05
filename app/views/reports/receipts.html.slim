@@ -17,7 +17,7 @@ h1= t('titles.receipts')
       / .receipt
       /   .person = @receipt_items.first.person.to_label
       /   .number = @receipt_items.first.receipt
-      /   .date = l Date.today
+      /   .date = l DateTime.current.to_date
       /   table
       /     thead
       /       tr

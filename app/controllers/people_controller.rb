@@ -58,7 +58,7 @@ class PeopleController < ApplicationController
   def new_membership
     @membership = person.memberships.build
 
-    month = Date.today.month
+    month = DateTime.current.month
 
     from = Setting.fetch(:preselected_installments_month_from, :january)
     from = Installment.month_sym(month) if Installment.month_num(from) < month

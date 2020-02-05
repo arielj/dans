@@ -6,7 +6,7 @@
   - if pybl
     = f.hidden_field :payable_type
     = f.hidden_field :payable_id
-    = f.input :paid_at, as: :string, input_html: { placeholder: 'aaaa-mm-dd', class: 'datepicker', value: Date.today}
+    = f.input :paid_at, as: :string, input_html: { placeholder: 'aaaa-mm-dd', class: 'datepicker', value: DateTime.current.to_date}
     
   = f.input :description
 

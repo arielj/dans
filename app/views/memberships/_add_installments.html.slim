@@ -1,7 +1,7 @@
 = form_tag add_installments_membership_path(@membership), method: :post do
   .form-group
     = label_tag :year, 'Año', class: 'form-label'
-    = select_tag :year, options_for_select((2018..2021).to_a, Date.today.year), class: 'form-input'
+    = select_tag :year, options_for_select((2018..2021).to_a, DateTime.current.year), class: 'form-input'
   .form-group
     = label_tag :month_from, 'Desde', class: 'form-label'
     = select_tag :month_from, options_for_select(Installment.months_for_select, :january), class: 'form-input'

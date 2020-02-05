@@ -2,7 +2,7 @@
 
 recharge_after_day:
   key: recharge_after_day
-  value: 2
+  value: 10
 
 recharge_value:
   key: recharge_value

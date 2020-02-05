@@ -5,7 +5,7 @@ class ReportsController < ApplicationController
   include MoneyTransactionsHelper
 
   def daily_cash
-    @date = params[:date] || Date.today
+    @date = params[:date] || DateTime.current.to_date
     @date = Date.parse(@date) unless @date.is_a?(Date)
 
     scp = MoneyTransaction.for_day(@date)
@@ -17,10 +17,10 @@ class ReportsController < ApplicationController
   end
 
   def payments
-    @date_from = params[:date_from] || Date.today
+    @date_from = params[:date_from] || DateTime.current.to_date
     @date_from = Date.parse(@date_from) unless @date_from.is_a?(Date)
 
-    @date_to = params[:date_to] || Date.today
+    @date_to = params[:date_to] || DateTime.current.to_date
     @date_to = Date.parse(@date_to) unless @date_to.is_a?(Date)
     range = @date_from.beginning_of_day..@date_to.end_of_day
 
@@ -45,7 +45,7 @@ class ReportsController < ApplicationController
   end
 
   def students_hours
-    @year = (params[:year] || Date.today.year).to_i
+    @year = (params[:year] || DateTime.current.year).to_i
     @klasses = Klass.all
     @students = Person.active.students.order(name: :asc)
     @data = {}

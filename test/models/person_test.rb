@@ -6,9 +6,6 @@ class PersonTest < ActiveSupport::TestCase
     setup do
       @student = FactoryBot.create(:student)
       @klass = FactoryBot.create(:klass_with_schedules)
-      Setting.set :recharge_after_day, '10'
-      Setting.set :recharge_value, '10%'
-      Setting.set :month_recharge_value, '15%'
       travel_to Time.zone.local(2019, 1, 1, 18, 0, 0) do
         @student.memberships.create(schedules: @klass.schedules, amount: 500_00)
       end
@@ -17,14 +14,15 @@ class PersonTest < ActiveSupport::TestCase
     test 'when amount is not more than the total amount adds payments for the selected installments until amount is depleted' do
       # all unpaid, first with recharge
       travel_to Time.zone.local(2019, 2, 1, 18, 0, 0) do
-        installments = @student.installments.waiting.order(id: :asc)
+        installments = @student.installments.waiting.order(month: :asc)
 
         payments = @student.add_multi_payments(installments.first(3).pluck(:id), 1_300)
         assert_equal 3, payments.size
-        assert @student.installments.reload.first.paid_with_interests?
-        assert @student.installments.second.paid?
-        assert @student.installments.third.payments.present?
-        assert_equal Money.new(225_00), @student.installments.third.payments.first.amount
+        ins = @student.installments.order(month: :asc)
+        assert ins.first.paid_with_interests? # 600_00
+        assert ins.second.paid? # 500_00
+        assert ins.third.payments.present?
+        assert_equal Money.new(200_00), ins.third.payments.first.amount
 
         # add with less than an installment
         ins_id = installments.last.id

@@ -18,7 +18,7 @@ class Person < ApplicationRecord
   enum gender: %i[female male other]
   enum status: %i[inactive active]
 
-  scope :birthday_today, -> { where('DAYOFMONTH(birthday) = ? AND MONTH(birthday) = ?', Date.today.day, Date.today.month) }
+  scope :birthday_today, -> { where('DAYOFMONTH(birthday) = ? AND MONTH(birthday) = ?', DateTime.current.day, DateTime.current.month) }
   scope :teachers, -> { where(is_teacher: true) }
   scope :students, -> { where(is_teacher: false) }
   scope :search, (lambda do |q|
@@ -97,7 +97,7 @@ class Person < ApplicationRecord
     amount = T.let(Money.new(amount.to_i * 100), T.untyped)
     return :no_amount if amount.cents.zero?
 
-    ins = installments_for_multi_payments.where(id: installment_ids).order(id: :asc)
+    ins = installments_for_multi_payments.where(id: installment_ids).order(month: :asc)
     return :no_installments_selected if ins.empty?
 
     to_pay = 0

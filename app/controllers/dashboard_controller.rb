@@ -5,7 +5,7 @@ class DashboardController < ApplicationController
   include MoneyTransactionsHelper
 
   def index
-    @today_classes = Schedule.by_room_for_day(Date.today.wday)
+    @today_classes = Schedule.by_room_for_day(DateTime.current.wday)
 
     scp = MoneyTransaction.today
     @people_transactions = scp.where.not(person_id: nil)

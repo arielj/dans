@@ -14,8 +14,8 @@ class MoneyTransaction < ApplicationRecord
 
   scope :done, -> { where(done: true) }
   scope :received, -> { where(done: false) }
-  scope :today, -> { where('created_at >= ?', DateTime.current.beginning_of_day) }
-  scope :for_day, ->(date) { where('created_at >= ? AND created_at <= ?', date.beginning_of_day, date.end_of_day) }
+  scope :today, -> { for_day(DateTime.current.to_date) }
+  scope :for_day, ->(date) { where(created_at: (date.beginning_of_day..date.end_of_day)) }
   scope :search, ->(q) {
     wheres = []
     values = {}
@@ -34,7 +34,7 @@ class MoneyTransaction < ApplicationRecord
     return if value.blank?
 
     d = Date.parse(value)
-    self.created_at = d.end_of_day if d != Date.today
+    self.created_at = d.end_of_day if d != DateTime.current.to_date
   end
 
   def self.total_in
@@ -50,7 +50,8 @@ class MoneyTransaction < ApplicationRecord
   end
 
   def self.close_day
-    if (aux = where('DATE(created_at) = ?', Date.today).last)
+    range = DateTime.current.beginning_of_day..DateTime.current.end_of_day
+    if (aux = where(created_at: range).last)
       aux.update_column(:daily_cash_closer, true)
     end
   end

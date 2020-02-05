@@ -20,7 +20,7 @@ module MoneyTransactionsHelper
     header_data = [[
       { content: items.first.person.to_label, width: 160 },
       { content: "Nº#{items.first.receipt}", align: :center, width: 60 },
-      { content: I18n.l(Date.today, format: :receipt), align: :right, width: 160 }
+      { content: I18n.l(DateTime.current.to_date, format: :receipt), align: :right, width: 160 }
     ]]
 
     table_header = [

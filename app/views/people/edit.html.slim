@@ -2,7 +2,7 @@
 
 h1= "#{tg("edit.#{person.type}", person.gender)}: #{person.to_label}"
 
-- if person.missing_inscription?(Date.today.year)
+- if person.missing_inscription?(DateTime.current.year)
   .inscription_warning.bg-error Falta pagar inscripción
 
 .personal_data
