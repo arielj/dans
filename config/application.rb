@@ -19,6 +19,8 @@ module Dans
     config.generators.javascript_engine = :js
     config.active_storage.draw_routes = false
 
+    config.time_zone = 'Buenos Aires'
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
