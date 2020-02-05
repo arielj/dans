@@ -12,6 +12,6 @@ class ApplicationController < ActionController::Base
   end
 
   def user_for_paper_trail
-    current_admin
+    current_admin&.id
   end
 end
