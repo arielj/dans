@@ -39,6 +39,14 @@ class MembershipsController < ApplicationController
     redirect_to edit_person_path(@membership.person, tab: :memberships, membership_id: @membership.id)
   end
 
+  def destroy
+    @membership = Membership.find(params[:id])
+    @membership.destroy
+
+    flash[:success] = 'Paquete borrado'
+    redirect_to edit_person_path(@membership.person, tab: :memberships)
+  end
+
   private
 
   def create_membership_params
