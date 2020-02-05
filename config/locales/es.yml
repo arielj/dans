@@ -294,6 +294,9 @@ es:
         info: Información
       membership:
         amount: Monto
+        create_installments_from: Agregar cuotas desde
+        create_installments_to: Agregar cuotas hasta
+        update_unpaid_installments: Actualizar cuotas no pagadas
         use_custom_amount: Usar monto manual (con la casilla desmarcada se usa el valor calculado)
         use_non_regular_fee: Usar precios de alumnos/as no regulares
       money_transaction:

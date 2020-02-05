@@ -1,2 +1,2 @@
-showLargeModal('<%= t("add.membership") -%>', '<%= j(render partial: "new_membership") -%>', false);
-bindNewMembership()
+showLargeModal('<%= t("add.membership") -%>', '<%= j(render partial: "memberships/form", locals: { membership: @membership }) -%>', false);
+bindMembershipForm()

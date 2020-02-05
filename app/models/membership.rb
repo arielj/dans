@@ -11,15 +11,16 @@ class Membership < ApplicationRecord
 
   has_and_belongs_to_many :schedules
   has_many :klasses, through: :schedules
-  has_many :installments
+  has_many :installments, dependent: :destroy
 
   enum status: %i[inactive active]
 
   validates :person, presence: true
 
   after_create :create_installments_on_create, unless: :skip_installments
+  after_update :update_installments_on_update, if: :update_unpaid_installments
 
-  attr_accessor :skip_installments, :create_installments_from, :create_installments_to
+  attr_accessor :skip_installments, :create_installments_from, :create_installments_to, :update_unpaid_installments
 
   def package=(pkg)
     self[:package_id] = pkg.id
@@ -37,8 +38,12 @@ class Membership < ApplicationRecord
     if use_custom_amount
       self[:amount]
     else
-      person.new_membership_amount_calculator(schedule_ids, use_non_regular_fee)[:total]
+      amounts[:total]
     end
+  end
+
+  def amounts
+    person.new_membership_amount_calculator(schedule_ids, use_non_regular_fee)
   end
 
   def create_installments(from, to, year, amount)
@@ -56,5 +61,12 @@ class Membership < ApplicationRecord
     from = @create_installments_from || :january
     to = @create_installments_to || :december
     create_installments(from, to, DateTime.current.year, amount)
+  end
+
+  def update_installments_on_update
+    installments.waiting.each do |ins|
+      ins.amount = amount
+      ins.save(validate: false)
+    end
   end
 end

@@ -1,0 +1,49 @@
+= form_for membership, data: { 'auto-price-url' => new_membership_calculator_person_path(membership.person) } do |f|
+  = f.hidden_field :person_id
+  - if membership.errors.any?
+    = membership.errors.full_messages
+  .new_membership_days
+    = render partial: 'schedules/calendar', locals: { object: membership }
+
+  - amounts = membership.amounts
+  .auto_calculation
+    | Precio clases fijas: $#{amounts[:fixedTotal]}
+    br
+    | Precio por #{amounts[:duration]}hs: $#{amounts[:durationTotal]}
+    br
+    | Subtotal: $#{amounts[:subtotal]}
+    br
+    | Total: $#{amounts[:total]}
+    - if membership.person.active_family? && Setting.family_group_discount != '0'
+      br
+      | Descuento por grupo familiar (#{Setting.family_group_discount}): $#{amounts[:discount]}
+
+  = label_tag '', class: 'form-checkbox' do
+    = f.check_box :use_non_regular_fee
+    = Membership.human_attribute_name(:use_non_regular_fee)
+    i.form-icon
+
+  = label_tag '', class: 'form-checkbox' do
+    = f.check_box :use_custom_amount
+    = Membership.human_attribute_name(:use_custom_amount)
+    i.form-icon
+
+  .input-group.hidden
+    span.input-group-addon $
+    = f.text_field :amount, value: '', class: 'form-input', placeholder: 'Monto manual'
+
+  .form-group
+    => f.label :create_installments_from
+    => f.select :create_installments_from, Installment.months_for_select, class: 'form-select'
+    => f.label :create_installments_to
+    => f.select :create_installments_to, Installment.months_for_select, class: 'form-select'
+  
+  - if membership.persisted?
+    .form-group.bg-warning
+      = label_tag '', class: 'form-checkbox' do
+        = f.check_box :update_unpaid_installments
+        = Membership.human_attribute_name(:update_unpaid_installments)
+        i.form-icon
+
+  .modal-footer
+    = f.submit t('save.membership'), class: 'btn btn-primary'

@@ -28,8 +28,8 @@ function refreshAmount(form) {
   });
 };
 
-function bindNewMembership() {
-  this.form = byid('new_membership');
+function bindMembershipForm() {
+  this.form = qs('#new_membership, .edit_membership');
   this.cal = this.form.qs('.schedules_calendar');
   Rails.delegate(this.cal, 'input.schedule', 'change', e => {
     refreshAmount(this.form);

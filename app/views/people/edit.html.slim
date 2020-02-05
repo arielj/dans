@@ -67,4 +67,6 @@ h1= "#{tg("edit.#{person.type}", person.gender)}: #{person.to_label}"
         => link_to t('add.payments'), add_payments_person_path(person), class: 'btn btn-light', remote: true
         - if @membership
           => link_to 'Agregar cuotas', add_installments_membership_path(@membership), class: 'btn btn-secondary', remote: true
+          => link_to 'Editar paquete', edit_membership_path(@membership), class: 'btn btn-secondary', remote: true
+          => link_to 'Borrar paquete', @membership, method: :delete, remote: true, class: 'btn btn-secondary', data: { confirm: '¿Seguro/a?' }
         => link_to t('add.membership'), new_membership_person_path(person), class: 'btn btn-light', remote: true
