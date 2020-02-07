@@ -5,7 +5,7 @@ class MoneyTransactionsController < ApplicationController
   include MoneyTransactionsHelper
 
   def new
-    @tran = MoneyTransaction.new
+    @tran = MoneyTransaction.new done: false
   end
 
   def create

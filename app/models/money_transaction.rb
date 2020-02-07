@@ -13,7 +13,7 @@ class MoneyTransaction < ApplicationRecord
   validates :amount, numericality: { greater_than: 0 }
 
   scope :done, -> { where(done: true) }
-  scope :received, -> { where(done: false) }
+  scope :received, -> { where(done: [false, nil]) }
   scope :today, -> { for_day(DateTime.current.to_date) }
   scope :for_day, ->(date) { where(created_at: (date.beginning_of_day..date.end_of_day)) }
   scope :search, ->(q) {
@@ -38,7 +38,7 @@ class MoneyTransaction < ApplicationRecord
   end
 
   def self.total_in
-    where(done: false).total
+    where(done: [false, nil]).total
   end
 
   def self.total_out
