@@ -54,6 +54,17 @@ class Person < ApplicationRecord
     "#{name} #{lastname}"
   end
 
+  def age
+    if birthday
+      td = DateTime.current.to_date
+      d2 = Date.new(td.year, birthday.month, birthday.day)
+      aux = td.year - birthday.year
+      d2 < td ? aux - 1 : aux
+    else
+      self[:age]
+    end
+  end
+
   def family_members
     family_group? ? Person.where(family_group_id: family_group_id).where.not(id: id) : Person.none
   end

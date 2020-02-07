@@ -98,12 +98,12 @@ class PersonTest < ActiveSupport::TestCase
 
   class ActiveFamilyTest < self
     test '.active_family? returns true if family members are active' do
-      student = FactoryBot.create(:student)
+      student = FactoryBot.create(:student, status: :active)
 
       refute student.family_group?
       refute student.active_family?
 
-      student2 = FactoryBot.create(:student)
+      student2 = FactoryBot.create(:student, status: :active)
 
       refute student2.family_group?
 
@@ -118,6 +118,31 @@ class PersonTest < ActiveSupport::TestCase
       student2.inactive!
 
       refute student.active_family?
+    end
+  end
+
+  class AgeTest < self
+    test '.age prioritizes birthday' do
+      student = FactoryBot.create(:student)
+
+      assert_nil student.birthday
+      assert_nil student.age
+
+      student.age = 10
+
+      assert_equal 10, student.age
+
+      student.birthday = 8.years.ago.to_date + 5.days
+
+      assert_equal 8, student.age
+
+      student.birthday = 8.years.ago.to_date - 5.days
+
+      assert_equal 7, student.age
+
+      travel_to 4.years.from_now do
+        assert_equal 11, student.age
+      end
     end
   end
 end
