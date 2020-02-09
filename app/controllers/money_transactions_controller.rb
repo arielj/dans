@@ -84,7 +84,7 @@ class MoneyTransactionsController < ApplicationController
 
   def receipt_multiple
     @receipt_items = MoneyTransaction.where(id: params[:print])
-    nums = @receipt_items.pluck(:receipt).uniq
+    nums = @receipt_items.pluck(:receipt).select(&:present?).uniq
 
     if nums.count != 1
       @receipt_items.update_all receipt: MoneyTransaction.last_receipt + 1
