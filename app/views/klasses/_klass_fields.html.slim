@@ -5,13 +5,13 @@
     = f.label :fixed_fee, class: 'form-label'
     .input-group
       span.input-group-addon $
-      = f.input_field :fixed_fee, class: 'form-input'
+      = f.input_field :fixed_fee, class: 'form-input amount-input'
 
   .form-group
     = f.label :non_regular_fee, class: 'form-label'
     .input-group
       span.input-group-addon $
-      = f.input_field :non_regular_fee, class: 'form-input'
+      = f.input_field :non_regular_fee, class: 'form-input amount-input'
 
   = f.input :status, collection: Klass.statuses_for_select, include_blank: false, input_html: {class: 'form-select'}
 

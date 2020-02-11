@@ -30,6 +30,9 @@ function showLargeModal(title, bodyHtml, actions) {
 function showModal(title, bodyHtml, actions) {
   const modal = createModal(title, bodyHtml, actions);
   modal.classList.add('active');
+
+  modal.qsa('.amount-input').forEach( el => bindAmountField(el) );
+
   return modal;
 };
 

@@ -23,7 +23,7 @@
     = label_tag :amount, Installment.human_attribute_name(:amount), class: 'form-label'
     .input-group
       span.input-group-addon $
-      = text_field_tag :amount, '0,00', class: 'form-input'
+      = text_field_tag :amount, '0,00', class: 'form-input amount-input'
   
   .actions.modal-footer
     => button_tag t('save.payments'), type: :submit, name: :button, value: :save, class: 'btn btn-primary'

@@ -3,7 +3,7 @@
     = f.label :amount, class: 'form-label'
     .input-group
       span.input-group-addon $
-      = f.text_field :amount, class: 'form-input'
+      = f.text_field :amount, class: 'form-input amount-input'
   = f.input :description
   .actions.modal-footer
     = f.submit t('save.money_transaction'), class: 'btn btn-primary'
