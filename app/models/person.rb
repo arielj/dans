@@ -59,7 +59,7 @@ class Person < ApplicationRecord
       td = DateTime.current.to_date
       d2 = Date.new(td.year, birthday.month, birthday.day)
       aux = td.year - birthday.year
-      d2 < td ? aux - 1 : aux
+      d2 > td ? aux - 1 : aux
     else
       self[:age]
     end
