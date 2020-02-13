@@ -7,8 +7,11 @@ function bindAmountField(input) {
     input.addEventListener('keypress', e => {
       let inp = e.target;
       if (e.key.length == 1) {
-        if (inp.value.match(/^\d+[.,]\d{2}$/))
-          e.preventDefault();
+        let separator = inp.value.match(/[.,]/);
+        if (separator)
+          if (inp.selectionStart > separator.index && inp.selectionEnd > separator.index)
+            if (inp.value.match(/^\d+[.,]\d{2}$/))
+              e.preventDefault();
 
         if (!e.key.match(/[\d\,\.]/))
           e.preventDefault();
