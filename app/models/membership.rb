@@ -36,7 +36,7 @@ class Membership < ApplicationRecord
 
   def amount
     if use_custom_amount
-      self[:amount]
+      Money.new(self[:amount_cents])
     else
       amounts[:total]
     end
