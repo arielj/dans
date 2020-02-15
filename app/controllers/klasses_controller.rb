@@ -28,7 +28,7 @@ class KlassesController < ApplicationController
   end
 
   def edit
-    @students = klass.students.active
+    @students = klass.students_for_year(params[:year] || DateTime.current.year)
   end
 
   def update
@@ -59,7 +59,7 @@ class KlassesController < ApplicationController
   end
 
   def export_students
-    send_file ExcelExporter.to_xls(klass.students)
+    send_file ExcelExporter.to_xls(klass.students_for_year(params[:year]))
   end
 
   def klass

@@ -12,7 +12,7 @@ class Klass < ApplicationRecord
 
   has_many :schedules
   has_many :memberships, through: :schedules
-
+  has_many :installments, through: :memberships
   has_many :students, through: :memberships
 
   has_and_belongs_to_many :teachers, class_name: 'Person', join_table: :klasses_teachers, association_foreign_key: :teacher_id
@@ -30,6 +30,12 @@ class Klass < ApplicationRecord
   def students
     pids = get_memberships.map(&:person_id)
     Person.where(id: pids)
+  end
+
+  def students_for_year(year)
+    pids = installments.where(year: year).pluck('distinct(person_id)')
+
+    Person.where(id: pids).active
   end
 
   def toggle_active

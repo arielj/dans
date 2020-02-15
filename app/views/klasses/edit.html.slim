@@ -4,13 +4,17 @@ h1 #{t('edit.klass')}: #{klass.name}
 
 .scrollable
   = simple_form_for klass, html: {class: 'scrollable'} do |f|
-    = render partial: 'klass_fields', locals: {f: f}
+    = render partial: 'klass_fields', locals: { f: f }
     .actions = submit_tag t('save.klass'), class: 'btn btn-primary'
 
 .people
   h2
-    => t('students')
-    = link_to t('export'), export_students_klass_path(klass), class: 'btn'
+    = form_tag '', method: :get do
+      => t('students')
+      => select_tag :year, options_for_select((2012..DateTime.current.year).to_a.reverse.map(&:to_s), params[:year])
+      => button_tag t('labels.filter'), name: :button, value: :filter, class: :btn
+      => button_tag t('labels.export'), name: :button, value: :export, class: :btn, formaction: export_students_klass_path(klass)
+
   .scrollable
     table.table.table-striped.table-small
       thead.thead-dark
