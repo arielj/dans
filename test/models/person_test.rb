@@ -123,7 +123,7 @@ class PersonTest < ActiveSupport::TestCase
 
   class AgeTest < self
     test '.age prioritizes birthday' do
-      student = FactoryBot.create(:student)
+      student = FactoryBot.build(:student)
 
       assert_nil student.birthday
       assert_nil student.age
@@ -134,14 +134,14 @@ class PersonTest < ActiveSupport::TestCase
 
       student.birthday = 8.years.ago.to_date + 5.days
 
-      assert_equal 8, student.age
+      assert_equal 7, student.age
 
       student.birthday = 8.years.ago.to_date - 5.days
 
-      assert_equal 7, student.age
+      assert_equal 8, student.age
 
       travel_to 4.years.from_now do
-        assert_equal 11, student.age
+        assert_equal 12, student.age
       end
     end
   end
