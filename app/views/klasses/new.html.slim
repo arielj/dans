@@ -2,6 +2,7 @@
 
 h1= t('new.klass')
 
-= simple_form_for @klass, local: true do |f|
-  = render partial: 'klass_fields', locals: {f: f}
-  .actions= submit_tag t('create.klass'), class: 'btn btn-primary'
+.scrollable
+  = simple_form_for @klass, local: true do |f|
+    = render partial: 'klass_fields', locals: {f: f}
+    .actions= submit_tag t('create.klass'), class: 'btn btn-primary'

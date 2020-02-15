@@ -89,14 +89,17 @@ class Schedule < ApplicationRecord
 
   def time_to_s(tim)
     tim ||= 0
-    if tim < 10
-      "00:0#{tim}"
-    elsif tim < 60
-      "00:#{tim}"
-    elsif tim < 1000
-      "0#{tim}".insert(-3, ':')
-    else
-      tim.to_s.insert(-3, ':')
-    end
+    aux =
+      if tim < 10
+        "000#{tim}"
+      elsif tim < 60
+        "00#{tim}"
+      elsif tim < 1000
+        "0#{tim}"
+      else
+        tim.to_s
+      end
+
+    "#{aux[0..1]}:#{aux[2..3]}"
   end
 end

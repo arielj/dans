@@ -1,13 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  klass_id: 1
-  from_time: 1
-  to_time: 1
-  day: 1
+# one:
+#   klass_id: 1
+#   from_time: 1
+#   to_time: 1
+#   day: 1
 
-two:
-  klass_id: 1
-  from_time: 1
-  to_time: 1
-  day: 1
+# two:
+#   klass_id: 1
+#   from_time: 1
+#   to_time: 1
+#   day: 1

@@ -13,7 +13,7 @@ function createModal(title, bodyHtml, actions) {
   const modal = qs('.modal-template .modal').cloneNode(true);
   modal.qs('.modal-title').innerText = title;
   modal.qs('.modal-body .content').innerHTML = bodyHtml;
-  if (actions) modal.qs('.modal-footer').appendChild(footer[0]);
+  if (actions) modal.qs('.modal-footer').appendChild(actions);
 
   document.body.appendChild(modal);
   currentModal = modal;

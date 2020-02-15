@@ -5,7 +5,7 @@ FactoryBot.define do
   factory :person do
     name { 'Jon' }
     lastname { 'Doe' }
-    status { Person.statuses.keys.sample }
+    status { :active }
     gender { Person.genders.keys.sample }
 
     factory :student do
