@@ -1,8 +1,0 @@
-= form_for klass, url: assign_teachers_klass_path(klass) do |f|
-  - teachers.each do |t|
-    = label_tag '', class: 'form-checkbox' do
-      = check_box_tag 'teacher_ids[]', t.id, klass.teacher_ids.include?(t.id)
-      = t.to_label
-      i.form-icon
-  .modal-footer
-    = f.submit t('assign.label'), class: 'btn btn-primary'
