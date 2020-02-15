@@ -34,14 +34,14 @@
     = link_to t('assign.teachers'), '#', class: 'btn', id: 'open-teachers-modal', data: { 'modal-title' => t("assign.teachers") }
   
   .hidden#teachers-modal
-    - Person.active.teachers.each do |t|
+    - Person.active.teachers.order(name: :asc).each do |t|
       = label_tag '', class: 'form-checkbox' do
         = check_box_tag 'teacher_ids[]', t.id, klass.teacher_ids.include?(t.id), id: "teacher_ids_#{t.id}"
         = t.to_label
         i.form-icon
 
   #teachers
-    - f.object.teachers.each do |teacher|
+    - f.object.teachers.order(name: :asc).each do |teacher|
       .teacher
         = f.hidden_field 'klass[teacher_ids][]', value: teacher.id
         = teacher.to_label

@@ -11,6 +11,11 @@ onLoad(function(){
       confirmBtn.innerText = 'Aceptar';
       confirmBtn.classList.add('btn');
       modal = showModal(title, content, confirmBtn);
+
+      teachersList.querySelectorAll('input[type=hidden]').forEach( i => {
+        modal.querySelector('#teacher_ids_' + i.value).checked = true;
+      })
+
       confirmBtn.addEventListener('click', e2 => {
         teachersList.innerHTML = '';
         modal.querySelectorAll('input[type=checkbox]:checked').forEach( t => {
