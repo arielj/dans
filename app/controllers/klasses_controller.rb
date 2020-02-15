@@ -58,25 +58,6 @@ class KlassesController < ApplicationController
     redirect_back fallback_location: klasses_path
   end
 
-  def assign_teachers
-    @teachers = Person.active.teachers
-  end
-
-  def do_assign_teachers
-    selected_teachers = Person.where(id: params[:teacher_ids])
-    klass.teachers = selected_teachers
-    klass.save
-
-    redirect_to edit_klass_path(klass), notice: t('assigned.teachers')
-  end
-
-  def remove_teacher
-    teacher = Person.find(params[:teacher_id])
-    klass.teachers.delete(teacher)
-
-    redirect_to edit_klass_path(klass), notice: tg('removed.teacher', teacher.gender)
-  end
-
   def export_students
     send_file ExcelExporter.to_xls(klass.students)
   end
