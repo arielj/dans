@@ -12,13 +12,16 @@ h3 Movimientos generales
           th
     tbody
       - transactions.includes(:versions).each do |tran|
-        tr title="Creado por #{tran.creator&.email}"
-          td= tran.done ? '' : tran.amount
-          td= tran.done ? tran.amount : ''
-          td= tran.description
+        tr title="Creado por #{tran.creator&.email}" id="movement_#{tran.id}"
+          td.amount_received= tran.done ? '' : tran.amount
+          td.amount_done= tran.done ? tran.amount : ''
+          td.description= tran.description
           - unless hide_actions
-            td= link_to tran, title: 'Eliminar', method: :delete, data: { confirm: 'Seguro?' } do
-              i.fa.fa-trash
+            td
+              => link_to edit_money_transaction_path(tran), title: 'Editar', remote: true do
+                i.fa.fa-edit
+              = link_to tran, title: 'Eliminar', method: :delete, data: { confirm: 'Seguro?' } do
+                i.fa.fa-trash
     tfoot
       tr
         td colspan=(hide_actions ? 4 : 5) #{t('money.in')}: $#{transactions.total_in}; #{t('money.out')}: $#{transactions.total_out}

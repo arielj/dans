@@ -10,6 +10,7 @@
     <% elsif @tran.person %>
       <%= render partial: 'update_person' %>
     <% else %>
+      <%= render partial: 'update_movement' %>
     <% end %>
 
     <% if params[:button] == 'save_and_receipt' %>

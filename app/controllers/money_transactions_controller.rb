@@ -102,7 +102,7 @@ class MoneyTransactionsController < ApplicationController
   def update_transaction_params
     params
       .require_typed(:money_transaction, TA[ActionController::Parameters].new)
-      .permit(:amount, :description)
+      .permit(:amount, :description, :done)
   end
 
   def installment_payment_attributes
