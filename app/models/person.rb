@@ -121,7 +121,7 @@ class Person < ApplicationRecord
       break if rest.zero?
 
       paid_amount = installment.to_pay > rest ? rest : installment.to_pay
-      payments << installment.create_payment({ amount: paid_amount }, false, false)
+      payments << installment.create_payment({ amount: paid_amount, description: 'cuota' }, false, false)
       rest -= paid_amount
     end
 

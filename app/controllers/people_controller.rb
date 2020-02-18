@@ -125,7 +125,21 @@ class PeopleController < ApplicationController
   def do_add_payments
     @result = person.add_multi_payments(params[:installments_to_pay], params[:amount])
 
-    flash[:notice] = t('saved.payments') if @result.is_a?(Array)
+    if @result.is_a?(Array)
+      flash[:notice] = t('saved.payments')
+
+      options = { tab: :memberships }
+
+      if params[:button] == 'save_and_receipt'
+        new_receipt_num = MoneyTransaction.last_receipt + 1
+        @result.each do |payment|
+          payment.update_column :receipt, new_receipt_num
+        end
+        options[:show_receipt] = new_receipt_num
+      end
+
+      @redirect_to = edit_person_path(person, options)
+    end
   end
 
   def add_debt

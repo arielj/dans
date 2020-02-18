@@ -1,5 +1,5 @@
 <% if @result.is_a?(Array) %>
-  window.location.reload();
+  window.location = '<%= @redirect_to %>';
 <% else %>
   alert('<%= @result %>');
 <% end %>
