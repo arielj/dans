@@ -66,7 +66,11 @@ class MoneyTransactionsController < ApplicationController
   end
 
   def destroy
-    MoneyTransaction.find(params[:id]).destroy
+    transaction = MoneyTransaction.find(params[:id])
+
+    transaction.destroy # destroy money transaction
+    transaction.payable&.waiting! # fix payable object status
+
     flash[:success] = t('destroyed.money_transaction')
     redirect_back fallback_location: root_path
   end

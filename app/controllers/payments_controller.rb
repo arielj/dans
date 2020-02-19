@@ -5,7 +5,7 @@ class PaymentsController < ApplicationController
   before_action :load_installment
 
   def new
-    @payment = MoneyTransaction.new description: 'cuota', amount: @installment.to_pay, payable: @installment
+    @payment = @installment.payments.new description: 'cuota', amount: @installment.to_pay
   end
 
   private

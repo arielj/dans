@@ -5,7 +5,7 @@ class DebtsController < ApplicationController
   before_action :load_debt
 
   def add_payment
-    @payment = @debt.payments.new
+    @payment = @debt.payments.new amount: @debt.to_pay, description: @debt.description
   end
 
   def do_add_payment

@@ -5,7 +5,7 @@ module Payable
   extend ActiveSupport::Concern
 
   def amount_paid
-    payments.map(&:amount).sum
+    payments.select(&:persisted?).map(&:amount).sum
   end
 
   def paid?
