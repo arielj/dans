@@ -4,3 +4,7 @@ es:
       status:
         active: Activa
         inactive: Inactiva
+    person:
+      status:
+        active: Activo/a
+        inactive: Inactivo/a

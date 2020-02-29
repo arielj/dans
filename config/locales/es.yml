@@ -327,6 +327,7 @@ es:
         is_teacher: Es profesor?
         lastname: Apellido
         name: Nombre
+        status: Estado
       room:
         name: Nombre
       schedule:

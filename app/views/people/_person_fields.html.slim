@@ -15,9 +15,17 @@
     div style='position: relative'
       = f.check_box :is_teacher, class: 'checkbox'
       i class="form-icon"
-    
 
--# = f.input :status
+.form-group
+  label = Person.human_attribute_name(:status)
+  = label_tag '', class: 'form-radio' do
+    = f.radio_button :status, :active, class: 'radio'
+    i class="form-icon"
+    = t(:active, scope: 'enums.person.status')
+  = label_tag '', class: 'form-radio' do
+    = f.radio_button :status, :inactive, class: 'radio'
+    i class="form-icon"
+    = t(:inactive, scope: 'enums.person.status')
 
 - unless f.object.new_record?
   .form-group.family_field
