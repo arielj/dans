@@ -10,7 +10,7 @@ h1= t('titles.installments')
       = text_field_tag :year, params[:year], class: 'form-input'
     .form-group
       = label_tag :month, 'Mes:', class: 'form-label'
-      = text_field_tag :month, params[:month], class: 'form-input'
+      = select_tag :month,  options_for_select(Installment.months_for_select, params[:month]), prompt: 'Todos', class: 'form-input'
     .from-group
       = label_tag '', class: 'form-check form-inline' do
         = check_box_tag :include_paid, '1', params[:include_paid] == '1'
@@ -35,7 +35,7 @@ h1= t('titles.installments')
         th Año
         th Mes
         th Clase
-        th Resto
+        th Monto
     
     - total = Money.new(0)
     - @installments.each do |ins|
@@ -50,7 +50,5 @@ h1= t('titles.installments')
           - unless ins.waiting?
             | (Pagada)
 
-    tfoot
-      tr
-        td colspan=5
-          b Total: #{number_to_currency(total)}
+div
+div: b Total: #{number_to_currency(total)}
