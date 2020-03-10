@@ -43,16 +43,17 @@ class Person < ApplicationRecord
   end
 
   def name=(value)
-    self[:name] = value.capitalize
+    self[:name] = value.titleize
   end
 
   def lastname=(value)
-    self[:lastname] = value.capitalize
+    self[:lastname] = value.titleize
   end
 
   def to_label
-    "#{name} #{lastname}"
+    "#{name.titleize} #{lastname.titleize}".squeeze(' ')
   end
+  alias full_name to_label
 
   def age
     if birthday

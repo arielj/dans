@@ -22,10 +22,10 @@ class ExcelExporter
 
   def self.headers_for(cls)
     case cls.to_s
-    when 'Room' then ['Nombre']
-    when 'Person' then ['Nombre', 'Apellido', 'DNI']
-    when 'Package' then ['Nombre']
-    when 'Klass' then ['Nombre', 'Activa']
+    when 'Room' then %w[Nombre]
+    when 'Person' then %w[Nombre DNI]
+    when 'Package' then %w[Nombre]
+    when 'Klass' then %w[Nombre Activa]
     else []
     end
   end
@@ -33,7 +33,7 @@ class ExcelExporter
   def self.fields_for(item)
     case item.class.to_s
     when 'Room' then [item.name]
-    when 'Person' then [item.name, item.lastname, item.dni]
+    when 'Person' then [item.full_name, item.dni]
     when 'Package' then [item.name]
     when 'Klass' then [item.name, (item.active? ? 'Si' : 'No')]
     else []

@@ -59,7 +59,7 @@ class KlassesController < ApplicationController
   end
 
   def export_students
-    send_file ExcelExporter.to_xls(klass.students_for_year(params[:year]))
+    send_file ExcelExporter.to_xls(klass.students_for_year(params[:year]).order(:name, :lastname))
   end
 
   def klass
