@@ -18,6 +18,8 @@ class MoneyTransactionsController < ApplicationController
       elsif params[:money_transaction][:payable_type] == 'Debt'
         debt = Debt.find(params[:money_transaction][:payable_id])
         debt.create_payment debt_payment_attributes
+      elsif params[:money_transaction][:person_id]
+        MoneyTransaction.create create_person_transaction_params
       else
         MoneyTransaction.create create_transaction_params.merge(category: 'general')
       end
@@ -36,7 +38,7 @@ class MoneyTransactionsController < ApplicationController
             case @tran.payable
             when Installment then { tab: :memberships, membership_id: @tran.payable.membership_id }
             when Debt then { tab: :debts }
-            else {}
+            else { tab: :person_payments }
             end
 
           options[:show_receipt] = @tran.receipt if params[:button] == 'save_and_receipt'
@@ -119,5 +121,11 @@ class MoneyTransactionsController < ApplicationController
     params
       .require_typed(:money_transaction, TA[ActionController::Parameters].new)
       .permit(:amount, :description, :paid_at)
+  end
+
+  def create_person_transaction_params
+    params
+      .require_typed(:money_transaction, TA[ActionController::Parameters].new)
+      .permit(:amount, :description, :person_id)
   end
 end

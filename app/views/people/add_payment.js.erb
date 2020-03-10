@@ -1,1 +1,3 @@
-showModal('<%= t("add.payment") -%>', '<%= j(render partial: "add_payment") -%>');
+showModal('<%= t("add.payment") -%>', '<%= j(render partial: "money_transactions/form", locals: { tran: @trans }) -%>', false);
+
+initDatepicker('.datepicker');

@@ -6,6 +6,11 @@
   - if pybl
     = f.hidden_field :payable_type
     = f.hidden_field :payable_id
+
+  - if tran.person
+    = f.hidden_field :person_id
+
+  - if pybl or tran.person
     = f.input :paid_at, as: :string, input_html: { placeholder: 'aaaa-mm-dd', class: 'datepicker', value: DateTime.current.to_date}
     
   = f.input :description
@@ -37,7 +42,7 @@
         ' Ignorar recargo por fecha ($#{r})
         i.form-icon
 
-  - unless pybl
+  - unless pybl or tran.person
     .form-group
       = label_tag '', class: 'form-radio form-inline' do
         = f.radio_button :done, true
@@ -50,7 +55,7 @@
 
   .actions.modal-footer
     => button_tag t('save.label'), name: :button, value: :save, class: 'btn btn-primary'
-    - if pybl
+    - if pybl or tran.person
       => button_tag t('save.payment_and_receipt'), name: :button, value: :save_and_receipt, class: 'btn'
     - if tran.persisted?
       = link_to t('destroy.label'), tran, method: :delete, data: {confirm: '¿Seguro?'}, class: 'btn btn-error'
