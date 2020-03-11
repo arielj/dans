@@ -27,6 +27,7 @@ h1= t('titles.installments')
 
     = submit_tag t('labels.filter'), class: 'btn btn-primary'
 
+- total = Money.new(0)
 .scrollable
   table.table.table-striped.table-sm
     thead.thead-dark
@@ -37,7 +38,6 @@ h1= t('titles.installments')
         th Clase
         th Monto
     
-    - total = Money.new(0)
     - @installments.each do |ins|
       - total += ins.to_pay
       tr

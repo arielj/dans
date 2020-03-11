@@ -14,4 +14,10 @@ class ApplicationController < ActionController::Base
   def user_for_paper_trail
     current_admin&.id
   end
+
+  def allow_only_mara
+    if current_admin&.email != 'mara@instituto.com'
+      redirect_to root_path and return false
+    end
+  end
 end

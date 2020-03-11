@@ -4,6 +4,8 @@
 class ReportsController < ApplicationController
   include MoneyTransactionsHelper
 
+  before_action :allow_only_mara, only: :installments
+
   def daily_cash
     @date = params[:date] || DateTime.current.to_date
     @date = Date.parse(@date) unless @date.is_a?(Date)
