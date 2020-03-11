@@ -39,7 +39,7 @@ h1= t('titles.installments')
         th Monto
     
     - @installments.each do |ins|
-      - total += ins.to_pay
+      - total += ins.total
       tr
         td= link_to ins.person.to_label, edit_person_path(ins.person)
         td= ins.year
