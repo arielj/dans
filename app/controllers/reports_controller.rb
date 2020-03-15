@@ -4,7 +4,7 @@
 class ReportsController < ApplicationController
   include MoneyTransactionsHelper
 
-  before_action :allow_only_mara, only: :installments
+  before_action :allow_only_admin, only: %i[installments daily_cash payments]
 
   def daily_cash
     @date = params[:date] || DateTime.current.to_date

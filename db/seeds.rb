@@ -37,7 +37,8 @@ Setting.set_hours_fee 10.5, 1050
 Admin.create!(
   email: 'admin@test.com',
   password: 'admin123',
-  password_confirmation: 'admin123'
+  password_confirmation: 'admin123',
+  role: :admin
 )
 
 30.times do

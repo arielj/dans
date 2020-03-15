@@ -15,8 +15,8 @@ class ApplicationController < ActionController::Base
     current_admin&.id
   end
 
-  def allow_only_mara
-    if current_admin&.email != 'mara@instituto.com'
+  def allow_only_admin
+    unless current_admin&.admin?
       redirect_to root_path and return false
     end
   end

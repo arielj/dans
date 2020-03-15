@@ -6,7 +6,7 @@ class PeopleControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
   test "shows a warning if there's no inscription for the current year" do
-    sign_in admins(:one)
+    sign_in admins(:admin)
 
     student = FactoryBot.create(:student)
     get edit_person_path(student)
