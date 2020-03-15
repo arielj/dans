@@ -77,6 +77,18 @@ class Installment < ApplicationRecord
     _calculate_recharge(recharge_value)
   end
 
+  def get_second_recharge
+    return 0 if paid?
+
+    after_day = Setting.fetch(:second_recharge_after_day, nil)
+    recharge_value = Setting.fetch(:second_recharge_value, nil)
+
+    return 0 if after_day.nil? || recharge_value.nil?
+    return 0 unless DateTime.current.to_date > date(after_day)
+
+    _calculate_recharge(recharge_value)
+  end
+
   def _calculate_recharge(rval)
     case rval
     when /\A\d+%\z/ then amount * rval[0..-1].to_i / 100
@@ -85,35 +97,41 @@ class Installment < ApplicationRecord
     end
   end
 
-  def get_recharge(ignore_recharge = false, ignore_month_recharge = false)
-    r = get_month_recharge
-    if r.positive? && !ignore_month_recharge
-      r
+  def get_recharge(ignore: false)
+    r1 = get_first_recharge
+    r2 = get_second_recharge
+    r3 = get_month_recharge
+
+    case ignore
+    when :first, :all then 0
+    when :second then r1
+    when :month then r2.positive? ? r2 : r1
     else
-      r = get_first_recharge
-      if r.positive? && !ignore_recharge
-        r
+      if r3.positive?
+        r3
+      elsif r2.positive?
+        r2
       else
-        0
+        r1
       end
     end
   end
 
-  def total(ignore_recharge = nil, ignore_month_recharge = nil)
-    amount + get_recharge(ignore_recharge, ignore_month_recharge)
+  def total(ignore_recharge: false)
+    amount + get_recharge(ignore: ignore_recharge)
   end
 
-  def to_pay(ignore_recharge: nil, ignore_month_recharge: nil)
+  def to_pay(ignore_recharge: false)
     return 0 if paid? || paid_with_interests?
 
-    total(ignore_recharge, ignore_month_recharge) - amount_paid
+    total(ignore_recharge: ignore_recharge) - amount_paid
   end
 
-  def create_payment(attrs, ignore_recharge, ignore_month_recharge)
+  def create_payment(attrs, ignore_recharge: false)
     payment = MoneyTransaction.new attrs
     payment.person = person
     payment.done = false
-    rest = to_pay(ignore_recharge: ignore_recharge, ignore_month_recharge: ignore_month_recharge)
+    rest = to_pay(ignore_recharge: ignore_recharge)
     if payment.amount > rest
       payment.errors.add(:base, :amount_too_high)
     else

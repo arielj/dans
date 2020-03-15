@@ -8,6 +8,14 @@ recharge_value:
   key: recharge_value
   value: '10%'
 
+second_recharge_after_day:
+  key: second_recharge_after_day
+  value: 20
+
+second_recharge_value:
+  key: second_recharge_value
+  value: '15%'
+
 month_recharge_value:
   key: month_recharge_value
   value: '20%'

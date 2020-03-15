@@ -12,9 +12,11 @@ class MoneyTransactionsController < ApplicationController
     @tran =
       if params[:money_transaction][:payable_type] == 'Installment'
         installment = Installment.find(params[:money_transaction][:payable_id])
-        ignore_recharge = params[:ignore_recharge] == '1'
-        ignore_month_recharge = params[:ignore_month_recharge] == '1'
-        installment.create_payment installment_payment_attributes, ignore_recharge, ignore_month_recharge
+        ignore = false
+        ignore = :month if params[:ignore_month_recharge] == '1'
+        ignore = :second if params[:ignore_second_recharge] == '1'
+        ignore = :first if params[:ignore_recharge] == '1'
+        installment.create_payment installment_payment_attributes, ignore_recharge: ignore
       elsif params[:money_transaction][:payable_type] == 'Debt'
         debt = Debt.find(params[:money_transaction][:payable_id])
         debt.create_payment debt_payment_attributes

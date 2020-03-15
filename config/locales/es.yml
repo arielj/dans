@@ -247,8 +247,10 @@ es:
       preselected_installments_month: Meses preseleccionados al cargar cuotas
       preselected_installments_month_from: Mes inicial al cargar cuotas
       preselected_installments_month_to: Mes final al cargar cuotas
-      recharge_after_day: Recargo luego del día número X
-      recharge_value: Valor rel recargo (XX para valor fijo, YY% para pocentaje)
+      recharge_after_day: 1er recargo luego del día número X
+      recharge_value: Valor del 1er recargo (XX para valor fijo, YY% para pocentaje)
+      second_recharge_after_day: 2do recargo luego del día número Y
+      second_recharge_value: Valor del 2do recargo (XX para valor fijo, YY% para pocentaje)
   activerecord:
     models:
       debt:

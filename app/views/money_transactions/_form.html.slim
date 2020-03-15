@@ -22,7 +22,7 @@
       .hint
         ' Restante:
         - if pybl.is_a?(Installment)
-          span#to_pay data-amount=pybl.to_pay.to_f data-amount-ignoring-recharge=pybl.to_pay(ignore_recharge: true, ignore_month_recharge: true).to_f $#{pybl.to_pay}
+          span#to_pay data-amount=pybl.to_pay.to_f data-amount-total=pybl.to_pay(ignore_recharge: :false).to_f $#{pybl.to_pay}
         - else
           span#to_pay data-amount=pybl.to_pay.to_f $#{pybl.to_pay}
 
@@ -33,12 +33,17 @@
   - if pybl.is_a?(Installment)
     - if (r = pybl.get_month_recharge) > 0
       = label_tag '', class: 'form-checkbox update_amount', id: 'ignore_month_recharge_label' do
-        = check_box_tag :ignore_month_recharge, '1', false, class: 'update_amount', data: { recharge: r.to_f }
+        = check_box_tag :ignore_month_recharge, '1', false, class: 'update_amount', data: { total_ignoring: pybl.to_pay(ignore_recharge: :month).to_f }
         ' Ignorar recargo a mes vencido ($#{r})
+        i.form-icon
+    - if (r = pybl.get_second_recharge) > 0
+      = label_tag '', class: 'form-checkbox update_amount', id: 'ignore_second_recharge_label' do
+        = check_box_tag :ignore_second_recharge, '1', false, class: 'update_amount', data: { total_ignoring: pybl.to_pay(ignore_recharge: :second).to_f }
+        ' Ignorar segundo recargo por fecha ($#{r})
         i.form-icon
     - if (r = pybl.get_first_recharge) > 0
       = label_tag '', class: 'form-checkbox update_amount', id: 'ignore_recharge_label' do
-        = check_box_tag :ignore_recharge, '1', false, class: 'update_amount', data: { recharge: r.to_f }
+        = check_box_tag :ignore_recharge, '1', false, class: 'update_amount', data: { total_ignoring: pybl.to_pay(ignore_recharge: :first).to_f }
         ' Ignorar recargo por fecha ($#{r})
         i.form-icon
 

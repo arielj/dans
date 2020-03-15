@@ -11,45 +11,49 @@ function bindInstallmentPaymentForm(form) {
   let toPayHint = byid('to_pay');
   let amountField = byid('money_transaction_amount');
   let dateRechargeCheck = form.qs('#ignore_recharge');
+  let secondDateRechargeCheck = form.qs('#ignore_second_recharge');
   let monthRechargeCheck = form.qs('#ignore_month_recharge');
 
   if (dateRechargeCheck)
     dateRechargeCheck.addEventListener('change', e => {
       // update rest to pay
-      setNewToPay(toPayHint, amountField, dateRechargeCheck, monthRechargeCheck);
+      setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck);
     })
+
+  if (secondDateRechargeCheck) {
+    dateRechargeCheck.disabled = true;
+    secondDateRechargeCheck.addEventListener('change', e => {
+      dateRechargeCheck.disabled = !secondDateRechargeCheck.checked;
+      // update rest to pay
+      setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck);
+    })
+  }
 
   if (monthRechargeCheck) {
     dateRechargeCheck.disabled = true;
+    secondDateRechargeCheck.disabled = true;
     monthRechargeCheck.addEventListener('change', _e => {
       // disable the other checkbox
-      dateRechargeCheck.disabled = !monthRechargeCheck.checked;
+      secondDateRechargeCheck.disabled = !monthRechargeCheck.checked;
       // update rest to pay
-      setNewToPay(toPayHint, amountField, dateRechargeCheck, monthRechargeCheck);
+      setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck);
     })
   }
 }
 
-function calculateRecharge(dateRechargeCheck, monthRechargeCheck) {
-  if (!dateRechargeCheck && !monthRechargeCheck)
-    return 0;
-
-  if (!monthRechargeCheck || monthRechargeCheck.checked)
-    if (!dateRechargeCheck || dateRechargeCheck.checked)
-      return 0;
-    else
-      return parseFloat(dateRechargeCheck.dataset.recharge);
-
-  if (monthRechargeCheck && !monthRechargeCheck.checked)
-    return parseFloat(monthRechargeCheck.dataset.recharge);
-
-  return 0;
-}
-
-function setNewToPay(toPayHint, amountField, dateRechargeCheck, monthRechargeCheck) {
+function setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck) {
   // updates the rest to pay hint
-  let newValue = parseFloat(toPayHint.dataset.amountIgnoringRecharge);
-  newValue += calculateRecharge(dateRechargeCheck, monthRechargeCheck);
+  let newValue = parseFloat(toPayHint.dataset.amount);
+
+  if (monthRechargeCheck && monthRechargeCheck.checked)
+    newValue = parseFloat(monthRechargeCheck.dataset.totalIgnoring)
+
+  if (secondDateRechargeCheck && secondDateRechargeCheck.checked)
+    newValue = parseFloat(secondDateRechargeCheck.dataset.totalIgnoring)
+
+  if (dateRechargeCheck && dateRechargeCheck.checked)
+    newValue = parseFloat(dateRechargeCheck.dataset.totalIgnoring)
+
   toPayHint.innerText = `$${newValue.toFixed(2).toString().replace('.', ',')}`;
 
   // cap the field value
