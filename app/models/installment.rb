@@ -147,6 +147,21 @@ class Installment < ApplicationRecord
     payment
   end
 
+  def update_amount!(new_amount)
+    new_amount = Money.new(new_amount.gsub(',', '').to_i)
+    if amount_paid >= new_amount
+      if waiting?
+        self.amount = amount_paid
+        self.status = :paid
+      end
+    else
+      self.amount = new_amount
+      self.status = :waiting
+    end
+
+    save
+  end
+
   private
 
   def fix_payments

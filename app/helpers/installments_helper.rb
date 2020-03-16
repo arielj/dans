@@ -16,8 +16,12 @@ module InstallmentsHelper
         end
       end)
       concat(content_tag(:td) do
+        concat(link_to(edit_installment_path(ins), title: 'Editar cuota', remote: true) do
+          concat(content_tag(:i, '', class: 'fa fa-pencil'))
+        end)
+        concat(' ')
         concat(link_to(ins, method: :delete, data: { confirm: '¿Eliminar cuota?' }, title: 'Eliminar cuota') do
-          concat(tag(:i, class: 'fa fa-trash'))
+          concat(content_tag(:i, '', class: 'fa fa-trash'))
         end)
       end)
     end

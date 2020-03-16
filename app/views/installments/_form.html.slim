@@ -1,0 +1,10 @@
+= form_for installment, remote: true do |f|
+  .form-group
+    = f.label :amount, class: 'form-label'
+
+    .input-group
+      span.input-group-addon $
+      = f.text_field :amount, class: 'form-input amount-input'
+
+  .actions.modal-footer
+    = submit_tag 'Guardar', class: 'btn btn-primary'

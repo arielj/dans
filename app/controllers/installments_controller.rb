@@ -13,6 +13,15 @@ class InstallmentsController < ApplicationController
     redirect_back fallback_location: edit_person_path(person, tab: :memberships)
   end
 
+  def edit
+    @installment = Installment.find(params[:id])
+  end
+
+  def update
+    @installment = Installment.find(params[:id])
+    @installment.update_amount!(params[:installment][:amount])
+  end
+
   private
 
   def load_installment

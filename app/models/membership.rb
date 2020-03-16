@@ -18,9 +18,10 @@ class Membership < ApplicationRecord
   validates :person, presence: true
 
   after_create :create_installments_on_create, unless: :skip_installments
-  after_update :update_installments_on_update, if: :update_unpaid_installments
+  after_update :update_installments_on_update
 
-  attr_accessor :skip_installments, :create_installments_from, :create_installments_to, :update_unpaid_installments
+  attr_accessor :skip_installments, :create_installments_from, :create_installments_to,
+                :update_unpaid_installments, :update_paid_installments
 
   def package=(pkg)
     self[:package_id] = pkg.id
@@ -64,8 +65,20 @@ class Membership < ApplicationRecord
   end
 
   def update_installments_on_update
-    installments.waiting.each do |ins|
-      ins.amount = amount
+    months_range = Installment.months[@create_installments_from]..Installment.months[@create_installments_to]
+
+    installments.each do |ins|
+      next unless months_range.include?(ins.month_before_type_cast)
+      next if ins.waiting? && !update_unpaid_installments
+      next if !ins.waiting? && !update_paid_installments
+
+      if ins.amount_paid > Money.new(amount.gsub(',', '').to_i)
+        ins.status = :paid if ins.waiting?
+      else
+        ins.amount = amount
+        ins.status = :waiting
+      end
+
       ins.save(validate: false)
     end
   end

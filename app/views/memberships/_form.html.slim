@@ -45,5 +45,12 @@
         = Membership.human_attribute_name(:update_unpaid_installments)
         i.form-icon
 
+  - if membership.persisted?
+    .form-group.bg-warning
+      = label_tag '', class: 'form-checkbox' do
+        = f.check_box :update_paid_installments
+        = Membership.human_attribute_name(:update_paid_installments)
+        i.form-icon
+
   .modal-footer
     = f.submit t('save.membership'), class: 'btn btn-primary'

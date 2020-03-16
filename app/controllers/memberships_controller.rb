@@ -28,6 +28,15 @@ class MembershipsController < ApplicationController
   def edit
     @membership = Membership.find(params[:id])
     @membership.update_unpaid_installments = true
+    @membership.update_paid_installments = true
+
+    from = @membership.installments.first&.month
+    from ||= Setting.fetch(:preselected_installments_month_from, :january)
+    @membership.create_installments_from = from
+
+    to = @membership.installments.last&.month
+    to ||= Setting.fetch(:preselected_installments_month_to, :december)
+    @membership.create_installments_to = to
   end
 
   def update
@@ -59,7 +68,8 @@ class MembershipsController < ApplicationController
   def update_membership_params
     params
       .require_typed(:membership, TA[ActionController::Parameters].new)
-      .permit(:amount, :use_custom_amount, :create_installments_from, :update_unpaid_installments,
+      .permit(:amount, :use_custom_amount, :create_installments_from,
+              :update_unpaid_installments, :update_paid_installments,
               :create_installments_to, :use_non_regular_fee, schedule_ids: [])
   end
 end
