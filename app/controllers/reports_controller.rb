@@ -4,11 +4,13 @@
 class ReportsController < ApplicationController
   include MoneyTransactionsHelper
 
-  before_action :allow_only_admin, only: %i[installments daily_cash payments]
+  before_action :allow_only_admin, only: %i[installments payments]
 
   def daily_cash
     @date = params[:date] || DateTime.current.to_date
     @date = Date.parse(@date) unless @date.is_a?(Date)
+
+    @data = 7.days.ago if current_admin.operator? && @date < 7.days.ago
 
     scp = MoneyTransaction.for_day(@date)
     scp = scp.where('description LIKE ?', "%#{params[:text]}%") if params[:text].present?

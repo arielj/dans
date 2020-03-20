@@ -8,7 +8,7 @@ class DashboardTest < ApplicationSystemTestCase
   driven_by :selenium, using: :headless_chrome
 
   test 'can add daily cash movements' do
-    sign_in admins(:one)
+    sign_in admins(:operator)
 
     visit root_path
 

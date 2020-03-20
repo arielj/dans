@@ -8,7 +8,7 @@ class ManagingKlassesTest < ApplicationSystemTestCase
   driven_by :selenium, using: :headless_chrome
 
   test 'can add teachers' do
-    sign_in admins(:one)
+    sign_in admins(:operator)
 
     teacher1 = FactoryBot.create(:teacher, name: 'juan', lastname: 'perez')
     teacher2 = FactoryBot.create(:teacher, name: 'juan', lastname: 'gomez')

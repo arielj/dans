@@ -8,7 +8,7 @@ class EdittingMoneyTransactionsTest < ApplicationSystemTestCase
   driven_by :selenium, using: :headless_chrome
 
   setup do
-    sign_in admins(:one)
+    sign_in admins(:operator)
   end
 
   test 'can edit a person\'s payment' do
@@ -129,7 +129,7 @@ class EdittingMoneyTransactionsTest < ApplicationSystemTestCase
     student.memberships.create(schedules: klass.schedules, amount: 500_00)
 
     ins = student.memberships.first.installments.first
-    tran = ins.create_payment({ amount: 250, description: 'Cuota' }, true, true)
+    tran = ins.create_payment({ amount: 250, description: 'Cuota' }, ignore_recharge: :all)
 
     visit edit_person_path(student)
     click_link 'Cuotas'

@@ -7,7 +7,7 @@ class AddingPaymentsTest < ApplicationSystemTestCase
   driven_by :selenium, using: :headless_chrome
 
   test 'can ignore the recharge' do
-    sign_in admins(:one)
+    sign_in admins(:operator)
 
     student = FactoryBot.create(:student)
     klass = FactoryBot.create(:klass_with_schedules)
@@ -39,7 +39,11 @@ class AddingPaymentsTest < ApplicationSystemTestCase
 
         find('#ignore_month_recharge_label').click
 
-        assert_match 'Restante: $550,00', page.text
+        assert_match 'Restante: $575,00', page.text
+
+        assert_match 'Ignorar segundo recargo por fecha', page.text
+
+        find('#ignore_second_recharge_label').click
 
         assert_match 'Ignorar recargo por fecha', page.text
 
@@ -65,7 +69,11 @@ class AddingPaymentsTest < ApplicationSystemTestCase
 
         find('#ignore_month_recharge_label').click
 
-        assert_match 'Restante: $550,00', page.text
+        assert_match 'Restante: $575,00', page.text
+
+        assert_match 'Ignorar segundo recargo por fecha', page.text
+
+        find('#ignore_second_recharge_label').click
 
         assert_match 'Ignorar recargo por fecha', page.text
 
