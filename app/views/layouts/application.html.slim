@@ -78,6 +78,7 @@ html xmlns:fb="http://www.facebook.com/2008/fbml" lang='es-AR'
           ul.menu
             li.menu-item= link_to t('menu.receipts'), reports_receipts_path
             li.menu-item= link_to t('menu.students_hours'), reports_students_hours_path
+            li.menu-item= link_to t('menu.extra_klasses_students'), reports_extra_klasses_students_path
             li.menu-item= link_to t('menu.debts'), reports_debts_path
             li.menu-item= link_to t('menu.daily_cash'), reports_daily_cash_path
             - if current_admin&.admin?

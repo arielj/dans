@@ -38,6 +38,12 @@ class Klass < ApplicationRecord
     Person.where(id: pids).active
   end
 
+  def memberships_for_year(year)
+    mids = installments.where(year: year).pluck('distinct(installments.membership_id)')
+
+    Membership.where(id: mids)
+  end
+
   def toggle_active
     to = active? ? :inactive : :active
     update_column(:status, to)

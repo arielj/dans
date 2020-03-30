@@ -178,6 +178,7 @@ es:
     payments: Pagos
     receipts: Recibos
     students_hours: Alumnos/as por Hora
+    extra_klasses_students: Alumnos/as en clases extra
   
   menu:
     daily_cash: Caja Diaria
@@ -187,6 +188,7 @@ es:
     receipts: Recibos
     reports: Reportes
     students_hours: Alums. por Hora
+    extra_klasses_students: "Alums / clases extra"
 
   session:
     close: Cerrar sesión

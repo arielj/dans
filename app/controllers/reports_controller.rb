@@ -54,11 +54,11 @@ class ReportsController < ApplicationController
 
   def students_hours
     @year = (params[:year] || DateTime.current.year).to_i
-    @klasses = Klass.all
+    @klasses = Klass.where(fixed_fee_cents: 0)
     @students = Person.active.students.order(name: :asc)
     @data = {}
     mids = Installment.where(year: @year).pluck('distinct(membership_id)')
-    Membership.where(person_id: @students.pluck(:id), id: mids).includes(:schedules).each do |m|
+    Membership.where(person_id: @students.pluck(:id), id: mids).includes(schedules: :klass).each do |m|
       @data[m.person_id] ||= {}
       m.schedules.each do |sch|
         @data[m.person_id][sch.klass_id] ||= 0
@@ -74,6 +74,31 @@ class ReportsController < ApplicationController
 
     if params[:button] == 'export'
       send_file(StudentsHoursReportExporter.to_xls(@year, @klasses, @students, @data, @stats)) and return
+    end
+  end
+
+  def extra_klasses_students
+    @year = (params[:year] || DateTime.current.year).to_i
+    @klasses = Klass.where.not(fixed_fee_cents: 0)
+    @data = {}
+    @totals = {}
+    @klasses.each do |klass|
+      @data[klass.id] = { regular: 0, non_regular: 0 }
+      @totals[klass.id] = { regular: Money.new(0), non_regular: Money.new(0) }
+      ms = klass.memberships_for_year(@year)
+      ms.each do |m|
+        if m.use_non_regular_fee
+          @data[klass.id][:non_regular] += 1
+          @totals[klass.id][:non_regular] += (klass.non_regular_fee || Money.new(0))
+        else
+          @data[klass.id][:regular] += 1
+          @totals[klass.id][:regular] += klass.fixed_fee
+        end
+      end
+    end
+
+    if params[:button] == 'export'
+      send_file(ExtraKlassesStudentsReportExporter.to_xls(@year, @klasses, @data, @totals)) and return
     end
   end
 
