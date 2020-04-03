@@ -63,17 +63,22 @@ class AddingPaymentsTest < ApplicationSystemTestCase
       assert_selector '.modal #installment_payment'
 
       within '.modal #installment_payment' do
+        # 500 + 20%
         assert_match 'Restante: $600,00', page.text
 
         assert_match 'Ignorar recargo a mes vencido', page.text
 
         find('#ignore_month_recharge_label').click
 
+        # 500 + 15%
         assert_match 'Restante: $575,00', page.text
 
         assert_match 'Ignorar segundo recargo por fecha', page.text
 
         find('#ignore_second_recharge_label').click
+
+        # 500 + 10%
+        assert_match 'Restante: $550,00', page.text
 
         assert_match 'Ignorar recargo por fecha', page.text
 
