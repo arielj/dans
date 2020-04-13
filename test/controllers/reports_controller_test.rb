@@ -5,7 +5,7 @@ require 'test_helper'
 class ReportsControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
-  %w[installments payments].each do |report|
+  %w[installments payments receipts students_hours extra_klasses_students debts].each do |report|
     test "allows access to #{report} only to role 'admin'" do
       sign_in admins(:admin)
 
