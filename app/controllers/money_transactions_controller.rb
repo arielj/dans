@@ -16,7 +16,15 @@ class MoneyTransactionsController < ApplicationController
         ignore = :month if params[:ignore_month_recharge] == '1'
         ignore = :second if params[:ignore_second_recharge] == '1'
         ignore = :first if params[:ignore_recharge] == '1'
-        installment.create_payment installment_payment_attributes, ignore_recharge: ignore
+
+        # in case the person already paid something and we want to change the
+        # installment to paid after that
+        if installment.to_pay(ignore_recharge: ignore) == Money.new(0) && installment.waiting?
+          installment.paid!
+          installment.payments.last
+        else
+          installment.create_payment installment_payment_attributes, ignore_recharge: ignore
+        end
       elsif params[:money_transaction][:payable_type] == 'Debt'
         debt = Debt.find(params[:money_transaction][:payable_id])
         debt.create_payment debt_payment_attributes

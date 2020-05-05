@@ -97,6 +97,69 @@ class AddingPaymentsTest < ApplicationSystemTestCase
     end
   end
 
+  test 'ignores recharge and set paid status if to_pay is 0' do
+    sign_in admins(:operator)
+
+    student = FactoryBot.create(:student)
+    klass = FactoryBot.create(:klass_with_schedules)
+
+    travel_to Time.zone.local(2020, 1, 1, 18, 0, 0) do
+      student.memberships.create(schedules: klass.schedules, amount: 500_00)
+    end
+
+    travel_to Time.zone.local(2020, 7, 1, 18, 0, 0) do
+      ins = student.installments.order(month: :asc).first
+      assert_equal Money.new(600_00), ins.to_pay
+
+      visit edit_person_path(student)
+
+      click_link 'Cuotas'
+
+      assert_selector "#installment_#{ins.id}"
+
+      within "#installment_#{ins.id}" do
+        click_link 'Agregar pago'
+      end
+
+      assert_selector '.modal #installment_payment'
+
+      within '.modal #installment_payment' do
+        fill_in 'money_transaction_amount', with: '500,00'
+        click_button 'Guardar'
+      end
+
+      assert_match 'Guardado', page.text
+
+      within "#installment_#{ins.id}" do
+        click_link 'Agregar pago'
+      end
+
+      assert_selector '.modal #installment_payment'
+
+      within '.modal #installment_payment' do
+        assert_match 'Restante: $100,00', page.text
+
+        assert_match 'Ignorar recargo a mes vencido', page.text
+
+        find('#ignore_month_recharge_label').click
+
+        assert_match 'Restante: $75,00', page.text
+
+        assert_match 'Ignorar segundo recargo por fecha', page.text
+
+        find('#ignore_second_recharge_label').click
+
+        assert_match 'Ignorar recargo por fecha', page.text
+
+        find('#ignore_recharge_label').click
+
+        assert_match 'Restante: $0,00', page.text
+
+        click_button 'Guardar'
+      end
+    end
+  end
+
   # it 'can add multiple payments at once' do
   #   log_in
 
