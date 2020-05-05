@@ -72,7 +72,9 @@ class Membership < ApplicationRecord
       next if ins.waiting? && !update_unpaid_installments
       next if !ins.waiting? && !update_paid_installments
 
-      if ins.amount_paid >= amount
+      aux = amount.is_a?(String) ? Money.new(amount.gsub(',', '').to_i) : amount
+
+      if ins.amount_paid > aux
         ins.status = :paid if ins.waiting?
       else
         ins.amount = amount
