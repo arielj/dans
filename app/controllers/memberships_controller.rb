@@ -30,11 +30,11 @@ class MembershipsController < ApplicationController
     @membership.update_unpaid_installments = true
     @membership.update_paid_installments = true
 
-    from = @membership.installments.first&.month
+    from = @membership.installments.order(month: :asc).first&.month
     from ||= Setting.fetch(:preselected_installments_month_from, :january)
     @membership.create_installments_from = from
 
-    to = @membership.installments.last&.month
+    to = @membership.installments.order(month: :asc).last&.month
     to ||= Setting.fetch(:preselected_installments_month_to, :december)
     @membership.create_installments_to = to
   end
