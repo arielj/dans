@@ -105,13 +105,14 @@ class Person < ApplicationRecord
     Installment.where(membership_id: mids).waiting
   end
 
-  def add_multi_payments(installment_ids, amount, ignore_recharge = {})
+  def add_multi_payments(installment_ids, amount, ignore_recharge = nil)
     amount = Money.new(amount.to_i * 100)
     return :no_amount if amount.cents.zero?
 
     installments = installments_for_multi_payments.where(id: installment_ids).order(month: :asc)
     return :no_installments_selected if installments.empty?
 
+    ignore_recharge ||= {}
     to_pay_total = 0
     installments.each do |ins|
       to_pay_total += ins.to_pay(ignore_recharge: ignore_recharge[ins.id.to_s])
