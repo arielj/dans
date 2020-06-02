@@ -103,9 +103,9 @@ class Installment < ApplicationRecord
     r3 = get_month_recharge
 
     case ignore
-    when :first, :all then 0
-    when :second then r1
-    when :month then r2.positive? ? r2 : r1
+    when :first, :all, 'first', 'all' then 0
+    when :second, 'second' then r1
+    when :month, 'month' then r2.positive? ? r2 : r1
     else
       if r3.positive?
         r3

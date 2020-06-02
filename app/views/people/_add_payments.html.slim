@@ -1,23 +1,36 @@
 = form_tag add_payments_person_path(person), method: :post, remote: true, id: 'add_payments' do
-  p = t(:select_installments_to_pay)
-  table
+  table.table
     thead
       tr
-        th = Installment.human_attribute_name(:person)
+        th
+        th Alumno/a
         th = Installment.human_attribute_name(:year)
         th = Installment.human_attribute_name(:month)
         th = Installment.human_attribute_name(:amount)
         th = Installment.human_attribute_name(:to_pay)
-        th
+        th Recargo
     tbody
       - @unpaid_installments.each do |ins|
         tr data-to-pay=ins.to_pay
+          td = check_box_tag 'installments_to_pay[]', ins.id, false, id: "installments_to_pay_#{ins.id}", data: { to_pay: ins.to_pay.to_s }
           td = ins.person.to_label
           td = ins.year
           td = ins.month_name
-          td = installment_amount(ins)
-          td = ins.to_pay
-          td = check_box_tag 'installments_to_pay[]', ins.id, false, id: "installments_to_pay_#{ins.id}", data: { to_pay: ins.to_pay.to_s }
+          td.amount = installment_amount(ins)
+          td.to_pay = ins.to_pay
+          td
+            - if ins.get_recharge.positive?
+              select name="ignore_recharge[#{ins.id}]" id="ignore_recharge_#{ins.id}" class='recharge'
+                - if ins.get_month_recharge.positive?
+                  option value='none' data-to-pay=ins.to_pay(ignore_recharge: :none) data-to-pay-s=installment_amount(ins, ignore_recharge: :none) Mes vencido
+
+                - if ins.get_second_recharge.positive?
+                  option value='month' data-to-pay=ins.to_pay(ignore_recharge: :month) data-to-pay-s=installment_amount(ins, ignore_recharge: :month) Segundo
+
+                - if ins.get_first_recharge.positive?
+                  option value='second' data-to-pay=ins.to_pay(ignore_recharge: :second) data-to-pay-s=installment_amount(ins, ignore_recharge: :second) Primero
+
+                option value='all' data-to-pay=ins.to_pay(ignore_recharge: :all) data-to-pay-s=installment_amount(ins, ignore_recharge: :all) Ignorar
   
   .form-group
     = label_tag :amount, Installment.human_attribute_name(:amount), class: 'form-label'

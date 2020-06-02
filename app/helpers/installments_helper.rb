@@ -27,11 +27,11 @@ module InstallmentsHelper
     end
   end
 
-  def installment_amount(ins)
+  def installment_amount(ins, ignore_recharge: :none)
     s = "$#{ins.amount}"
     if ins.paid_with_interests?
       s += " (+#{ins.amount_paid - ins.amount})"
-    elsif (r = ins.get_recharge).positive?
+    elsif (r = ins.get_recharge(ignore: ignore_recharge)).positive?
       s += " (+#{r})"
     end
     s

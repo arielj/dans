@@ -160,54 +160,70 @@ class AddingPaymentsTest < ApplicationSystemTestCase
     end
   end
 
-  # it 'can add multiple payments at once' do
-  #   log_in
+  test 'can add multiple payments at once' do
+    sign_in admins(:operator)
 
-  #   travel_to Time.zone.local(2020, 7, 1, 18, 0, 0) do
-  #     student = FactoryBot.create(:student)
-  #     family = FactoryBot.create(:student)
-  #     student.add_family_member(family)
+    travel_to Time.zone.local(2020, 7, 1, 18, 0, 0) do
+      student = FactoryBot.create(:student)
+      family = FactoryBot.create(:student, name: 'Jane')
+      student.add_family_member(family)
 
-  #     klass = FactoryBot.create(:klass_with_schedules)
-  #     student.memberships.create(schedules: klass.schedules, amount: 50_000)
-  #     family.memberships.create(schedules: klass.schedules, amount: 50_000)
+      klass = FactoryBot.create(:klass_with_schedules)
+      student.memberships.create(schedules: klass.schedules, amount: 50_000)
+      family.memberships.create(schedules: klass.schedules, amount: 50_000)
 
-  #     unpaid_installments_count = student.installments_for_multi_payments.size
+      unpaid_installments_count = student.installments_for_multi_payments.size
 
-  #     visit edit_person_path(student, tab: :memberships)
+      ins1 = student.installments.waiting.first
+      ins2 = family.installments.waiting.first
 
-  #     click_link I18n.t('add.payments')
+      visit edit_person_path(student, tab: :memberships)
 
-  #     within '.modal #add_payments' do
-  #       expect(page).to have_text I18n.t(:select_installments_to_pay)
+      click_link I18n.t('add.payments')
 
-  #       amount_field = find('#amount')
+      within '.modal #add_payments' do
+        amount_field = find('#amount')
 
-  #       expect(amount_field.value).to eq '0,00'
+        assert_equal amount_field.value, '0,00'
 
-  #       student.installments.waiting.each do |ins|
-  #         expect(page).to have_selector "#installments_to_pay_#{ins.id}"
-  #       end
+        student.installments.waiting.each do |ins|
+          assert_selector "#installments_to_pay_#{ins.id}"
+        end
 
-  #       family.installments.waiting.each do |ins|
-  #         expect(page).to have_selector "#installments_to_pay_#{ins.id}"
-  #       end
+        family.installments.waiting.each do |ins|
+          assert_selector "#installments_to_pay_#{ins.id}"
+        end
 
-  #       ins = student.installments.waiting.first
-  #       find(:css, "#installments_to_pay_#{ins.id}").set(true)
+        find(:css, "#installments_to_pay_#{ins1.id}").set(true)
+        find(:css, "#installments_to_pay_#{ins2.id}").set(true)
 
-  #       ins = family.installments.waiting.first
-  #       find(:css, "#installments_to_pay_#{ins.id}").set(true)
+        # checking two payments with value $500 and $100 recharge
+        assert_equal amount_field.value, '1200,00'
 
-  #       # checking two payments with value $500 and $100 recharge
-  #       expect(amount_field.value).to eq '1200,00'
+        find(:css, "#ignore_recharge_#{ins2.id}").select('Primero')
 
-  #       click_button I18n.t('save.payments')
-  #     end
+        # ignore one of the recharge
+        assert_equal amount_field.value, '1150,00'
 
-  #     expect(page).to have_text I18n.t('saved.payments')
+        find(:css, "#ignore_recharge_#{ins2.id}").select('Ignorar')
 
-  #     expect(student.installments_for_multi_payments.count).to eq(unpaid_installments_count - 2)
-  #   end
-  # end
+        # ignore one of the recharge
+        assert_equal amount_field.value, '1100,00'
+
+        click_button I18n.t('save.payments')
+      end
+
+      sleep(0.1) # somehow it's not waiting enough time to assert
+
+      assert_match I18n.t('saved.payments'), page.body
+
+      assert_equal student.installments_for_multi_payments.count, unpaid_installments_count - 2
+
+      ins1.reload
+      ins2.reload
+
+      assert ins1.paid_with_interests?
+      assert ins2.paid?
+    end
+  end
 end

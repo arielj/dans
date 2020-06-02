@@ -105,24 +105,27 @@ class Person < ApplicationRecord
     Installment.where(membership_id: mids).waiting
   end
 
-  def add_multi_payments(installment_ids, amount)
-    amount = T.let(Money.new(amount.to_i * 100), T.untyped)
+  def add_multi_payments(installment_ids, amount, ignore_recharge = {})
+    amount = Money.new(amount.to_i * 100)
     return :no_amount if amount.cents.zero?
 
-    ins = installments_for_multi_payments.where(id: installment_ids).order(month: :asc)
-    return :no_installments_selected if ins.empty?
+    installments = installments_for_multi_payments.where(id: installment_ids).order(month: :asc)
+    return :no_installments_selected if installments.empty?
 
-    to_pay = 0
-    to_pay += ins.map(&:to_pay).sum
-    return :excesive_amount if amount > to_pay
+    to_pay_total = 0
+    installments.each do |ins|
+      to_pay_total += ins.to_pay(ignore_recharge: ignore_recharge[ins.id.to_s])
+    end
+    return :excesive_amount if amount > to_pay_total
 
     rest = amount
     payments = []
-    ins.each do |installment|
+    installments.each do |ins|
       break if rest.zero?
 
-      paid_amount = installment.to_pay > rest ? rest : installment.to_pay
-      payments << installment.create_payment({ amount: paid_amount, description: 'cuota' })
+      to_pay = ins.to_pay(ignore_recharge: ignore_recharge[ins.id.to_s])
+      paid_amount = to_pay > rest ? rest : to_pay
+      payments << ins.create_payment({ amount: paid_amount, description: 'cuota' }, ignore_recharge: ignore_recharge[ins.id.to_s])
       rest -= paid_amount
     end
 
@@ -130,7 +133,7 @@ class Person < ApplicationRecord
   end
 
   def new_membership_amount_calculator(sch_ids, use_non_regular_fees = false)
-    fixed_total = T.let(Money.new(0), T.untyped)
+    fixed_total = Money.new(0)
     duration = 0
     discount = active_family? ? Setting.fetch('family_group_discount', '0') : 0
 
