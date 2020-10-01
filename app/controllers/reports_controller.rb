@@ -79,13 +79,14 @@ class ReportsController < ApplicationController
 
   def extra_klasses_students
     @year = (params[:year] || DateTime.current.year).to_i
+    @month = params[:month] || Installment.months_for_select[DateTime.current.month - 1].last
     @klasses = Klass.where.not(fixed_fee_cents: 0)
     @data = {}
     @totals = {}
     @klasses.each do |klass|
       @data[klass.id] = { regular: 0, non_regular: 0 }
       @totals[klass.id] = { regular: Money.new(0), non_regular: Money.new(0) }
-      ms = klass.memberships_for_year(@year)
+      ms = klass.memberships_for_year_and_month(@year, @month)
       ms.each do |m|
         if m.use_non_regular_fee
           @data[klass.id][:non_regular] += 1

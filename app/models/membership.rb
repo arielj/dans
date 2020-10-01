@@ -56,6 +56,10 @@ class Membership < ApplicationRecord
     end
   end
 
+  def installments_for_month(month)
+    installments.where(month: month)
+  end
+
   private
 
   def create_installments_on_create
