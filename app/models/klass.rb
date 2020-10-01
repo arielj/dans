@@ -41,7 +41,7 @@ class Klass < ApplicationRecord
   def memberships_for_year_and_month(year, month)
     mids = installments.where(year: year, month: month).pluck('distinct(installments.membership_id)')
 
-    Membership.where(id: mids)
+    Membership.where(id: mids, person_id: Person.active.pluck(:id))
   end
 
   def toggle_active
