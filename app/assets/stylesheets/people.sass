@@ -94,6 +94,21 @@ body.c_people
               margin: 0
               list-style: none
               font-size: .7rem
+          td
+            position: relative
+            .memberships-tooltip
+              position: absolute
+              top: 0
+              left: 100%
+              z-index: 1
+              display: none
+              background: whitesmoke
+              padding: .2rem
+              border: 1px solid black
+              li
+                white-space: nowrap
+            &:hover .memberships-tooltip
+              display: block
 
   &.a_new_teacher, &.a_new_student, &.a_create
     main

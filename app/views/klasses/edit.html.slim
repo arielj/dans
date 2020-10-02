@@ -12,7 +12,8 @@ h1 #{t('edit.klass')}: #{klass.name}
     => t('students')
     = "(#{@students.count})"
   = form_tag '', method: :get do
-    => select_tag :year, options_for_select((2012..DateTime.current.year).to_a.reverse.map(&:to_s), params[:year]), class: 'form-select'
+    => select_tag :year, options_for_select((2012..DateTime.current.year).to_a.reverse.map(&:to_s), @year), class: 'form-select'
+    => select_tag :month, options_for_select(Installment.months_for_select, @month), class: 'form-select'
     => button_tag t('labels.filter'), name: :button, value: :filter, class: :btn
     => button_tag t('labels.export'), name: :button, value: :export, class: :btn, formaction: export_students_klass_path(klass)
 

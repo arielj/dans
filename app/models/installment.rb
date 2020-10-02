@@ -5,7 +5,12 @@ class Installment < ApplicationRecord
   include Payable
   belongs_to :membership
   has_one :person, through: :membership
-  has_many :klasses, through: :membership
+  has_many :membership_klasses, class_name: "Klass", through: :membership, source: :klasses
+  has_and_belongs_to_many :klasses
+
+  def get_klasses
+    klasses.present? ? klasses : membership_klasses
+  end
 
   enum month: %i[january february march april may june july august september october november december]
 

@@ -28,7 +28,9 @@ class KlassesController < ApplicationController
   end
 
   def edit
-    @students = klass.students_for_year(params[:year] || DateTime.current.year)
+    @year = (params[:year] || DateTime.current.year).to_i
+    @month = params[:month] || Installment.months_for_select[DateTime.current.month - 1].last
+    @students = klass.students_for_year_and_month(@year, @month)
   end
 
   def update

@@ -52,7 +52,7 @@ class Membership < ApplicationRecord
     to = Installment.month_num(to) - 1
 
     (from..to).each do |m|
-      installments.create year: year, month: m, amount: amount
+      installments.create year: year, month: m, amount: amount, klasses: klasses
     end
   end
 
@@ -85,6 +85,7 @@ class Membership < ApplicationRecord
         ins.status = :waiting
       end
 
+      ins.klasses = klasses if ins.waiting?
       ins.save(validate: false)
     end
   end

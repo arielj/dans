@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_15_033503) do
+ActiveRecord::Schema.define(version: 2020_10_02_020133) do
 
   create_table "admins", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -50,6 +50,13 @@ ActiveRecord::Schema.define(version: 2020_03_15_033503) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["membership_id"], name: "index_installments_on_membership_id"
+  end
+
+  create_table "installments_klasses", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|
+    t.bigint "installment_id", null: false
+    t.bigint "klass_id", null: false
+    t.index ["installment_id", "klass_id"], name: "index_installments_klasses_on_installment_id_and_klass_id"
+    t.index ["klass_id", "installment_id"], name: "index_installments_klasses_on_klass_id_and_installment_id"
   end
 
   create_table "klasses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|
@@ -180,7 +187,7 @@ ActiveRecord::Schema.define(version: 2020_03_15_033503) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci", force: :cascade do |t|
     t.string "item_type", limit: 191, null: false
     t.bigint "item_id", null: false
     t.string "event", null: false

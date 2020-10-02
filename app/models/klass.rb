@@ -12,8 +12,9 @@ class Klass < ApplicationRecord
 
   has_many :schedules
   has_many :memberships, through: :schedules
-  has_many :installments, through: :memberships
   has_many :students, through: :memberships
+  has_and_belongs_to_many :installments
+  has_many :memberships_installments, class_name: 'Installment', through: :memberships, source: :installments
 
   has_and_belongs_to_many :teachers, class_name: 'Person', join_table: :klasses_teachers, association_foreign_key: :teacher_id
 
@@ -27,21 +28,34 @@ class Klass < ApplicationRecord
     memberships.to_a + packages.map(&:memberships).flatten
   end
 
+  def get_installments
+    installments.present? ? installments : memberships_installments
+  end
+
   def students
     pids = get_memberships.map(&:person_id)
     Person.where(id: pids)
   end
 
   def students_for_year(year)
-    pids = installments.where(year: year).pluck('distinct(person_id)')
+    pids = get_installments.includes(:membership).where(year: year).pluck('distinct(person_id)')
 
     Person.where(id: pids).active
   end
 
-  def memberships_for_year_and_month(year, month)
-    mids = installments.where(year: year, month: month).pluck('distinct(installments.membership_id)')
+  def students_for_year_and_month(year, month)
+    pids = get_installments.includes(:membership).where(year: year, month: month).pluck('distinct(person_id)')
 
-    Membership.where(id: mids, person_id: Person.active.pluck(:id))
+    Person.where(id: pids).active
+  end
+
+
+  def memberships_for_year_and_month(year, month)
+    paid_mids = get_installments.not_waiting.where(year: year, month: month).pluck('distinct(installments.membership_id)')
+    waiting_mids = get_installments.waiting.where(year: year, month: month).pluck('distinct(installments.membership_id)')
+
+    # only count active persons for unpaid installments
+    Membership.where(id: paid_mids).or(Membership.where(id: waiting_mids, person_id: Person.active.pluck(:id)))
   end
 
   def toggle_active

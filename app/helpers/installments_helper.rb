@@ -4,7 +4,10 @@ module InstallmentsHelper
   def installment_tr(ins)
     content_tag(:tr, class: 'installment', id: "installment_#{ins.id}") do
       concat(content_tag(:td, ins.year))
-      concat(content_tag(:td, ins.month_name))
+      concat(content_tag(:td) do
+        concat(ins.month_name)
+        concat(installment_memberships_tooltip(ins))
+      end)
       concat(content_tag(:td, installment_amount(ins)))
       concat(content_tag(:td, t("payment_status.#{ins.status}"), class: :payments))
       concat(content_tag(:td) do
@@ -35,6 +38,14 @@ module InstallmentsHelper
       s += " (+#{r})"
     end
     s
+  end
+
+  def installment_memberships_tooltip(ins)
+    content_tag 'ul', class: 'memberships-tooltip' do
+      ins.get_klasses.each do |klass|
+        concat(content_tag('li', klass.name))
+      end
+    end
   end
 
   # use a helper methods instead of a partial, it's faster
