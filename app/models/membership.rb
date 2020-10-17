@@ -2,6 +2,10 @@
 # frozen_string_literal: true
 
 class Membership < ApplicationRecord
+  # if membership klasses changes after this day number, update installments starting next month
+  # else, update installments starting current month
+  INSTALLMENTS_UPDATE_KLASSES_DAY = 25
+
   has_paper_trail
 
   monetize :amount_cents, numericality: false
@@ -71,7 +75,15 @@ class Membership < ApplicationRecord
   def update_installments_on_update
     months_range = Installment.months[@create_installments_from]..Installment.months[@create_installments_to]
 
-    installments.each do |ins|
+    installments.includes(:klasses).each do |ins|
+      date_comp = DateTime.new(DateTime.current.year, ins.month_before_type_cast + 1, 1) + INSTALLMENTS_UPDATE_KLASSES_DAY.days
+
+      # if current day is more than 25, change from next month and on
+      # if current day is less than 25, change from current month and on
+      if ins.klasses != klasses.uniq && DateTime.current < date_comp
+        ins.klasses = klasses.uniq
+      end
+
       next unless months_range.include?(ins.month_before_type_cast)
       next if ins.waiting? && !update_unpaid_installments
       next if !ins.waiting? && !update_paid_installments
@@ -85,7 +97,6 @@ class Membership < ApplicationRecord
         ins.status = :waiting
       end
 
-      ins.klasses = klasses if ins.waiting?
       ins.save(validate: false)
     end
   end
