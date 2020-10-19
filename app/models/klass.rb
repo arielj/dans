@@ -37,16 +37,18 @@ class Klass < ApplicationRecord
     Person.where(id: pids)
   end
 
-  def students_for_year(year)
+  def students_for_year(year, inactive: false)
     pids = get_installments.includes(:membership).where(year: year).pluck('distinct(person_id)')
 
-    Person.where(id: pids).active
+    scope = Person.where(id: pids)
+    inactive ? scope.inactive : scope.active
   end
 
-  def students_for_year_and_month(year, month)
+  def students_for_year_and_month(year, month, inactive: false)
     pids = get_installments.includes(:membership).where(year: year, month: month).pluck('distinct(person_id)')
 
-    Person.where(id: pids).active
+    scope = Person.where(id: pids)
+    inactive ? scope.inactive : scope.active
   end
 
 
