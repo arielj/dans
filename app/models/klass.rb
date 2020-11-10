@@ -38,6 +38,8 @@ class Klass < ApplicationRecord
   end
 
   def students_for_year(year, inactive: false)
+    return Person.none if get_installments.empty?
+
     pids = get_installments.includes(:membership).where(year: year).pluck('distinct(person_id)')
 
     scope = Person.where(id: pids)
@@ -45,6 +47,8 @@ class Klass < ApplicationRecord
   end
 
   def students_for_year_and_month(year, month, inactive: false)
+    return Person.none if get_installments.empty?
+
     pids = get_installments.includes(:membership).where(year: year, month: month).pluck('distinct(person_id)')
 
     scope = Person.where(id: pids)
