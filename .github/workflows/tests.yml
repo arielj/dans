@@ -81,7 +81,9 @@ jobs:
       #     fi
 
       - name: Setup DB
-        run: bin/rails db:test:prepare
+        run: |
+          cp config/ci.database.yml config/database.yml
+          bin/rails db:test:prepare
 
       - name: Run Rails Tests
         run: |
