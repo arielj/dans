@@ -61,7 +61,9 @@ jobs:
     #       ${{ runner.os }}-assets-
 
     - name: Bundle Install
-      run: bundle install --path vendor/bundle --jobs 4 --retry 3
+      run: |
+        gem install bundler:2.0.2
+        bundle install --path vendor/bundle --jobs 4 --retry 3
 
     - name: Yarn Install
       run: bin/rails yarn:install
