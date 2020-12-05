@@ -1,6 +1,6 @@
 test:
   adapter: postgresql
-  database: dans_tests
+  database: test
   user: postgres
   port: 5432
-  password: postgres
+  password: password
