@@ -80,17 +80,14 @@ jobs:
       #       echo "No need to compile assets."
       #     fi
 
-      - name: Setup DB
-        run: |
-          cp config/ci.database.yml config/database.yml
-          bin/rails db:test:prepare
-
-      - name: Run Rails Tests
+      - name: Setup DB and Run Rails Tests
         env:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:password@localhost:5432/test
           PG_USER: postgres
         run: |
+          cp config/ci.database.yml config/database.yml
+          bin/rails db:test:prepare
           bin/rails test
           bin/rails test:system
 
