@@ -28,7 +28,7 @@ jobs:
           ruby-version: 2.6.5
 
       - name: Setup Node 14
-        uses: ruby/setup-node@v1
+        uses: actions/setup-node@v1
         with:
           node-version: 14.x
 
