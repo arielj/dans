@@ -63,7 +63,7 @@ jobs:
     - name: Bundle Install
       run: |
         gem install bundler:2.0.2
-        bundle install --path vendor/bundle --jobs 4 --retry 3
+        bundle install --jobs 4 --retry 3
 
     - name: Yarn Install
       run: bin/rails yarn:install
