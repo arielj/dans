@@ -1,6 +1,5 @@
 test:
-  adapter: postgresql
+  adapter: mysql2
   database: test
-  user: postgres
-  port: 5432
-  password: password
+  user: root
+  password: 1234

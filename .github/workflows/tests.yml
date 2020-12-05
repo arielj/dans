@@ -11,15 +11,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:12
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-        ports: ['5432:5432']
 
     steps:
+      - uses: getong/mariadb-action@v1.1
+        with:
+          collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
+          mysql root password: 1234 # Required if "mysql user" is empty, default is empty. The root superuser password
+
       - uses: actions/checkout@master
 
       - name: Setup Ruby 2.6.5
@@ -87,7 +85,7 @@ jobs:
           PG_USER: postgres
         run: |
           cp config/ci.database.yml config/database.yml
-          bin/rails db:test:prepare
+          bin/rails db:schema:load
           bin/rails test
           bin/rails test:system
 
