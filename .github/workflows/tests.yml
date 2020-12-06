@@ -1,0 +1,126 @@
+name: Run Tests
+
+on:
+  pull_request:
+    branches:
+      - '*'
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      # How to use MySQL
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Setup Ruby 2.6.5
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6.5
+
+      - name: Setup Node 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - name: Get Yarn Cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache Node Modules
+        id: node-modules-cache
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Cache Gems
+        id: gem-cache
+        uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gem-
+
+      # - name: Cache Assets
+      #   id: assets-cache
+      #   uses: actions/cache@v1
+      #   with:
+      #     path: public/packs-test
+      #     key: ${{ runner.os }}-assets-${{ steps.extract_branch.outputs.branch }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-assets-
+
+      - name: Bundle Install
+        run: |
+          gem install bundler:2.0.2
+          bundle install --path vendor/bundle --jobs 4 --retry 3
+
+      - name: Yarn Install
+        run: bin/rails yarn:install
+
+      # - name: Compile Assets
+      #   shell: bash
+      #   run: |
+      #     if [[ ! -d public/packs-test ]]; then
+      #       bundle exec rails webpacker:compile
+      #     else
+      #       echo "No need to compile assets."
+      #     fi
+
+      - name: Verify MySQL connection from host
+        run: |
+          sudo apt-get install -y mysql-client libmysqlclient-dev
+          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports[3306] }} -uroot -proot -e "SHOW DATABASES"
+
+      - name: Setup DB
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: mysql2://root:root@127.0.0.1:${{ job.services.mysql.ports[3306] }}/test
+
+        run: |
+          bin/rails db:create
+          bin/rails db:schema:load
+
+      - name: Test
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: mysql2://root:root@127.0.0.1:${{ job.services.mysql.ports[3306] }}/test
+
+        run: |
+          bin/rails test
+
+      - name: System Test
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: mysql2://root:root@127.0.0.1:${{ job.services.mysql.ports[3306] }}/test
+
+        run: |
+          bin/rails test:system
+
+      # - name: Zeitwerk Check
+      #   run: bundle exec rails zeitwerk:check
+
+      # - name: StandardRB Check
+      #   run: bundle exec standardrb --format progress
+
+      # - name: ERB Lint
+      #   run: bundle exec erblint app/views_redesigned/**/*.html.erb
+
+      # - name: Prettier-Standard Check
+      #   run: yarn run --ignore-engines prettier-standard --check 'app/**/*.js'
