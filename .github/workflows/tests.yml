@@ -23,11 +23,6 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-      - uses: getong/mariadb-action@v1.1
-        with:
-          collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
-          mysql root password: 1234 # Required if "mysql user" is empty, default is empty. The root superuser password
-
       - uses: actions/checkout@master
 
       - name: Setup Ruby 2.6.5
