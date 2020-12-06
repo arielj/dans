@@ -1,5 +1,5 @@
 test:
   adapter: mysql2
   database: test
-  user: root
-  password: 1234
+  username: root
+  password: root
