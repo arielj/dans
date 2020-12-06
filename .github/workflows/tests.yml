@@ -19,7 +19,7 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: root
         ports:
-        - 3306
+          - 3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
@@ -85,13 +85,16 @@ jobs:
 
       - name: Verify MySQL connection from host
         run: |
-          sudo apt-get install -y mysql-client libmysqlclient-dev
+          apt-get install -y mysql-client libmysqlclient-dev
+          mysql --host mysql -uroot -proot -e "SHOW DATABASES"
+
           mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports[3306] }} -uroot -proot -e "SHOW GRANTS FOR 'root'@'localhost'"
           mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports[3306] }} -uroot -proot mysql
 
       - name: Setup DB and Run Rails Tests
         env:
           RAILS_ENV: test
+          BATABASE_PORT: ${{ job.services.mysql.ports[3306] }}
         run: |
           cp config/ci.database.yml config/database.yml
           bin/rails db:schema:load

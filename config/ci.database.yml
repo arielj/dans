@@ -4,4 +4,4 @@ test:
   username: root
   password: root
   host: mysql
-  port: 3306
+  port: <%= ENV["DATABASE_PORT"] %>
