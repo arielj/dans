@@ -84,13 +84,14 @@ jobs:
       - name: Verify MySQL connection from host
         run: |
           sudo apt-get install -y mysql-client libmysqlclient-dev
-          mysql --host 127.0.0.1 -uroot -proot -e "SHOW DATABASES"
+          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports[3306] }} -uroot -proot -e "SHOW DATABASES"
 
       - name: Setup DB and Run Rails Tests
         env:
           RAILS_ENV: test
         run: |
           cp config/ci.database.yml config/database.yml
+          bundle exec rails runner "puts ActiveRecord::Base.connection.current_database"
           bin/rails db:schema:load
           bin/rails test
           bin/rails test:system
