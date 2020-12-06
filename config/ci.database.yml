@@ -4,4 +4,4 @@ test:
   username: root
   password: root
   host: 127.0.0.1
-  port: <%= ENV["DATABASE_PORT"] %>
+  port: 32768
