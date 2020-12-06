@@ -3,5 +3,5 @@ test:
   database: test
   username: root
   password: root
-  host: mysql
+  host: 127.0.0.1
   port: <%= ENV["DATABASE_PORT"] %>
