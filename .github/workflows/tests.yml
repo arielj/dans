@@ -91,7 +91,7 @@ jobs:
       - name: Setup DB and Run Rails Tests
         env:
           RAILS_ENV: test
-          DATABASE_URL: DATABASE_URL=mysql2://root:root@127.0.0.1:${{ job.services.mysql.ports[3306] }}/test
+          DATABASE_URL: mysql2://root:root@127.0.0.1:${{ job.services.mysql.ports[3306] }}/test
 
         run: |
           bin/rails db:create
