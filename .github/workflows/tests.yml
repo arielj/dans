@@ -91,9 +91,9 @@ jobs:
       - name: Setup DB and Run Rails Tests
         env:
           RAILS_ENV: test
+          DATABASE_URL: DATABASE_URL=mysql2://root:root@127.0.0.1:${{ job.services.mysql.ports[3306] }}/test
+
         run: |
-          cp config/ci.database.yml config/database.yml
-          bundle exec rails runner "puts ActiveRecord::Base.connection.current_database"
           bin/rails db:schema:load
           bin/rails test
           bin/rails test:system
