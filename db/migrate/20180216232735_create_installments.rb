@@ -1,4 +1,3 @@
-# typed: true
 class CreateInstallments < ActiveRecord::Migration[5.1]
   def change
     create_table :installments do |t|

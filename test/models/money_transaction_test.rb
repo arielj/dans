@@ -1,4 +1,3 @@
-# typed: strong
 require 'test_helper'
 
 class MoneyTransactionTest < ActiveSupport::TestCase

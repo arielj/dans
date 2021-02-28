@@ -1,4 +1,3 @@
-# typed: true
 class CreateMoneyTransactions < ActiveRecord::Migration[5.1]
   def change
     create_table :money_transactions do |t|

@@ -38,10 +38,6 @@ gem 'vanilla_nested', '~> 1.2' # dynamic nested forms
 gem 'prawn'
 gem 'prawn-table'
 
-gem 'sorbet', group: :development
-gem 'sorbet-rails'
-gem 'sorbet-runtime'
-
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'

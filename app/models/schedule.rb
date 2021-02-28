@@ -1,4 +1,3 @@
-# typed: true
 # frozen_string_literal: true
 
 class Schedule < ApplicationRecord
@@ -57,7 +56,7 @@ class Schedule < ApplicationRecord
   end
 
   def day_name
-    I18n.t('date.day_names')[Schedule.days[T.must(day)]]
+    I18n.t('date.day_names')[Schedule.days[day]]
   end
 
   # returns schedule intervals separated by 30 minutes:

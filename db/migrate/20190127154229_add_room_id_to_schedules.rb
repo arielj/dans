@@ -1,4 +1,3 @@
-# typed: false
 class AddRoomIdToSchedules < ActiveRecord::Migration[5.2]
   def self.up
     remove_column :schedules, :room

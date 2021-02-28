@@ -1,4 +1,3 @@
-# typed: true
 class CreateMembershipsSchedules < ActiveRecord::Migration[5.1]
   def change
     create_table :memberships_schedules, id: false do |t|

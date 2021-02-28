@@ -1,4 +1,3 @@
-# typed: false
 FactoryBot.define do
   factory :membership do
     amount_cents { 10_000 }

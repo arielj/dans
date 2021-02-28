@@ -1,4 +1,3 @@
-# typed: true
 class CreatePackagesSchedules < ActiveRecord::Migration[6.0]
   def change
     create_table :packages_schedules do |t|

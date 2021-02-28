@@ -1,4 +1,3 @@
-# typed: true
 # frozen_string_literal: true
 
 class OldUser < OldRecord
@@ -9,7 +8,7 @@ class OldUser < OldRecord
   def to_new
     puts "User #{id}"
 
-    g = T.must(male).zero? ? :female : :male
+    g = male.zero? ? :female : :male
     t = is_teacher == 1
     s = inactive == 1 ? 0 : 1
 

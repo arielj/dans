@@ -1,4 +1,3 @@
-# typed: true
 # frozen_string_literal: true
 
 class OldDebt < OldRecord
@@ -7,7 +6,7 @@ class OldDebt < OldRecord
   def to_new
     puts "Debt #{id}"
 
-    Debt.create! id: id, status: status, amount_cents: T.must(amount) * 100,
+    Debt.create! id: id, status: status, amount_cents: amount * 100,
                  person_id: user_id, description: description, created_at: date
   end
 end

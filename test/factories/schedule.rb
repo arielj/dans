@@ -1,4 +1,3 @@
-# typed: false
 FactoryBot.define do
   factory :schedule do
     from_time { '12:30' }

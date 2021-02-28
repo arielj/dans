@@ -1,4 +1,3 @@
-# typed: true
 # frozen_string_literal: true
 
 class Person < ApplicationRecord
@@ -39,7 +38,7 @@ class Person < ApplicationRecord
   end
 
   def gender_num
-    Person.genders[T.must(gender)]
+    Person.genders[gender]
   end
 
   def name=(value)

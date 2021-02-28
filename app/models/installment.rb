@@ -1,4 +1,3 @@
-# typed: true
 # frozen_string_literal: true
 
 class Installment < ApplicationRecord
@@ -47,7 +46,7 @@ class Installment < ApplicationRecord
   end
 
   def self.month_num(month_sym)
-    T.must(Installment.months[T.must(month_sym)]) + 1
+    Installment.months[month_sym] + 1
   end
 
   def self.month_sym(month_num)

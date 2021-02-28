@@ -1,4 +1,3 @@
-# typed: strict
 %w(
   .ruby-version
   .rbenv-vars
