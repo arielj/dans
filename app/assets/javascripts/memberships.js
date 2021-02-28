@@ -7,6 +7,11 @@ function refreshAmount(form) {
     if (nonRegularFeeInput.checked)
       schedulesIds = schedulesIds + "&use_non_regular_fee=1"
 
+  this.feesWithDiscountInput = byid('membership_use_fees_with_discount');
+  if (feesWithDiscountInput)
+    if (feesWithDiscountInput.checked)
+      schedulesIds = schedulesIds + "&use_fees_with_discount=1"
+
   getJSON(form.dataset.autoPriceUrl, {
     data: schedulesIds,
     success: function(resp) {
@@ -48,6 +53,11 @@ function bindMembershipForm() {
 
   this.nonRegularFeeInput = byid('membership_use_non_regular_fee');
   this.nonRegularFeeInput.addEventListener('change', e => {
+    refreshAmount(this.form);
+  })
+
+  this.feesWithDiscountInput = byid('membership_use_fees_with_discount');
+  this.feesWithDiscountInput.addEventListener('change', e => {
     refreshAmount(this.form);
   })
 }

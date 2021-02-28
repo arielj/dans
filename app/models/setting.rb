@@ -26,21 +26,23 @@ class Setting < ApplicationRecord
     cache[k] = value
   end
 
-  def self.get_hours_fees
+  def self.get_all_hours_fees
     fetch('hour_fees', {})
   end
 
-  def self.set_hours_fee(hours, fee)
+  def self.set_hours_fees(hours, fees)
     aux = hours == hours.to_i ? hours.to_i : hours
-    fees = get_hours_fees
-    fees[aux.to_s] = fee
-    set('hour_fees', fees)
+    all_fees = get_all_hours_fees
+    all_fees[aux.to_s] = fees
+    set('hour_fees', all_fees)
   end
 
-  def self.get_hours_fee(hours)
+  def self.get_hours_fee(hours, with_discount:)
     aux = hours == hours.to_i ? hours.to_i : hours
-    fees = get_hours_fees
-    fees[aux.to_s]
+    fees = get_all_hours_fees
+    fees = fees[aux.to_s] || []
+    fees = [fees] unless fees.is_a?(Array)
+    with_discount ? fees[1] : fees[0]
   end
 
   def self.opened_range

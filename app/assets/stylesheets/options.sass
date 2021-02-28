@@ -3,7 +3,7 @@
 body.c_settings.a_options
   & > main > form
     display: grid
-    grid-template: 'configuration hourly_fees' 1fr 'actions actions' auto
+    grid-template: 'configuration hourly_fees' 1fr 'actions actions' auto / 1fr 500px
     grid-gap: 1rem
     overflow: hidden
     flex: 0px 1 1
@@ -19,6 +19,9 @@ body.c_settings.a_options
 
     .hourly_fees
       grid-area: hourly_fees
+      table
+        td, td input
+          max-width: 150px
 
     & > .actions
       grid-area: actions

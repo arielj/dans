@@ -238,8 +238,8 @@ GEM
     slim (4.0.1)
       temple (>= 0.7.6, < 0.9)
       tilt (>= 2.0.6, < 2.1)
-    sorbet (0.5.5453)
-      sorbet-static (= 0.5.5453)
+    sorbet (0.5.6305)
+      sorbet-static (= 0.5.6305)
     sorbet-coerce (0.2.4)
       polyfill (~> 1.8)
       safe_type (~> 1.1, >= 1.1.1)
@@ -252,7 +252,14 @@ GEM
       sorbet-coerce (>= 0.2.4)
       sorbet-runtime (>= 0.5)
     sorbet-runtime (0.5.5453)
-    sorbet-static (0.5.5453-universal-darwin-14)
+    sorbet-static (0.5.6305-universal-darwin-14)
+    sorbet-static (0.5.6305-universal-darwin-15)
+    sorbet-static (0.5.6305-universal-darwin-16)
+    sorbet-static (0.5.6305-universal-darwin-17)
+    sorbet-static (0.5.6305-universal-darwin-18)
+    sorbet-static (0.5.6305-universal-darwin-19)
+    sorbet-static (0.5.6305-universal-darwin-20)
+    sorbet-static (0.5.6305-x86_64-linux)
     spring (2.1.0)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -346,4 +353,4 @@ RUBY VERSION
    ruby 2.6.5p114
 
 BUNDLED WITH
-   2.0.2
+   2.2.11

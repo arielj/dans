@@ -6,7 +6,9 @@ FactoryBot.define do
 
     factory :klass_with_schedules do
       after(:build) do |k|
-        3.times { k.schedules << FactoryBot.build(:schedule) }
+        k.schedules << FactoryBot.build(:schedule, from_time: '12:30', to_time: '13:30')
+        k.schedules << FactoryBot.build(:schedule, from_time: '13:30', to_time: '14:30')
+        k.schedules << FactoryBot.build(:schedule, from_time: '14:30', to_time: '15:30')
       end
     end
   end

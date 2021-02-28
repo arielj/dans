@@ -29,14 +29,17 @@
         thead.thead-dark
           tr
             th= t('labels.options.hours')
-            th= t('labels.options.value')
+            th= t('labels.options.value_without_discount')
+            th= t('labels.options.value_with_discount')
         tbody
           - @fees.keys.sort_by(&:to_f).each do |k|
-            - v = @fees[k]
-            - next if v.blank?
+            - next if @fees[k].blank?
+            - v1 = @fees[k][0]
+            - v2 = @fees[k][1]
             tr
               td= k
-              td= number_field_tag "key[hour_fees][#{k}]", v, id: "fee_#{k}"
+              td= number_field_tag "key[hour_fees][#{k}][]", v1, id: "fee_#{k}"
+              td= number_field_tag "key[hour_fees][#{k}][]", v2, id: "fee_#{k}"
   
   .actions
     = submit_tag t('save.options'), class: 'btn btn-primary'

@@ -13,26 +13,26 @@
   Setting.set k, v
 end
 
-Setting.set_hours_fee 1, 100
-Setting.set_hours_fee 1.5, 150
-Setting.set_hours_fee 2, 200
-Setting.set_hours_fee 2.5, 250
-Setting.set_hours_fee 3, 300
-Setting.set_hours_fee 3.5, 350
-Setting.set_hours_fee 4, 400
-Setting.set_hours_fee 4.5, 450
-Setting.set_hours_fee 5, 500
-Setting.set_hours_fee 5.5, 550
-Setting.set_hours_fee 6, 600
-Setting.set_hours_fee 6.5, 650
-Setting.set_hours_fee 7, 700
-Setting.set_hours_fee 7.5, 750
-Setting.set_hours_fee 8, 800
-Setting.set_hours_fee 8.5, 850
-Setting.set_hours_fee 9, 900
-Setting.set_hours_fee 9.5, 950
-Setting.set_hours_fee 10, 1000
-Setting.set_hours_fee 10.5, 1050
+Setting.set_hours_fees 1, [100, 90]
+Setting.set_hours_fees 1.5, [150, 135]
+Setting.set_hours_fees 2, [200, 180]
+Setting.set_hours_fees 2.5, [250, 225]
+Setting.set_hours_fees 3, [300, 270]
+Setting.set_hours_fees 3.5, [350, 325]
+Setting.set_hours_fees 4, [400, 360]
+Setting.set_hours_fees 4.5, [450, 405]
+Setting.set_hours_fees 5, [500, 450]
+Setting.set_hours_fees 5.5, [550, 495]
+Setting.set_hours_fees 6, [600, 550]
+Setting.set_hours_fees 6.5, [650, 595]
+Setting.set_hours_fees 7, [700, 630]
+Setting.set_hours_fees 7.5, [750, 685]
+Setting.set_hours_fees 8, [800, 720]
+Setting.set_hours_fees 8.5, [850, 765]
+Setting.set_hours_fees 9, [900, 810]
+Setting.set_hours_fees 9.5, [950, 855]
+Setting.set_hours_fees 10, [1000, 900]
+Setting.set_hours_fees 10.5, [1050, 995]
 
 Admin.create!(
   email: 'admin@test.com',

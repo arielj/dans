@@ -4,6 +4,8 @@
 class Klass < ApplicationRecord
   monetize :fixed_fee_cents, allow_nil: true
   monetize :non_regular_fee_cents, allow_nil: true
+  monetize :fixed_fee_with_discount_cents, allow_nil: true
+  monetize :non_regular_fee_with_discount_cents, allow_nil: true
 
   has_many :schedules, inverse_of: :klass, dependent: :destroy
   accepts_nested_attributes_for :schedules, reject_if: :all_blank, allow_destroy: true

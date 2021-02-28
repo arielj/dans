@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_02_020133) do
+ActiveRecord::Schema.define(version: 2021_02_27_235434) do
 
   create_table "admins", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -67,6 +67,8 @@ ActiveRecord::Schema.define(version: 2020_10_02_020133) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "non_regular_fee_cents"
+    t.integer "fixed_fee_with_discount_cents", default: 0
+    t.integer "non_regular_fee_with_discount_cents", default: 0
     t.index ["teacher_id"], name: "index_klasses_on_teacher_id"
   end
 
@@ -94,6 +96,7 @@ ActiveRecord::Schema.define(version: 2020_10_02_020133) do
     t.integer "amount_cents", default: 0, null: false
     t.boolean "use_custom_amount", default: false
     t.boolean "use_non_regular_fee"
+    t.boolean "use_fees_with_discount", default: false, comment: "Use alternative fee with discount"
     t.index ["package_id"], name: "index_memberships_on_package_id"
     t.index ["person_id"], name: "index_memberships_on_person_id"
   end

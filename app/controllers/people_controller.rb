@@ -70,7 +70,12 @@ class PeopleController < ApplicationController
   end
 
   def new_membership_calculator
-    calculation = person.new_membership_amount_calculator(params[:schedules_ids], params[:use_non_regular_fee] == '1')
+    calculation =
+      person.new_membership_amount_calculator(
+        params[:schedules_ids],
+        params[:use_non_regular_fee] == '1',
+        use_fees_with_discount: params[:use_fees_with_discount] == '1'
+      )
 
     render json: calculation.to_json
   end

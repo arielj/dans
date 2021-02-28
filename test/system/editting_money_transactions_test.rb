@@ -139,7 +139,7 @@ class EdittingMoneyTransactionsTest < ApplicationSystemTestCase
     find("#edit_payment_#{tran.id}").click
 
     within '.modal' do
-      assert_match 'Editar pago', page.text
+      assert_text 'Editar pago'
 
       fill_in 'Monto', with: 200
       fill_in 'Detalle', with: 'Test'

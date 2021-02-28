@@ -104,7 +104,7 @@ class AddingPaymentsTest < ApplicationSystemTestCase
     klass = FactoryBot.create(:klass_with_schedules)
 
     travel_to Time.zone.local(2020, 1, 1, 18, 0, 0) do
-      student.memberships.create(schedules: klass.schedules, amount: 500_00)
+      student.memberships.create(schedules: klass.schedules, amount: 500_00, use_fees_with_discount: false)
     end
 
     travel_to Time.zone.local(2020, 7, 1, 18, 0, 0) do

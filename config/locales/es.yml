@@ -207,6 +207,8 @@ es:
     options:
       hours: Horas
       value: Valor
+      value_with_discount: Valor (con descuento)
+      value_without_discount: Valor (sin descuento)
     people:
       search: Buscar (nombre, apellido, dni)
       activate: Activar
@@ -294,6 +296,8 @@ es:
         name: Nombre
         non_regular_fee: 'Precio alumnos/as no regulares'
         fixed_fee: 'Precio alumnos/as regulares'
+        non_regular_fee_with_discount: 'Precio no regulares (con descuent)'
+        fixed_fee_with_discount: 'Precio regulares (con descuento)'
         status: Estado
         schedules: Horarios
         info: Información
@@ -304,6 +308,7 @@ es:
         update_unpaid_installments: Actualizar cuotas no pagadas
         use_custom_amount: Usar monto manual (con la casilla desmarcada se usa el valor calculado)
         use_non_regular_fee: Usar precios de alumnos/as no regulares
+        use_fees_with_discount: Usar precios con descuento
       money_transaction:
         amount: Monto
         date: Fecha

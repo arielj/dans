@@ -62,7 +62,8 @@ class MembershipsController < ApplicationController
     params
       .require_typed(:membership, TA[ActionController::Parameters].new)
       .permit(:person_id, :amount, :use_custom_amount, :create_installments_from,
-              :create_installments_to, :use_non_regular_fee, schedule_ids: [])
+              :create_installments_to, :use_non_regular_fee, :use_fees_with_discount,
+              schedule_ids: [])
   end
 
   def update_membership_params
@@ -70,6 +71,7 @@ class MembershipsController < ApplicationController
       .require_typed(:membership, TA[ActionController::Parameters].new)
       .permit(:amount, :use_custom_amount, :create_installments_from,
               :update_unpaid_installments, :update_paid_installments,
-              :create_installments_to, :use_non_regular_fee, schedule_ids: [])
+              :create_installments_to, :use_non_regular_fee,
+              :use_fees_with_discount, schedule_ids: [])
   end
 end

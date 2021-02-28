@@ -4,3 +4,7 @@ require "test_helper"
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   driven_by :selenium, using: :chrome, screen_size: [1400, 1400]
 end
+
+def click_checkbox(id)
+  find(id).find(:xpath, "..").click
+end
