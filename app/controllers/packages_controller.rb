@@ -67,14 +67,10 @@ class PackagesController < ApplicationController
   private
 
   def create_package_params
-    params
-      .require_typed(:package, TA[ActionController::Parameters].new)
-      .permit(:name, :fee, schedule_ids: [])
+    params.require(:package).permit(:name, :fee, schedule_ids: [])
   end
 
   def update_package_params
-    params
-      .require_typed(:package, TA[ActionController::Parameters].new)
-      .permit(:name, :fee, schedule_ids: [])
+    params.require(:package).permit(:name, :fee, schedule_ids: [])
   end
 end

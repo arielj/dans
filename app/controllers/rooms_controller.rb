@@ -52,8 +52,6 @@ class RoomsController < ApplicationController
   private
 
   def room_params
-    params
-      .require_typed(:room, TA[ActionController::Parameters].new)
-      .permit(:name)
+    params.require(:room).permit(:name)
   end
 end

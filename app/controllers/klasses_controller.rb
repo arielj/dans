@@ -85,7 +85,7 @@ class KlassesController < ApplicationController
 
   def create_klass_params
     params
-      .require_typed(:klass, TA[ActionController::Parameters].new)
+      .require(:klass)
       .permit(:name, :status, :fixed_fee, :non_regular_fee, :fixed_fee_with_discount,
               :non_regular_fee_with_discount, teacher_ids: [],
               schedules_attributes: %i[id from_time to_time day room_id _destroy])
@@ -93,7 +93,7 @@ class KlassesController < ApplicationController
 
   def update_klass_params
     params
-      .require_typed(:klass, TA[ActionController::Parameters].new)
+      .require(:klass)
       .permit(:name, :status, :fixed_fee, :non_regular_fee, :fixed_fee_with_discount,
               :non_regular_fee_with_discount, teacher_ids: [],
               schedules_attributes: %i[id from_time to_time day room_id _destroy])

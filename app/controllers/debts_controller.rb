@@ -19,6 +19,6 @@ class DebtsController < ApplicationController
   end
 
   def add_payment_attributes
-    params.require_typed(:payment, TA[ActionController::Parameters].new).permit(:amount, :description)
+    params.require(:payment).permit(:amount, :description)
   end
 end

@@ -111,31 +111,31 @@ class MoneyTransactionsController < ApplicationController
 
   def create_transaction_params
     params
-      .require_typed(:money_transaction, TA[ActionController::Parameters].new)
+      .require(:money_transaction)
       .permit(:amount, :description, :done)
   end
 
   def update_transaction_params
     params
-      .require_typed(:money_transaction, TA[ActionController::Parameters].new)
+      .require(:money_transaction)
       .permit(:amount, :description, :done)
   end
 
   def installment_payment_attributes
     params
-      .require_typed(:money_transaction, TA[ActionController::Parameters].new)
+      .require(:money_transaction)
       .permit(:amount, :description, :done, :paid_at)
   end
 
   def debt_payment_attributes
     params
-      .require_typed(:money_transaction, TA[ActionController::Parameters].new)
+      .require(:money_transaction)
       .permit(:amount, :description, :paid_at)
   end
 
   def create_person_transaction_params
     params
-      .require_typed(:money_transaction, TA[ActionController::Parameters].new)
+      .require(:money_transaction)
       .permit(:amount, :description, :person_id)
   end
 end
