@@ -8,6 +8,8 @@ class SettingsTest < ApplicationSystemTestCase
   driven_by :selenium, using: :headless_chrome
 
   test 'adds fees per hours' do
+    Setting.set('hour_fees', {})
+
     sign_in admins(:operator)
 
     Setting.set_hours_fees(0.5, [50, 45])
