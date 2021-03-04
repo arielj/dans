@@ -46,7 +46,7 @@ class PeopleController < ApplicationController
   end
 
   def update
-    if person.update_attributes(update_person_params)
+    if person.update(update_person_params)
       flash[:notice] = tg("saved.#{person.type}", person.gender)
     else
       flash[:error] = 'Error'

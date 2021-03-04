@@ -31,7 +31,7 @@ class PackagesController < ApplicationController
   end
 
   def update
-    updated = package.update_attributes(update_package_params)
+    updated = package.update(update_package_params)
     respond_to do |format|
       format.html do
         if updated

@@ -45,7 +45,7 @@ class KlassesController < ApplicationController
   end
 
   def update
-    updated = klass.update_attributes(update_klass_params)
+    updated = klass.update(update_klass_params)
     respond_to do |format|
       format.html do
         if updated
