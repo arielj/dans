@@ -36,7 +36,7 @@
             - next if @fees[k].blank?
             - v1 = @fees[k][0]
             - v2 = @fees[k][1]
-            tr
+            tr data-hours=k
               td= k
               td= number_field_tag "key[hour_fees][#{k}][]", v1, id: "fee_#{k}"
               td= number_field_tag "key[hour_fees][#{k}][]", v2, id: "fee_#{k}"

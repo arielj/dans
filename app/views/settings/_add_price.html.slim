@@ -1,7 +1,9 @@
 form#add_price_form
   .form-group.form-inline>
-    input.hours.form-input type="number" placeholder=t('hours') step='0.5'
+    input.hours.form-input type="number" placeholder=t('labels.options.hours') step='0.5'
   .form-group.form-inline>
-    input.value.form-input type="number" placeholder=t('value')
+    input.value_without_discount.form-input type="number" placeholder=t('labels.options.value_without_discount')
+  .form-group.form-inline>
+    input.value_with_discount.form-input type="number" placeholder=t('labels.options.value_with_discount')
   .modal-footer
     button.btn.btn-primary type='submit' = t('add.label')
