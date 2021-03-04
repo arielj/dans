@@ -143,7 +143,7 @@ class Person < ApplicationRecord
       kls = sch.klass
       f = use_fees_with_discount ? kls.fixed_fee_with_discount : kls.fixed_fee
       if use_non_regular_fees && kls.non_regular_fee
-        f = use_fees_with_discount ? kls.non_regular_fee : kls.non_regular_fee_with_discount
+        f = use_fees_with_discount ? kls.non_regular_fee_with_discount : kls.non_regular_fee
       end
 
       if f&.positive?
