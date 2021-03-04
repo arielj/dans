@@ -7,7 +7,7 @@ end
 
 ruby '2.6.5'
 gem 'mysql2'
-gem 'puma', '4.3.3'
+gem 'puma', '4.3.5'
 gem 'rails', '~> 6.0'
 gem 'sassc-rails'
 gem 'sqlite3'
