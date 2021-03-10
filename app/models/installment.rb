@@ -2,6 +2,8 @@
 
 class Installment < ApplicationRecord
   include Payable
+  monetize :amount_with_discount_cents
+
   belongs_to :membership
   has_one :person, through: :membership
   has_many :membership_klasses, class_name: "Klass", through: :membership, source: :klasses
@@ -58,7 +60,7 @@ class Installment < ApplicationRecord
     Date.new(year, month_num, day.to_i)
   end
 
-  def get_month_recharge
+  def get_month_recharge(with_discount: false)
     return 0 if paid?
 
     month_recharge_value = Setting.fetch(:month_recharge_value, nil)
@@ -66,10 +68,10 @@ class Installment < ApplicationRecord
     return 0 if month_recharge_value.nil?
     return 0 unless date < DateTime.current.beginning_of_month.to_date
 
-    _calculate_recharge(month_recharge_value)
+    _calculate_recharge(month_recharge_value, with_discount: with_discount)
   end
 
-  def get_first_recharge
+  def get_first_recharge(with_discount: false)
     return 0 if paid?
 
     after_day = Setting.fetch(:recharge_after_day, nil)
@@ -78,10 +80,10 @@ class Installment < ApplicationRecord
     return 0 if after_day.nil? || recharge_value.nil?
     return 0 unless DateTime.current.to_date > date(after_day)
 
-    _calculate_recharge(recharge_value)
+    _calculate_recharge(recharge_value, with_discount: with_discount)
   end
 
-  def get_second_recharge
+  def get_second_recharge(with_discount: false)
     return 0 if paid?
 
     after_day = Setting.fetch(:second_recharge_after_day, nil)
@@ -90,21 +92,23 @@ class Installment < ApplicationRecord
     return 0 if after_day.nil? || recharge_value.nil?
     return 0 unless DateTime.current.to_date > date(after_day)
 
-    _calculate_recharge(recharge_value)
+    _calculate_recharge(recharge_value, with_discount: with_discount)
   end
 
-  def _calculate_recharge(rval)
+  def _calculate_recharge(rval, with_discount: false)
+    aux = with_discount ? amount_with_discount : amount
+
     case rval
-    when /\A\d+%\z/ then amount * rval[0..-1].to_i / 100
+    when /\A\d+%\z/ then aux * rval[0..-1].to_i / 100
     when /\A\d+\z/ then rval.to_i
     else 0
     end
   end
 
-  def get_recharge(ignore: false)
-    r1 = get_first_recharge
-    r2 = get_second_recharge
-    r3 = get_month_recharge
+  def get_recharge(ignore: false, with_discount: false)
+    r1 = get_first_recharge(with_discount: with_discount)
+    r2 = get_second_recharge(with_discount: with_discount)
+    r3 = get_month_recharge(with_discount: with_discount)
 
     case ignore
     when :first, :all, 'first', 'all' then 0
@@ -121,21 +125,22 @@ class Installment < ApplicationRecord
     end
   end
 
-  def total(ignore_recharge: false)
-    amount + get_recharge(ignore: ignore_recharge)
+  def total(ignore_recharge: false, with_discount: false)
+    aux = with_discount ? amount_with_discount : amount
+    aux + get_recharge(ignore: ignore_recharge, with_discount: with_discount)
   end
 
-  def to_pay(ignore_recharge: false)
+  def to_pay(ignore_recharge: false, with_discount: false)
     return 0 if paid? || paid_with_interests?
 
-    total(ignore_recharge: ignore_recharge) - amount_paid
+    total(ignore_recharge: ignore_recharge, with_discount: with_discount) - amount_paid
   end
 
-  def create_payment(attrs, ignore_recharge: false)
+  def create_payment(attrs, ignore_recharge: false, with_discount: false)
     payment = MoneyTransaction.new attrs
     payment.person = person
     payment.done = false
-    rest = to_pay(ignore_recharge: ignore_recharge)
+    rest = to_pay(ignore_recharge: ignore_recharge, with_discount: with_discount)
     if payment.amount > rest
       payment.errors.add(:base, :amount_too_high)
     else

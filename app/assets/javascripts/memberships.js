@@ -7,27 +7,22 @@ function refreshAmount(form) {
     if (nonRegularFeeInput.checked)
       schedulesIds = schedulesIds + "&use_non_regular_fee=1"
 
-  this.feesWithDiscountInput = byid('membership_use_fees_with_discount');
-  if (feesWithDiscountInput)
-    if (feesWithDiscountInput.checked)
-      schedulesIds = schedulesIds + "&use_fees_with_discount=1"
-
   getJSON(form.dataset.autoPriceUrl, {
     data: schedulesIds,
     success: function(resp) {
       const div = form.qs('.auto_calculation');
       let s = '';
       if (resp.fixedTotal !== "0,00")
-        s += `Precio clases fijas: $${resp.fixedTotal}<br />`;
+        s += `Precio clases fijas: $${resp.fixedTotal} (o $${resp.fixedTotalWithDiscount})<br />`;
 
       if (resp.durationTotal !== "0,00")
-        s += `Precio por ${resp.duration}hs: $${resp.durationTotal}<br />`;
+        s += `Precio por ${resp.duration}hs: $${resp.durationTotal} (o $${resp.durationTotalWithDiscount})<br />`;
 
-      s += `Subtotal: $${resp.subtotal}<br />`;
+      s += `Subtotal: $${resp.subtotal} (o $${resp.subtotalWithDiscount})<br />`;
       if (resp.discountTotal !== '0,00')
-        s += `Descuento por grupo familiar (${resp.discount}): $${resp.discountTotal}<br />`;
+        s += `Descuento por grupo familiar (${resp.discount}): $${resp.discountTotal} (o $${resp.discountTotalWithDiscount})<br />`;
 
-      s += `Total: $${resp.total}`;
+      s += `Total: $${resp.total} (o $${resp.totalWithDiscount})`;
       div.innerHTML = s;
     }
   });
@@ -53,11 +48,6 @@ function bindMembershipForm() {
 
   this.nonRegularFeeInput = byid('membership_use_non_regular_fee');
   this.nonRegularFeeInput.addEventListener('change', e => {
-    refreshAmount(this.form);
-  })
-
-  this.feesWithDiscountInput = byid('membership_use_fees_with_discount');
-  this.feesWithDiscountInput.addEventListener('change', e => {
     refreshAmount(this.form);
   })
 }

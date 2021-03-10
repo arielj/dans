@@ -7,21 +7,16 @@
 
   - amounts = membership.amounts
   .auto_calculation
-    | Precio clases fijas: $#{amounts[:fixedTotal]}
+    | Precio clases fijas: $#{amounts[:fixedTotal]} (o $#{amounts[:fixedTotalWithDiscount]})
     br
-    | Precio por #{amounts[:duration]}hs: $#{amounts[:durationTotal]}
+    | Precio por #{amounts[:duration]}hs: $#{amounts[:durationTotal]} (o $#{amounts[:durationTotalWithDiscount]})
     br
-    | Subtotal: $#{amounts[:subtotal]}
+    | Subtotal: $#{amounts[:subtotal]} (o $#{amounts[:subtotalWithDiscount]})
     br
-    | Total: $#{amounts[:total]}
+    | Total: $#{amounts[:total]} (o $#{amounts[:totalWithDiscount]})
     - if membership.person.active_family? && Setting.family_group_discount != '0'
       br
-      | Descuento por grupo familiar (#{Setting.family_group_discount}): $#{amounts[:discount]}
-
-  = label_tag '', class: 'form-checkbox' do
-    = f.check_box :use_fees_with_discount
-    = Membership.human_attribute_name(:use_fees_with_discount)
-    i.form-icon
+      | Descuento por grupo familiar (#{Setting.family_group_discount}): $#{amounts[:discount]} (o $#{amounts[:discountWithDiscount]})
 
   = label_tag '', class: 'form-checkbox' do
     = f.check_box :use_non_regular_fee

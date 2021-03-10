@@ -8,7 +8,7 @@ class MembershipTest < ActiveSupport::TestCase
 
     # create membership with all installments
     travel_to Time.zone.local(2019, 1, 1, 18, 0, 0) do
-      student.memberships.create(schedules: klass.schedules, amount: 500_00)
+      student.memberships.create(schedules: klass.schedules, amount: 500, amount_with_discount: 400, use_custom_amount: true)
     end
 
     membership = student.memberships.first
@@ -18,6 +18,8 @@ class MembershipTest < ActiveSupport::TestCase
     # check that all installments has klass 1
     membership.installments.each do |ins|
       assert_equal ins.klasses.pluck(:id).uniq, [klass.id]
+      assert_equal Money.new(500_00), ins.amount
+      assert_equal Money.new(400_00), ins.amount_with_discount
     end
 
     # at june 26 update membership

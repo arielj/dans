@@ -8,6 +8,7 @@ class Membership < ApplicationRecord
   has_paper_trail
 
   monetize :amount_cents, numericality: false
+  monetize :amount_with_discount_cents, numericality: false
 
   belongs_to :person
   belongs_to :package, optional: true
@@ -46,18 +47,25 @@ class Membership < ApplicationRecord
     end
   end
 
-  def amounts
-    person.new_membership_amount_calculator(schedule_ids, use_non_regular_fee, use_fees_with_discount: use_fees_with_discount)
+  def amount_with_discount
+    if use_custom_amount
+      Money.new(self[:amount_with_discount_cents])
+    else
+      amounts[:totalWithDiscount]
+    end
   end
 
-  def create_installments(from, to, year, amount)
+  def amounts
+    @amounts ||= person.new_membership_amount_calculator(schedule_ids, use_non_regular_fee)
+  end
+
+  def create_installments(from, to, year, amount, amount_with_discount)
     from = Installment.month_num(from) - 1
     to = Installment.month_num(to) - 1
 
     (from..to).each do |m|
       next if installments.where(year: year, month: m).any?
-
-      installments.create year: year, month: m, amount: amount, klasses: klasses
+      installments.create year: year, month: m, amount: amount, amount_with_discount: amount_with_discount, klasses: klasses
     end
   end
 
@@ -70,7 +78,7 @@ class Membership < ApplicationRecord
   def create_installments_on_save
     from = @create_installments_from || :january
     to = @create_installments_to || :december
-    create_installments(from, to, DateTime.current.year, amount)
+    create_installments(from, to, DateTime.current.year, amount, amount_with_discount)
   end
 
   def update_installments_on_update

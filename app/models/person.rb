@@ -132,8 +132,9 @@ class Person < ApplicationRecord
     payments
   end
 
-  def new_membership_amount_calculator(sch_ids, use_non_regular_fees = false, use_fees_with_discount:)
+  def new_membership_amount_calculator(sch_ids, use_non_regular_fees = false)
     fixed_total = Money.new(0)
+    fixed_total_with_discount = Money.new(0)
     duration = 0
     discount = active_family? ? Setting.fetch('family_group_discount', '0') : 0
 
@@ -141,35 +142,52 @@ class Person < ApplicationRecord
 
     Schedule.where(id: sch_ids).joins(:klass).each do |sch|
       kls = sch.klass
-      f = use_fees_with_discount ? kls.fixed_fee_with_discount : kls.fixed_fee
+      f = kls.fixed_fee
+      f2 = kls.fixed_fee_with_discount
       if use_non_regular_fees && kls.non_regular_fee
-        f = use_fees_with_discount ? kls.non_regular_fee_with_discount : kls.non_regular_fee
+        f = kls.non_regular_fee
+        f2 = kls.non_regular_fee_with_discount
       end
 
       if f&.positive?
         unless fixed_fee_klasses_ids.include?(kls.id)
           fixed_fee_klasses_ids << kls.id
           fixed_total += f
+          fixed_total_with_discount += f2
         end
       else
         duration += sch.duration
       end
     end
 
-    duration_total = Money.new(Setting.get_hours_fee(duration, with_discount: use_fees_with_discount).to_i * 100)
+    duration_total = Money.new(Setting.get_hours_fee(duration, with_discount: false).to_i * 100)
     subtotal = fixed_total + duration_total
 
-    discount_total = case discount
-                     when /\A(\d+)%\z/ then subtotal / 100 * $1.to_f
-                     when /\A(\d+)\z/ then Money.new($1.to_i * 100)
-                     else Money.new(0)
-                     end
+    duration_total_with_discount = Money.new(Setting.get_hours_fee(duration, with_discount: true).to_i * 100)
+    subtotal_with_discount = fixed_total_with_discount + duration_total_with_discount
+
+    discount_total, discount_total2 =
+      case discount
+      when /\A(\d+)%\z/ then [subtotal / 100 * $1.to_f, subtotal_with_discount / 100 * $1.to_f]
+      when /\A(\d+)\z/ then [Money.new($1.to_i * 100), Money.new($1.to_i * 100)]
+      else [Money.new(0), Money.new(0)]
+      end
 
     total = subtotal - discount_total
+    total_with_discount = subtotal_with_discount - discount_total2
 
-    { fixedTotal: fixed_total.to_s, durationTotal: duration_total.to_s,
-      duration: duration, discount: discount, subtotal: subtotal.to_s,
-      discountTotal: discount_total.to_s, total: total.to_s }
+    { fixedTotal: fixed_total.to_s,
+      fixedTotalWithDiscount: fixed_total_with_discount.to_s,
+      durationTotal: duration_total.to_s,
+      durationTotalWithDiscount: duration_total_with_discount.to_s,
+      duration: duration,
+      discount: discount,
+      subtotal: subtotal.to_s,
+      subtotalWithDiscount: subtotal_with_discount.to_s,
+      discountTotal: discount_total.to_s,
+      discountTotalWithDiscount: discount_total2.to_s,
+      total: total.to_s,
+      totalWithDiscount: total_with_discount.to_s}
   end
 
   def missing_inscription?(year)

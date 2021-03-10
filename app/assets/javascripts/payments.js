@@ -13,11 +13,12 @@ function bindInstallmentPaymentForm(form) {
   let dateRechargeCheck = form.qs('#ignore_recharge')
   let secondDateRechargeCheck = form.qs('#ignore_second_recharge')
   let monthRechargeCheck = form.qs('#ignore_month_recharge')
+  let useAmountWithDiscount = form.qs('#use_amount_with_discount')
 
   if (dateRechargeCheck)
     dateRechargeCheck.addEventListener('change', e => {
       // update rest to pay
-      setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck)
+      setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck, useAmountWithDiscount)
     })
 
   if (secondDateRechargeCheck) {
@@ -25,7 +26,7 @@ function bindInstallmentPaymentForm(form) {
     secondDateRechargeCheck.addEventListener('change', e => {
       dateRechargeCheck.disabled = !secondDateRechargeCheck.checked
       // update rest to pay
-      setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck)
+      setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck, useAmountWithDiscount)
     })
   }
 
@@ -39,30 +40,43 @@ function bindInstallmentPaymentForm(form) {
       else if (dateRechargeCheck)
         dateRechargeCheck.disabled = !monthRechargeCheck.checked
       // update rest to pay
-      setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck)
+      setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck, useAmountWithDiscount)
+    })
+  }
+
+  if (useAmountWithDiscount) {
+    useAmountWithDiscount.addEventListener('change', _e => {
+      // update rest to pay
+      setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck, useAmountWithDiscount)
     })
   }
 }
 
-function setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck) {
+function setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck, useAmountWithDiscount) {
   // updates the rest to pay hint
   let newValue = parseFloat(toPayHint.dataset.amount)
+  let newValueWithDiscount = parseFloat(toPayHint.dataset.amountWithDiscount)
 
-  if (monthRechargeCheck && monthRechargeCheck.checked)
+  if (monthRechargeCheck && monthRechargeCheck.checked) {
     newValue = parseFloat(monthRechargeCheck.dataset.totalIgnoring)
+    newValueWithDiscount = parseFloat(monthRechargeCheck.dataset.totalIgnoringWithDiscount)
+  }
 
-  if (secondDateRechargeCheck && secondDateRechargeCheck.checked)
+  if (secondDateRechargeCheck && secondDateRechargeCheck.checked) {
     newValue = parseFloat(secondDateRechargeCheck.dataset.totalIgnoring)
+    newValueWithDiscount = parseFloat(secondDateRechargeCheck.dataset.totalIgnoringWithDiscount)
+  }
 
-  if (dateRechargeCheck && dateRechargeCheck.checked)
+  if (dateRechargeCheck && dateRechargeCheck.checked) {
     newValue = parseFloat(dateRechargeCheck.dataset.totalIgnoring)
+    newValueWithDiscount = parseFloat(dateRechargeCheck.dataset.totalIgnoringWithDiscount)
+  }
 
-  toPayHint.innerText = `$${newValue.toFixed(2).toString().replace('.', ',')}`
+  toPayHint.innerText = `$${newValue.toFixed(2).toString().replace('.', ',')} (o $${newValueWithDiscount.toFixed(2).toString().replace('.', ',')})`
 
   // cap the field value
-  let currentAmount = parseFloat(amountField.value.replace(',', '.'))
-  if (currentAmount > newValue)
-    amountField.value = newValue.toFixed(2).toString().replace('.', ',')
+  const valueToSet = useAmountWithDiscount.checked ? newValueWithDiscount : newValue
+  amountField.value = valueToSet.toFixed(2).toString().replace('.', ',')
 }
 
 function bindAddPaymentsForm(form) {
