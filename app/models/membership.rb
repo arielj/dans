@@ -82,6 +82,8 @@ class Membership < ApplicationRecord
   end
 
   def update_installments_on_update
+    return if @create_installments_from.blank? || @create_installments_to.blank?
+
     months_range = Installment.months[@create_installments_from]..Installment.months[@create_installments_to]
 
     installments.includes(:klasses).each do |ins|
@@ -103,6 +105,7 @@ class Membership < ApplicationRecord
         ins.status = :paid if ins.waiting?
       else
         ins.amount = amount
+        ins.amount_with_discount = amount_with_discount
         ins.status = :waiting
       end
 
