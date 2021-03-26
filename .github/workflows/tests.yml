@@ -103,15 +103,14 @@ jobs:
           DATABASE_URL: mysql2://root:root@127.0.0.1:${{ job.services.mysql.ports[3306] }}/test
 
         run: |
-          bin/rails test
+          bin/rails test:all
 
-      - name: System Test
-        env:
-          RAILS_ENV: test
-          DATABASE_URL: mysql2://root:root@127.0.0.1:${{ job.services.mysql.ports[3306] }}/test
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-coverage-report
+          path: coverage
 
-        run: |
-          bin/rails test:system
 
       # - name: Zeitwerk Check
       #   run: bundle exec rails zeitwerk:check
