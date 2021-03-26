@@ -193,7 +193,7 @@ ActiveRecord::Schema.define(version: 2021_03_09_024904) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "versions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "versions", charset: "utf8mb4", collation: "utf8mb4_spanish_ci", force: :cascade do |t|
     t.string "item_type", limit: 191, null: false
     t.bigint "item_id", null: false
     t.string "event", null: false
