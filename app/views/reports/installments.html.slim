@@ -39,14 +39,14 @@ h1= t('titles.installments')
         th Monto
     
     - @installments.each do |ins|
-      - total += ins.total
+      - total += ins.waiting? ? ins.total : ins.amount_paid
       tr
         td= link_to ins.person.to_label, edit_person_path(ins.person)
         td= ins.year
         td= ins.month_name
         td= ins.klasses.map(&:name).join(' ; ')
         td
-          => installment_amount(ins)
+          => installment_paid_amount(ins)
           - unless ins.waiting?
             | (Pagada)
 

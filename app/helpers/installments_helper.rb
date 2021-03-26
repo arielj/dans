@@ -40,6 +40,12 @@ module InstallmentsHelper
     s
   end
 
+  def installment_paid_amount(ins, ignore_recharge: :none)
+    return "$#{ins.amount_paid}" unless ins.waiting?
+
+    return installment_amount(ins, ignore_recharge: ignore_recharge)
+  end
+
   def installment_memberships_tooltip(ins)
     content_tag 'ul', class: 'memberships-tooltip' do
       ins.get_klasses.each do |klass|
