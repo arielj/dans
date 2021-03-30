@@ -3,10 +3,6 @@
 require "application_system_test_case"
  
 class ManagingKlassesTest < ApplicationSystemTestCase
-  include Devise::Test::IntegrationHelpers
-
-  driven_by :selenium, using: :headless_chrome
-
   test 'can add teachers' do
     sign_in admins(:operator)
 

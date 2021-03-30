@@ -116,7 +116,13 @@ class ReportsController < ApplicationController
       ins = ins.where(membership_id: membership_ids)
     end
 
-    ins = ins.waiting unless params[:include_paid].present?
+    ins =
+      case params[:installment_state]
+      when 'paid' then ins.not_waiting
+      when 'waiting' then ins.waiting
+      else ins
+      end
+
     ins = ins.where(year: params[:year]) if params[:year].present?
     ins = ins.where(month: params[:month]) if params[:month].present?
     ins = ins.for_active_users unless params[:include_inactive_users].present?

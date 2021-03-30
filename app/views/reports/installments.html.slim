@@ -11,11 +11,10 @@ h1= t('titles.installments')
     .form-group
       = label_tag :month, 'Mes:', class: 'form-label'
       = select_tag :month,  options_for_select(Installment.months_for_select, params[:month]), prompt: 'Todos', class: 'form-input'
+    .form-group
+      = label_tag :installment_state, 'Estado:', class: 'form-label'
+      = select_tag :installment_state, options_for_select([['Pagadas', :paid], ['Pendientes', :waiting]], params[:installment_state]), prompt: 'Todas', class: 'form-input'
     .from-group
-      = label_tag '', class: 'form-check form-inline' do
-        = check_box_tag :include_paid, '1', params[:include_paid] == '1'
-        i.form-icon>
-        | Incluir cuotas pagadas
       = label_tag '', class: 'form-check form-inline' do
         = check_box_tag :include_inactive_users, '1', params[:include_inactive_users] == '1'
         i.form-icon>

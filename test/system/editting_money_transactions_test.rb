@@ -3,10 +3,6 @@
 require 'application_system_test_case'
 
 class EdittingMoneyTransactionsTest < ApplicationSystemTestCase
-  include Devise::Test::IntegrationHelpers
-
-  driven_by :selenium, using: :headless_chrome
-
   setup do
     sign_in admins(:operator)
   end

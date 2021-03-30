@@ -3,10 +3,6 @@
 require "application_system_test_case"
  
 class DashboardTest < ApplicationSystemTestCase
-  include Devise::Test::IntegrationHelpers
-
-  driven_by :selenium, using: :headless_chrome
-
   test 'can add daily cash movements' do
     sign_in admins(:operator)
 

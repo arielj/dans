@@ -1,10 +1,6 @@
 require "application_system_test_case"
 
 class AddingMembershipsTest < ApplicationSystemTestCase
-  include Devise::Test::IntegrationHelpers
-
-  driven_by :selenium, using: :headless_chrome
-
   test 'can calculate price with and without discount' do
     sign_in admins(:operator)
 

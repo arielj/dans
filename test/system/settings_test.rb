@@ -3,10 +3,6 @@
 require "application_system_test_case"
  
 class SettingsTest < ApplicationSystemTestCase
-  include Devise::Test::IntegrationHelpers
-
-  driven_by :selenium, using: :headless_chrome
-
   test 'adds fees per hours' do
     Setting.set('hour_fees', {})
 

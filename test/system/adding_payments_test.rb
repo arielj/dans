@@ -1,13 +1,11 @@
 require "application_system_test_case"
  
 class AddingPaymentsTest < ApplicationSystemTestCase
-  include Devise::Test::IntegrationHelpers
-
-  driven_by :selenium, using: :headless_chrome
+  setup do
+    sign_in admins(:operator)
+  end
 
   test 'can ignore the recharge' do
-    sign_in admins(:operator)
-
     student = FactoryBot.create(:student)
     klass = FactoryBot.create(:klass_with_schedules)
 
@@ -97,8 +95,6 @@ class AddingPaymentsTest < ApplicationSystemTestCase
   end
 
   test 'ignores recharge and set paid status if to_pay is 0' do
-    sign_in admins(:operator)
-
     student = FactoryBot.create(:student)
     klass = FactoryBot.create(:klass_with_schedules)
 
@@ -161,7 +157,6 @@ class AddingPaymentsTest < ApplicationSystemTestCase
 
   test 'can add multiple payments at once' do
     skip("flaky")
-    sign_in admins(:operator)
 
     travel_to Time.zone.local(2020, 7, 1, 18, 0, 0) do
       student = FactoryBot.create(:student)
