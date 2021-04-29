@@ -72,7 +72,9 @@ class PeopleController < ApplicationController
     calculation =
       person.new_membership_amount_calculator(
         params[:schedules_ids],
-        params[:use_non_regular_fee] == '1'
+        params[:use_non_regular_fee] == '1',
+        params[:use_manual_discount] == '1',
+        params[:manual_discount]
       )
 
     render json: calculation.to_json

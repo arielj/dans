@@ -308,6 +308,7 @@ es:
         update_unpaid_installments: Actualizar cuotas no pagadas
         update_paid_installments: Actualizar cuotas pagadas
         use_custom_amount: Usar monto manual (con la casilla desmarcada se usa el valor calculado)
+        use_manual_discount: Ingresar descuento a mano
         use_non_regular_fee: Usar precios de alumnos/as no regulares
         use_fees_with_discount: Usar precios con descuento
       money_transaction:

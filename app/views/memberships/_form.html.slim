@@ -7,30 +7,43 @@
 
   - amounts = membership.amounts
   .auto_calculation
-    | Precio clases fijas: $#{amounts[:fixedTotal]} (o $#{amounts[:fixedTotalWithDiscount]})
-    br
-    | Precio por #{amounts[:duration]}hs: $#{amounts[:durationTotal]} (o $#{amounts[:durationTotalWithDiscount]})
-    br
+    - if amounts[:fixedTotal] != '0,00'
+      | Precio clases fijas: $#{amounts[:fixedTotal]} (o $#{amounts[:fixedTotalWithDiscount]})
+      br
+    - if amounts[:durationTotal] != '0,00'
+      | Precio por #{amounts[:duration]}hs: $#{amounts[:durationTotal]} (o $#{amounts[:durationTotalWithDiscount]})
+      br
     | Subtotal: $#{amounts[:subtotal]} (o $#{amounts[:subtotalWithDiscount]})
-    br
-    | Total: $#{amounts[:total]} (o $#{amounts[:totalWithDiscount]})
+
     - if membership.person.active_family? && Setting.family_group_discount != '0'
       br
-      | Descuento por grupo familiar (#{Setting.family_group_discount}): $#{amounts[:discount]} (o $#{amounts[:discountWithDiscount]})
-
-  = label_tag '', class: 'form-checkbox' do
-    = f.check_box :use_non_regular_fee
-    = Membership.human_attribute_name(:use_non_regular_fee)
-    i.form-icon
+      | Descuento por grupo familiar (#{Setting.family_group_discount}): $#{amounts[:family_discount]} (o $#{amounts[:discountWithDiscount]})
 
   = label_tag '', class: 'form-checkbox' do
     = f.check_box :use_custom_amount
     = Membership.human_attribute_name(:use_custom_amount)
     i.form-icon
 
-  .input-group.hidden
+  .input-group class="#{f.object.use_custom_amount ? "" : "hidden"}"
     span.input-group-addon $
-    = f.text_field :amount, value: '', class: 'form-input amount-input', placeholder: 'Monto manual'
+    = f.text_field :amount, class: 'form-input amount-input', placeholder: 'Monto manual'
+
+  #use_calculated_amount class="#{f.object.use_custom_amount ? "hidden" : ""}"
+    = label_tag '', class: 'form-checkbox' do
+      = f.check_box :use_non_regular_fee
+      = Membership.human_attribute_name(:use_non_regular_fee)
+      i.form-icon
+
+    = label_tag '', class: 'form-checkbox' do
+      = f.check_box :use_manual_discount
+      = Membership.human_attribute_name(:use_manual_discount)
+      i.form-icon
+
+    .input-group class="#{f.object.use_manual_discount ? "" : "hidden"}"
+      = f.text_field :manual_discount, value: "#{f.object.manual_discount}%", class: 'form-input', placeholder: '0%'
+
+    .auto_calculation_total
+      | Total: $#{amounts[:total]} (o $#{amounts[:totalWithDiscount]})
 
   .form-group
     => f.label :create_installments_from

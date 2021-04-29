@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_09_024904) do
+ActiveRecord::Schema.define(version: 2021_04_29_023243) do
 
   create_table "admins", charset: "utf8mb4", collation: "utf8mb4_spanish_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -100,6 +100,8 @@ ActiveRecord::Schema.define(version: 2021_03_09_024904) do
     t.boolean "use_non_regular_fee"
     t.boolean "use_fees_with_discount", default: false, comment: "Use alternative fee with discount"
     t.integer "amount_with_discount_cents", default: 0, comment: "Price of the membership using discount values"
+    t.boolean "use_manual_discount", default: false, comment: "Indicates if the membership was added with a custom discount value"
+    t.integer "manual_discount", comment: "The % for the manually added discount"
     t.index ["package_id"], name: "index_memberships_on_package_id"
     t.index ["person_id"], name: "index_memberships_on_person_id"
   end
@@ -193,7 +195,7 @@ ActiveRecord::Schema.define(version: 2021_03_09_024904) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "versions", charset: "utf8mb4", collation: "utf8mb4_spanish_ci", force: :cascade do |t|
+  create_table "versions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "item_type", limit: 191, null: false
     t.bigint "item_id", null: false
     t.string "event", null: false

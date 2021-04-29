@@ -62,6 +62,7 @@ class MembershipsController < ApplicationController
       .require(:membership)
       .permit(:person_id, :amount, :use_custom_amount, :create_installments_from,
               :create_installments_to, :use_non_regular_fee, :use_fees_with_discount,
+              :use_manual_discount, :manual_discount,
               schedule_ids: [])
   end
 
@@ -71,6 +72,7 @@ class MembershipsController < ApplicationController
       .permit(:amount, :use_custom_amount, :create_installments_from,
               :update_unpaid_installments, :update_paid_installments,
               :create_installments_to, :use_non_regular_fee,
+              :use_manual_discount, :manual_discount,
               :use_fees_with_discount, schedule_ids: [])
   end
 end

@@ -132,11 +132,11 @@ class Person < ApplicationRecord
     payments
   end
 
-  def new_membership_amount_calculator(sch_ids, use_non_regular_fees = false)
+  def new_membership_amount_calculator(sch_ids, use_non_regular_fees = false, use_manual_discount = false, manual_discount = '')
     fixed_total = Money.new(0)
     fixed_total_with_discount = Money.new(0)
     duration = 0
-    discount = active_family? ? Setting.fetch('family_group_discount', '0') : 0
+    family_discount = active_family? ? Setting.fetch('family_group_discount', '0') : 0
 
     fixed_fee_klasses_ids = []
 
@@ -166,12 +166,19 @@ class Person < ApplicationRecord
     duration_total_with_discount = Money.new(Setting.get_hours_fee(duration, with_discount: true).to_i * 100)
     subtotal_with_discount = fixed_total_with_discount + duration_total_with_discount
 
+    family_discount = family_discount.to_i
+      # case family_discount
+      # when /\A(\d+)%\z/ then $1.to_f
+      # # when /\A(\d+)\z/ then $1.to_i * 100
+      # else 0
+      # end
+
+    manual_discount = use_manual_discount ? manual_discount.to_i : 0
+
+    total_discount = family_discount + manual_discount
+
     discount_total, discount_total2 =
-      case discount
-      when /\A(\d+)%\z/ then [subtotal / 100 * $1.to_f, subtotal_with_discount / 100 * $1.to_f]
-      when /\A(\d+)\z/ then [Money.new($1.to_i * 100), Money.new($1.to_i * 100)]
-      else [Money.new(0), Money.new(0)]
-      end
+      [subtotal / 100 * total_discount, subtotal_with_discount / 100 * total_discount]
 
     total = subtotal - discount_total
     total_with_discount = subtotal_with_discount - discount_total2
@@ -181,7 +188,9 @@ class Person < ApplicationRecord
       durationTotal: duration_total.to_s,
       durationTotalWithDiscount: duration_total_with_discount.to_s,
       duration: duration,
-      discount: discount,
+      familyDiscount: family_discount,
+      manualDiscount: manual_discount,
+      discount: total_discount,
       subtotal: subtotal.to_s,
       subtotalWithDiscount: subtotal_with_discount.to_s,
       discountTotal: discount_total.to_s,

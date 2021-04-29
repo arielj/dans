@@ -18,13 +18,13 @@ class AddingMembershipsTest < ApplicationSystemTestCase
     klass2.schedules.build(from_time: '15:30', to_time: '13:30', room: room, day: 3)
     klass2.schedules.build(from_time: '16:30', to_time: '16:30', room: room, day: 4)
     klass2.save!
-    
+
     visit edit_person_path(student)
-    
+
     click_link 'Cuotas'
-    
+
     click_on 'Agregar paquete'
-    
+
     within '#new_membership' do
       click_checkbox("#membership_schedule_ids_#{klass1.schedules.first.id}")
       assert_text 'Precio por 1hs: $100,00 (o $90,00)'
@@ -35,12 +35,19 @@ class AddingMembershipsTest < ApplicationSystemTestCase
       click_checkbox("#membership_schedule_ids_#{klass2.schedules.second.id}")
       assert_text 'Precio clases fijas: $110,00 (o $100,00)'
 
+      assert_text 'Total: $300,00 (o $270,00)'
+
+      click_checkbox("#membership_use_manual_discount")
+      fill_in :membership_manual_discount, with: '10%'
+
+      assert_text 'Total: $270,00 (o $243,00)'
+
       click_button 'Guardar paquete'
     end
 
     m = student.memberships.last
-    # 190 + 110
-    assert_equal '300,00', m.amount
-    assert_equal '270,00', m.amount_with_discount
+    # 190 + 110 - 10%
+    assert_equal '270,00', m.amount
+    assert_equal '243,00', m.amount_with_discount
   end
 end
