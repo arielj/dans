@@ -28,7 +28,7 @@ class KlassesController < ApplicationController
 
   def edit
     @year = (params[:year] || DateTime.current.year).to_i
-    @month = params[:month] || ""
+    @month = params[:month] || Date::MONTHNAMES[Date.today.month].downcase
     @students =
       if @month.blank?
         klass.students_for_year(@year)
