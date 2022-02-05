@@ -25,4 +25,20 @@ class DashboardTest < ApplicationSystemTestCase
       assert_selector 'td', text: '100,00'
     end
   end
+
+  test 'can add notes' do
+    sign_in admins(:operator)
+
+    visit root_path
+
+    within_frame do
+      find_by_id("tinymce").set("Some notes")
+    end
+
+    click_button 'Guardar notas'
+
+    assert_selector '.toast', text: 'Guardado'
+
+    assert_equal Setting.fetch(:notes, ''), '<p>Some notes</p>'
+  end
 end

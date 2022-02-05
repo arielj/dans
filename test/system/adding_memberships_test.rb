@@ -38,8 +38,7 @@ class AddingMembershipsTest < ApplicationSystemTestCase
       assert_text 'Total: $300,00 (o $270,00)'
 
       click_checkbox("#membership_use_manual_discount")
-      fill_in :membership_manual_discount, with: '10%'
-
+      find('#membership_manual_discount').set('10%')
       assert_text 'Total: $270,00 (o $243,00)'
 
       click_button 'Guardar paquete'
