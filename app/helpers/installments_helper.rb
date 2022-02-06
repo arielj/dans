@@ -41,6 +41,11 @@ module InstallmentsHelper
     s
   end
 
+  def installment_to_pay(ins, ignore_recharge: :none, with_discount: false)
+    a = ins.to_pay(ignore_recharge: ignore_recharge, with_discount: with_discount)
+    "$#{a}"
+  end
+
   def installment_paid_amount(ins, ignore_recharge: :none)
     return "$#{ins.amount_paid}" unless ins.waiting?
 

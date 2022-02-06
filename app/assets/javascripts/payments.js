@@ -84,34 +84,45 @@ function bindAddPaymentsForm(form) {
   this.checkboxes = form.qsa('input[type=checkbox][data-to-pay]')
   this.amountInput = form.qs('input[name=amount]')
   this.selects = form.qsa('select.recharge')
+  const rows = form.qsa('tr[data-to-pay]')
   const withDiscount = form.qs('#use_amount_with_discount')
 
   withDiscount.addEventListener('click', e => {
-    form.qsa('.recharge').forEach(select => {
-      updateRowOfSelect(select)
+    rows.forEach(tr => {
+      updateRow(tr)
     })
     this.recalculateAmount()
   })
 
-  const updateRowOfSelect = (select) => {
-    const tr = select.closest('tr')
-    const op = select.selectedOptions[0].dataset
+  const updateRow = (row) => {
+    const select = row.qs('select.recharge')
+    const checkbox = row.qs('input[type=checkbox]')
+
+    if (select) {
+      const op = select.selectedOptions[0].dataset
+      checkbox.dataset.toPayWithDiscount = op.toPayWithDiscount
+      checkbox.dataset.toPayWithDiscountS = op.toPayWithDiscountS
+      checkbox.dataset.toPay = op.toPay
+      checkbox.dataset.toPayS = op.toPayS
+    }
+    
+    const amount = row.qs('td.amount')
     if (withDiscount.checked) {
-      tr.qs('input[type=checkbox]').dataset.toPay = op.toPayWithDiscount
-      tr.qs('td.amount').innerText = op.toPayWithDiscountS
-      tr.qs('td.to_pay').innerText = op.toPayWithDiscount
+      amount.innerText = amount.dataset.amountWithDiscountS
+      row.qs('td.to_pay').innerText = checkbox.dataset.toPayWithDiscountS
     } else {
-      tr.qs('input[type=checkbox]').dataset.toPay = op.toPay
-      tr.qs('td.amount').innerText = op.toPayS
-      tr.qs('td.to_pay').innerText = op.toPay
+      amount.innerText = amount.dataset.amountS
+      row.qs('td.to_pay').innerText = checkbox.dataset.toPayS
     }
   }
 
   this.recalculateAmount = _ => {
     let total = 0
     this.checkboxes.forEach( check => {
-      if (check.checked)
-        total += parseFloat(check.dataset.toPay.replace(',', '.'))
+      if (check.checked) {
+        const amount = withDiscount.checked ? check.dataset.toPayWithDiscount : check.dataset.toPay
+        total += parseFloat(amount.replace(',', '.'))
+      }
     })
 
     this.amountInput.value = total.toFixed(2).replace('.', ',')
@@ -125,7 +136,7 @@ function bindAddPaymentsForm(form) {
 
   this.selects.forEach( select => {
     select.addEventListener('change', e => {
-      updateRowOfSelect(select)
+      updateRow(select.closest('tr'))
 
       this.recalculateAmount()
     })

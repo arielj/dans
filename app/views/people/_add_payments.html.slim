@@ -16,12 +16,12 @@
     tbody
       - @unpaid_installments.each do |ins|
         tr data-to-pay=ins.to_pay data-to-pay-with-discount=ins.to_pay(with_discount: true)
-          td = check_box_tag 'installments_to_pay[]', ins.id, false, id: "installments_to_pay_#{ins.id}", data: { to_pay: ins.to_pay.to_s }
+          td = check_box_tag 'installments_to_pay[]', ins.id, false, id: "installments_to_pay_#{ins.id}", data: { to_pay: ins.to_pay.to_s, to_pay_with_discount: ins.to_pay(with_discount: true).to_s, to_pay_s: installment_to_pay(ins), to_pay_with_discount_s: installment_to_pay(ins, with_discount: true)}
           td = ins.person.to_label
           td = ins.year
           td = ins.month_name
-          td.amount = installment_amount(ins)
-          td.to_pay = ins.to_pay
+          td.amount data-amount=ins.amount data-amount-with-discount=ins.amount_with_discount data-amount-s=installment_amount(ins) data-amount-with-discount-s=installment_amount(ins, with_discount: true) = installment_amount(ins)
+          td.to_pay data-to-pay=installment_to_pay(ins) data-to-pay-with-discount=installment_to_pay(ins, with_discount: true) = installment_to_pay(ins)
           td
             - if ins.get_recharge.positive?
               select name="ignore_recharge[#{ins.id}]" id="ignore_recharge_#{ins.id}" class='recharge'
