@@ -90,7 +90,7 @@ jobs:
       - name: Setup DB
         env:
           RAILS_ENV: test
-          DATABASE_URL: mysql2://root:root@127.0.0.1:${{ job.services.mysql.ports[3306] }}/test
+          DATABASE_URL: mysql2://root:root@127.0.0.1:${{ job.services.mysql.ports[3306] }}/test?collation=utf8mb4_spanish_ci
 
         run: |
           bin/rails db:create
@@ -99,7 +99,7 @@ jobs:
       - name: Test
         env:
           RAILS_ENV: test
-          DATABASE_URL: mysql2://root:root@127.0.0.1:${{ job.services.mysql.ports[3306] }}/test
+          DATABASE_URL: mysql2://root:root@127.0.0.1:${{ job.services.mysql.ports[3306] }}/test?collation=utf8mb4_spanish_ci
 
         run: |
           bin/rails test:all
