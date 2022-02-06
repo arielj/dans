@@ -3,7 +3,7 @@ name: Run Tests
 on:
   pull_request:
     branches:
-      - '*'
+      - "*"
   push:
     branches:
       - master
@@ -85,13 +85,12 @@ jobs:
 
       - name: Verify MySQL connection from host
         run: |
-          sudo apt-get install -y mysql-client libmysqlclient-dev
           mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports[3306] }} -uroot -proot -e "SHOW DATABASES"
 
       - name: Setup DB
         env:
           RAILS_ENV: test
-          DATABASE_URL: mysql2://root:root@127.0.0.1:${{ job.services.mysql.ports[3306] }}/test
+          DATABASE_URL: mysql2://root:root@127.0.0.1:${{ job.services.mysql.ports[3306] }}/test?collation=utf8mb4_general_ci&encoding=utf8mb4
 
         run: |
           bin/rails db:create
@@ -100,7 +99,7 @@ jobs:
       - name: Test
         env:
           RAILS_ENV: test
-          DATABASE_URL: mysql2://root:root@127.0.0.1:${{ job.services.mysql.ports[3306] }}/test
+          DATABASE_URL: mysql2://root:root@127.0.0.1:${{ job.services.mysql.ports[3306] }}/test?collation=utf8mb4_general_ci&encoding=utf8mb4
 
         run: |
           bin/rails test:all
@@ -110,7 +109,6 @@ jobs:
         with:
           name: code-coverage-report
           path: coverage
-
 
       # - name: Zeitwerk Check
       #   run: bundle exec rails zeitwerk:check
