@@ -156,7 +156,11 @@ class Person < ApplicationRecord
             [kls.non_regular_fee, kls.non_regular_fee_with_discount]
           end
         else
-          [kls.fixed_fee, kls.fixed_fee_with_discount]
+          if data[:schedules].count < kls.schedules.count && kls.non_regular_alt_fee
+            [kls.fixed_alt_fee, kls.fixed_alt_fee_with_discount]
+          else
+            [kls.fixed_fee, kls.fixed_fee_with_discount]
+          end
         end
 
       if f1&.positive?

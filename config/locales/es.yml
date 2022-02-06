@@ -300,6 +300,8 @@ es:
         fixed_fee_with_discount: 'Precio regulares (con descuento)'
         non_regular_alt_fee: 'Precio no regulares - 1 clase'
         non_regular_alt_fee_with_discount: 'Precio no regulares - 1 clase (con descuento)'
+        fixed_alt_fee: 'Precio regulares - 1 clase'
+        fixed_alt_fee_with_discount: 'Precio regulares - 1 clase (con descuento)'
         status: Estado
         schedules: Horarios
         info: Información

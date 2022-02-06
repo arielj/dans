@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_05_191914) do
+ActiveRecord::Schema.define(version: 2022_02_06_155952) do
 
   create_table "admins", charset: "utf8mb4", collation: "utf8mb4_spanish_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -73,6 +73,8 @@ ActiveRecord::Schema.define(version: 2022_02_05_191914) do
     t.integer "non_regular_fee_with_discount_cents", default: 0
     t.integer "non_regular_alt_fee_cents", default: 0
     t.integer "non_regular_alt_fee_with_discount_cents", default: 0
+    t.integer "fixed_alt_fee_cents", default: 0
+    t.integer "fixed_alt_fee_with_discount_cents", default: 0
     t.index ["teacher_id"], name: "index_klasses_on_teacher_id"
   end
 
