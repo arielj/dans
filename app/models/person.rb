@@ -133,39 +133,49 @@ class Person < ApplicationRecord
   end
 
   def new_membership_amount_calculator(sch_ids, use_non_regular_fees = false, use_manual_discount = false, manual_discount = '')
-    fixed_total = Money.new(0)
-    fixed_total_with_discount = Money.new(0)
-    duration = 0
-    family_discount = active_family? ? Setting.fetch('family_group_discount', '0') : 0
-
-    fixed_fee_klasses_ids = []
-
+    # count schedules by klass
+    schedules_by_klass = {}
     Schedule.where(id: sch_ids).joins(:klass).each do |sch|
       kls = sch.klass
-      f = kls.fixed_fee
-      f2 = kls.fixed_fee_with_discount
-      if use_non_regular_fees && kls.non_regular_fee
-        f = kls.non_regular_fee
-        f2 = kls.non_regular_fee_with_discount
-      end
+      schedules_by_klass[kls.id] ||= {klass: kls, schedules: []}
+      schedules_by_klass[kls.id][:schedules] << sch
+    end
 
-      if f&.positive?
-        unless fixed_fee_klasses_ids.include?(kls.id)
-          fixed_fee_klasses_ids << kls.id
-          fixed_total += f
-          fixed_total_with_discount += f2
+    # process fees and hours of classes based on number of schedules and type of fee
+    fixed_total = Money.new(0)
+    fixed_total_with_discount = Money.new(0)
+    duration = 0 # total hours of classes
+    schedules_by_klass.each do |klass_id, data|
+      kls = data[:klass]
+      f1, f2 =
+        if use_non_regular_fees && kls.non_regular_fee
+          if data[:schedules].count < kls.schedules.count && kls.non_regular_alt_fee
+            # if not full all days and there's an alternative price
+            [kls.non_regular_alt_fee, kls.non_regular_alt_fee_with_discount]
+          else
+            [kls.non_regular_fee, kls.non_regular_fee_with_discount]
+          end
+        else
+          [kls.fixed_fee, kls.fixed_fee_with_discount]
         end
+
+      if f1&.positive?
+        fixed_total += f1
+        fixed_total_with_discount += f2
       else
-        duration += sch.duration
+        duration += data[:schedules].map(&:duration).sum
       end
     end
 
+    # calculate price for the number of hours
     duration_total = Money.new(Setting.get_hours_fee(duration, with_discount: false).to_i * 100)
     subtotal = fixed_total + duration_total
 
     duration_total_with_discount = Money.new(Setting.get_hours_fee(duration, with_discount: true).to_i * 100)
     subtotal_with_discount = fixed_total_with_discount + duration_total_with_discount
 
+    # calculate family discount
+    family_discount = active_family? ? Setting.fetch('family_group_discount', '0') : 0
     family_discount = family_discount.to_i
       # case family_discount
       # when /\A(\d+)%\z/ then $1.to_f

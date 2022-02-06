@@ -294,10 +294,12 @@ es:
         to_pay: Saldo
       klass:
         name: Nombre
-        non_regular_fee: 'Precio alumnos/as no regulares'
-        fixed_fee: 'Precio alumnos/as regulares'
-        non_regular_fee_with_discount: 'Precio no regulares (con descuent)'
+        non_regular_fee: 'Precio no regulares'
+        non_regular_fee_with_discount: 'Precio no regulares (con descuento)'
+        fixed_fee: 'Precio regulares'
         fixed_fee_with_discount: 'Precio regulares (con descuento)'
+        non_regular_alt_fee: 'Precio no regulares - 1 clase'
+        non_regular_alt_fee_with_discount: 'Precio no regulares - 1 clase (con descuento)'
         status: Estado
         schedules: Horarios
         info: Información
