@@ -156,8 +156,6 @@ class AddingPaymentsTest < ApplicationSystemTestCase
   end
 
   test 'can add multiple payments at once' do
-    skip("flaky")
-
     travel_to Time.zone.local(2020, 7, 1, 18, 0, 0) do
       student = FactoryBot.create(:student)
       family = FactoryBot.create(:student, name: 'Jane')
@@ -208,7 +206,7 @@ class AddingPaymentsTest < ApplicationSystemTestCase
         click_button I18n.t('save.payments')
       end
 
-      sleep(0.1) # somehow it's not waiting enough time to assert
+      assert_selector ".modal", count: 0
 
       assert_match I18n.t('saved.payments'), page.body
 

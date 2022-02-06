@@ -1,4 +1,8 @@
 = form_tag add_payments_person_path(person), method: :post, remote: true, id: 'add_payments' do
+  = label_tag '', class: 'form-checkbox update_amount', id: 'use_amount_with_discount_label' do
+    = check_box_tag :use_amount_with_discount, '1', false, class: 'update_amount'
+    ' Usar precios con descuento
+    i.form-icon
   table.table
     thead
       tr
@@ -11,7 +15,7 @@
         th Recargo
     tbody
       - @unpaid_installments.each do |ins|
-        tr data-to-pay=ins.to_pay
+        tr data-to-pay=ins.to_pay data-to-pay-with-discount=ins.to_pay(with_discount: true)
           td = check_box_tag 'installments_to_pay[]', ins.id, false, id: "installments_to_pay_#{ins.id}", data: { to_pay: ins.to_pay.to_s }
           td = ins.person.to_label
           td = ins.year
@@ -22,15 +26,15 @@
             - if ins.get_recharge.positive?
               select name="ignore_recharge[#{ins.id}]" id="ignore_recharge_#{ins.id}" class='recharge'
                 - if ins.get_month_recharge.positive?
-                  option value='none' data-to-pay=ins.to_pay(ignore_recharge: :none) data-to-pay-s=installment_amount(ins, ignore_recharge: :none) Mes vencido
+                  option value='none' data-to-pay=ins.to_pay(ignore_recharge: :none) data-to-pay-s=installment_amount(ins, ignore_recharge: :none) data-to-pay-with-discount=ins.to_pay(ignore_recharge: :none, with_discount: true) data-to-pay-with-discount-s=installment_amount(ins, ignore_recharge: :none, with_discount: true) Mes vencido
 
                 - if ins.get_second_recharge.positive?
-                  option value='month' data-to-pay=ins.to_pay(ignore_recharge: :month) data-to-pay-s=installment_amount(ins, ignore_recharge: :month) Segundo
+                  option value='month' data-to-pay=ins.to_pay(ignore_recharge: :month) data-to-pay-s=installment_amount(ins, ignore_recharge: :month) data-to-pay-with-discount=ins.to_pay(ignore_recharge: :month, with_discount: true) data-to-pay-with-discount-s=installment_amount(ins, ignore_recharge: :month, with_discount: true) Segundo
 
                 - if ins.get_first_recharge.positive?
-                  option value='second' data-to-pay=ins.to_pay(ignore_recharge: :second) data-to-pay-s=installment_amount(ins, ignore_recharge: :second) Primero
+                  option value='second' data-to-pay=ins.to_pay(ignore_recharge: :second) data-to-pay-s=installment_amount(ins, ignore_recharge: :second) data-to-pay-with-discount=ins.to_pay(ignore_recharge: :second, with_discount: true) data-to-pay-with-discount-s=installment_amount(ins, ignore_recharge: :second, with_discount: true) Primero
 
-                option value='all' data-to-pay=ins.to_pay(ignore_recharge: :all) data-to-pay-s=installment_amount(ins, ignore_recharge: :all) Ignorar
+                option value='all' data-to-pay=ins.to_pay(ignore_recharge: :all) data-to-pay-s=installment_amount(ins, ignore_recharge: :all) data-to-pay-with-discount=ins.to_pay(ignore_recharge: :all, with_discount: true) data-to-pay-with-discount-s=installment_amount(ins, ignore_recharge: :all, with_discount: true) Ignorar
   
   .form-group
     = label_tag :amount, Installment.human_attribute_name(:amount), class: 'form-label'

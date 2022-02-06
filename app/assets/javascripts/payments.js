@@ -81,9 +81,31 @@ function setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechar
 
 function bindAddPaymentsForm(form) {
   this.form = form
-  this.checkboxes = form.qsa('input[type=checkbox]')
+  this.checkboxes = form.qsa('input[type=checkbox][data-to-pay]')
   this.amountInput = form.qs('input[name=amount]')
   this.selects = form.qsa('select.recharge')
+  const withDiscount = form.qs('#use_amount_with_discount')
+
+  withDiscount.addEventListener('click', e => {
+    form.qsa('.recharge').forEach(select => {
+      updateRowOfSelect(select)
+    })
+    this.recalculateAmount()
+  })
+
+  const updateRowOfSelect = (select) => {
+    const tr = select.closest('tr')
+    const op = select.selectedOptions[0].dataset
+    if (withDiscount.checked) {
+      tr.qs('input[type=checkbox]').dataset.toPay = op.toPayWithDiscount
+      tr.qs('td.amount').innerText = op.toPayWithDiscountS
+      tr.qs('td.to_pay').innerText = op.toPayWithDiscount
+    } else {
+      tr.qs('input[type=checkbox]').dataset.toPay = op.toPay
+      tr.qs('td.amount').innerText = op.toPayS
+      tr.qs('td.to_pay').innerText = op.toPay
+    }
+  }
 
   this.recalculateAmount = _ => {
     let total = 0
@@ -103,11 +125,7 @@ function bindAddPaymentsForm(form) {
 
   this.selects.forEach( select => {
     select.addEventListener('change', e => {
-      const tr = e.target.closest('tr')
-      const op = select.selectedOptions[0].dataset
-      tr.qs('input[type=checkbox]').dataset.toPay = op.toPay
-      tr.qs('td.amount').innerText = op.toPayS
-      tr.qs('td.to_pay').innerText = op.toPay
+      updateRowOfSelect(select)
 
       this.recalculateAmount()
     })

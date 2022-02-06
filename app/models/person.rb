@@ -104,7 +104,7 @@ class Person < ApplicationRecord
     Installment.where(membership_id: mids).waiting
   end
 
-  def add_multi_payments(installment_ids, amount, ignore_recharge = nil)
+  def add_multi_payments(installment_ids, amount, ignore_recharge = nil, with_discount = false)
     amount = Money.new(amount.to_i * 100)
     return :no_amount if amount.cents.zero?
 
@@ -114,7 +114,7 @@ class Person < ApplicationRecord
     ignore_recharge ||= {}
     to_pay_total = 0
     installments.each do |ins|
-      to_pay_total += ins.to_pay(ignore_recharge: ignore_recharge[ins.id.to_s])
+      to_pay_total += ins.to_pay(ignore_recharge: ignore_recharge[ins.id.to_s], with_discount: with_discount)
     end
     return :excesive_amount if amount > to_pay_total
 
@@ -123,9 +123,9 @@ class Person < ApplicationRecord
     installments.each do |ins|
       break if rest.zero?
 
-      to_pay = ins.to_pay(ignore_recharge: ignore_recharge[ins.id.to_s])
+      to_pay = ins.to_pay(ignore_recharge: ignore_recharge[ins.id.to_s], with_discount: with_discount)
       paid_amount = to_pay > rest ? rest : to_pay
-      payments << ins.create_payment({ amount: paid_amount, description: 'cuota' }, ignore_recharge: ignore_recharge[ins.id.to_s])
+      payments << ins.create_payment({ amount: paid_amount, description: 'cuota' }, ignore_recharge: ignore_recharge[ins.id.to_s], with_discount: with_discount)
       rest -= paid_amount
     end
 
