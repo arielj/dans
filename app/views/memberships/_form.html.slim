@@ -17,7 +17,7 @@
 
     - if membership.person.active_family? && Setting.family_group_discount != '0'
       br
-      | Descuento por grupo familiar (#{Setting.family_group_discount}): $#{amounts[:family_discount]} (o $#{amounts[:discountWithDiscount]})
+      | Descuento por grupo familiar (#{Setting.family_group_discount}): $#{amounts[:discountTotal]} (o $#{amounts[:discountTotalWithDiscount]})
 
   = label_tag '', class: 'form-checkbox' do
     = f.check_box :use_custom_amount
