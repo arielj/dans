@@ -16,8 +16,11 @@ module MoneyTransactionsHelper
   end
 
   def generate_pdf(items)
+    main_person = items.first.person
+    more_than_one_student = items.map(&:person_id).uniq.count > 1
+
     header_data = [[
-      { content: items.first.person.to_label, width: 160 },
+      { content: main_person.to_label, width: 160 },
       { content: "Nº#{items.first.receipt}", align: :center, width: 60 },
       { content: I18n.l(DateTime.current.to_date, format: :receipt), align: :right, width: 160 }
     ]]
@@ -29,9 +32,11 @@ module MoneyTransactionsHelper
     ]
 
     table_content = items.map do |item|
+      desc = item.description.to_s
+      desc += " #{item.person.to_label}" if more_than_one_student
       [
         { content: I18n.l(item.created_at.to_date, format: :receipt_item), width: 80 },
-        item.description.to_s,
+        desc,
         { content: "$#{item.amount}", align: :right }
       ]
     end
