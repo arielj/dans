@@ -24,9 +24,16 @@
     = Membership.human_attribute_name(:use_custom_amount)
     i.form-icon
 
-  .input-group class="#{f.object.use_custom_amount ? "" : "hidden"}"
-    span.input-group-addon $
-    = f.text_field :amount, class: 'form-input amount-input', placeholder: 'Monto manual'
+  #use_manual_amount class="#{f.object.use_custom_amount ? "" : "hidden"}"
+    = f.label :amount
+    .input-group
+      span.input-group-addon $
+      = f.text_field :amount, class: 'form-input amount-input', placeholder: 'Monto manual'
+
+    = f.label :amount_with_discount
+    .input-group
+      span.input-group-addon $
+      = f.text_field :amount_with_discount, class: 'form-input amount-input', placeholder: 'Monto manual con descuento'
 
   #use_calculated_amount class="#{f.object.use_custom_amount ? "hidden" : ""}"
     = label_tag '', class: 'form-checkbox' do

@@ -307,6 +307,7 @@ es:
         info: Información
       membership:
         amount: Monto
+        amount_with_discount: Monto con descuento en efectivo
         create_installments_from: Agregar/actualizar cuotas desde
         create_installments_to: Agregar/actualizar cuotas hasta
         update_unpaid_installments: Actualizar cuotas no pagadas

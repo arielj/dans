@@ -60,16 +60,16 @@ class MembershipsController < ApplicationController
   def create_membership_params
     params
       .require(:membership)
-      .permit(:person_id, :amount, :use_custom_amount, :create_installments_from,
-              :create_installments_to, :use_non_regular_fee, :use_fees_with_discount,
-              :use_manual_discount, :manual_discount,
-              schedule_ids: [])
+      .permit(:person_id, :amount, :amount_with_discount, :use_custom_amount,
+              :create_installments_from, :create_installments_to,
+              :use_non_regular_fee, :use_fees_with_discount, :use_manual_discount,
+              :manual_discount, schedule_ids: [])
   end
 
   def update_membership_params
     params
       .require(:membership)
-      .permit(:amount, :use_custom_amount, :create_installments_from,
+      .permit(:amount, :amount_with_discount, :use_custom_amount, :create_installments_from,
               :update_unpaid_installments, :update_paid_installments,
               :create_installments_to, :use_non_regular_fee,
               :use_manual_discount, :manual_discount,

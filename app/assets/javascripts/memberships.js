@@ -39,59 +39,68 @@ function refreshAmount(form) {
 
       const totalDiv = form.qs(".auto_calculation_total");
       totalDiv.innerHTML = `Total: $${resp.total} (o $${resp.totalWithDiscount})`;
+
+      if (resp.discountTooHigh) {
+        totalDiv.classList.add("discount-too-high");
+      } else {
+        totalDiv.classList.remove("discount-too-high");
+      }
+
+      byid("membership_amount").value = resp.total;
+      byid("membership_amount_with_discount").value = resp.totalWithDiscount;
     },
   });
 }
 
 function bindMembershipForm() {
   const form = qs("#new_membership, .edit_membership");
-  this.cal = form.qs(".schedules_calendar");
-  Rails.delegate(this.cal, "input.schedule", "change", (e) => {
+  const cal = form.qs(".schedules_calendar");
+  Rails.delegate(cal, "input.schedule", "change", (e) => {
     refreshAmount(form);
   });
   bindSchedulesCalendar();
 
-  this.useCalculatedAmountWrapper = byid("use_calculated_amount");
-
-  this.useCustomAmountCheck = byid("membership_use_custom_amount");
-  this.useCustomAmountInput = byid("membership_amount");
-  this.useCustomAmountCheck.addEventListener("change", (e) => {
-    let parent = this.useCustomAmountInput.closest(".input-group");
+  const useCalculatedAmountWrapper = byid("use_calculated_amount");
+  const useCustomAmountCheck = byid("membership_use_custom_amount");
+  const useCustomAmountWrapper = byid("use_manual_amount");
+  useCustomAmountCheck.addEventListener("change", (e) => {
     if (e.target.checked) {
-      parent.classList.remove("hidden");
-      this.useCalculatedAmountWrapper.classList.add("hidden");
+      useCustomAmountWrapper.classList.remove("hidden");
+      parentWithDiscount.classList.remove("hidden");
+      useCalculatedAmountWrapper.classList.add("hidden");
     } else {
-      parent.classList.add("hidden");
-      this.useCalculatedAmountWrapper.classList.remove("hidden");
+      useCustomAmountWrapper.classList.add("hidden");
+      parentWithDiscount.classList.add("hidden");
+      useCalculatedAmountWrapper.classList.remove("hidden");
     }
   });
 
-  this.nonRegularFeeInput = byid("membership_use_non_regular_fee");
-  this.nonRegularFeeInput.addEventListener("change", (e) => {
+  const nonRegularFeeInput = byid("membership_use_non_regular_fee");
+  nonRegularFeeInput.addEventListener("change", (e) => {
     refreshAmount(form);
   });
 
-  this.useManualDiscountCheck = byid("membership_use_manual_discount");
-  this.useManualDiscountInput = byid("membership_manual_discount");
-  this.useManualDiscountCheck.addEventListener("change", (e) => {
-    let parent = this.useManualDiscountInput.closest(".input-group");
+  const useManualDiscountCheck = byid("membership_use_manual_discount");
+  const useManualDiscountInput = byid("membership_manual_discount");
+  useManualDiscountCheck.addEventListener("change", (e) => {
+    const parent = useManualDiscountInput.closest(".input-group");
     if (e.target.checked) {
       parent.classList.remove("hidden");
-      this.useManualDiscountInput.focus();
+      useManualDiscountInput.focus();
     } else {
       parent.classList.add("hidden");
     }
     refreshAmount(form);
   });
-  this.useManualDiscountInput.addEventListener("keydown", (e) => {
+  useManualDiscountInput.addEventListener("keydown", (e) => {
     if (e.key.length == 1 && e.key.match(/\D/)) e.preventDefault();
 
-    if (e.key === "0" && this.useManualDiscountInput.value === "%")
+    if (e.key === "0" && useManualDiscountInput.value === "%")
       e.preventDefault();
   });
 
-  let discountTimer = false;
-  this.useManualDiscountInput.addEventListener("input", (e) => {
+  const discountTimer = false;
+  useManualDiscountInput.addEventListener("input", (e) => {
     const el = e.target;
 
     if (discountTimer) clearTimeout(discountTimer);

@@ -129,3 +129,9 @@ ul.payment-details li
 
 #print_payments_to_person, #print_payments_from_person
   display: inline
+
+.auto_calculation_total.discount-too-high
+  color: red
+  &::before
+    content: "El descuento es mayor a $500, usar monto manual!"
+    display: block

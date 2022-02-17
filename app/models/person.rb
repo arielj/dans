@@ -197,7 +197,8 @@ class Person < ApplicationRecord
     total = subtotal - discount_total
     total_with_discount = subtotal_with_discount - discount_total2
 
-    { fixedTotal: fixed_total.to_s,
+    {
+      fixedTotal: fixed_total.to_s,
       fixedTotalWithDiscount: fixed_total_with_discount.to_s,
       durationTotal: duration_total.to_s,
       durationTotalWithDiscount: duration_total_with_discount.to_s,
@@ -210,7 +211,9 @@ class Person < ApplicationRecord
       discountTotal: discount_total.to_s,
       discountTotalWithDiscount: discount_total2.to_s,
       total: total.to_s,
-      totalWithDiscount: total_with_discount.to_s}
+      totalWithDiscount: total_with_discount.to_s,
+      discountTooHigh: total - total_with_discount > Money.new(50000)
+    }
   end
 
   def missing_inscription?(year)
