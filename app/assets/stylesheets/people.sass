@@ -131,7 +131,11 @@ ul.payment-details li
   display: inline
 
 .auto_calculation_total.discount-too-high
-  color: red
   &::before
-    content: "El descuento es mayor a $500, usar monto manual!"
+    content: "El descuento en efectivo es mayor a $500, usar monto manual!"
     display: block
+    color: red
+
+#use_manual_amount:not(.hidden) ~ label,
+#use_manual_amount:not(.hidden) ~ .input-group
+  display: none

@@ -1,4 +1,27 @@
 function refreshAmount(form) {
+  const useCustomAmountCheck = byid("membership_use_custom_amount");
+  const totalDiv = form.qs(".auto_calculation_total");
+  const customAmountInput = byid("membership_amount");
+  const customAmountInputWithDiscount = byid("membership_amount_with_discount");
+
+  if (useCustomAmountCheck.checked) {
+    const amount = customAmountInput.value;
+    const amountWithDiscount = customAmountInputWithDiscount.value;
+
+    if (
+      parseFloat(amount.replace(",", ".")) -
+        parseFloat(amountWithDiscount.replace(",", ".")) >
+      500
+    ) {
+      totalDiv.classList.add("discount-too-high");
+    } else {
+      totalDiv.classList.remove("discount-too-high");
+    }
+
+    totalDiv.innerHTML = `Total: $${amount} (o $${amountWithDiscount})`;
+    return;
+  }
+
   let schedulesIds = [...form.qsa("input.schedule:checked")].map(
     (i) => i.value
   );
@@ -6,12 +29,12 @@ function refreshAmount(form) {
     .map((x) => serializePair("schedules_ids[]", x))
     .join("&");
 
-  let nonRegularFeeInput = byid("membership_use_non_regular_fee");
+  const nonRegularFeeInput = byid("membership_use_non_regular_fee");
   if (nonRegularFeeInput)
     if (nonRegularFeeInput.checked)
       schedulesIds = schedulesIds + "&use_non_regular_fee=1";
 
-  let manualDiscountCheck = byid("membership_use_manual_discount");
+  const manualDiscountCheck = byid("membership_use_manual_discount");
   if (manualDiscountCheck)
     if (manualDiscountCheck.checked) {
       const manualDiscountInput = byid("membership_manual_discount");
@@ -37,7 +60,6 @@ function refreshAmount(form) {
 
       div.innerHTML = s;
 
-      const totalDiv = form.qs(".auto_calculation_total");
       totalDiv.innerHTML = `Total: $${resp.total} (o $${resp.totalWithDiscount})`;
 
       if (resp.discountTooHigh) {
@@ -46,8 +68,8 @@ function refreshAmount(form) {
         totalDiv.classList.remove("discount-too-high");
       }
 
-      byid("membership_amount").value = resp.total;
-      byid("membership_amount_with_discount").value = resp.totalWithDiscount;
+      customAmountInput.value = resp.total;
+      customAmountInputWithDiscount.value = resp.totalWithDiscount;
     },
   });
 }
@@ -66,13 +88,18 @@ function bindMembershipForm() {
   useCustomAmountCheck.addEventListener("change", (e) => {
     if (e.target.checked) {
       useCustomAmountWrapper.classList.remove("hidden");
-      parentWithDiscount.classList.remove("hidden");
       useCalculatedAmountWrapper.classList.add("hidden");
     } else {
       useCustomAmountWrapper.classList.add("hidden");
-      parentWithDiscount.classList.add("hidden");
       useCalculatedAmountWrapper.classList.remove("hidden");
     }
+    refreshAmount(form);
+  });
+  const customAmountInputs = qsa(
+    "#membership_amount, #membership_amount_with_discount"
+  );
+  customAmountInputs.forEach((i) => {
+    i.addEventListener("input", () => refreshAmount(form));
   });
 
   const nonRegularFeeInput = byid("membership_use_non_regular_fee");
@@ -92,6 +119,7 @@ function bindMembershipForm() {
     }
     refreshAmount(form);
   });
+
   useManualDiscountInput.addEventListener("keydown", (e) => {
     if (e.key.length == 1 && e.key.match(/\D/)) e.preventDefault();
 
