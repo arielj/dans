@@ -59,13 +59,13 @@ class Membership < ApplicationRecord
     @amounts ||= person.new_membership_amount_calculator(schedule_ids, use_non_regular_fee, use_manual_discount, manual_discount)
   end
 
-  def create_installments(from, to, year, amount, amount_with_discount)
+  def create_installments(from, to, year, arg_amount = nil, arg_amount_with_discount = nil)
     from = Installment.month_num(from) - 1
     to = Installment.month_num(to) - 1
 
     (from..to).each do |m|
       next if installments.where(year: year, month: m).any?
-      installments.create year: year, month: m, amount: amount, amount_with_discount: amount_with_discount, klasses: klasses
+      installments.create year: year, month: m, amount: arg_amount || amount, amount_with_discount: arg_amount_with_discount || amount_with_discount, klasses: klasses
     end
   end
 

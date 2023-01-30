@@ -14,6 +14,36 @@ function bindInstallmentPaymentForm(form) {
   let secondDateRechargeCheck = form.qs('#ignore_second_recharge')
   let monthRechargeCheck = form.qs('#ignore_month_recharge')
   let useAmountWithDiscount = form.qs('#use_amount_with_discount')
+  const buttons = form.qsa('button[type="submit"]')
+  const restHint = form.qs('.rest')
+  const restTemplate = restHint?.dataset?.template
+  const tooHighError = form.qs('.tooHigh')
+  
+  amountField.addEventListener('input', e => {
+    const toPay = parseFloat(toPayHint.dataset.amount)
+    const amount = parseFloat(amountField.value)
+    if (amount > toPay) {
+      if (restHint) {
+        restHint.innerText = restTemplate.replace('{rest}', amount - toPay)
+        restHint.classList.remove('hidden')
+      } else {
+        buttons.forEach(b => b.disabled = true)
+        tooHighError.classList.remove('hidden')
+      }
+    } else {
+      if (restHint) {
+        restHint.innerText = ''
+        restHint.classList.add('hidden')
+      } else {
+        buttons.forEach(b => b.disabled = false)
+        tooHighError.classList.add('hidden')
+      }
+    }
+  })
+
+  if (restHint) {
+
+  }
 
   if (dateRechargeCheck)
     dateRechargeCheck.addEventListener('change', e => {

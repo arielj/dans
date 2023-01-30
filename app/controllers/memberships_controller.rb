@@ -20,7 +20,8 @@ class MembershipsController < ApplicationController
 
   def do_add_installments
     @membership = Membership.find(params[:id])
-    @membership.create_installments(params[:month_from], params[:month_to], params[:year], params[:amount])
+    year = @membership.installments.first&.year || DateTime.current.year
+    @membership.create_installments(params[:month_from], params[:month_to], year, params[:amount])
     redirect_back fallback_location: edit_person_path(@membership.person, tab: :memberships, membership_id: @membership.id)
   end
 

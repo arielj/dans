@@ -1,6 +1,9 @@
 - remote = tran.persisted?
 - pybl = tran.payable
 - form_id = pybl ? "#{pybl.class.name.underscore}_payment" : nil
+- next_pybl = nil
+- if pybl.is_a?(Installment)
+  - next_pybl = pybl.next_installment
 
 = simple_form_for tran, remote: remote, html: { id: form_id } do |f|
   - if pybl
@@ -61,6 +64,12 @@
         = f.radio_button :done, false
         = t('money.in')
         i.form-icon
+
+  - if next_pybl
+    .rest.hidden data-template="El resto (${rest}) se va a asignar a la cuota de #{next_pybl.month_name}."
+
+  .tooHigh.hidden
+    ' Monto excede resto y no hay cuota siguiente.
 
   .actions.modal-footer
     => button_tag t('save.label'), name: :button, value: :save, class: 'btn btn-primary'

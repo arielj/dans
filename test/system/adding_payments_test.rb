@@ -219,4 +219,97 @@ class AddingPaymentsTest < ApplicationSystemTestCase
       assert ins2.paid?
     end
   end
+
+  test 'uses rest of the money for the next installment' do
+    student = FactoryBot.create(:student)
+    klass = FactoryBot.create(:klass_with_schedules)
+
+    travel_to Time.zone.local(2020, 1, 1, 18, 0, 0) do
+      student.memberships.create(schedules: klass.schedules, amount: 500_00, use_fees_with_discount: false)
+    end
+
+    travel_to Time.zone.local(2020, 7, 1, 18, 0, 0) do
+      ins = student.installments.order(month: :asc).first
+      next_ins = ins.next_installment
+      assert_equal Money.new(600_00), ins.to_pay
+      assert_equal Money.new(600_00), next_ins.to_pay
+
+      visit edit_person_path(student)
+
+      click_link 'Cuotas'
+
+      assert_selector "#installment_#{ins.id}"
+
+      within "#installment_#{ins.id}" do
+        click_link 'Agregar pago'
+      end
+
+      assert_selector '.modal #installment_payment'
+
+      within '.modal #installment_payment' do
+        fill_in 'money_transaction_amount', with: '700,00'
+
+        assert_match "El resto ($100) se va a asignar a la cuota de #{next_ins.month_name}", page.text
+
+        fill_in 'money_transaction_amount', with: '600,00'
+
+        refute_match "El resto ($0) se va a asignar a la cuota de #{next_ins.month_name}", page.text
+
+        fill_in 'money_transaction_amount', with: '700,00'
+
+        assert_match "El resto ($100) se va a asignar a la cuota de #{next_ins.month_name}", page.text
+
+        click_button 'Guardar'
+      end
+
+      assert_match 'Guardado', page.text
+
+      assert_equal Money.new(500_00), next_ins.reload.to_pay
+    end
+  end
+
+  test 'prevents save if too high money and no next installment' do
+    student = FactoryBot.create(:student)
+    klass = FactoryBot.create(:klass_with_schedules)
+
+    travel_to Time.zone.local(2020, 1, 1, 18, 0, 0) do
+      student.memberships.create(schedules: klass.schedules, amount: 500_00, use_fees_with_discount: false)
+    end
+
+    travel_to Time.zone.local(2020, 7, 1, 18, 0, 0) do
+      ins = student.installments.order(month: :asc).last
+      assert_equal Money.new(500_00), ins.to_pay
+      assert_nil ins.next_installment
+
+      visit edit_person_path(student)
+
+      click_link 'Cuotas'
+
+      assert_selector "#installment_#{ins.id}"
+
+      within "#installment_#{ins.id}" do
+        click_link 'Agregar pago'
+      end
+
+      assert_selector '.modal #installment_payment'
+
+      within '.modal #installment_payment' do
+        fill_in 'money_transaction_amount', with: '600,00'
+
+        refute_match 'El resto ($100) se va a asignar', page.text
+        assert_match 'Monto excede resto y no hay cuota siguiente.', page.text
+        assert_selector "button[value='save'][disabled]"
+        assert_selector "button[value='save_and_receipt'][disabled]"
+
+        fill_in 'money_transaction_amount', with: '400,00'
+
+        assert_selector "button[value='save']:not([disabled])"
+        assert_selector "button[value='save_and_receipt']:not([disabled])"
+
+        click_button 'Guardar'
+      end
+
+      assert_match 'Guardado', page.text
+    end
+  end
 end

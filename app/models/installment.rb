@@ -141,9 +141,15 @@ class Installment < ApplicationRecord
     payment.person = person
     payment.done = false
     rest = to_pay(ignore_recharge: ignore_recharge, with_discount: with_discount)
-    if payment.amount > rest
+    if payment.amount > rest && !next_installment
       payment.errors.add(:base, :amount_too_high)
     else
+      if payment.amount > rest
+        extra = payment.amount - rest
+        payment.amount = rest
+        next_installment.create_payment({amount: extra}, ignore_recharge: ignore_recharge, with_discount: with_discount)
+      end
+  
       payments << payment
       if payment.save && payment.amount == rest
         if amount_paid > amount
@@ -169,6 +175,10 @@ class Installment < ApplicationRecord
     end
 
     save
+  end
+
+  def next_installment
+    person.installments.where(year: year).where("month >= ?", month_num).order(month: :asc).first
   end
 
   private
