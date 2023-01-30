@@ -49,14 +49,13 @@
   .input-group class="#{f.object.use_manual_discount ? "" : "hidden"}"
     = f.text_field :manual_discount, value: "#{f.object.manual_discount}%", class: 'form-input', placeholder: '0%'
 
-  - tooHigh = amounts[:discountTooHigh]
-  - tooHigh = f.object.amount - f.object.amount_with_discount > Money.new(50000) if f.object.use_custom_amount
-
-  .auto_calculation_total class="#{tooHigh ? "discount-too-high" : ""}"
-    - if f.object.use_custom_amount
-      | Total: $#{f.object.amount} (o $#{f.object.amount_with_discount})
-    - else
-      | Total: $#{amounts[:total]} (o $#{amounts[:totalWithDiscount]})
+  .auto_calculation_total class="#{amounts[:limitedTotal] ? "limited-total" : ""}"
+    span
+      - if f.object.use_custom_amount
+        | Total: $#{f.object.amount} (o $#{f.object.amount_with_discount})
+      - else
+        | Total: $#{amounts[:total]} (o $#{amounts[:totalWithDiscount]})
+    .limited_total_message Valor sin descuento limitado a total + $350
 
   .form-group
     => f.label :create_installments_from

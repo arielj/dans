@@ -196,6 +196,14 @@ class Person < ApplicationRecord
 
     total = subtotal - discount_total
     total_with_discount = subtotal_with_discount - discount_total2
+    limitedTotal = false
+
+    discount_limit = Money.new(350_00)
+
+    if total - total_with_discount > discount_limit
+      total = total_with_discount + discount_limit
+      limitedTotal = true
+    end
 
     {
       fixedTotal: fixed_total.to_s,
@@ -212,7 +220,7 @@ class Person < ApplicationRecord
       discountTotalWithDiscount: discount_total2.to_s,
       total: total.to_s,
       totalWithDiscount: total_with_discount.to_s,
-      discountTooHigh: total - total_with_discount > Money.new(50000)
+      limitedTotal: limitedTotal
     }
   end
 

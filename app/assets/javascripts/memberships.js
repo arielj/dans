@@ -1,24 +1,26 @@
 function refreshAmount(form) {
   const useCustomAmountCheck = byid("membership_use_custom_amount");
   const totalDiv = form.qs(".auto_calculation_total");
+  const totalSpan = totalDiv.qs("span");
   const customAmountInput = byid("membership_amount");
   const customAmountInputWithDiscount = byid("membership_amount_with_discount");
 
   if (useCustomAmountCheck.checked) {
-    const amount = customAmountInput.value;
+    let amount = customAmountInput.value;
     const amountWithDiscount = customAmountInputWithDiscount.value;
+    const amountF = parseFloat(amount.replace(",", "."));
+    const amountWithDiscountF = parseFloat(
+      amountWithDiscount.replace(",", ".")
+    );
 
-    if (
-      parseFloat(amount.replace(",", ".")) -
-        parseFloat(amountWithDiscount.replace(",", ".")) >
-      500
-    ) {
-      totalDiv.classList.add("discount-too-high");
+    if (amountF - amountWithDiscountF > 350) {
+      amount = amountWithDiscountF + 350 + "";
+      totalDiv.classList.add("limited-total");
     } else {
-      totalDiv.classList.remove("discount-too-high");
+      totalDiv.classList.remove("limited-total");
     }
 
-    totalDiv.innerHTML = `Total: $${amount} (o $${amountWithDiscount})`;
+    totalSpan.innerHTML = `Total: $${amount} (o $${amountWithDiscount})`;
     return;
   }
 
@@ -60,12 +62,12 @@ function refreshAmount(form) {
 
       div.innerHTML = s;
 
-      totalDiv.innerHTML = `Total: $${resp.total} (o $${resp.totalWithDiscount})`;
+      totalSpan.innerHTML = `Total: $${resp.total} (o $${resp.totalWithDiscount})`;
 
-      if (resp.discountTooHigh) {
-        totalDiv.classList.add("discount-too-high");
+      if (resp.limitedTotal) {
+        totalDiv.classList.add("limited-total");
       } else {
-        totalDiv.classList.remove("discount-too-high");
+        totalDiv.classList.remove("limited-total");
       }
 
       customAmountInput.value = resp.total;
