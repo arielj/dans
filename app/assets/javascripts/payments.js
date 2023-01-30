@@ -16,7 +16,7 @@ function bindInstallmentPaymentForm(form) {
   let useAmountWithDiscount = form.qs('#use_amount_with_discount')
   const buttons = form.qsa('button[type="submit"]')
   const restHint = form.qs('.rest')
-  const restTemplate = restHint?.dataset?.template
+  const restTemplate = restHint ? restHint.dataset.template : ''
   const tooHighError = form.qs('.tooHigh')
   
   amountField.addEventListener('input', e => {
