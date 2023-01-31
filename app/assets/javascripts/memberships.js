@@ -58,7 +58,7 @@ function refreshAmount(form) {
 
       s += `Subtotal: $${resp.subtotal} (o $${resp.subtotalWithDiscount})<br />`;
       if (resp.familyDiscount !== 0)
-        s += `Descuento por grupo familiar (${resp.discount}): $${resp.discountTotal} (o $${resp.discountTotalWithDiscount})<br />`;
+        s += `Descuento por grupo familiar (${resp.familyDiscount}): $${resp.familyDiscountTotal} (o $${resp.familyDiscountTotal2})<br />`;
 
       div.innerHTML = s;
 

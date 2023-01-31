@@ -191,17 +191,22 @@ class Person < ApplicationRecord
 
     total_discount = family_discount + manual_discount
 
-    discount_total, discount_total2 =
-      [subtotal / 100 * total_discount, subtotal_with_discount / 100 * total_discount]
+    # family discount applies to everything
+    family_discount_total, family_discount_total2 =
+      [subtotal / 100 * family_discount, subtotal_with_discount / 100 * family_discount]
 
-    total = subtotal - discount_total
-    total_with_discount = subtotal_with_discount - discount_total2
+    # manual discount applies only to classes with fixed fee
+    manual_discount_total, manual_discount_total2 =
+      [fixed_total / 100 * manual_discount, fixed_total_with_discount / 100 * manual_discount]
+
+    total = subtotal - family_discount_total - manual_discount_total
+    total_with_discounts = subtotal_with_discount - family_discount_total2 - manual_discount_total2
     limitedTotal = false
 
     discount_limit = Money.new(350_00)
 
-    if total - total_with_discount > discount_limit
-      total = total_with_discount + discount_limit
+    if total - total_with_discounts > discount_limit
+      total = total_with_discounts + discount_limit
       limitedTotal = true
     end
 
@@ -212,14 +217,18 @@ class Person < ApplicationRecord
       durationTotalWithDiscount: duration_total_with_discount.to_s,
       duration: duration,
       familyDiscount: family_discount,
+      familyDiscountTotal: family_discount_total.to_s,
+      familyDiscountTotal2: family_discount_total2.to_s,
       manualDiscount: manual_discount,
+      manualDiscountTotal: manual_discount_total.to_s,
+      manualDiscountTotal2: manual_discount_total2.to_s,
       discount: total_discount,
       subtotal: subtotal.to_s,
       subtotalWithDiscount: subtotal_with_discount.to_s,
-      discountTotal: discount_total.to_s,
-      discountTotalWithDiscount: discount_total2.to_s,
+      discountTotal: (family_discount_total+manual_discount_total).to_s,
+      discountTotalWithDiscount: (family_discount_total2+manual_discount_total2).to_s,
       total: total.to_s,
-      totalWithDiscount: total_with_discount.to_s,
+      totalWithDiscount: total_with_discounts.to_s,
       limitedTotal: limitedTotal
     }
   end

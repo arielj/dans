@@ -53,15 +53,15 @@ class AddingMembershipsTest < ApplicationSystemTestCase
       # set discount
       click_checkbox("#membership_use_manual_discount")
       find('#membership_manual_discount').set('10%')
-      assert_text 'Total: $234,00 (o $207,00)'
+      assert_text 'Total: $253,00 (o $224,00)'
 
       click_button 'Guardar paquete'
     end
 
     m = student.memberships.last
-    # 190 (by hours) + 70 (1 class) - 10%
-    assert_equal '234,00', m.amount
-    # 170 (by hours) + 60 (1 class) - 10%
-    assert_equal '207,00', m.amount_with_discount
+    # 190 (by hours) + (70 (1 class) - 10%) manual discount only applies to the 70
+    assert_equal '253,00', m.amount
+    # 170 (by hours) + (60 (1 class) - 10%) manual discount only applies to the 60
+    assert_equal '224,00', m.amount_with_discount
   end
 end

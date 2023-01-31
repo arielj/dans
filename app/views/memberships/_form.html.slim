@@ -23,7 +23,7 @@
 
     - if membership.person.active_family? && Setting.family_group_discount != '0'
       br
-      | Descuento por grupo familiar (#{Setting.family_group_discount}): $#{amounts[:discountTotal]} (o $#{amounts[:discountTotalWithDiscount]})
+      | Descuento por grupo familiar (#{Setting.family_group_discount}%): $#{amounts[:discountTotal]} (o $#{amounts[:discountTotalWithDiscount]})
 
   = label_tag '', class: 'form-checkbox' do
     = f.check_box :use_custom_amount
@@ -44,6 +44,7 @@
   = label_tag '', class: 'form-checkbox' do
     = f.check_box :use_manual_discount
     = Membership.human_attribute_name(:use_manual_discount)
+    '  (aplica sólo a talleres)
     i.form-icon
 
   .input-group class="#{f.object.use_manual_discount ? "" : "hidden"}"
