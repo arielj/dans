@@ -167,14 +167,16 @@ class PeopleController < ApplicationController
     params
       .require(:person)
       .permit(:name, :status, :is_teacher, :lastname, :birthday, :age, :address,
-              :dni, :cellphone, :alt_phone, :gender, :email, :group, :comments)
+              :dni, :cellphone, :alt_phone, :gender, :email, :group, :comments,
+              :source)
   end
 
   def update_person_params
     params
       .require(:person)
       .permit(:name, :status, :is_teacher, :lastname, :birthday, :age, :address,
-              :dni, :cellphone, :alt_phone, :gender, :email, :group, :comments)
+              :dni, :cellphone, :alt_phone, :gender, :email, :group, :comments,
+              :source)
   end
 
   def money_transaction_params

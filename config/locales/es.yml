@@ -345,6 +345,7 @@ es:
         lastname: Apellido
         name: Nombre
         status: Estado
+        source: Fuente
       room:
         name: Nombre
       schedule:

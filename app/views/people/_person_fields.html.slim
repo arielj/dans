@@ -8,6 +8,10 @@
 = f.input :alt_phone
 = f.input :address
 = f.input :email, as: :string
+= f.input :source, input_html: {list: 'sources'}
+datalist#sources
+  - Person.sources.each do |source|
+    option= source
 = f.input :group
 .form-group
   = label_tag '', class: 'form-checkbox' do

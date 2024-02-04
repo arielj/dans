@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_06_155952) do
+ActiveRecord::Schema.define(version: 2024_02_04_194559) do
 
   create_table "admins", charset: "utf8mb4", collation: "utf8mb4_spanish_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -172,6 +172,8 @@ ActiveRecord::Schema.define(version: 2022_02_06_155952) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "gender"
+    t.string "source", comment: "Source: Instagram/Ads/Another student/etc"
+    t.index ["source"], name: "index_people_on_source"
   end
 
   create_table "rooms", charset: "utf8mb4", collation: "utf8mb4_spanish_ci", force: :cascade do |t|

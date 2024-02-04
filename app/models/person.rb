@@ -248,4 +248,8 @@ class Person < ApplicationRecord
 
     family_members.active.any?
   end
+
+  def self.sources
+    distinct(:source).pluck(:source).reject(&:blank?)
+  end
 end
