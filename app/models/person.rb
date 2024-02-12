@@ -205,7 +205,7 @@ class Person < ApplicationRecord
 
     manual_discount = use_manual_discount ? manual_discount.to_i : 0
 
-    total_discount = family_discount + manual_discount + discounts_sum
+    total_discount = family_discount + manual_discount
 
     # family discount applies to everything
     family_discount_total, family_discount_total2 =
@@ -239,8 +239,8 @@ class Person < ApplicationRecord
       klassesDiscount: discounts_sum.to_s,
       subtotal: subtotal.to_s,
       subtotalWithDiscount: subtotal_with_discount.to_s,
-      discountTotal: (family_discount_total+manual_discount_total).to_s,
-      discountTotalWithDiscount: (family_discount_total2+manual_discount_total2).to_s,
+      discountTotal: (family_discount_total+manual_discount_total+discounts_sum).to_s,
+      discountTotalWithDiscount: (family_discount_total2+manual_discount_total2+discounts_sum_debit).to_s,
       total: total.to_s,
       totalWithDiscount: total_with_discounts.to_s,
       limitedTotal: limitedTotal,

@@ -177,7 +177,7 @@ class PersonTest < ActiveSupport::TestCase
       amounts = student.new_membership_amount_calculator(sch_ids, apply_klass_discount: true)
       assert_equal "32500,00", amounts[:fixedTotal]
       assert_equal "30250,00", amounts[:total]
-      assert_equal "2250,00", amounts[:discount]
+      assert_equal "2250,00", amounts[:discountTotal]
 
       # jazz avanzado 6hs 12500
       # Coreo fusión intermedio 20000
@@ -186,7 +186,7 @@ class PersonTest < ActiveSupport::TestCase
       amounts = student.new_membership_amount_calculator(sch_ids)
       assert_equal "32500,00", amounts[:fixedTotal]
       assert_equal "32500,00", amounts[:total]
-      assert_equal "0,00", amounts[:discount]
+      assert_equal "0,00", amounts[:discountTotal]
 
     end
   end

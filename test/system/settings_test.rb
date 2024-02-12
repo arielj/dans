@@ -16,8 +16,8 @@ class SettingsTest < ApplicationSystemTestCase
 
     within '#add_price_form' do
       fill_in 'Horas', with: '1'
-      fill_in 'Valor (sin descuento)', with: '100'
-      fill_in 'Valor (con descuento)', with: '90'
+      fill_in 'Valor (débito)', with: '100'
+      fill_in 'Valor (contado)', with: '90'
       click_button 'Agregar'
     end
 
