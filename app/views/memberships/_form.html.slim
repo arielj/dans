@@ -5,11 +5,11 @@
   .new_membership_days
     = render partial: 'schedules/calendar', locals: { object: membership }
 
-  #use_calculated_amount class="#{f.object.use_custom_amount ? "hidden" : ""}"
-    = label_tag '', class: 'form-checkbox' do
-      = f.check_box :use_non_regular_fee
-      = Membership.human_attribute_name(:use_non_regular_fee)
-      i.form-icon
+  / #use_calculated_amount class="#{f.object.use_custom_amount ? "hidden" : ""}"
+  /   = label_tag '', class: 'form-checkbox' do
+  /     = f.check_box :use_non_regular_fee
+  /     = Membership.human_attribute_name(:use_non_regular_fee)
+  /     i.form-icon
 
   #apply_discounts class="#{f.object.apply_discounts ? "hidden" : ""}"
     = label_tag '', class: 'form-checkbox' do
