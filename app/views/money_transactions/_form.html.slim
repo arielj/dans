@@ -49,9 +49,9 @@
         = check_box_tag :ignore_recharge, '1', false, class: 'update_amount', data: { total_ignoring: pybl.to_pay(ignore_recharge: :first).to_f, total_ignoring_with_discount: pybl.to_pay(with_discount: true, ignore_recharge: :first).to_f }
         ' Ignorar recargo por fecha ($#{r})
         i.form-icon
-    = label_tag '', class: 'form-checkbox update_amount', id: 'use_amount_with_discount_label' do
-        = check_box_tag :use_amount_with_discount, '1', false, class: 'update_amount'
-        ' Usar precio con descuento
+    = label_tag '', class: 'form-checkbox update_amount' do
+        = check_box_tag :apply_extra_debit_charge, '1', false, class: 'update_amount'
+        ' Aplicar recargo por débito
         i.form-icon
 
   - unless pybl or tran.person

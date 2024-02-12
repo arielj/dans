@@ -74,7 +74,8 @@ class PeopleController < ApplicationController
         params[:schedules_ids],
         params[:use_non_regular_fee] == '1',
         params[:use_manual_discount] == '1',
-        params[:manual_discount]
+        params[:manual_discount],
+        apply_klass_discount: params[:apply_discounts] == '1'
       )
 
     render json: calculation.to_json

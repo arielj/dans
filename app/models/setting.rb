@@ -4,15 +4,9 @@ class Setting < ApplicationRecord
   self.primary_key = 'key'
   serialize :value
 
-  def self.cache
-    @@cache ||= {}
-  end
-
   def self.fetch(key, default)
     k = key.to_sym
-    return cache[k] if cache[k]
-
-    cache[k] = find(k).value rescue default
+    find(k).value rescue default
   end
 
   def self.set(key, value)
@@ -22,7 +16,7 @@ class Setting < ApplicationRecord
       setting.value = value
       setting.save
     end
-    cache[k] = value
+    value
   end
 
   def self.get_all_hours_fees

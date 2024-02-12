@@ -132,7 +132,7 @@ class Person < ApplicationRecord
     payments
   end
 
-  def new_membership_amount_calculator(sch_ids, use_non_regular_fees = false, use_manual_discount = false, manual_discount = '')
+  def new_membership_amount_calculator(sch_ids, use_non_regular_fees = false, use_manual_discount = false, manual_discount = '', apply_klass_discount: false)
     # count schedules by klass
     schedules_by_klass = {}
     Schedule.where(id: sch_ids).joins(:klass).each do |sch|
@@ -144,6 +144,8 @@ class Person < ApplicationRecord
     # process fees and hours of classes based on number of schedules and type of fee
     fixed_total = Money.new(0)
     fixed_total_with_discount = Money.new(0)
+    discounts_sum = Money.new(0)
+    discounts_sum_debit = Money.new(0)
     duration = 0 # total hours of classes
     schedules_by_klass.each do |klass_id, data|
       kls = data[:klass]
@@ -151,19 +153,27 @@ class Person < ApplicationRecord
         if use_non_regular_fees && kls.non_regular_fee
           if data[:schedules].count < kls.schedules.count && kls.non_regular_alt_fee
             # if not full all days and there's an alternative price
-            [kls.non_regular_alt_fee, kls.non_regular_alt_fee_with_discount]
+            # [kls.non_regular_alt_fee, kls.non_regular_alt_fee_with_discount]
+
+            [kls.non_regular_alt_fee, kls.debit_fee(:non_regular_alt_fee)]
           else
-            [kls.non_regular_fee, kls.non_regular_fee_with_discount]
+            [kls.non_regular_fee, kls.debit_fee(:non_regular_fee)]
           end
         else
-          if data[:schedules].count < kls.schedules.count && kls.non_regular_alt_fee
-            [kls.fixed_alt_fee, kls.fixed_alt_fee_with_discount]
+          if data[:schedules].count < kls.schedules.count && kls.fixed_alt_fee
+            [kls.fixed_alt_fee, kls.debit_fee(:fixed_alt_fee)]
           else
-            [kls.fixed_fee, kls.fixed_fee_with_discount]
+            [kls.fixed_fee, kls.debit_fee(:fixed_fee)]
           end
         end
 
       if f1&.positive?
+        kls_discount = kls.discount.to_i
+        if apply_klass_discount && kls_discount > 0
+          discounts_sum += f1 * kls_discount / 100
+          discounts_sum_debit += f2 * kls_discount / 100
+        end
+
         fixed_total += f1
         fixed_total_with_discount += f2
       else
@@ -171,12 +181,18 @@ class Person < ApplicationRecord
       end
     end
 
-    # calculate price for the number of hours
-    duration_total = Money.new(Setting.get_hours_fee(duration, with_discount: false).to_i * 100)
-    subtotal = fixed_total + duration_total
+    subtotal = fixed_total
+    subtotal_with_discount = fixed_total_with_discount
 
-    duration_total_with_discount = Money.new(Setting.get_hours_fee(duration, with_discount: true).to_i * 100)
-    subtotal_with_discount = fixed_total_with_discount + duration_total_with_discount
+    # calculate price for the number of hours
+    calculate_hourly_rates = Setting.fetch('calculate_hourly_rates', 'yes') == 'yes'
+    if (calculate_hourly_rates)
+      duration_total = Money.new(Setting.get_hours_fee(duration, with_discount: false).to_i * 100)
+      subtotal += duration_total
+
+      duration_total_with_discount = Money.new(Setting.get_hours_fee(duration, with_discount: true).to_i * 100)
+      subtotal_with_discount += duration_total_with_discount
+    end
 
     # calculate family discount
     family_discount = active_family? ? Setting.fetch('family_group_discount', '0') : 0
@@ -189,7 +205,7 @@ class Person < ApplicationRecord
 
     manual_discount = use_manual_discount ? manual_discount.to_i : 0
 
-    total_discount = family_discount + manual_discount
+    total_discount = family_discount + manual_discount + discounts_sum
 
     # family discount applies to everything
     family_discount_total, family_discount_total2 =
@@ -199,38 +215,44 @@ class Person < ApplicationRecord
     manual_discount_total, manual_discount_total2 =
       [fixed_total / 100 * manual_discount, fixed_total_with_discount / 100 * manual_discount]
 
-    total = subtotal - family_discount_total - manual_discount_total
-    total_with_discounts = subtotal_with_discount - family_discount_total2 - manual_discount_total2
+    total = subtotal - family_discount_total - manual_discount_total - discounts_sum
+    total_with_discounts = subtotal_with_discount - family_discount_total2 - manual_discount_total2 - discounts_sum_debit
     limitedTotal = false
 
     discount_limit = Money.new(350_00)
 
-    if total - total_with_discounts > discount_limit
+    if total_with_discounts > 0 && total - total_with_discounts > discount_limit
       total = total_with_discounts + discount_limit
       limitedTotal = true
     end
 
-    {
+    amounts = {
       fixedTotal: fixed_total.to_s,
       fixedTotalWithDiscount: fixed_total_with_discount.to_s,
-      durationTotal: duration_total.to_s,
-      durationTotalWithDiscount: duration_total_with_discount.to_s,
-      duration: duration,
       familyDiscount: family_discount,
       familyDiscountTotal: family_discount_total.to_s,
       familyDiscountTotal2: family_discount_total2.to_s,
       manualDiscount: manual_discount,
       manualDiscountTotal: manual_discount_total.to_s,
       manualDiscountTotal2: manual_discount_total2.to_s,
-      discount: total_discount,
+      discount: total_discount.to_s,
+      klassesDiscount: discounts_sum.to_s,
       subtotal: subtotal.to_s,
       subtotalWithDiscount: subtotal_with_discount.to_s,
       discountTotal: (family_discount_total+manual_discount_total).to_s,
       discountTotalWithDiscount: (family_discount_total2+manual_discount_total2).to_s,
       total: total.to_s,
       totalWithDiscount: total_with_discounts.to_s,
-      limitedTotal: limitedTotal
+      limitedTotal: limitedTotal,
     }
+
+    if calculate_hourly_rates
+      amounts[:durationTotal] = duration_total.to_s
+      amounts[:durationTotalWithDiscount] = duration_total_with_discount.to_s
+      amounts[:duration] = duration
+    end
+
+    amounts
   end
 
   def missing_inscription?(year)

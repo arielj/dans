@@ -78,4 +78,21 @@ class Klass < ApplicationRecord
     ds = I18n.t('statuses.klass')
     [[ds[0], :inactive], [ds[1], :active]]
   end
+
+  def debit_fee(field)
+    fee = send("#{field}_with_discount")
+    if fee && fee > Money.new(0)
+      fee
+    else
+      send(field) * (100 + debit_value) / 100
+    end
+  end
+
+  def debit_value
+    @debit_value ||=
+      case Setting.fetch(:debit_extra_charge, '0')
+        when /\A(\d+)%?\z/ then $1.to_f
+        else 0
+      end
+  end
 end

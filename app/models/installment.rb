@@ -152,7 +152,9 @@ class Installment < ApplicationRecord
   
       payments << payment
       if payment.save && payment.amount == rest
-        if amount_paid > amount
+        if amount_paid == amount_with_discount
+          paid_with_debit!
+        elsif amount_paid > amount
           paid_with_interests!
         else
           paid!

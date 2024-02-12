@@ -23,6 +23,7 @@ en:
     waiting: Pending
     paid: Paid
     paid_with_interests: Paid with interests
+    paid_with_debit: Paid with debit
   people: People
   person: Person
   personal_data: Personal data
@@ -97,7 +98,7 @@ en:
     - Female
     - Male
     - Other
-  
+
   date:
     format:
       receipt: "%Y, %B, %d"

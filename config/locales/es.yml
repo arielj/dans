@@ -27,6 +27,7 @@ es:
     waiting: Pendiente
     paid: Pagado
     paid_with_interests: Pagado con intereses
+    paid_with_debit: Pagado con débito
   people: Personas
   person: Persona
   personal_data: Datos personales
@@ -207,8 +208,8 @@ es:
     options:
       hours: Horas
       value: Valor
-      value_with_discount: Valor (con descuento)
-      value_without_discount: Valor (sin descuento)
+      value_with_discount: Valor (contado)
+      value_without_discount: Valor (débito)
     people:
       search: Buscar (nombre, apellido, dni)
       activate: Activar
@@ -242,8 +243,10 @@ es:
 
   form:
     options:
+      calculate_hourly_rates: Calcular paquetes contando horas?
       closing_time: Cierra a las
       dates_format: Formato de fechas
+      debit_extra_charge: Recargo por pago con débito
       family_group_discount: Descuento para grupos familiares
       month_recharge_value: Recargo después de 30 días (XX para valor fijo, YY% para pocentaje)
       name: Nombre del instituto
@@ -296,18 +299,20 @@ es:
         name: Nombre
         non_regular_fee: 'Precio no regulares'
         non_regular_fee_with_discount: 'Precio no regulares (con descuento)'
-        fixed_fee: 'Precio regulares'
-        fixed_fee_with_discount: 'Precio regulares (con descuento)'
+        fixed_fee: 'Precio completo (contado)'
+        fixed_fee_with_discount: 'Precio completo (débito)'
         non_regular_alt_fee: 'Precio no regulares - 1 clase'
         non_regular_alt_fee_with_discount: 'Precio no regulares - 1 clase (con descuento)'
-        fixed_alt_fee: 'Precio regulares - 1 clase'
-        fixed_alt_fee_with_discount: 'Precio regulares - 1 clase (con descuento)'
+        fixed_alt_fee: 'Precio alternativo (contado)'
+        fixed_alt_fee_with_discount: 'Precio alternativo (débito)'
         status: Estado
         schedules: Horarios
         info: Información
+        discount: Descuento
       membership:
         amount: Monto
         amount_with_discount: Monto con descuento en efectivo
+        apply_discounts: Aplicar descuentos de clases
         create_installments_from: Agregar/actualizar cuotas desde
         create_installments_to: Agregar/actualizar cuotas hasta
         update_unpaid_installments: Actualizar cuotas no pagadas

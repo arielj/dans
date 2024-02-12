@@ -14,6 +14,7 @@ function bindInstallmentPaymentForm(form) {
   let secondDateRechargeCheck = form.qs('#ignore_second_recharge')
   let monthRechargeCheck = form.qs('#ignore_month_recharge')
   let useAmountWithDiscount = form.qs('#use_amount_with_discount')
+  let useDebitAmount = form.qs('#apply_extra_debit_charge')
   const buttons = form.qsa('button[type="submit"]')
   const restHint = form.qs('.rest')
   const restTemplate = restHint ? restHint.dataset.template : ''
@@ -78,6 +79,13 @@ function bindInstallmentPaymentForm(form) {
     useAmountWithDiscount.addEventListener('change', _e => {
       // update rest to pay
       setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck, useAmountWithDiscount)
+    })
+  }
+
+  if (useDebitAmount) {
+    useDebitAmount.addEventListener('change', _e => {
+      // update rest to pay
+      setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck, useDebitAmount)
     })
   }
 }

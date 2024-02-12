@@ -11,12 +11,18 @@
       = Membership.human_attribute_name(:use_non_regular_fee)
       i.form-icon
 
+  #apply_discounts class="#{f.object.apply_discounts ? "hidden" : ""}"
+    = label_tag '', class: 'form-checkbox' do
+      = f.check_box :apply_discounts
+      = Membership.human_attribute_name(:apply_discounts)
+      i.form-icon
+
   - amounts = membership.amounts
   .auto_calculation
     - if amounts[:fixedTotal] != '0,00'
       | Precio clases fijas: $#{amounts[:fixedTotal]} (o $#{amounts[:fixedTotalWithDiscount]})
       br
-    - if amounts[:durationTotal] != '0,00'
+    - if Setting.fetch('calculate_hourly_rates', 'yes') == 'yes' && amounts[:durationTotal] != '0,00'
       | Precio por #{amounts[:duration]}hs: $#{amounts[:durationTotal]} (o $#{amounts[:durationTotalWithDiscount]})
       br
     | Subtotal: $#{amounts[:subtotal]} (o $#{amounts[:subtotalWithDiscount]})

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_02_04_194559) do
+ActiveRecord::Schema.define(version: 2024_02_11_222718) do
 
   create_table "admins", charset: "utf8mb4", collation: "utf8mb4_spanish_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2024_02_04_194559) do
     t.datetime "updated_at", null: false
     t.integer "amount_with_discount_cents", default: 0, comment: "Amount to pay with discount"
     t.boolean "use_amount_with_discount", default: false, comment: "Indicates if this installment was paid with a discount"
+    t.boolean "apply_extra_debit_charge", default: false, comment: "Indicates if this installment was paid with debit"
     t.index ["membership_id"], name: "index_installments_on_membership_id"
   end
 
@@ -75,6 +76,7 @@ ActiveRecord::Schema.define(version: 2024_02_04_194559) do
     t.integer "non_regular_alt_fee_with_discount_cents", default: 0
     t.integer "fixed_alt_fee_cents", default: 0
     t.integer "fixed_alt_fee_with_discount_cents", default: 0
+    t.string "discount", comment: "% value to use as a discount on the fee"
     t.index ["teacher_id"], name: "index_klasses_on_teacher_id"
   end
 
@@ -106,6 +108,7 @@ ActiveRecord::Schema.define(version: 2024_02_04_194559) do
     t.integer "amount_with_discount_cents", default: 0, comment: "Price of the membership using discount values"
     t.boolean "use_manual_discount", default: false, comment: "Indicates if the membership was added with a custom discount value"
     t.integer "manual_discount", comment: "The % for the manually added discount"
+    t.boolean "apply_discounts"
     t.index ["package_id"], name: "index_memberships_on_package_id"
     t.index ["person_id"], name: "index_memberships_on_person_id"
   end

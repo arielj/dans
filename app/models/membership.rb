@@ -56,7 +56,7 @@ class Membership < ApplicationRecord
   end
 
   def amounts
-    @amounts ||= person.new_membership_amount_calculator(schedule_ids, use_non_regular_fee, use_manual_discount, manual_discount)
+    @amounts ||= person.new_membership_amount_calculator(schedule_ids, use_non_regular_fee, use_manual_discount, manual_discount, apply_klass_discount: apply_discounts)
   end
 
   def create_installments(from, to, year, arg_amount = nil, arg_amount_with_discount = nil)
