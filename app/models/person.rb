@@ -219,12 +219,12 @@ class Person < ApplicationRecord
     total_with_discounts = subtotal_with_discount - family_discount_total2 - manual_discount_total2 - discounts_sum_debit
     limitedTotal = false
 
-    discount_limit = Money.new(350_00)
+    # discount_limit = Money.new(350_00)
 
-    if total_with_discounts > 0 && total - total_with_discounts > discount_limit
-      total = total_with_discounts + discount_limit
-      limitedTotal = true
-    end
+    # if total_with_discounts > 0 && total - total_with_discounts > discount_limit
+    #   total = total_with_discounts + discount_limit
+    #   limitedTotal = true
+    # end
 
     amounts = {
       fixedTotal: fixed_total.to_s,

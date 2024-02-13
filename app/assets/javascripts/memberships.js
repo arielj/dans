@@ -13,12 +13,12 @@ function refreshAmount(form) {
       amountWithDiscount.replace(",", ".")
     );
 
-    if (amountF - amountWithDiscountF > 350) {
-      amount = amountWithDiscountF + 350 + "";
-      totalDiv.classList.add("limited-total");
-    } else {
-      totalDiv.classList.remove("limited-total");
-    }
+    // if (amountF - amountWithDiscountF > 350) {
+    //   amount = amountWithDiscountF + 350 + "";
+    //   totalDiv.classList.add("limited-total");
+    // } else {
+    //   totalDiv.classList.remove("limited-total");
+    // }
 
     totalSpan.innerHTML = `Total: $${amount} (o $${amountWithDiscount})`;
     return;

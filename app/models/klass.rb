@@ -80,12 +80,12 @@ class Klass < ApplicationRecord
   end
 
   def debit_fee(field)
-    fee = send("#{field}_with_discount")
-    if fee && fee > Money.new(0)
-      fee
-    else
+    # fee = send("#{field}_with_discount")
+    # if fee && fee > Money.new(0)
+    #   fee
+    # else
       send(field) * (100 + debit_value) / 100
-    end
+    # end
   end
 
   def debit_value

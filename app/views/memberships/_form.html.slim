@@ -62,7 +62,7 @@
         | Total: $#{f.object.amount} (o $#{f.object.amount_with_discount})
       - else
         | Total: $#{amounts[:total]} (o $#{amounts[:totalWithDiscount]})
-    .limited_total_message Valor sin descuento limitado a total + $350
+    / .limited_total_message Valor sin descuento limitado a total + $350
 
   .form-group
     => f.label :create_installments_from
