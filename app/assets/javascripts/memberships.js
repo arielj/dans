@@ -112,9 +112,11 @@ function bindMembershipForm() {
   });
 
   const nonRegularFeeInput = byid("membership_use_non_regular_fee");
-  nonRegularFeeInput?.addEventListener("change", (e) => {
-    refreshAmount(form);
-  });
+  if (nonRegularFeeInput) {
+    nonRegularFeeInput.addEventListener("change", (e) => {
+      refreshAmount(form);
+    });
+  }
 
   const applyDiscounts = byid("membership_apply_discounts");
   applyDiscounts.addEventListener("change", (e) => {
