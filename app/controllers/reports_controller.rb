@@ -109,6 +109,13 @@ class ReportsController < ApplicationController
   end
 
   def installments
+    params[:year] = Date.today.year unless params.key?(:year)
+    params[:month] = Installment.months.keys[Date.today.month - 1] unless params.key?(:month)
+
+    if params[:form_action] == 'export'
+      send_file(InstallmentsReportExporter.to_xls(year: params[:year], month: params[:month], klass_id: params[:klass_id], state: params[:installment_state], include_inactive_users: params[:include_inactive_users], only_with_recharge: params[:only_with_recharge])) and return
+    end
+
     ins = Installment.includes(:person)
 
     if params[:klass_id].present?

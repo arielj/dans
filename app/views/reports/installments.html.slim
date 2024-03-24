@@ -24,7 +24,9 @@ h1= t('titles.installments')
         i.form-icon>
         | Mostrar sólo cuotas con recargo
 
-    = submit_tag t('labels.filter'), class: 'btn btn-primary'
+    = button_tag t('labels.filter'), class: 'btn btn-primary', name: :form_action, value: :filter
+
+    = button_tag t('labels.export'), class: 'btn btn-secondary', name: :form_action, value: :export
 
 - total = Money.new(0)
 .scrollable
@@ -37,7 +39,7 @@ h1= t('titles.installments')
         th Clase
         th Monto
     
-    - @installments.each do |ins|
+    - @installments.includes(:payments, :klasses).each do |ins|
       - total += ins.waiting? ? ins.total : ins.amount_paid
       tr
         td= link_to ins.person.to_label, edit_person_path(ins.person)
