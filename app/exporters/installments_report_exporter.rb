@@ -16,7 +16,7 @@ class InstallmentsReportExporter
     Klass.find(klass_ids).each do |klass|
       worksheet = workbook.add_worksheet(klass.name.gsub(/[\[\]\:\*\?\/\\]/, ''))
 
-      headers = ['NOMBRE', 'AÑO', 'MES', 'CLASES', 'CUOTA', 'DESCUENTO?']
+      headers = ['NOMBRE', 'AÑO', 'MES', 'CLASES', 'CUOTA']
       worksheet.append_row(headers)
 
       count = 0
@@ -49,15 +49,20 @@ class InstallmentsReportExporter
             single_klass_amount = klass.fixed_alt_fee
           end
         end
+
+        if ins.membership.apply_discounts && klass.discount.present?
+          single_klass_amount = single_klass_amount * (100 - klass.discount.to_i)/100
+        end
+
         single_klass_amount = single_klass_amount.to_f
 
         total += single_klass_amount
 
-        row = [ins.person.to_label, year, month_name, klasses, total_amount, ins.membership.apply_discounts ? "Si" : "No", 1, single_klass ? "Sin Paquete" : "Paquete", single_klass_amount]
+        row = [ins.person.to_label, year, month_name, klasses, total_amount, 1, single_klass ? "Sin Paquete" : "Paquete", single_klass_amount]
         worksheet.append_row(row)
       end
 
-      row = ["", "", "", "", "", "", count, "", total]
+      row = ["", "", "", "", "", count, "", total]
       worksheet.append_row(row)
     end
 
