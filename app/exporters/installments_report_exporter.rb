@@ -35,8 +35,9 @@ class InstallmentsReportExporter
       installments.includes(:membership).uniq.each do |ins|
         count += 1
 
-        klasses = ins.klasses.map{|k| k.name}.join(', ')
-        klass_ids = ins.klass_ids
+        klasses = ins.membership_klasses
+        klass_names = klasses.map(&:name).join(', ')
+        klass_ids = klasses.map(&:id)
         single_klass = klass_ids.uniq.length == 1
 
         total_amount = ins.amount.to_f
@@ -58,7 +59,7 @@ class InstallmentsReportExporter
 
         total += single_klass_amount
 
-        row = [ins.person.to_label, year, month_name, klasses, total_amount, 1, single_klass ? "Sin Paquete" : "Paquete", single_klass_amount]
+        row = [ins.person.to_label, year, month_name, klass_names, total_amount, 1, single_klass ? "Sin Paquete" : "Paquete", single_klass_amount]
         worksheet.append_row(row)
       end
 
