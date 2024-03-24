@@ -51,7 +51,7 @@ class InstallmentsReportExporter
         end
 
         if ins.membership.apply_discounts && klass.discount.present?
-          single_klass_amount = single_klass_amount * (100 - klass.discount.to_i)/100
+          single_klass_amount = single_klass_amount * (100 - klass.discount.to_f)/100
         end
 
         single_klass_amount = single_klass_amount.to_f
