@@ -4,9 +4,36 @@ class Setting < ApplicationRecord
   self.primary_key = 'key'
   serialize :value
 
+  @@cache = {}
+
+  def self.cache
+    @@cache
+  end
+
+  def self.cached(key)
+    cached = cache[key]
+    if cached && cached[:timestamp] > 2.minutes.ago
+      cached[:value]
+    else
+      nil
+    end
+  end
+
+  def self.add_to_cache(key, value)
+    cache[key] = { value: value, timestamp: DateTime.current }
+  end
+
   def self.fetch(key, default)
     k = key.to_sym
-    find(k).value rescue default
+
+    cached_value = cached(k)
+    return cached_value if cached_value
+
+    val = find(k).value rescue default
+
+    add_to_cache(k, val)
+
+    val
   end
 
   def self.set(key, value)
