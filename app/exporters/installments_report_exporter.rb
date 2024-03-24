@@ -16,7 +16,7 @@ class InstallmentsReportExporter
     Klass.find(klass_ids).each do |klass|
       worksheet = workbook.add_worksheet(klass.name)
 
-      headers = ['NOMBRE', 'AÑO', 'MES', 'CLASES', 'CUOTA']
+      headers = ['NOMBRE', 'AÑO', 'MES', 'CLASES', 'CUOTA', 'DESCUENTO?']
       worksheet.append_row(headers)
 
       count = 0
@@ -31,9 +31,8 @@ class InstallmentsReportExporter
         end
       installments = installments.for_active_users unless include_inactive_users
       installments = installments.with_recharge if only_with_recharge
-      ins_ids = installments.pluck(:id).uniq
 
-      Installment.where(id: ins_ids).each do |ins|
+      installments.includes(:membership).uniq.each do |ins|
         count += 1
 
         klasses = ins.klasses.map{|k| k.name}.join(', ')
@@ -43,18 +42,22 @@ class InstallmentsReportExporter
         total_amount = ins.amount.to_f
         single_klass_amount = total_amount
         unless single_klass
+          single_klass_amount = klass.fixed_fee
+          
           schedules_for_klass = klass_ids.select{ |id| id == klass.id }
-          single_klass_amount = schedules_for_klass.length > 1 ? klass.fixed_fee : klass.fixed_alt_fee || klass.fixed_fee
+          if schedules_for_klass.length == 1 && klass.fixed_alt_fee > 0
+            single_klass_amount = klass.fixed_alt_fee
+          end
         end
         single_klass_amount = single_klass_amount.to_f
 
         total += single_klass_amount
 
-        row = [ins.person.to_label, year, month_name, klasses, total_amount, 1, single_klass ? "Sin Paquete" : "Paquete", single_klass_amount]
+        row = [ins.person.to_label, year, month_name, klasses, total_amount, ins.membership.apply_discounts ? "Si" : "No", 1, single_klass ? "Sin Paquete" : "Paquete", single_klass_amount]
         worksheet.append_row(row)
       end
 
-      row = ["", "", "", "", "", count, "", total]
+      row = ["", "", "", "", "", "", count, "", total]
       worksheet.append_row(row)
     end
 
