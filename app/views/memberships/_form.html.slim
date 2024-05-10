@@ -11,7 +11,7 @@
   /     = Membership.human_attribute_name(:use_non_regular_fee)
   /     i.form-icon
 
-  #apply_discounts class="#{f.object.apply_discounts ? "hidden" : ""}"
+  #apply_discounts
     = label_tag '', class: 'form-checkbox' do
       = f.check_box :apply_discounts
       = Membership.human_attribute_name(:apply_discounts)
