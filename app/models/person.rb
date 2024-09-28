@@ -141,6 +141,10 @@ class Person < ApplicationRecord
       schedules_by_klass[kls.id][:schedules] << sch
     end
 
+    # if student goes to more than 2 classes, use `package` fee
+    # if 1 or 2 classes, use `regular` fees
+    use_non_regular_fees = sch_ids.count < 3
+
     # process fees and hours of classes based on number of schedules and type of fee
     fixed_total = Money.new(0)
     fixed_total_with_discount = Money.new(0)

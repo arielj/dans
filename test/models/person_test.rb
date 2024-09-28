@@ -19,7 +19,7 @@ class PersonTest < ActiveSupport::TestCase
         assert_equal 3, payments.size
         ins = @student.installments.order(month: :asc)
         assert ins.first.paid_with_interests? # 600_00
-        assert ins.second.paid? # 500_00
+        assert ins.second.paid_with_debit? # 500_00
         assert ins.third.payments.present?
         assert_equal Money.new(200_00), ins.third.payments.first.amount
 
@@ -146,48 +146,57 @@ class PersonTest < ActiveSupport::TestCase
   end
 
   class MembershipCalculatorTest < self
-    test 'calculates correct amounts' do
-      student = FactoryBot.create(:student)
+    def setup
+      @student = FactoryBot.create(:student)
       Setting.set('calculate_hourly_rates', 'no')
 
-      jazz_prin = FactoryBot.create(:klass_with_schedules, name: "Jazz principiante", fixed_fee_cents: 20_000_00, fixed_alt_fee_cents: 12_500_00, discount: 10, fixed_fee_with_discount_cents: 0)
-      jazz_adul = FactoryBot.create(:klass_with_schedules, name: "Jazz Adultos", fixed_fee_cents: 20_000_00, fixed_alt_fee_cents: 12_500_00, discount: 10, fixed_fee_with_discount_cents: 0)
-      jazz_nin5 = FactoryBot.create(:klass_with_schedules, name: "Jazz Niños +5", fixed_fee_cents: 12_500_00, discount: 10, fixed_fee_with_discount_cents: 0)
-      jazz_nin7 = FactoryBot.create(:klass_with_schedules, name: "Jazz Niños +7", fixed_fee_cents: 12_500_00, discount: 10, fixed_fee_with_discount_cents: 0)
-      jazz_inter = FactoryBot.create(:klass_with_schedules, name: "Jazz intermedio", fixed_fee_cents: 20_000_00, fixed_alt_fee_cents: 12_500_00, discount: 10, fixed_fee_with_discount_cents: 0)
-      jazz_avan = FactoryBot.create(:klass_with_schedules, name: "Jazz avanzado", fixed_fee_cents: 20_000_00, fixed_alt_fee_cents: 12_500_00, discount: 10, fixed_fee_with_discount_cents: 0)
-      jazz_adul_prof = FactoryBot.create(:klass_with_schedules, name: "Jazz Adultos Profesionales", fixed_fee_cents: 20_000_00, fixed_alt_fee_cents: 12_500_00, discount: 10, fixed_fee_with_discount_cents: 0)
-      clas_nin = FactoryBot.create(:klass_with_schedules, name: "Clásico Niños", fixed_fee_cents: 12_500_00, discount: 10, fixed_fee_with_discount_cents: 0)
-      clas_inter = FactoryBot.create(:klass_with_schedules, name: "Clásico intermedio", fixed_fee_cents: 20_000_00, fixed_alt_fee_cents: 12_500_00, discount: 10, fixed_fee_with_discount_cents: 0)
-      esp_inter_avan = FactoryBot.create(:klass_with_schedules, name: "Español intermedio y avanzado", fixed_fee_cents: 16_000_00, discount: 10, fixed_fee_with_discount_cents: 0)
-      tapp = FactoryBot.create(:klass_with_schedules, name: "Tap", fixed_fee_cents: 12_500_00, discount: 5, fixed_fee_with_discount_cents: 0)
-      cofus_inter = FactoryBot.create(:klass_with_schedules, name: "Coreo Funsión intermedio", fixed_fee_cents: 20_000_00, fixed_alt_fee_cents: 12_500_00, discount: 5, fixed_fee_with_discount_cents: 0)
-      cofus_avan = FactoryBot.create(:klass_with_schedules, name: "Coreo Funsión avanzado", fixed_fee_cents: 20_000_00, fixed_alt_fee_cents: 12_500_00, discount: 5, fixed_fee_with_discount_cents: 0)
-      comer = FactoryBot.create(:klass_with_schedules, name: "Comercial + 16", fixed_fee_cents: 12_500_00, discount: 5, fixed_fee_with_discount_cents: 0)
-      fus_kids = FactoryBot.create(:klass_with_schedules, name: "Fusión kids", fixed_fee_cents: 16_700_00, fixed_alt_fee_cents: 12_500_00, discount: 5, fixed_fee_with_discount_cents: 0)
-      hip_hop = FactoryBot.create(:klass_with_schedules, name: "Hip Hop", fixed_fee_cents: 12_500_00, discount: 5, fixed_fee_with_discount_cents: 0)
-      dancehall = FactoryBot.create(:klass_with_schedules, name: "Dancehall", fixed_fee_cents: 12_500_00, discount: 5, fixed_fee_with_discount_cents: 0)
-      dance_todos = FactoryBot.create(:klass_with_schedules, name: "Dancehall para todos", fixed_fee_cents: 12_500_00, discount: 5, fixed_fee_with_discount_cents: 0)
-      flamenco = FactoryBot.create(:klass_with_schedules, name: "Flamenco adultos", fixed_fee_cents: 12_500_00, discount: 5, fixed_fee_with_discount_cents: 0)
+      @jazz_prin = FactoryBot.create(:klass_with_schedules, name: "Jazz principiante", fixed_fee_cents: 20_000_00, fixed_alt_fee_cents: 12_500_00, non_regular_fee_cents: 21_000_00, non_regular_alt_fee_cents: 13_000_00, discount: 10, fixed_fee_with_discount_cents: 0)
+      @esp_inter_avan = FactoryBot.create(:klass_with_one_schedule, name: "Español intermedio y avanzado", fixed_fee_cents: 16_000_00, non_regular_fee_cents: 17_000_00, discount: 10, fixed_fee_with_discount_cents: 0)
+      @tapp = FactoryBot.create(:klass_with_schedules, name: "Tap", fixed_fee_cents: 12_500_00, discount: 5, fixed_fee_with_discount_cents: 0)
+      @cofus_inter = FactoryBot.create(:klass_with_schedules, name: "Coreo Funsión intermedio", fixed_fee_cents: 20_000_00, fixed_alt_fee_cents: 12_500_00, non_regular_fee_cents: 21_000_00, non_regular_alt_fee_cents: 13_000_00, discount: 5, fixed_fee_with_discount_cents: 0)
+      @cofus_avan = FactoryBot.create(:klass_with_schedules, name: "Coreo Funsión avanzado", fixed_fee_cents: 20_000_00, fixed_alt_fee_cents: 12_500_00, non_regular_fee_cents: 21_000_00, non_regular_alt_fee_cents: 13_000_00, discount: 5, fixed_fee_with_discount_cents: 0)
 
-      # jazz avanzado 6hs 12500 - 1250
-      # Coreo fusión intermedio 20000 - 1000
-      # total: 32500 - 2250
-      sch_ids = [jazz_prin.schedules.first.id] + cofus_inter.schedules.pluck(:id)
-      amounts = student.new_membership_amount_calculator(sch_ids, apply_klass_discount: true)
+    end
+
+    test 'single class - one day = no package price and 1 week price' do
+      # non_regular_alt_fee_cents: 13_000_00
+      sch_ids = [@jazz_prin.schedules.first.id]
+      amounts = @student.new_membership_amount_calculator(sch_ids, apply_klass_discount: true)
+      assert_equal "13000,00", amounts[:fixedTotal]
+      assert_equal "11700,00", amounts[:total]
+      assert_equal "1300,00", amounts[:discountTotal]
+    end
+
+    test 'single class - two days = no package price and full price' do
+      sch_ids = [@jazz_prin.schedules.ids]
+      amounts = @student.new_membership_amount_calculator(sch_ids, apply_klass_discount: true)
+      assert_equal "21000,00", amounts[:fixedTotal]
+      assert_equal "18900,00", amounts[:total]
+      assert_equal "2100,00", amounts[:discountTotal]
+    end
+
+    test 'two classes - one day each = no package price and 1 week price each' do
+      sch_ids = [@jazz_prin.schedules.first.id, @cofus_inter.schedules.first.id]
+      amounts = @student.new_membership_amount_calculator(sch_ids, apply_klass_discount: true)
+      assert_equal "26000,00", amounts[:fixedTotal]
+      assert_equal "24050,00", amounts[:total]
+      assert_equal "1950,00", amounts[:discountTotal]
+    end
+
+    test 'two classes - one: 1 day, other: 2 days = package price, 1 week price for one, full price for the other' do
+      sch_ids = [@jazz_prin.schedules.first.id, *@cofus_inter.schedules.ids]
+      amounts = @student.new_membership_amount_calculator(sch_ids, apply_klass_discount: true)
       assert_equal "32500,00", amounts[:fixedTotal]
       assert_equal "30250,00", amounts[:total]
       assert_equal "2250,00", amounts[:discountTotal]
+    end
 
-      # jazz avanzado 6hs 12500
-      # Coreo fusión intermedio 20000
-      # total: 32500
-      sch_ids = [jazz_prin.schedules.first.id] + cofus_inter.schedules.pluck(:id)
-      amounts = student.new_membership_amount_calculator(sch_ids)
-      assert_equal "32500,00", amounts[:fixedTotal]
-      assert_equal "32500,00", amounts[:total]
-      assert_equal "0,00", amounts[:discountTotal]
-
+    test 'three classes - one day each = package price and 1 week price each' do
+      sch_ids = [@jazz_prin.schedules.first.id, @cofus_inter.schedules.first.id, @cofus_avan.schedules.first.id ]
+      amounts = @student.new_membership_amount_calculator(sch_ids, apply_klass_discount: true)
+      assert_equal "37500,00", amounts[:fixedTotal]
+      assert_equal "35000,00", amounts[:total]
+      assert_equal "2500,00", amounts[:discountTotal]
     end
   end
 end

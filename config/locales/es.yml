@@ -297,13 +297,13 @@ es:
         to_pay: Saldo
       klass:
         name: Nombre
-        non_regular_fee: 'Precio no regulares'
+        non_regular_fee: 'Precio completo (2xSemana) sin paquete'
         non_regular_fee_with_discount: 'Precio no regulares (con descuento)'
-        fixed_fee: 'Precio completo (contado)'
+        fixed_fee: 'Precio completo (2xSemana) con paquete'
         fixed_fee_with_discount: 'Precio completo (débito)'
-        non_regular_alt_fee: 'Precio no regulares - 1 clase'
+        non_regular_alt_fee: 'Precio alternativo (1xSemana) sin paquete'
         non_regular_alt_fee_with_discount: 'Precio no regulares - 1 clase (con descuento)'
-        fixed_alt_fee: 'Precio alternativo (contado)'
+        fixed_alt_fee: 'Precio alternativo (1xSemana) con paquete'
         fixed_alt_fee_with_discount: 'Precio alternativo (débito)'
         status: Estado
         schedules: Horarios
