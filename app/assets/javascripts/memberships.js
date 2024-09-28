@@ -2,6 +2,7 @@ function refreshAmount(form) {
   const useCustomAmountCheck = byid("membership_use_custom_amount");
   const totalDiv = form.qs(".auto_calculation_total");
   const totalSpan = totalDiv.qs("span");
+  const totalDetails = totalDiv.qs(".details");
   const customAmountInput = byid("membership_amount");
   const customAmountInputWithDiscount = byid("membership_amount_with_discount");
 
@@ -61,6 +62,8 @@ function refreshAmount(form) {
       // if (resp.durationTotal && resp.durationTotal !== "0,00")
       //   s += `Precio por ${resp.duration}hs: $${resp.durationTotal} (o $${resp.durationTotalWithDiscount})<br />`;
 
+      console.log(resp.details);
+
       s += `Subtotal: $${resp.subtotal} (o $${resp.subtotalWithDiscount})<br />`;
       if (resp.klassesDiscount !== 0)
         s += `Descuento de clases: $${resp.klassesDiscount}<br />`;
@@ -70,6 +73,8 @@ function refreshAmount(form) {
       div.innerHTML = s;
 
       totalSpan.innerHTML = `Total: $${resp.total} (o $${resp.totalWithDiscount})`;
+
+      totalDetails.innerHTML = resp.details.join("<br>");
 
       if (resp.limitedTotal) {
         totalDiv.classList.add("limited-total");

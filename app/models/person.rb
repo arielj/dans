@@ -133,6 +133,31 @@ class Person < ApplicationRecord
   end
 
   def new_membership_amount_calculator(sch_ids, use_non_regular_fees = false, use_manual_discount = false, manual_discount = '', apply_klass_discount: false)
+    if sch_ids.nil?
+      return {
+        fixedTotal: "0",
+        fixedTotalWithDiscount: "0",
+        familyDiscount: "0",
+        familyDiscountTotal: "0",
+        familyDiscountTotal2: "0",
+        manualDiscount: "0",
+        manualDiscountTotal: "0",
+        manualDiscountTotal2: "0",
+        discount: "0",
+        klassesDiscount: "0",
+        subtotal: "0",
+        subtotalWithDiscount: "0",
+        discountTotal: "0",
+        discountTotalWithDiscount: "0",
+        total: "0",
+        totalWithDiscount: "0",
+        limitedTotal: "0",
+        details: []
+      }
+    end
+
+    details = []
+
     # count schedules by klass
     schedules_by_klass = {}
     Schedule.where(id: sch_ids).joins(:klass).each do |sch|
@@ -144,6 +169,9 @@ class Person < ApplicationRecord
     # if student goes to more than 2 classes, use `package` fee
     # if 1 or 2 classes, use `regular` fees
     use_non_regular_fees = sch_ids.count < 3
+
+    details << "Clases: #{sch_ids.count}. Usando #{use_non_regular_fees ? "Precios sin paquete" : "Precios con paquete" }"
+    details << ""
 
     # process fees and hours of classes based on number of schedules and type of fee
     fixed_total = Money.new(0)
@@ -171,6 +199,19 @@ class Person < ApplicationRecord
           end
         end
 
+      klasses_price_detail =
+        if data[:schedules].count == 1
+          if kls.schedules.count == 1
+            "1 clase de 1 posible"
+          else
+            "1 clase de #{kls.schedules.count} posibles"
+          end
+        else
+          "#{data[:schedules].count} clases de #{kls.schedules.count} posibles"
+        end
+
+      details << "#{kls.name} - #{klasses_price_detail} : $#{f1} ($#{f2} con débito)"
+      
       if f1&.positive?
         kls_discount = kls.discount.to_i
         if apply_klass_discount && kls_discount > 0
@@ -180,9 +221,11 @@ class Person < ApplicationRecord
 
         fixed_total += f1
         fixed_total_with_discount += f2
+        details << "Suma parcial: $#{fixed_total} ($#{fixed_total_with_discount} con débito)"
       else
         duration += data[:schedules].map(&:duration).sum
       end
+      details << ""
     end
 
     subtotal = fixed_total
@@ -215,12 +258,19 @@ class Person < ApplicationRecord
     family_discount_total, family_discount_total2 =
       [subtotal / 100 * family_discount, subtotal_with_discount / 100 * family_discount]
 
+    details << "Descuento familiar: $#{family_discount_total} ($#{family_discount_total2} con débito)" if family_discount > 0
+
     # manual discount applies only to classes with fixed fee
     manual_discount_total, manual_discount_total2 =
       [fixed_total / 100 * manual_discount, fixed_total_with_discount / 100 * manual_discount]
 
+    details << "Descuento manual: $#{manual_discount_total} ($#{manual_discount_total2} con débito)" if manual_discount > 0
+
     total = subtotal - family_discount_total - manual_discount_total - discounts_sum
     total_with_discounts = subtotal_with_discount - family_discount_total2 - manual_discount_total2 - discounts_sum_debit
+
+    details << "Total: $#{total} ($#{total_with_discounts} con débito)"
+
     limitedTotal = false
 
     # discount_limit = Money.new(350_00)
@@ -248,6 +298,7 @@ class Person < ApplicationRecord
       total: total.to_s,
       totalWithDiscount: total_with_discounts.to_s,
       limitedTotal: limitedTotal,
+      details: details
     }
 
     if calculate_hourly_rates

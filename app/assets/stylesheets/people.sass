@@ -132,6 +132,7 @@ ul.payment-details li
 
 .auto_calculation_total
   display: flex
+  position: relative
   .limited_total_message
     display: none
   &.limited-total
@@ -140,6 +141,20 @@ ul.payment-details li
       margin-left: 1rem
       color: grey
       font-style: italic
+
+  .details
+    display: none
+    position: absolute
+    bottom: 0px
+    left: 200px
+    background: white
+    padding: 1rem
+    box-shadow: 3px 4px 15px 0px rgba(0,0,0,0.75)
+    -webkit-box-shadow: 3px 4px 15px 0px rgba(0,0,0,0.75)
+    -moz-box-shadow: 3px 4px 15px 0px rgba(0,0,0,0.75)
+
+  &:hover .details:not(:empty)
+    display: block
 
 #use_manual_amount:not(.hidden) ~ label,
 #use_manual_amount:not(.hidden) ~ .input-group

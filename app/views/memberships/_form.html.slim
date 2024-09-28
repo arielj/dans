@@ -57,12 +57,14 @@
     = f.text_field :manual_discount, value: "#{f.object.manual_discount}%", class: 'form-input', placeholder: '0%'
 
   .auto_calculation_total class="#{amounts[:limitedTotal] ? "limited-total" : ""}"
+    .details
     span
       - if f.object.use_custom_amount
         | Total: $#{f.object.amount} (o $#{f.object.amount_with_discount})
       - else
         | Total: $#{amounts[:total]} (o $#{amounts[:totalWithDiscount]})
     / .limited_total_message Valor sin descuento limitado a total + $350
+    ' &nbsp;(ver detalles del cálculo)
 
   .form-group
     => f.label :create_installments_from
