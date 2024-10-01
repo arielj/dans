@@ -168,9 +168,10 @@ class Person < ApplicationRecord
 
     # if student goes to more than 2 classes, use `package` fee
     # if 1 or 2 classes, use `regular` fees
-    use_non_regular_fees = sch_ids.count < 3
+    total_klasses = schedules_by_klass.keys.count
+    use_non_regular_fees = total_klasses < 3
 
-    details << "Clases: #{sch_ids.count}. Usando #{use_non_regular_fees ? "Precios sin paquete" : "Precios con paquete" }"
+    details << "Materias: #{total_klasses}. Usando #{use_non_regular_fees ? "Precios sin paquete" : "Precios con paquete" }"
     details << ""
 
     # process fees and hours of classes based on number of schedules and type of fee

@@ -183,12 +183,12 @@ class PersonTest < ActiveSupport::TestCase
       assert_equal "1950,00", amounts[:discountTotal]
     end
 
-    test 'two classes - one: 1 day, other: 2 days = package price, 1 week price for one, full price for the other' do
+    test 'two classes - one: 1 day, other: 2 days = non-package price, 1 week price for one, full price for the other' do
       sch_ids = [@jazz_prin.schedules.first.id, *@cofus_inter.schedules.ids]
       amounts = @student.new_membership_amount_calculator(sch_ids, apply_klass_discount: true)
-      assert_equal "32500,00", amounts[:fixedTotal]
-      assert_equal "30250,00", amounts[:total]
-      assert_equal "2250,00", amounts[:discountTotal]
+      assert_equal "34000,00", amounts[:fixedTotal]
+      assert_equal "31650,00", amounts[:total]
+      assert_equal "2350,00", amounts[:discountTotal]
     end
 
     test 'three classes - one day each = package price and 1 week price each' do
