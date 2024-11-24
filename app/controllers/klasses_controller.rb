@@ -33,14 +33,14 @@ class KlassesController < ApplicationController
       if @month.blank?
         klass.students_for_year(@year)
       else
-        klass.students_for_year_and_month(@year, @month)
+        klass.students_for_year_and_month(@year, @month, inactive: false)
       end
 
     @inactive_students =
       if @month.blank?
         klass.students_for_year(@year, inactive: true)
       else
-        klass.students_for_year_and_month(@year, @month, inactive: true)
+        klass.students_for_year_and_month(@year, @month, inactive: true, hide_unpaid_inactive: true)
       end
   end
 

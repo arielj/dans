@@ -51,10 +51,12 @@ class Klass < ApplicationRecord
     inactive ? scope.inactive : scope.active
   end
 
-  def students_for_year_and_month(year, month, inactive: false)
+  def students_for_year_and_month(year, month, inactive: false, hide_unpaid_inactive: true)
     return Person.none if get_installments.empty?
 
-    pids = get_installments.includes(:membership).where(year: year, month: month).pluck('distinct(person_id)')
+    pids_scope = get_installments.includes(membership: :person).where(year: year, month: month)
+    pids_scope = pids_scope.where.not(installments: { status: :waiting }) if inactive && hide_unpaid_inactive
+    pids = pids_scope.pluck('distinct(person_id)')
 
     scope = Person.where(id: pids)
     inactive ? scope.inactive : scope.active
