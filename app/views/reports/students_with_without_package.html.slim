@@ -1,0 +1,36 @@
+h1= t('titles.students_with_without_package')
+.filters
+  h2= t('labels.filters')
+  = form_tag '', method: :get do
+    .form-group
+      = label_tag :year, 'Año', class: 'form-label'
+      = number_field_tag :year, @year, class: 'form-input'
+    .form-group
+      = label_tag :month, 'Mes', class: 'form-label'
+      = select_tag :month, options_for_select(Installment.months_for_select, @month), required: true, class: 'form-select'
+
+    => button_tag t('labels.filter'), value: :filter, type: :submit, class: 'btn btn-primary'
+    => button_tag t('labels.export'), value: :export, type: :submit, class: 'btn btn-secondary'
+
+.stats
+  h2 Estadísticas
+  ul
+    li Con paquete: #{@stats[:with]}
+    li Sin paquete: #{@stats[:without]}
+    li Total: #{@stats[:total]}
+
+.scrollable
+  table
+    thead
+      tr
+        th Clase
+        th Con paquete
+        th Sin paquete
+        th Total
+    tbody
+      - @klasses.each do |kls|
+        tr
+          td= kls.name
+          td #{@data.dig(kls.id, :with) || 0}
+          td #{@data.dig(kls.id, :without) || 0}
+          td #{@data.dig(kls.id, :total) || 0}

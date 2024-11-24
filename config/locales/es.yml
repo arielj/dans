@@ -178,7 +178,7 @@ es:
     installments: Cuotas
     payments: Pagos
     receipts: Recibos
-    students_hours: Alumnos/as por Hora
+    students_with_without_package: Alumnos/as con y sin paquete
     extra_klasses_students: Alumnos/as en clases extra
   
   menu:
@@ -188,7 +188,7 @@ es:
     payments: Pagos
     receipts: Recibos
     reports: Reportes
-    students_hours: Alums. por Hora
+    students_with_without_package: Alums. con/sin paquete
     extra_klasses_students: "Alums / clases extra"
 
   session:

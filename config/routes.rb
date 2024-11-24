@@ -91,7 +91,7 @@ Rails.application.routes.draw do
     get :daily_cash
     get :payments
     get :receipts
-    get :students_hours
+    get :students_with_without_package
     get :extra_klasses_students
     get :debts
     get :installments

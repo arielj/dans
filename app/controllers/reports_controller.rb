@@ -51,25 +51,26 @@ class ReportsController < ApplicationController
     @receipt_items = MoneyTransaction.where(receipt: params[:receipt]) if params[:receipt]
   end
 
-  def students_hours
+  def students_with_without_package
     @year = (params[:year] || DateTime.current.year).to_i
-    @klasses = Klass.where(fixed_fee_cents: 0)
-    @students = Person.active.students.order(name: :asc)
-    @data = {}
-    mids = Installment.where(year: @year).pluck('distinct(membership_id)')
-    Membership.where(person_id: @students.pluck(:id), id: mids).includes(schedules: :klass).each do |m|
-      @data[m.person_id] ||= {}
-      m.schedules.each do |sch|
-        @data[m.person_id][sch.klass_id] ||= 0
-        @data[m.person_id][sch.klass_id] += sch.duration
+    @month = params[:month] || Date::MONTHNAMES[Date.today.month].downcase
+
+    @data = Hash.new()
+    @stats = {with: 0, without: 0, total: 0}
+
+    # sum number of users per klass and with/without package
+    Person.includes(installments: :klasses).where(installments: {year: @year, month: @month}).each do |per|
+      with_or_without = per.installments[0].klasses.length > 2 ? :with : :without
+      per.installments[0].klasses.each do |kls|
+        @data[kls.id] ||= {with: 0, without: 0, total: 0}
+        @data[kls.id][with_or_without] += 1
+        @data[kls.id][:total] += 1
+        @stats[with_or_without] += 1
+        @stats[:total] += 1
       end
     end
-    @stats = {}
-    @data.each do |_std, klasses|
-      sum = klasses.values.sum
-      @stats[sum] ||= 0
-      @stats[sum] += 1
-    end
+
+    @klasses = Klass.where(id: @data.keys)
 
     if params[:button] == 'export'
       send_file(StudentsHoursReportExporter.to_xls(@year, @klasses, @students, @data, @stats)) and return
