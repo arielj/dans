@@ -65,9 +65,9 @@ class ReportsController < ApplicationController
         @data[kls.id] ||= {with: 0, without: 0, total: 0}
         @data[kls.id][with_or_without] += 1
         @data[kls.id][:total] += 1
-        @stats[with_or_without] += 1
-        @stats[:total] += 1
       end
+      @stats[with_or_without] += 1
+      @stats[:total] += 1
     end
 
     @klasses = Klass.where(id: @data.keys)
