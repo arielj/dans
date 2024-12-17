@@ -95,7 +95,7 @@ body.c_reports
         table
           width: 100%
 
-  &.a_extra_klasses_students
+  &.a_amount_paid_per_klass
     .filters form
       display: flex
       margin-bottom: .2rem
@@ -106,6 +106,13 @@ body.c_reports
 
       .form-group:first-of-type
         width: 150px
+    table
+      width: 100%
+      tr:nth-child(odd)
+        background: lightgray
+      tr:hover
+        background: darkgray
+        color: white
 
 .c_reports.a_receipts object
   display: block

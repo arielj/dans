@@ -152,11 +152,14 @@ class Person < ApplicationRecord
         total: "0",
         totalWithDiscount: "0",
         limitedTotal: "0",
-        details: []
+        details: [],
+        usingFeesWithPackage: true,
+        feesPerKlass: {}
       }
     end
 
     details = []
+    fees_per_klass = {}
 
     # count schedules by klass
     schedules_by_klass = {}
@@ -169,9 +172,9 @@ class Person < ApplicationRecord
     # if student goes to more than 2 classes, use `package` fee
     # if 1 or 2 classes, use `regular` fees
     total_klasses = schedules_by_klass.keys.count
-    use_non_regular_fees = total_klasses < 3
+    use_regular_fees = total_klasses >= 3
 
-    details << "Materias: #{total_klasses}. Usando #{use_non_regular_fees ? "Precios sin paquete" : "Precios con paquete" }"
+    details << "Materias: #{total_klasses}. Usando #{use_regular_fees ? "Precios con paquete" : "Precios sin paquete"}"
     details << ""
 
     # process fees and hours of classes based on number of schedules and type of fee
@@ -183,7 +186,7 @@ class Person < ApplicationRecord
     schedules_by_klass.each do |klass_id, data|
       kls = data[:klass]
       f1, f2 =
-        if use_non_regular_fees && kls.non_regular_fee
+        if !use_regular_fees && kls.non_regular_fee
           if data[:schedules].count < kls.schedules.count && kls.non_regular_alt_fee
             # if not full all days and there's an alternative price
             # [kls.non_regular_alt_fee, kls.non_regular_alt_fee_with_discount]
@@ -212,6 +215,7 @@ class Person < ApplicationRecord
         end
 
       details << "#{kls.name} - #{klasses_price_detail} : $#{f1} ($#{f2} con débito)"
+      fees_per_klass[kls.id] = f1
       
       if f1&.positive?
         kls_discount = kls.discount.to_i
@@ -299,7 +303,9 @@ class Person < ApplicationRecord
       total: total.to_s,
       totalWithDiscount: total_with_discounts.to_s,
       limitedTotal: limitedTotal,
-      details: details
+      details: details,
+      usingFeesWithPackage: use_regular_fees,
+      feesPerKlass: fees_per_klass
     }
 
     if calculate_hourly_rates

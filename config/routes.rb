@@ -92,7 +92,7 @@ Rails.application.routes.draw do
     get :payments
     get :receipts
     get :students_with_without_package
-    get :extra_klasses_students
+    get :amount_paid_per_klass
     get :debts
     get :installments
   end

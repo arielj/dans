@@ -4,7 +4,7 @@ class Installment < ApplicationRecord
   include Payable
   monetize :amount_with_discount_cents
 
-  belongs_to :membership
+  belongs_to :membership, required: true
   has_one :person, through: :membership
   has_many :membership_klasses, class_name: "Klass", through: :membership, source: :klasses
   has_and_belongs_to_many :klasses

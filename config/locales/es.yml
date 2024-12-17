@@ -179,7 +179,7 @@ es:
     payments: Pagos
     receipts: Recibos
     students_with_without_package: Alumnos/as con y sin paquete
-    extra_klasses_students: Alumnos/as en clases extra
+    amount_paid_per_klass: Recaudación por clase
   
   menu:
     daily_cash: Caja Diaria
@@ -189,7 +189,7 @@ es:
     receipts: Recibos
     reports: Reportes
     students_with_without_package: Alums. con/sin paquete
-    extra_klasses_students: "Alums / clases extra"
+    amount_paid_per_klass: "Recaudación"
 
   session:
     close: Cerrar sesión

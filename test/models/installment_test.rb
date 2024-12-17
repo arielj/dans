@@ -11,7 +11,7 @@ class InstallmentTest < ActiveSupport::TestCase
       assert ins.valid?
     end
 
-    test 'requries a month' do
+    test 'requires a month' do
       ins = FactoryBot.build(:installment, month: nil)
       assert ins.invalid?
       assert_not_empty ins.errors[:month]

@@ -1,4 +1,4 @@
-h1= t('titles.extra_klasses_students')
+h1= t('titles.amount_paid_per_klass')
 .filters
   = form_tag '', method: :get do
     .form-group
@@ -23,27 +23,28 @@ h1= t('titles.extra_klasses_students')
     thead
       tr
         th Clase
-        - @klasses.each do |kls|
-          th = kls.name
+        - @data.each do |kid, data|
+          th = data[:klass_name]
         th Total
     tbody
       tr
         td Regulares
-        - @klasses.each do |kls|
+        - @data.each do |kid, data|
           td
-            => @data[kls.id][:regular]
+            => data[:regular]
             ' /
-            = "$#{@totals[kls.id][:regular]}"
+            = "$#{@totals[kid][:regular]}"
         td = "$#{@totals.map{|k, v| v[:regular]}.sum}"
       tr
         td No regulares
-        - @klasses.each do |kls|
+        - @data.each do |kid, data|
           td
-            => @data[kls.id][:non_regular]
+            => data[:non_regular]
             ' /
-            = "$#{@totals[kls.id][:non_regular]}"
+            = "$#{@totals[kid][:non_regular]}"
         td = "$#{@totals.map{|k, v| v[:non_regular]}.sum}"
       tr
         td = ''
-        - @klasses.each do |kls|
-          td = "$#{@totals[kls.id].values.sum}"
+        - @data.each do |kid, data|
+          td = "$#{@totals[kid].values.sum}"
+        td = "$#{@totals.map {|id, data| data.values.sum }.sum}"

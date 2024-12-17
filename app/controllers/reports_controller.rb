@@ -80,25 +80,34 @@ class ReportsController < ApplicationController
     end
   end
 
-  def extra_klasses_students
+  def amount_paid_per_klass
     @year = (params[:year] || DateTime.current.year).to_i
     @month = params[:month] || Installment.months_for_select[DateTime.current.month - 1].last
-    @klasses = Klass.where.not(fixed_fee_cents: 0)
+
     @data = {}
     @totals = {}
-    @klasses.each do |klass|
-      @data[klass.id] = { regular: 0, non_regular: 0 }
-      @totals[klass.id] = { regular: Money.new(0), non_regular: Money.new(0) }
-      ms = klass.memberships_for_year_and_month(@year, @month)
-      ms.each do |m|
-        if m.use_non_regular_fee
-          @data[klass.id][:non_regular] += 1
-          @totals[klass.id][:non_regular] += (klass.non_regular_fee || Money.new(0))
+
+    Installment.where(year: @year, month: @month).includes(:membership, :person, :payments).each do |inst|
+      next if inst.person.inactive? && inst.amount_paid == Money.new(0)
+
+      amounts = inst.membership.amounts
+      amounts[:feesPerKlass].each do |kid, amount|
+        @data[kid] ||= { regular: 0, non_regular: 0 }
+        @totals[kid] ||= { regular: Money.new(0), non_regular: Money.new(0) }
+        if amounts[:usingFeesWithPackage]
+          @data[kid][:regular] += 1
+          @totals[kid][:regular] += amount
         else
-          @data[klass.id][:regular] += 1
-          @totals[klass.id][:regular] += klass.fixed_fee
+          @data[kid][:non_regular] += 1
+          @totals[kid][:non_regular] += amount
         end
       end
+    end
+
+    Klass.active.each do |kls|
+      @data[kls.id] ||= { regular: 0, non_regular: 0}
+      @data[kls.id][:klass_name] = kls.name
+      @totals[kls.id] ||= { regular: 0, non_regular: 0}
     end
 
     if params[:button] == 'export'
