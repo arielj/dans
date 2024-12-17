@@ -59,9 +59,12 @@ class ReportsController < ApplicationController
     @stats = {with: 0, without: 0, total: 0}
 
     # sum number of users per klass and with/without package
-    Person.includes(installments: :klasses).where(installments: {year: @year, month: @month}).where.not(installments: {status: :waiting}).each do |per|
-      with_or_without = per.installments[0].klasses.length > 2 ? :with : :without
-      per.installments[0].klasses.each do |kls|
+    Person.includes(installments: :klasses).where(installments: {year: @year, month: @month}).each do |per|
+      inst = per.installments[0]
+      next if per.inactive? && inst.amount_paid == Money.new(0)
+
+      with_or_without = inst.klasses.length > 2 ? :with : :without
+      inst.klasses.each do |kls|
         @data[kls.id] ||= {with: 0, without: 0, total: 0}
         @data[kls.id][with_or_without] += 1
         @data[kls.id][:total] += 1
