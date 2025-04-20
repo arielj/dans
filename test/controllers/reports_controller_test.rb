@@ -17,6 +17,13 @@ class ReportsControllerTest < ActionDispatch::IntegrationTest
       get send("reports_#{report}_path")
       assert_response :redirect
     end
+
+    test "exports #{report} to xls" do
+      sign_in admins(:admin)
+
+      get send("reports_#{report}_path"), params: { button: "export" }
+      assert_response :success
+    end
   end
 
   test 'limits date to 7 days ago for "operator" in daily_cash' do

@@ -58,10 +58,8 @@ class ReportsController < ApplicationController
     @data = Hash.new()
     @stats = {with: 0, without: 0, total: 0}
 
-    @students = Person.includes(installments: :klasses).where(installments: {year: @year, month: @month})
-
     # sum number of users per klass and with/without package
-    @students.each do |per|
+    Person.includes(installments: :klasses).where(installments: {year: @year, month: @month}).each do |per|
       inst = per.installments[0]
       next if per.inactive? && inst.amount_paid == Money.new(0)
 
@@ -78,7 +76,7 @@ class ReportsController < ApplicationController
     @klasses = Klass.where(id: @data.keys)
 
     if params[:button] == 'export'
-      send_file(StudentsHoursReportExporter.to_xls(@year, @klasses, @students, @data, @stats)) and return
+      send_file(StudentsWithWithoutPackageExporter.to_xls(@year, @klasses, @data, @stats)) and return
     end
   end
 
