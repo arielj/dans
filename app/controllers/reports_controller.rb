@@ -58,8 +58,10 @@ class ReportsController < ApplicationController
     @data = Hash.new()
     @stats = {with: 0, without: 0, total: 0}
 
+    @students = Person.includes(installments: :klasses).where(installments: {year: @year, month: @month})
+
     # sum number of users per klass and with/without package
-    Person.includes(installments: :klasses).where(installments: {year: @year, month: @month}).each do |per|
+    @students.each do |per|
       inst = per.installments[0]
       next if per.inactive? && inst.amount_paid == Money.new(0)
 
@@ -104,7 +106,9 @@ class ReportsController < ApplicationController
       end
     end
 
-    Klass.active.each do |kls|
+    @klasses = Klass.active
+
+    @klasses.each do |kls|
       @data[kls.id] ||= { regular: 0, non_regular: 0}
       @data[kls.id][:klass_name] = kls.name
       @totals[kls.id] ||= { regular: 0, non_regular: 0}
