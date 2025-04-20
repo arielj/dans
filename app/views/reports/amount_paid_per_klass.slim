@@ -23,28 +23,24 @@ h1= t('titles.amount_paid_per_klass')
     thead
       tr
         th Clase
-        - @data.each do |kid, data|
-          th = data[:klass_name]
+        th Regulares
+        th No Regulares
         th Total
     tbody
-      tr
-        td Regulares
-        - @data.each do |kid, data|
+      - @data.each do |kid, data|
+        tr
+          td= data[:klass_name]
           td
             => data[:regular]
             ' /
             = "$#{@totals[kid][:regular]}"
-        td = "$#{@totals.map{|k, v| v[:regular]}.sum}"
-      tr
-        td No regulares
-        - @data.each do |kid, data|
           td
             => data[:non_regular]
             ' /
             = "$#{@totals[kid][:non_regular]}"
-        td = "$#{@totals.map{|k, v| v[:non_regular]}.sum}"
+          td = "$#{@totals[kid][:regular] + @totals[kid][:non_regular]}"
       tr
-        td = ''
-        - @data.each do |kid, data|
-          td = "$#{@totals[kid].values.sum}"
+        td Total
+        td = "$#{@totals.map{|k, v| v[:regular]}.sum}"
+        td = "$#{@totals.map{|k, v| v[:non_regular]}.sum}"
         td = "$#{@totals.map {|id, data| data.values.sum }.sum}"
