@@ -31,7 +31,7 @@ jobs:
           ruby-version: 2.6.5
 
       - name: Setup Node 14
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: 14.x
 
@@ -59,7 +59,7 @@ jobs:
 
       # - name: Cache Assets
       #   id: assets-cache
-      #   uses: actions/cache@v1
+      #   uses: actions/cache@v4
       #   with:
       #     path: public/packs-test
       #     key: ${{ runner.os }}-assets-${{ steps.extract_branch.outputs.branch }}
@@ -94,8 +94,7 @@ jobs:
           DATABASE_URL: mysql2://root:root@127.0.0.1:${{ job.services.mysql.ports[3306] }}/test
 
         run: |
-          bin/rails db:create
-          bin/rails db:schema:load
+          bin/rails db:setup
 
       - name: Test
         env:
@@ -106,7 +105,7 @@ jobs:
           bin/rails test:all
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: code-coverage-report
           path: coverage
