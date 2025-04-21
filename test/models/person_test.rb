@@ -18,7 +18,7 @@ class PersonTest < ActiveSupport::TestCase
         payments = @student.add_multi_payments(installments.first(3).pluck(:id), 1_300)
         assert_equal 3, payments.size
         ins = @student.installments.order(month: :asc)
-        assert ins.first.paid_with_interests? # 600_00
+        assert ins.first.paid_with_interests_and_debit? # 600_00
         assert ins.second.paid_with_debit? # 500_00
         assert ins.third.payments.present?
         assert_equal Money.new(200_00), ins.third.payments.first.amount

@@ -37,6 +37,7 @@ class AddingPaymentsTest < ApplicationSystemTestCase
         find('#ignore_month_recharge_label').click
 
         assert_match 'Restante: $575,00', page.text
+        assert_equal "575,00", find("#money_transaction_amount").value
 
         assert_match 'Ignorar segundo recargo por fecha', page.text
 
@@ -47,6 +48,7 @@ class AddingPaymentsTest < ApplicationSystemTestCase
         find('#ignore_recharge_label').click
 
         assert_match 'Restante: $500,00', page.text
+        assert_equal "500,00", find("#money_transaction_amount").value
 
         click_button 'Guardar'
       end

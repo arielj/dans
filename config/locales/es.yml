@@ -28,6 +28,7 @@ es:
     paid: Pagado
     paid_with_interests: Pagado con intereses
     paid_with_debit: Pagado con débito
+    paid_with_interests_and_debit: Pagado con intereses y débito
   people: Personas
   person: Persona
   personal_data: Datos personales

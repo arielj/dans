@@ -16,7 +16,7 @@ class MoneyTransactionsController < ApplicationController
         ignore = :second if params[:ignore_second_recharge] == '1'
         ignore = :first if params[:ignore_recharge] == '1'
 
-        with_discount = params[:use_amount_with_discount] == '1' || params[:apply_extra_debit_charge] == '1'
+        with_discount = params[:use_amount_with_discount] == '1' || params[:apply_extra_debit_charge] != '1'
 
         # in case the person already paid something and we want to change the
         # installment to paid after that

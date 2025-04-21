@@ -61,7 +61,7 @@ class Installment < ApplicationRecord
   end
 
   def get_month_recharge(with_discount: false)
-    return 0 if paid?
+    return 0 if !waiting?
 
     month_recharge_value = Setting.fetch(:month_recharge_value, nil)
 
@@ -72,7 +72,7 @@ class Installment < ApplicationRecord
   end
 
   def get_first_recharge(with_discount: false)
-    return 0 if paid?
+    return 0 if !waiting?
 
     after_day = Setting.fetch(:recharge_after_day, nil)
     recharge_value = Setting.fetch(:recharge_value, nil)
@@ -84,7 +84,7 @@ class Installment < ApplicationRecord
   end
 
   def get_second_recharge(with_discount: false)
-    return 0 if paid?
+    return 0 if !waiting?
 
     after_day = Setting.fetch(:second_recharge_after_day, nil)
     recharge_value = Setting.fetch(:second_recharge_value, nil)
@@ -131,7 +131,7 @@ class Installment < ApplicationRecord
   end
 
   def to_pay(ignore_recharge: false, with_discount: false)
-    return 0 if paid? || paid_with_interests?
+    return 0 if !waiting?
 
     total(ignore_recharge: ignore_recharge, with_discount: with_discount) - amount_paid
   end
@@ -144,20 +144,32 @@ class Installment < ApplicationRecord
     if payment.amount > rest && !next_installment
       payment.errors.add(:base, :amount_too_high)
     else
+      extra = Money.new(0)
       if payment.amount > rest
         extra = payment.amount - rest
         payment.amount = rest
-        next_installment.create_payment({amount: extra}, ignore_recharge: ignore_recharge, with_discount: with_discount)
       end
   
       payments << payment
       if payment.save && payment.amount == rest
-        if amount_paid == amount_with_discount
-          paid_with_debit!
-        elsif amount_paid > amount
-          paid_with_interests!
-        else
-          paid!
+        if to_pay(ignore_recharge: ignore_recharge, with_discount: with_discount) == Money.new(0)
+          if with_discount
+            if get_recharge > Money.new(0) && !ignore_recharge
+              paid_with_interests!
+            else
+              paid!
+            end
+          else
+            if get_recharge > Money.new(0) && !ignore_recharge
+              paid_with_interests_and_debit!
+            else
+              paid_with_debit!
+            end
+          end
+        end
+
+        if (extra > Money.new(0))
+          next_installment.create_payment({amount: extra}, ignore_recharge: ignore_recharge, with_discount: with_discount)
         end
       end
     end

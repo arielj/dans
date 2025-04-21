@@ -49,7 +49,7 @@ function bindInstallmentPaymentForm(form) {
   if (dateRechargeCheck)
     dateRechargeCheck.addEventListener('change', e => {
       // update rest to pay
-      setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck, useAmountWithDiscount)
+      setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck)
     })
 
   if (secondDateRechargeCheck) {
@@ -57,7 +57,7 @@ function bindInstallmentPaymentForm(form) {
     secondDateRechargeCheck.addEventListener('change', e => {
       dateRechargeCheck.disabled = !secondDateRechargeCheck.checked
       // update rest to pay
-      setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck, useAmountWithDiscount)
+      setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck)
     })
   }
 
@@ -71,26 +71,30 @@ function bindInstallmentPaymentForm(form) {
       else if (dateRechargeCheck)
         dateRechargeCheck.disabled = !monthRechargeCheck.checked
       // update rest to pay
-      setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck, useAmountWithDiscount)
+      setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck)
     })
   }
 
   if (useAmountWithDiscount) {
     useAmountWithDiscount.addEventListener('change', _e => {
       // update rest to pay
-      setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck, useAmountWithDiscount)
+      setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck)
     })
   }
 
   if (useDebitAmount) {
     useDebitAmount.addEventListener('change', _e => {
       // update rest to pay
-      setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck, useDebitAmount)
+      setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck)
     })
   }
 }
 
-function setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck, useAmountWithDiscount) {
+function setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechargeCheck, monthRechargeCheck) {
+  const useAmountWithDiscount = byid('use_amount_with_discount')
+  const useDebitAmount = byid('apply_extra_debit_charge')
+  const useDiscounted = useAmountWithDiscount?.checked || useDebitAmount?.checked === false
+
   // updates the rest to pay hint
   let newValue = parseFloat(toPayHint.dataset.amount)
   let newValueWithDiscount = parseFloat(toPayHint.dataset.amountWithDiscount)
@@ -113,7 +117,7 @@ function setNewToPay(toPayHint, amountField, dateRechargeCheck, secondDateRechar
   toPayHint.innerText = `$${newValue.toFixed(2).toString().replace('.', ',')} (o $${newValueWithDiscount.toFixed(2).toString().replace('.', ',')})`
 
   // cap the field value
-  const valueToSet = useAmountWithDiscount.checked ? newValueWithDiscount : newValue
+  const valueToSet = useDiscounted ? newValueWithDiscount : newValue
   amountField.value = valueToSet.toFixed(2).toString().replace('.', ',')
 }
 
