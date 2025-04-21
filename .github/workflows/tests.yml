@@ -94,6 +94,7 @@ jobs:
           DATABASE_URL: mysql2://root:root@127.0.0.1:${{ job.services.mysql.ports[3306] }}/test
 
         run: |
+          sed -i 's/utf8mb4_0900_ai_ci/utf8mb4_general_ci/g' db/schema.rb
           bin/rails db:setup
 
       - name: Test
