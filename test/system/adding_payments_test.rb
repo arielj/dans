@@ -164,8 +164,8 @@ class AddingPaymentsTest < ApplicationSystemTestCase
       student.add_family_member(family)
 
       klass = FactoryBot.create(:klass_with_schedules)
-      student.memberships.create(schedules: klass.schedules, amount: 50_000)
-      family.memberships.create(schedules: klass.schedules, amount: 50_000)
+      student.memberships.create(schedules: klass.schedules, amount: 500_00, amount_with_discount: 500_00)
+      family.memberships.create(schedules: klass.schedules, amount: 500_00, amount_with_discount: 500_00)
 
       unpaid_installments_count = student.installments_for_multi_payments.size
 
@@ -227,7 +227,7 @@ class AddingPaymentsTest < ApplicationSystemTestCase
     klass = FactoryBot.create(:klass_with_schedules)
 
     travel_to Time.zone.local(2020, 1, 1, 18, 0, 0) do
-      student.memberships.create(schedules: klass.schedules, amount: 500_00, use_fees_with_discount: false)
+      student.memberships.create(schedules: klass.schedules, amount: 500_00, amount_with_discount: 500_00, use_fees_with_discount: false)
     end
 
     travel_to Time.zone.local(2020, 7, 1, 18, 0, 0) do
@@ -296,7 +296,7 @@ class AddingPaymentsTest < ApplicationSystemTestCase
       assert_selector '.modal #installment_payment'
 
       within '.modal #installment_payment' do
-        fill_in 'money_transaction_amount', with: '600,00'
+        fill_in 'money_transaction_amount', with: '5600,00'
 
         refute_match 'El resto ($100) se va a asignar', page.text
         assert_match 'Monto excede resto y no hay cuota siguiente.', page.text

@@ -17,7 +17,7 @@ class Person < ApplicationRecord
   enum gender: %i[female male other]
   enum status: %i[inactive active]
 
-  scope :birthday_today, -> { where('DAYOFMONTH(birthday) = ? AND MONTH(birthday) = ?', DateTime.current.day, DateTime.current.month) }
+  scope :birthday_today, -> { where("date_part('day', birthday) = ? AND extract(month from birthday) = ?", DateTime.current.day, DateTime.current.month) }
   scope :teachers, -> { where(is_teacher: true) }
   scope :students, -> { where(is_teacher: false) }
   scope :search, (lambda do |q|
@@ -104,7 +104,7 @@ class Person < ApplicationRecord
     Installment.where(membership_id: mids).waiting
   end
 
-  def add_multi_payments(installment_ids, amount, ignore_recharge = nil, with_discount = false)
+  def add_multi_payments(installment_ids, amount, ignore_recharge = nil, with_discount = true)
     amount = Money.new(amount.to_i * 100)
     return :no_amount if amount.cents.zero?
 
@@ -132,7 +132,7 @@ class Person < ApplicationRecord
     payments
   end
 
-  def new_membership_amount_calculator(sch_ids, use_non_regular_fees = false, use_manual_discount = false, manual_discount = '', apply_klass_discount: false)
+  def new_membership_amount_calculator(sch_ids, use_non_regular_fees = false, use_manual_discount = false, manual_discount = '', apply_klass_discount: false, debit_extra: "5000")
     if sch_ids.nil?
       return {
         fixedTotal: "0",
@@ -161,6 +161,8 @@ class Person < ApplicationRecord
     details = []
     fees_per_klass = {}
 
+    debit_extra = Money.new(debit_extra.to_i * 100)
+
     # count schedules by klass
     schedules_by_klass = {}
     Schedule.where(id: sch_ids).joins(:klass).each do |sch|
@@ -185,21 +187,21 @@ class Person < ApplicationRecord
     duration = 0 # total hours of classes
     schedules_by_klass.each do |klass_id, data|
       kls = data[:klass]
-      f1, f2 =
+      fee =
         if !use_regular_fees && kls.non_regular_fee
           if data[:schedules].count < kls.schedules.count && kls.non_regular_alt_fee
             # if not full all days and there's an alternative price
             # [kls.non_regular_alt_fee, kls.non_regular_alt_fee_with_discount]
 
-            [kls.non_regular_alt_fee, kls.debit_fee(:non_regular_alt_fee)]
+            kls.non_regular_alt_fee
           else
-            [kls.non_regular_fee, kls.debit_fee(:non_regular_fee)]
+            kls.non_regular_fee
           end
         else
           if data[:schedules].count < kls.schedules.count && kls.fixed_alt_fee
-            [kls.fixed_alt_fee, kls.debit_fee(:fixed_alt_fee)]
+            kls.fixed_alt_fee
           else
-            [kls.fixed_fee, kls.debit_fee(:fixed_fee)]
+            kls.fixed_fee
           end
         end
 
@@ -214,19 +216,17 @@ class Person < ApplicationRecord
           "#{data[:schedules].count} clases de #{kls.schedules.count} posibles"
         end
 
-      details << "#{kls.name} - #{klasses_price_detail} : $#{f1} ($#{f2} con débito)"
-      fees_per_klass[kls.id] = f1
+      details << "#{kls.name} - #{klasses_price_detail} : $#{fee}"
+      fees_per_klass[kls.id] = fee
       
-      if f1&.positive?
+      if fee&.positive?
         kls_discount = kls.discount.to_i
         if apply_klass_discount && kls_discount > 0
-          discounts_sum += f1 * kls_discount / 100
-          discounts_sum_debit += f2 * kls_discount / 100
+          discounts_sum += fee * kls_discount / 100
         end
 
-        fixed_total += f1
-        fixed_total_with_discount += f2
-        details << "Suma parcial: $#{fixed_total} ($#{fixed_total_with_discount} con débito)"
+        fixed_total += fee
+        details << "Suma parcial: $#{fixed_total}"
       else
         duration += data[:schedules].map(&:duration).sum
       end
@@ -234,17 +234,16 @@ class Person < ApplicationRecord
     end
 
     subtotal = fixed_total
-    subtotal_with_discount = fixed_total_with_discount
 
     # calculate price for the number of hours
-    calculate_hourly_rates = Setting.fetch('calculate_hourly_rates', 'yes') == 'yes'
-    if (calculate_hourly_rates)
-      duration_total = Money.new(Setting.get_hours_fee(duration, with_discount: false).to_i * 100)
-      subtotal += duration_total
+    # calculate_hourly_rates = Setting.fetch('calculate_hourly_rates', 'yes') == 'yes'
+    # if (calculate_hourly_rates)
+    #   duration_total = Money.new(Setting.get_hours_fee(duration, with_discount: false).to_i * 100)
+    #   subtotal += duration_total
 
-      duration_total_with_discount = Money.new(Setting.get_hours_fee(duration, with_discount: true).to_i * 100)
-      subtotal_with_discount += duration_total_with_discount
-    end
+    #   duration_total_with_discount = Money.new(Setting.get_hours_fee(duration, with_discount: true).to_i * 100)
+    #   subtotal_with_discount += duration_total_with_discount
+    # end
 
     # calculate family discount
     family_discount = active_family? ? Setting.fetch('family_group_discount', '0') : 0
@@ -260,21 +259,18 @@ class Person < ApplicationRecord
     total_discount = family_discount + manual_discount
 
     # family discount applies to everything
-    family_discount_total, family_discount_total2 =
-      [subtotal / 100 * family_discount, subtotal_with_discount / 100 * family_discount]
+    family_discount_total = subtotal / 100 * family_discount
 
-    details << "Descuento familiar: $#{family_discount_total} ($#{family_discount_total2} con débito)" if family_discount > 0
+    details << "Descuento familiar: $#{family_discount_total}" if family_discount > 0
 
     # manual discount applies only to classes with fixed fee
-    manual_discount_total, manual_discount_total2 =
-      [fixed_total / 100 * manual_discount, fixed_total_with_discount / 100 * manual_discount]
+    manual_discount_total = fixed_total / 100 * manual_discount
 
-    details << "Descuento manual: $#{manual_discount_total} ($#{manual_discount_total2} con débito)" if manual_discount > 0
+    details << "Descuento manual: $#{manual_discount_total}" if manual_discount > 0
 
     total = subtotal - family_discount_total - manual_discount_total - discounts_sum
-    total_with_discounts = subtotal_with_discount - family_discount_total2 - manual_discount_total2 - discounts_sum_debit
 
-    details << "Total: $#{total} ($#{total_with_discounts} con débito)"
+    details << "Total: $#{total} ($#{total + debit_extra} con débito)"
 
     limitedTotal = false
 
@@ -287,32 +283,27 @@ class Person < ApplicationRecord
 
     amounts = {
       fixedTotal: fixed_total.to_s,
-      fixedTotalWithDiscount: fixed_total_with_discount.to_s,
       familyDiscount: family_discount,
       familyDiscountTotal: family_discount_total.to_s,
-      familyDiscountTotal2: family_discount_total2.to_s,
       manualDiscount: manual_discount,
       manualDiscountTotal: manual_discount_total.to_s,
-      manualDiscountTotal2: manual_discount_total2.to_s,
       discount: total_discount.to_s,
       klassesDiscount: discounts_sum.to_s,
       subtotal: subtotal.to_s,
-      subtotalWithDiscount: subtotal_with_discount.to_s,
       discountTotal: (family_discount_total+manual_discount_total+discounts_sum).to_s,
-      discountTotalWithDiscount: (family_discount_total2+manual_discount_total2+discounts_sum_debit).to_s,
-      total: total.to_s,
-      totalWithDiscount: total_with_discounts.to_s,
+      totalCash: total.to_s,
+      totalDebit: (total+debit_extra).to_s,
       limitedTotal: limitedTotal,
       details: details,
       usingFeesWithPackage: use_regular_fees,
       feesPerKlass: fees_per_klass
     }
 
-    if calculate_hourly_rates
-      amounts[:durationTotal] = duration_total.to_s
-      amounts[:durationTotalWithDiscount] = duration_total_with_discount.to_s
-      amounts[:duration] = duration
-    end
+    # if calculate_hourly_rates
+    #   amounts[:durationTotal] = duration_total.to_s
+    #   amounts[:durationTotalWithDiscount] = duration_total_with_discount.to_s
+    #   amounts[:duration] = duration
+    # end
 
     amounts
   end
@@ -320,7 +311,7 @@ class Person < ApplicationRecord
   def missing_inscription?(year)
     return false if is_teacher?
 
-    money_transactions.where('YEAR(created_at) = ? AND description LIKE ?', year, '%insc%').empty?
+    money_transactions.where('extract(year from created_at) = ? AND description LIKE ?', year, '%insc%').empty?
   end
 
   def family_group?

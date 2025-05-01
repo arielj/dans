@@ -60,7 +60,7 @@ class Installment < ApplicationRecord
     Date.new(year, month_num, day.to_i)
   end
 
-  def get_month_recharge(with_discount: false)
+  def get_month_recharge(with_discount: true)
     return 0 if !waiting?
 
     month_recharge_value = Setting.fetch(:month_recharge_value, nil)
@@ -71,7 +71,7 @@ class Installment < ApplicationRecord
     _calculate_recharge(month_recharge_value, with_discount: with_discount)
   end
 
-  def get_first_recharge(with_discount: false)
+  def get_first_recharge(with_discount: true)
     return 0 if !waiting?
 
     after_day = Setting.fetch(:recharge_after_day, nil)
@@ -83,7 +83,7 @@ class Installment < ApplicationRecord
     _calculate_recharge(recharge_value, with_discount: with_discount)
   end
 
-  def get_second_recharge(with_discount: false)
+  def get_second_recharge(with_discount: true)
     return 0 if !waiting?
 
     after_day = Setting.fetch(:second_recharge_after_day, nil)
@@ -95,7 +95,7 @@ class Installment < ApplicationRecord
     _calculate_recharge(recharge_value, with_discount: with_discount)
   end
 
-  def _calculate_recharge(rval, with_discount: false)
+  def _calculate_recharge(rval, with_discount: true)
     aux = with_discount ? amount_with_discount : amount
 
     case rval
@@ -105,7 +105,7 @@ class Installment < ApplicationRecord
     end
   end
 
-  def get_recharge(ignore: false, with_discount: false)
+  def get_recharge(ignore: false, with_discount: true)
     r1 = get_first_recharge(with_discount: with_discount)
     r2 = get_second_recharge(with_discount: with_discount)
     r3 = get_month_recharge(with_discount: with_discount)
@@ -125,18 +125,18 @@ class Installment < ApplicationRecord
     end
   end
 
-  def total(ignore_recharge: false, with_discount: false)
+  def total(ignore_recharge: false, with_discount: true)
     aux = with_discount ? amount_with_discount : amount
     aux + get_recharge(ignore: ignore_recharge, with_discount: with_discount)
   end
 
-  def to_pay(ignore_recharge: false, with_discount: false)
+  def to_pay(ignore_recharge: false, with_discount: true)
     return 0 if !waiting?
 
     total(ignore_recharge: ignore_recharge, with_discount: with_discount) - amount_paid
   end
 
-  def create_payment(attrs, ignore_recharge: false, with_discount: false)
+  def create_payment(attrs, ignore_recharge: false, with_discount: true)
     payment = MoneyTransaction.new attrs
     payment.person = person
     payment.done = false
@@ -153,18 +153,14 @@ class Installment < ApplicationRecord
       payments << payment
       if payment.save && payment.amount == rest
         if to_pay(ignore_recharge: ignore_recharge, with_discount: with_discount) == Money.new(0)
-          if with_discount
-            if get_recharge > Money.new(0) && !ignore_recharge
-              paid_with_interests!
-            else
-              paid!
-            end
-          else
-            if get_recharge > Money.new(0) && !ignore_recharge
-              paid_with_interests_and_debit!
-            else
-              paid_with_debit!
-            end
+          if amount_paid == total(ignore_recharge: :all, with_discount: true)
+            paid!
+          elsif amount_paid == total(ignore_recharge: false, with_discount: true)
+            paid_with_interests!
+          elsif amount_paid == total(ignore_recharge: :all, with_discount: false)
+            paid_with_debit!
+          elsif amount_paid == total(ignore_recharge: false, with_discount: false)
+            paid_with_interests_and_debit!
           end
         end
 

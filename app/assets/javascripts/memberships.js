@@ -21,7 +21,7 @@ function refreshAmount(form) {
     //   totalDiv.classList.remove("limited-total");
     // }
 
-    totalSpan.innerHTML = `Total: $${amount} (o $${amountWithDiscount})`;
+    totalSpan.innerHTML = `Total: $${amountWithDiscount} (efectivo) o $${amount} (débito))`;
     return;
   }
 
@@ -62,17 +62,17 @@ function refreshAmount(form) {
       // if (resp.durationTotal && resp.durationTotal !== "0,00")
       //   s += `Precio por ${resp.duration}hs: $${resp.durationTotal} (o $${resp.durationTotalWithDiscount})<br />`;
 
-      console.log(resp.details);
+      // console.log(resp.details);
 
-      s += `Subtotal: $${resp.subtotal} (o $${resp.subtotalWithDiscount})<br />`;
+      s += `Subtotal: $${resp.subtotal}<br />`;
       if (resp.klassesDiscount !== 0)
         s += `Descuento de clases: $${resp.klassesDiscount}<br />`;
       if (resp.familyDiscount !== 0)
-        s += `Descuento por grupo familiar (${resp.familyDiscount}): $${resp.familyDiscountTotal} (o $${resp.familyDiscountTotal2})<br />`;
+        s += `Descuento por grupo familiar (${resp.familyDiscount}): $${resp.familyDiscountTotal}<br />`;
 
       div.innerHTML = s;
 
-      totalSpan.innerHTML = `Total: $${resp.total} (o $${resp.totalWithDiscount})`;
+      totalSpan.innerHTML = `Total: $${resp.totalCash} (efectivo) o $${resp.totalDebit} (débito)`;
 
       totalDetails.innerHTML = resp.details.join("<br>");
 
@@ -82,8 +82,8 @@ function refreshAmount(form) {
         totalDiv.classList.remove("limited-total");
       }
 
-      customAmountInput.value = resp.total;
-      customAmountInputWithDiscount.value = resp.totalWithDiscount;
+      customAmountInput.value = resp.totalDebit;
+      customAmountInputWithDiscount.value = resp.totalCash;
     },
   });
 }
@@ -96,16 +96,16 @@ function bindMembershipForm() {
   });
   bindSchedulesCalendar();
 
-  const useCalculatedAmountWrapper = byid("use_calculated_amount");
+  // const useCalculatedAmountWrapper = byid("use_calculated_amount");
   const useCustomAmountCheck = byid("membership_use_custom_amount");
   const useCustomAmountWrapper = byid("use_manual_amount");
   useCustomAmountCheck.addEventListener("change", (e) => {
     if (e.target.checked) {
       useCustomAmountWrapper.classList.remove("hidden");
-      useCalculatedAmountWrapper.classList.add("hidden");
+      // useCalculatedAmountWrapper.classList.add("hidden");
     } else {
       useCustomAmountWrapper.classList.add("hidden");
-      useCalculatedAmountWrapper.classList.remove("hidden");
+      // useCalculatedAmountWrapper.classList.remove("hidden");
     }
     refreshAmount(form);
   });

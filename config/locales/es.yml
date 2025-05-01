@@ -311,8 +311,8 @@ es:
         info: Información
         discount: Descuento
       membership:
-        amount: Monto
-        amount_with_discount: Monto con descuento en efectivo
+        amount: Monto con débito
+        amount_with_discount: Monto en efectivo
         apply_discounts: Aplicar descuentos de clases
         create_installments_from: Agregar/actualizar cuotas desde
         create_installments_to: Agregar/actualizar cuotas hasta

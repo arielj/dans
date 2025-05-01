@@ -20,16 +20,16 @@
   - amounts = membership.amounts
   .auto_calculation
     - if amounts[:fixedTotal] != '0,00'
-      | Precio clases fijas: $#{amounts[:fixedTotal]} (o $#{amounts[:fixedTotalWithDiscount]})
+      | Precio clases fijas: $#{amounts[:fixedTotal]}
       br
-    - if Setting.fetch('calculate_hourly_rates', 'yes') == 'yes' && amounts[:durationTotal] != '0,00'
-      | Precio por #{amounts[:duration]}hs: $#{amounts[:durationTotal]} (o $#{amounts[:durationTotalWithDiscount]})
-      br
-    | Subtotal: $#{amounts[:subtotal]} (o $#{amounts[:subtotalWithDiscount]})
+    / - if Setting.fetch('calculate_hourly_rates', 'yes') == 'yes' && amounts[:durationTotal] != '0,00'
+    /   | Precio por #{amounts[:duration]}hs: $#{amounts[:durationTotal]}
+    /   br
+    | Subtotal: $#{amounts[:subtotal]}
 
     - if membership.person.active_family? && Setting.family_group_discount != '0'
       br
-      | Descuento por grupo familiar (#{Setting.family_group_discount}%): $#{amounts[:discountTotal]} (o $#{amounts[:discountTotalWithDiscount]})
+      | Descuento por grupo familiar (#{Setting.family_group_discount}%): $#{amounts[:discountTotal]}
 
   = label_tag '', class: 'form-checkbox' do
     = f.check_box :use_custom_amount
@@ -40,12 +40,12 @@
     = f.label :amount
     .input-group
       span.input-group-addon $
-      = f.text_field :amount, class: 'form-input amount-input', placeholder: 'Monto manual'
+      = f.text_field :amount, class: 'form-input amount-input', placeholder: 'Monto manual con débito'
 
     = f.label :amount_with_discount
     .input-group
       span.input-group-addon $
-      = f.text_field :amount_with_discount, class: 'form-input amount-input', placeholder: 'Monto manual con descuento'
+      = f.text_field :amount_with_discount, class: 'form-input amount-input', placeholder: 'Monto manual en efectivo'
 
   = label_tag '', class: 'form-checkbox' do
     = f.check_box :use_manual_discount
@@ -60,9 +60,9 @@
     .details
     span
       - if f.object.use_custom_amount
-        | Total: $#{f.object.amount} (o $#{f.object.amount_with_discount})
+        | Total: $#{f.object.amount} (efectivo) o $#{f.object.amount_with_discount} (débito)
       - else
-        | Total: $#{amounts[:total]} (o $#{amounts[:totalWithDiscount]})
+        | Total: $#{amounts[:totalCash]} (efectivo) o $#{amounts[:totalDebit]} (débito)
     / .limited_total_message Valor sin descuento limitado a total + $350
     ' &nbsp;(ver detalles del cálculo)
 

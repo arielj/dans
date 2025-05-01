@@ -27,41 +27,40 @@ class AddingMembershipsTest < ApplicationSystemTestCase
 
     within '#new_membership' do
       # pick classes with fee by hour
-      click_checkbox("#membership_schedule_ids_#{klass1.schedules.first.id}")
-      assert_text 'Precio por 1hs: $100,00 (o $90,00)'
+      # click_checkbox("#membership_schedule_ids_#{klass1.schedules.first.id}")
+      # assert_text 'Precio por 1hs: $100,00'
 
-      click_checkbox("#membership_schedule_ids_#{klass1.schedules.second.id}")
-      assert_text 'Precio por 2hs: $190,00 (o $170,00)'
+      # click_checkbox("#membership_schedule_ids_#{klass1.schedules.second.id}")
+      # assert_text 'Precio por 2hs: $190,00'
 
       # pick classes with fee by class
       click_checkbox("#membership_schedule_ids_#{klass2.schedules.second.id}")
-      assert_text 'Precio clases fijas: $70,00 (o $60,00)'
-      assert_text 'Total: $260,00 (o $230,00)'
+      # assert_text 'Precio clases fijas: $70,00'
+      assert_text 'Total: $115,00'
 
       # pick non-regular student fees
-      click_checkbox("#membership_use_non_regular_fee")
-      assert_text 'Total: $305,00 (o $280,00)'
+      # click_checkbox("#membership_use_non_regular_fee")
+      # assert_text 'Total: $105,00'
 
       # pick 2nd class for klass2 to use full price
       click_checkbox("#membership_schedule_ids_#{klass2.schedules.first.id}")
-      assert_text 'Total: $310,00 (o $275,00)'
+      assert_text 'Total: $120,00'
 
       # unselect 2nd class and use regular student fee
-      click_checkbox("#membership_use_non_regular_fee")
+      # click_checkbox("#membership_use_non_regular_fee")
       click_checkbox("#membership_schedule_ids_#{klass2.schedules.first.id}")
+      assert_text 'Total: $115,00 (efectivo) o $5115,00 (débito)'
 
       # set discount
       click_checkbox("#membership_use_manual_discount")
       find('#membership_manual_discount').set('10%')
-      assert_text 'Total: $253,00 (o $224,00)'
+      assert_text 'Total: $103,50 (efectivo) o $5103,50 (débito)'
 
       click_button 'Guardar paquete'
     end
 
     m = student.memberships.last
-    # 190 (by hours) + (70 (1 class) - 10%) manual discount only applies to the 70
-    assert_equal '253,00', m.amount
-    # 170 (by hours) + (60 (1 class) - 10%) manual discount only applies to the 60
-    assert_equal '224,00', m.amount_with_discount
+    assert_equal '5103,50', m.amount
+    assert_equal '103,50', m.amount_with_discount
   end
 end

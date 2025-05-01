@@ -14,8 +14,8 @@ class ReportsController < ApplicationController
     scp = MoneyTransaction.for_day(@date)
     scp = scp.where('description LIKE ?', "%#{params[:text]}%") if params[:text].present?
 
-    @people_transactions = scp.where('category IS NULL OR category != "general"').where.not(person_id: nil)
-    @general_transactions = scp.where('category = "general" OR person_id IS NULL')
+    @people_transactions = scp.where('category IS NULL OR category != ?', "general").where.not(person_id: nil)
+    @general_transactions = scp.where('category = ? OR person_id IS NULL', "general")
     @totals = transactions_totals(@people_transactions, @general_transactions)
 
     if params[:button] == 'export'
@@ -150,5 +150,6 @@ class ReportsController < ApplicationController
     ins = ins.for_active_users unless params[:include_inactive_users].present?
     ins = ins.with_recharge if params[:only_with_recharge].present?
     @installments = ins
+    byebug
   end
 end

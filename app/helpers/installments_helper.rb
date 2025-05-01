@@ -30,7 +30,7 @@ module InstallmentsHelper
     end
   end
 
-  def installment_amount(ins, ignore_recharge: :none, with_discount: false)
+  def installment_amount(ins, ignore_recharge: :none, with_discount: true)
     a = with_discount ? ins.amount_with_discount : ins.amount
     s = "$#{a}"
     if ins.paid_with_interests?
@@ -41,7 +41,7 @@ module InstallmentsHelper
     s
   end
 
-  def installment_to_pay(ins, ignore_recharge: :none, with_discount: false)
+  def installment_to_pay(ins, ignore_recharge: :none, with_discount: true)
     a = ins.to_pay(ignore_recharge: ignore_recharge, with_discount: with_discount)
     "$#{a}"
   end

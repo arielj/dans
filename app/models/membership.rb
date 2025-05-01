@@ -43,7 +43,7 @@ class Membership < ApplicationRecord
     if use_custom_amount
       Money.new(self[:amount_cents])
     else
-      amounts[:total]
+      amounts[:totalDebit]
     end
   end
 
@@ -51,7 +51,7 @@ class Membership < ApplicationRecord
     if use_custom_amount
       Money.new(self[:amount_with_discount_cents])
     else
-      amounts[:totalWithDiscount]
+      amounts[:totalCash]
     end
   end
 

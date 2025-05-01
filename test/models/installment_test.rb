@@ -25,7 +25,7 @@ class InstallmentTest < ActiveSupport::TestCase
     test 'returns the correct recharge' do
       d1 = Date.today.beginning_of_month
 
-      ins = Installment.new amount: Money.new(100_00), year: d1.year, month: d1.month - 1
+      ins = Installment.new amount: Money.new(100_00), amount_with_discount: Money.new(100_00), year: d1.year, month: d1.month - 1
 
       # check settings fixtures
       # day 10, 10%
@@ -52,7 +52,7 @@ class InstallmentTest < ActiveSupport::TestCase
     test 'can ignore recharges' do
       d1 = Date.today.beginning_of_month
 
-      ins = Installment.new amount: Money.new(100_00), year: d1.year, month: d1.month - 1
+      ins = Installment.new amount: Money.new(100_00), amount_with_discount: Money.new(100_00), year: d1.year, month: d1.month - 1
 
       # check settings fixtures
       # day 10, 10%

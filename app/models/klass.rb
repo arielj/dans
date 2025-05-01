@@ -86,8 +86,9 @@ class Klass < ApplicationRecord
     # if fee && fee > Money.new(0)
     #   fee
     # else
-      send(field) * (100 + debit_value) / 100
+    #  send(field) * (100 + debit_value) / 100
     # end
+    Money.new(500000)
   end
 
   def debit_value

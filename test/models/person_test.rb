@@ -6,7 +6,7 @@ class PersonTest < ActiveSupport::TestCase
       @student = FactoryBot.create(:student)
       @klass = FactoryBot.create(:klass_with_schedules)
       travel_to Time.zone.local(2019, 1, 1, 18, 0, 0) do
-        @student.memberships.create(schedules: @klass.schedules, amount: 500_00)
+        @student.memberships.create(schedules: @klass.schedules, amount: 5500_00, amount_with_discount: 500_00)
       end
     end
 
@@ -18,8 +18,8 @@ class PersonTest < ActiveSupport::TestCase
         payments = @student.add_multi_payments(installments.first(3).pluck(:id), 1_300)
         assert_equal 3, payments.size
         ins = @student.installments.order(month: :asc)
-        assert ins.first.paid_with_interests_and_debit? # 600_00
-        assert ins.second.paid_with_debit? # 500_00
+        assert ins.first.paid_with_interests? # 600_00
+        assert ins.second.paid? # 500_00
         assert ins.third.payments.present?
         assert_equal Money.new(200_00), ins.third.payments.first.amount
 
@@ -163,23 +163,31 @@ class PersonTest < ActiveSupport::TestCase
       sch_ids = [@jazz_prin.schedules.first.id]
       amounts = @student.new_membership_amount_calculator(sch_ids, apply_klass_discount: true)
       assert_equal "13000,00", amounts[:fixedTotal]
-      assert_equal "11700,00", amounts[:total]
       assert_equal "1300,00", amounts[:discountTotal]
+      assert_equal "11700,00", amounts[:totalCash]
+      assert_equal "16700,00", amounts[:totalDebit]
+
+      amounts = @student.new_membership_amount_calculator(sch_ids, apply_klass_discount: true, debit_extra: "4000")
+      assert_equal "13000,00", amounts[:fixedTotal]
+      assert_equal "1300,00", amounts[:discountTotal]
+      assert_equal "11700,00", amounts[:totalCash]
+      assert_equal "15700,00", amounts[:totalDebit]
     end
 
     test 'single class - two days = no package price and full price' do
       sch_ids = [@jazz_prin.schedules.ids]
       amounts = @student.new_membership_amount_calculator(sch_ids, apply_klass_discount: true)
       assert_equal "21000,00", amounts[:fixedTotal]
-      assert_equal "18900,00", amounts[:total]
       assert_equal "2100,00", amounts[:discountTotal]
+      assert_equal "18900,00", amounts[:totalCash]
+      assert_equal "23900,00", amounts[:totalDebit]
     end
 
     test 'two classes - one day each = no package price and 1 week price each' do
       sch_ids = [@jazz_prin.schedules.first.id, @cofus_inter.schedules.first.id]
       amounts = @student.new_membership_amount_calculator(sch_ids, apply_klass_discount: true)
       assert_equal "26000,00", amounts[:fixedTotal]
-      assert_equal "24050,00", amounts[:total]
+      assert_equal "24050,00", amounts[:totalCash]
       assert_equal "1950,00", amounts[:discountTotal]
     end
 
@@ -187,7 +195,7 @@ class PersonTest < ActiveSupport::TestCase
       sch_ids = [@jazz_prin.schedules.first.id, *@cofus_inter.schedules.ids]
       amounts = @student.new_membership_amount_calculator(sch_ids, apply_klass_discount: true)
       assert_equal "34000,00", amounts[:fixedTotal]
-      assert_equal "31650,00", amounts[:total]
+      assert_equal "31650,00", amounts[:totalCash]
       assert_equal "2350,00", amounts[:discountTotal]
     end
 
@@ -195,7 +203,7 @@ class PersonTest < ActiveSupport::TestCase
       sch_ids = [@jazz_prin.schedules.first.id, @cofus_inter.schedules.first.id, @cofus_avan.schedules.first.id ]
       amounts = @student.new_membership_amount_calculator(sch_ids, apply_klass_discount: true)
       assert_equal "37500,00", amounts[:fixedTotal]
-      assert_equal "35000,00", amounts[:total]
+      assert_equal "35000,00", amounts[:totalCash]
       assert_equal "2500,00", amounts[:discountTotal]
     end
   end
