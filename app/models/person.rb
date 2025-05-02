@@ -17,7 +17,7 @@ class Person < ApplicationRecord
   enum gender: %i[female male other]
   enum status: %i[inactive active]
 
-  scope :birthday_today, -> { where("date_part('day', birthday) = ? AND extract(month from birthday) = ?", DateTime.current.day, DateTime.current.month) }
+  scope :birthday_today, -> { where('DAYOFMONTH(birthday) = ? AND MONTH(birthday) = ?', DateTime.current.day, DateTime.current.month) }
   scope :teachers, -> { where(is_teacher: true) }
   scope :students, -> { where(is_teacher: false) }
   scope :search, (lambda do |q|
@@ -311,7 +311,7 @@ class Person < ApplicationRecord
   def missing_inscription?(year)
     return false if is_teacher?
 
-    money_transactions.where('extract(year from created_at) = ? AND description LIKE ?', year, '%insc%').empty?
+    money_transactions.where('YEAR(created_at) = ? AND description LIKE ?', year, '%insc%').empty?
   end
 
   def family_group?

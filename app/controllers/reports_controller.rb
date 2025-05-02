@@ -150,6 +150,5 @@ class ReportsController < ApplicationController
     ins = ins.for_active_users unless params[:include_inactive_users].present?
     ins = ins.with_recharge if params[:only_with_recharge].present?
     @installments = ins
-    byebug
   end
 end
