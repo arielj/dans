@@ -133,7 +133,9 @@ function setNewToPay(
   const useAmountWithDiscount = byid("use_amount_with_discount");
   const useDebitAmount = byid("apply_extra_debit_charge");
   const useDiscounted =
-    useAmountWithDiscount?.checked || useDebitAmount?.checked === false;
+    (useAmountWithDiscount && useAmountWithDiscount.checked) ||
+    !useDebitAmount ||
+    (useDebitAmount && useDebitAmount.checked === false);
 
   // updates the rest to pay hint
   let newValue = parseFloat(toPayHint.dataset.amount);
