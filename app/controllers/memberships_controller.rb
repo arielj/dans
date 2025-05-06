@@ -28,7 +28,7 @@ class MembershipsController < ApplicationController
   def edit
     @membership = Membership.find(params[:id])
     @membership.update_unpaid_installments = true
-    @membership.update_paid_installments = true
+    @membership.update_paid_installments = false
 
     from = @membership.installments.order(month: :asc).first&.month
     from ||= Setting.fetch(:preselected_installments_month_from, :january)
