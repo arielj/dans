@@ -39,6 +39,6 @@ class DashboardTest < ApplicationSystemTestCase
 
     assert_selector '.toast', text: 'Guardado'
 
-    assert_equal Setting.fetch(:notes, ''), '<p>Some notes</p>'
+    assert_equal Setting.get(:notes), '<p>Some notes</p>'
   end
 end

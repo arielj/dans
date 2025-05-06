@@ -46,6 +46,10 @@ class Setting < ApplicationRecord
     value
   end
 
+  def self.get(key)
+    find(key).value rescue nil
+  end
+
   def self.get_all_hours_fees
     fetch('hour_fees', {})
   end
