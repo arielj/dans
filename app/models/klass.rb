@@ -29,6 +29,8 @@ class Klass < ApplicationRecord
 
   scope :search, ->(q) { where('name LIKE ?', "%#{q}%") }
 
+  after_update :update_memberships_on_update
+
   def get_memberships
     memberships.to_a + packages.map(&:memberships).flatten
   end
@@ -97,5 +99,20 @@ class Klass < ApplicationRecord
         when /\A(\d+)%?\z/ then $1.to_f
         else 0
       end
+  end
+
+  def update_memberships_on_update
+    # don't update membership if none of the fees changed
+    return if [:fixed_fee, :fixed_alt_fee, :non_regular_fee, :non_regular_alt_fee].none? do |attr|
+      send("saved_change_to_#{attr}_cents?")
+    end
+
+    memberships.includes(:installments).where(use_custom_amount: false, installments: {status: :waiting, year: Date.today.year}).each do |mem|
+     mem.create_installments_from = :january
+     mem.create_installments_to = :december
+     mem.update_unpaid_installments = true
+     mem.update_paid_installments = false
+     mem.save
+    end
   end
 end
