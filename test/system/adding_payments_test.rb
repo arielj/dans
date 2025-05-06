@@ -169,8 +169,8 @@ class AddingPaymentsTest < ApplicationSystemTestCase
 
       unpaid_installments_count = student.installments_for_multi_payments.size
 
-      ins1 = student.installments.waiting.first
-      ins2 = family.installments.waiting.first
+      ins1 = student.installments.order("year ASC, month ASC").waiting.first
+      ins2 = family.installments.order("year ASC, month ASC").waiting.first
 
       visit edit_person_path(student, tab: :memberships)
 
