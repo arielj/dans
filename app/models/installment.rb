@@ -136,6 +136,7 @@ class Installment < ApplicationRecord
     total(ignore_recharge: ignore_recharge, with_discount: with_discount) - amount_paid
   end
 
+  # attrs: { amount: number, description: string }
   def create_payment(attrs, ignore_recharge: false, with_discount: true)
     payment = MoneyTransaction.new attrs
     payment.person = person
