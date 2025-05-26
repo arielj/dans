@@ -156,11 +156,11 @@ class Installment < ApplicationRecord
         if to_pay(ignore_recharge: ignore_recharge, with_discount: with_discount) == Money.new(0)
           if amount_paid == total(ignore_recharge: :all, with_discount: true)
             paid!
-          elsif amount_paid == total(ignore_recharge: false, with_discount: true)
+          elsif amount_paid == total(ignore_recharge: false, with_discount: true) || amount_paid == total(ignore_recharge: :second, with_discount: true)
             paid_with_interests!
           elsif amount_paid == total(ignore_recharge: :all, with_discount: false)
             paid_with_debit!
-          elsif amount_paid == total(ignore_recharge: false, with_discount: false)
+          elsif amount_paid == total(ignore_recharge: false, with_discount: false) || amount_paid == total(ignore_recharge: :second, with_discount: false)
             paid_with_interests_and_debit!
           end
         end
