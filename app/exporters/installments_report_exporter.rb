@@ -14,7 +14,7 @@ class InstallmentsReportExporter
     klass_ids = klass_id.present? ? [klass_id] : Klass.active.pluck(:id)
 
     Klass.find(klass_ids).each do |klass|
-      worksheet = workbook.add_worksheet(klass.name.gsub(/[\[\]\:\*\?\/\\]/, ''))
+      worksheet = workbook.add_worksheet(klass.name.gsub(/[\[\]\:\*\?\/\\]/, '').truncate(30))
 
       headers = ['NOMBRE', 'AÑO', 'MES', 'CLASES', 'CUOTA']
       worksheet.append_row(headers)
