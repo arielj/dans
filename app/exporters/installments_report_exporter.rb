@@ -13,8 +13,21 @@ class InstallmentsReportExporter
 
     klass_ids = klass_id.present? ? [klass_id] : Klass.active.pluck(:id)
 
+    sheets = []
+
     Klass.find(klass_ids).each do |klass|
-      worksheet = workbook.add_worksheet(klass.name.gsub(/[\[\]\:\*\?\/\\]/, '').truncate(30))
+      # excel sheets can't have a name longer than 30 characters
+      sheet_name = klass.name.gsub(/[\[\]\:\*\?\/\\]/, '').truncate(30)
+
+      # excel sheets can't repeat names, which can happen because of the previous truncation
+      x = 1
+      while sheets.include?(sheet_name)
+        x += 1
+        sheet_name[-1] = x.to_s
+      end
+      sheets << sheet_name
+
+      worksheet = workbook.add_worksheet(sheet_name)
 
       headers = ['NOMBRE', 'AÑO', 'MES', 'CLASES', 'CUOTA']
       worksheet.append_row(headers)
