@@ -53,7 +53,7 @@ class InstallmentsReportExporter
         klass_ids = klasses.map(&:id)
         single_klass = klass_ids.uniq.length == 1
 
-        total_amount = ins.amount.to_f
+        total_amount = ins.amount_with_discount.to_f
         single_klass_amount = total_amount
         unless single_klass
           single_klass_amount = klass.fixed_fee
