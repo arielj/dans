@@ -63,7 +63,7 @@ class ReportsController < ApplicationController
       inst = per.installments[0]
       next if per.inactive? && inst.amount_paid == Money.new(0)
 
-      with_or_without = inst.klasses.length > 2 ? :with : :without
+      with_or_without = inst.klasses.length > 1 ? :with : :without
       inst.klasses.each do |kls|
         @data[kls.id] ||= {with: 0, without: 0, total: 0}
         @data[kls.id][with_or_without] += 1
