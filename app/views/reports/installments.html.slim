@@ -47,7 +47,7 @@ h1= t('titles.installments')
         td= ins.month_name
         td= ins.klasses.map(&:name).join(' ; ')
         td
-          => installment_paid_amount(ins)
+          => installment_paid_amount(ins, ignore_recharge: :all)
           - unless ins.waiting?
             | (Pagada)
 
