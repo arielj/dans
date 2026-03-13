@@ -40,7 +40,7 @@ h1= t('titles.installments')
         th Monto
     
     - @installments.includes(:payments, :klasses).each do |ins|
-      - total += ins.waiting? ? ins.total : ins.amount_with_discount
+      - total += ins.waiting? ? ins.total(ignore_recharge: :all) : ins.amount_with_discount
       tr
         td= link_to ins.person.to_label, edit_person_path(ins.person)
         td= ins.year
