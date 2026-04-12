@@ -26,12 +26,12 @@ class Setting < ApplicationRecord
   def self.fetch(key, default)
     k = key.to_sym
 
-    cached_value = cached(k)
-    return cached_value if cached_value
+    # cached_value = cached(k)
+    # return cached_value if cached_value
 
     val = find(k).value rescue default
 
-    add_to_cache(k, val)
+    # add_to_cache(k, val)
 
     val
   end
