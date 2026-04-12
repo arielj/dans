@@ -15,6 +15,11 @@ class InstallmentsReportExporter
 
     sheets = []
 
+    headers = ['NOMBRE', 'AÑO', 'MES', 'CLASES', 'CUOTA']
+    everything = workbook.add_worksheet("Todas")
+    everything.append_row(headers)
+    total_total = 0
+
     Klass.find(klass_ids).each do |klass|
       # excel sheets can't have a name longer than 30 characters
       sheet_name = klass.name.gsub(/[\[\]\:\*\?\/\\]/, '').truncate(30)
@@ -28,8 +33,6 @@ class InstallmentsReportExporter
       sheets << sheet_name
 
       worksheet = workbook.add_worksheet(sheet_name)
-
-      headers = ['NOMBRE', 'AÑO', 'MES', 'CLASES', 'CUOTA']
       worksheet.append_row(headers)
 
       count = 0
@@ -71,14 +74,19 @@ class InstallmentsReportExporter
         single_klass_amount = single_klass_amount.to_f
 
         total += single_klass_amount
+        total_total += single_klass_amount
 
-        row = [ins.person.to_label, year, month_name, klass_names, total_amount, 1, single_klass ? "Sin Paquete" : "Paquete", single_klass_amount]
+        row = [ins.person.to_label, year, month_name, klass_names, total_amount, single_klass ? "Sin Paquete" : "Paquete", single_klass_amount]
         worksheet.append_row(row)
+        everything.append_row(row)
       end
 
-      row = ["", "", "", "", "", count, "", total]
+      row = ["Total alumnas/os", count, "", "", "", "", total]
       worksheet.append_row(row)
     end
+
+    totals_row = ["", "", "", "", "", "", total_total]
+    everything.append_row(totals_row)
 
     workbook.close
     filepath
