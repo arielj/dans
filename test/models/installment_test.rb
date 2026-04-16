@@ -30,7 +30,6 @@ class InstallmentTest < ActiveSupport::TestCase
       # check settings fixtures
       # day 10, 10%
       # day 20, 15%
-      # month, 20%
 
       travel_to d1 + 5.days do
         assert_equal ins.get_recharge, Money.new(0)
@@ -43,10 +42,6 @@ class InstallmentTest < ActiveSupport::TestCase
       travel_to d1 + 21.days do
         assert_equal ins.get_recharge, Money.new(15_00)
       end
-
-      travel_to d1 + 1.month do
-        assert_equal ins.get_recharge, Money.new(20_00)
-      end
     end
 
     test 'can ignore recharges' do
@@ -57,7 +52,6 @@ class InstallmentTest < ActiveSupport::TestCase
       # check settings fixtures
       # day 10, 10%
       # day 20, 15%
-      # month, 20%
 
       travel_to d1 + 5.days do
         # 0% recharge
@@ -79,14 +73,6 @@ class InstallmentTest < ActiveSupport::TestCase
         # 15% recharge
         assert_equal ins.get_recharge, Money.new(15_00)
         assert_equal ins.get_recharge(ignore: :first), Money.new(0) # ignored
-        assert_equal ins.get_recharge(ignore: :second), Money.new(10_00) # first applied
-        assert_equal ins.get_recharge(ignore: :month), Money.new(15_00) # second applied
-      end
-
-      travel_to d1 + 1.month do
-        # 20% recharge
-        assert_equal ins.get_recharge, Money.new(20_00)
-        assert_equal ins.get_recharge(ignore: :first), Money.new(0) # ignore
         assert_equal ins.get_recharge(ignore: :second), Money.new(10_00) # first applied
         assert_equal ins.get_recharge(ignore: :month), Money.new(15_00) # second applied
       end

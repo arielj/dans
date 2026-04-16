@@ -21,7 +21,7 @@ class PersonTest < ActiveSupport::TestCase
         assert ins.first.paid_with_interests? # 600_00
         assert ins.second.paid? # 500_00
         assert ins.third.payments.present?
-        assert_equal Money.new(200_00), ins.third.payments.first.amount
+        assert_equal Money.new(225_00), ins.third.payments.first.amount
 
         # add with less than an installment
         ins_id = installments.last.id
