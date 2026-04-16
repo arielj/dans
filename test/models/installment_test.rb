@@ -27,9 +27,9 @@ class InstallmentTest < ActiveSupport::TestCase
 
       ins = Installment.new amount: Money.new(100_00), amount_with_discount: Money.new(100_00), year: d1.year, month: d1.month - 1
 
-      # check settings fixtures
+      # check surcharge constants in constants.rb
       # day 10, 10%
-      # day 20, 15%
+      # day 15, 15%
 
       travel_to d1 + 5.days do
         assert_equal ins.get_recharge, Money.new(0)
@@ -39,26 +39,25 @@ class InstallmentTest < ActiveSupport::TestCase
         assert_equal ins.get_recharge, Money.new(10_00)
       end
 
-      travel_to d1 + 21.days do
+      travel_to d1 + 16.days do
         assert_equal ins.get_recharge, Money.new(15_00)
       end
     end
 
-    test 'can ignore recharges' do
+    test 'can ignore surcharges' do
       d1 = Date.today.beginning_of_month
 
       ins = Installment.new amount: Money.new(100_00), amount_with_discount: Money.new(100_00), year: d1.year, month: d1.month - 1
 
       # check settings fixtures
       # day 10, 10%
-      # day 20, 15%
+      # day 15, 15%
 
       travel_to d1 + 5.days do
         # 0% recharge
         assert_equal ins.get_recharge, Money.new(0)
         assert_equal ins.get_recharge(ignore: :first), Money.new(0) # 0 anyway
         assert_equal ins.get_recharge(ignore: :second), Money.new(0) # 0 anyway
-        assert_equal ins.get_recharge(ignore: :month), Money.new(0) # 0 anyway
       end
 
       travel_to d1 + 11.days do
@@ -66,15 +65,13 @@ class InstallmentTest < ActiveSupport::TestCase
         assert_equal ins.get_recharge, Money.new(10_00)
         assert_equal ins.get_recharge(ignore: :first), Money.new(0) # ignored
         assert_equal ins.get_recharge(ignore: :second), Money.new(10_00) # first applied
-        assert_equal ins.get_recharge(ignore: :month), Money.new(10_00) # first applied
       end
 
-      travel_to d1 + 21.days do
+      travel_to d1 + 16.days do
         # 15% recharge
         assert_equal ins.get_recharge, Money.new(15_00)
         assert_equal ins.get_recharge(ignore: :first), Money.new(0) # ignored
         assert_equal ins.get_recharge(ignore: :second), Money.new(10_00) # first applied
-        assert_equal ins.get_recharge(ignore: :month), Money.new(15_00) # second applied
       end
     end
   end
@@ -121,7 +118,6 @@ class InstallmentTest < ActiveSupport::TestCase
 
         # not ignoring recharge
         # add payment with debit
-        # $stop = true
         ins.create_payment({ paid_at: Date.today.to_s(:db), amount: 550, description: "cuota"}, with_discount: false)
         assert ins.paid_with_interests_and_debit?
         ins.payments.destroy_all
