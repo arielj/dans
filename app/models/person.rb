@@ -235,8 +235,7 @@ class Person < ApplicationRecord
     subtotal = fixed_total
 
     # calculate family discount
-    family_discount = active_family? ? Setting.fetch('family_group_discount', '0') : 0
-    family_discount = family_discount.to_i
+    family_discount = active_family? ? FAMILY_DISCOUNT_PERCENT : 0
 
     manual_discount = use_manual_discount ? manual_discount.to_i : 0
 
