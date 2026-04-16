@@ -44,17 +44,6 @@ class Schedule < ApplicationRecord
     "#{klass.name}: #{from_time_s}-#{to_time_s}"
   end
 
-  # duration in hours
-  def duration
-    to = DateTime.parse(to_time_s, '%H:%M')
-    fr = DateTime.parse(from_time_s, '%H:%M')
-    (to - fr) * 24.0
-  end
-
-  def half_hours
-    (duration*2).to_i
-  end
-
   def day_name
     I18n.t('date.day_names')[Schedule.days[day]]
   end

@@ -22,9 +22,6 @@
     - if amounts[:fixedTotal] != '0,00'
       | Precio clases fijas: $#{amounts[:fixedTotal]}
       br
-    / - if Setting.fetch('calculate_hourly_rates', 'yes') == 'yes' && amounts[:durationTotal] != '0,00'
-    /   | Precio por #{amounts[:duration]}hs: $#{amounts[:durationTotal]}
-    /   br
     | Subtotal: $#{amounts[:subtotal]}
 
     - if membership.person.active_family? && Setting.family_group_discount != '0'

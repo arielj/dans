@@ -5,8 +5,6 @@ en:
   configuration: Configuration
   daily_cash: Daily cash
   home: Home
-  hours: Hours
-  hourly_fees: Fee x Hours
   klasses: Classes
   money:
     details: Details
@@ -86,9 +84,6 @@ en:
     klasses:
       activate: Activate
       deactivate: Deactivate
-    options:
-      hours: Hours
-      value: Value
     people:
       search: Search (name, lastname, document)
       activate: Activate

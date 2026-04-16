@@ -148,7 +148,6 @@ class PersonTest < ActiveSupport::TestCase
   class MembershipCalculatorTest < self
     def setup
       @student = FactoryBot.create(:student)
-      Setting.set('calculate_hourly_rates', 'no')
 
       @jazz_prin = FactoryBot.create(:klass_with_schedules, name: "Jazz principiante", fixed_fee_cents: 20_000_00, fixed_alt_fee_cents: 12_500_00, non_regular_fee_cents: 21_000_00, non_regular_alt_fee_cents: 13_000_00, discount: 10, fixed_fee_with_discount_cents: 0)
       @esp_inter_avan = FactoryBot.create(:klass_with_one_schedule, name: "Español intermedio y avanzado", fixed_fee_cents: 16_000_00, non_regular_fee_cents: 17_000_00, discount: 10, fixed_fee_with_discount_cents: 0)

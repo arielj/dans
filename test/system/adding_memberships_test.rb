@@ -4,9 +4,6 @@ class AddingMembershipsTest < ApplicationSystemTestCase
   test 'can calculate price with and without discount' do
     sign_in admins(:operator)
 
-    Setting.set_hours_fees(1, [100, 90])
-    Setting.set_hours_fees(2, [190, 170])
-
     student = FactoryBot.create(:student)
     room = FactoryBot.create(:room)
     klass1 = FactoryBot.build(:klass, fixed_fee: 0, non_regular_fee: 0)
@@ -26,13 +23,6 @@ class AddingMembershipsTest < ApplicationSystemTestCase
     click_on 'Agregar paquete'
 
     within '#new_membership' do
-      # pick classes with fee by hour
-      # click_checkbox("#membership_schedule_ids_#{klass1.schedules.first.id}")
-      # assert_text 'Precio por 1hs: $100,00'
-
-      # click_checkbox("#membership_schedule_ids_#{klass1.schedules.second.id}")
-      # assert_text 'Precio por 2hs: $190,00'
-
       # pick classes with fee by class
       click_checkbox("#membership_schedule_ids_#{klass2.schedules.second.id}")
       # assert_text 'Precio clases fijas: $70,00'

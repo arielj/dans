@@ -183,12 +183,11 @@ class Person < ApplicationRecord
     details << "Materias: #{total_klasses}. Usando #{use_regular_fees ? "Precios con paquete" : "Precios sin paquete"}"
     details << ""
 
-    # process fees and hours of classes based on number of schedules and type of fee
+    # process fees based on number of schedules and type of fee
     fixed_total = Money.new(0)
     fixed_total_with_discount = Money.new(0)
     discounts_sum = Money.new(0)
     discounts_sum_debit = Money.new(0)
-    duration = 0 # total hours of classes
     schedules_by_klass.each do |klass_id, data|
       kls = data[:klass]
       fee =
@@ -223,40 +222,21 @@ class Person < ApplicationRecord
       details << "#{kls.name} - #{klasses_price_detail} : $#{fee}"
       fees_per_klass[kls.id] = fee
       
-      if fee&.positive?
-        kls_discount = kls.discount.to_i
-        if apply_klass_discount && kls_discount > 0
-          discounts_sum += fee * kls_discount / 100
-        end
-
-        fixed_total += fee
-        details << "Suma parcial: $#{fixed_total}"
-      else
-        duration += data[:schedules].map(&:duration).sum
+      kls_discount = kls.discount.to_i
+      if apply_klass_discount && kls_discount > 0
+        discounts_sum += fee * kls_discount / 100
       end
+
+      fixed_total += fee
+      details << "Suma parcial: $#{fixed_total}"
       details << ""
     end
 
     subtotal = fixed_total
 
-    # calculate price for the number of hours
-    # calculate_hourly_rates = Setting.fetch('calculate_hourly_rates', 'yes') == 'yes'
-    # if (calculate_hourly_rates)
-    #   duration_total = Money.new(Setting.get_hours_fee(duration, with_discount: false).to_i * 100)
-    #   subtotal += duration_total
-
-    #   duration_total_with_discount = Money.new(Setting.get_hours_fee(duration, with_discount: true).to_i * 100)
-    #   subtotal_with_discount += duration_total_with_discount
-    # end
-
     # calculate family discount
     family_discount = active_family? ? Setting.fetch('family_group_discount', '0') : 0
     family_discount = family_discount.to_i
-      # case family_discount
-      # when /\A(\d+)%\z/ then $1.to_f
-      # # when /\A(\d+)\z/ then $1.to_i * 100
-      # else 0
-      # end
 
     manual_discount = use_manual_discount ? manual_discount.to_i : 0
 
@@ -302,12 +282,6 @@ class Person < ApplicationRecord
       usingFeesWithPackage: use_regular_fees,
       feesPerKlass: fees_per_klass
     }
-
-    # if calculate_hourly_rates
-    #   amounts[:durationTotal] = duration_total.to_s
-    #   amounts[:durationTotalWithDiscount] = duration_total_with_discount.to_s
-    #   amounts[:duration] = duration
-    # end
 
     amounts
   end

@@ -21,31 +21,5 @@
           = label_tag "key[#{key}]", t(key, scope: 'form.options'), class: 'form-label'
           = select_tag "key[#{key}]", options_for_select(Installment.months_for_select, Setting.fetch(key, default)), class: 'form-input'
 
-      .form-group
-        = label_tag "key[calculate_hourly_rates]", t(:calculate_hourly_rates, scope: 'form.options'), class: 'form-label'
-        = select_tag "key[calculate_hourly_rates]", options_for_select([['Si','yes'],['No','no']], Setting.fetch('calculate_hourly_rates', 'yes')), class: 'form-input'
-
-  - if Setting.fetch('calculate_hourly_rates', 'yes') == 'yes'
-    .hourly_fees
-      h2
-        => t 'hourly_fees'
-        = link_to t('add.price'), settings_add_price_path, id: 'add_hour_fee', class: 'btn', remote: true
-      #hour_fees.scrollable
-        table.table.table-striped.table-small
-          thead.thead-dark
-            tr
-              th= t('labels.options.hours')
-              th= t('labels.options.value_without_discount')
-              th= t('labels.options.value_with_discount')
-          tbody
-            - @fees.keys.sort_by(&:to_f).each do |k|
-              - next if @fees[k].blank?
-              - v1 = @fees[k][0]
-              - v2 = @fees[k][1]
-              tr data-hours=k
-                td= k
-                td= number_field_tag "key[hour_fees][#{k}][]", v1, id: "fee_#{k}"
-                td= number_field_tag "key[hour_fees][#{k}][]", v2, id: "fee_#{k}"
-  
   .actions
     = submit_tag t('save.options'), class: 'btn btn-primary'

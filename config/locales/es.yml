@@ -7,8 +7,6 @@ es:
   configuration: Configuración
   daily_cash: Caja diaria
   home: Inicio
-  hours: Horas
-  hourly_fees: Precio x Horas
   klasses: Clases
   export: Exportar
   select_installments_to_pay: 'Seleccionar cuotas a pagar'
@@ -206,11 +204,6 @@ es:
     klasses:
       activate: Activar
       deactivate: Desactivar
-    options:
-      hours: Horas
-      value: Valor
-      value_with_discount: Valor (contado)
-      value_without_discount: Valor (débito)
     people:
       search: Buscar (nombre, apellido, dni)
       activate: Activar
@@ -244,7 +237,6 @@ es:
 
   form:
     options:
-      calculate_hourly_rates: Calcular paquetes contando horas?
       closing_time: Cierra a las
       dates_format: Formato de fechas
       debit_extra_charge: Recargo por pago con débito

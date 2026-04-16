@@ -56,13 +56,6 @@ function refreshAmount(form) {
     success: function (resp) {
       const div = form.qs(".auto_calculation");
       let s = "";
-      // if (resp.fixedTotal !== "0,00")
-      //   s += `Precio clases fijas: $${resp.fixedTotal} (o $${resp.fixedTotalWithDiscount})<br />`;
-
-      // if (resp.durationTotal && resp.durationTotal !== "0,00")
-      //   s += `Precio por ${resp.duration}hs: $${resp.durationTotal} (o $${resp.durationTotalWithDiscount})<br />`;
-
-      // console.log(resp.details);
 
       s += `Subtotal: $${resp.subtotal}<br />`;
       if (resp.klassesDiscount !== 0)

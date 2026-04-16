@@ -18,13 +18,11 @@ class SettingsController < ApplicationController
   end
 
   def options
-    @fees = Setting.fetch('hour_fees', {})
   end
 
   def save_options
     options = params.fetch(:key)
     options.each do |k, v|
-      v = v.permit!.to_h if k == 'hour_fees'
       Setting.set(k, v)
     end
 

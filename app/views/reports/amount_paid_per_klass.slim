@@ -12,12 +12,6 @@ h1= t('titles.amount_paid_per_klass')
     => button_tag t('labels.filter'), value: :filter, type: :submit, class: 'btn btn-primary'
     => button_tag t('labels.export'), value: :export, type: :submit, class: 'btn btn-secondary'
 
-/ .totals
-/   h2 Estadísticas por hora
-/   ul
-/     - @totals.keys.sort { |x, y| x.to_f <=> y.to_f }.each do |hours|
-/       li #{hours} hora(s): #{@totals[hours]} alumno/a(s)
-
 .scrollable
   table
     thead
