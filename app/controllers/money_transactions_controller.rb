@@ -12,7 +12,6 @@ class MoneyTransactionsController < ApplicationController
       if params[:money_transaction][:payable_type] == 'Installment'
         installment = Installment.find(params[:money_transaction][:payable_id])
         ignore = false
-        ignore = :month if params[:ignore_month_recharge] == '1'
         ignore = :second if params[:ignore_second_recharge] == '1'
         ignore = :first if params[:ignore_recharge] == '1'
 

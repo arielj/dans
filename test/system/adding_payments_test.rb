@@ -15,7 +15,7 @@ class AddingPaymentsTest < ApplicationSystemTestCase
 
     travel_to Time.zone.local(2020, 7, 1, 18, 0, 0) do
       ins = student.installments.order(month: :asc).first
-      assert_equal Money.new(600_00), ins.to_pay
+      assert_equal Money.new(575_00), ins.to_pay
 
       visit edit_person_path(student)
 
@@ -30,12 +30,6 @@ class AddingPaymentsTest < ApplicationSystemTestCase
       assert_selector '.modal #installment_payment'
 
       within '.modal #installment_payment' do
-        assert_match 'Restante: $600,00', page.text
-
-        assert_match 'Ignorar recargo a mes vencido', page.text
-
-        find('#ignore_month_recharge_label').click
-
         assert_match 'Restante: $575,00', page.text
         assert_equal "575,00", find("#money_transaction_amount").value
 
@@ -62,13 +56,6 @@ class AddingPaymentsTest < ApplicationSystemTestCase
       assert_selector '.modal #installment_payment'
 
       within '.modal #installment_payment' do
-        # 500 + 20%
-        assert_match 'Restante: $600,00', page.text
-
-        assert_match 'Ignorar recargo a mes vencido', page.text
-
-        find('#ignore_month_recharge_label').click
-
         # 500 + 15%
         assert_match 'Restante: $575,00', page.text
 
@@ -106,7 +93,7 @@ class AddingPaymentsTest < ApplicationSystemTestCase
 
     travel_to Time.zone.local(2020, 7, 1, 18, 0, 0) do
       ins = student.installments.order(month: :asc).first
-      assert_equal Money.new(600_00), ins.to_pay
+      assert_equal Money.new(575_00), ins.to_pay
 
       visit edit_person_path(student)
 
@@ -134,12 +121,6 @@ class AddingPaymentsTest < ApplicationSystemTestCase
       assert_selector '.modal #installment_payment'
 
       within '.modal #installment_payment' do
-        assert_match 'Restante: $100,00', page.text
-
-        assert_match 'Ignorar recargo a mes vencido', page.text
-
-        find('#ignore_month_recharge_label').click
-
         assert_match 'Restante: $75,00', page.text
 
         assert_match 'Ignorar segundo recargo por fecha', page.text
@@ -179,7 +160,7 @@ class AddingPaymentsTest < ApplicationSystemTestCase
       within '.modal #add_payments' do
         amount_field = find('#amount')
 
-        assert_equal amount_field.value, '0,00'
+        assert_equal '0,00', amount_field.value
 
         student.installments.waiting.each do |ins|
           assert_selector "#installments_to_pay_#{ins.id}"
@@ -193,17 +174,12 @@ class AddingPaymentsTest < ApplicationSystemTestCase
         find(:css, "#installments_to_pay_#{ins2.id}").set(true)
 
         # checking two payments with value $500 and $100 recharge
-        assert_equal amount_field.value, '1200,00'
-
-        find(:css, "#ignore_recharge_#{ins2.id}").select('Primero')
-
-        # ignore one of the recharge
-        assert_equal amount_field.value, '1150,00'
+        assert_equal '1150,00', amount_field.value
 
         find(:css, "#ignore_recharge_#{ins2.id}").select('Ignorar')
 
         # ignore one of the recharge
-        assert_equal amount_field.value, '1100,00'
+        assert_equal '1075,00', amount_field.value
 
         click_button I18n.t('save.payments')
       end
@@ -233,8 +209,8 @@ class AddingPaymentsTest < ApplicationSystemTestCase
     travel_to Time.zone.local(2020, 7, 1, 18, 0, 0) do
       ins = student.installments.order(month: :asc).first
       next_ins = ins.next_installment
-      assert_equal Money.new(600_00), ins.to_pay
-      assert_equal Money.new(600_00), next_ins.to_pay
+      assert_equal Money.new(575_00), ins.to_pay
+      assert_equal Money.new(575_00), next_ins.to_pay
 
       visit edit_person_path(student)
 
@@ -251,7 +227,7 @@ class AddingPaymentsTest < ApplicationSystemTestCase
       within '.modal #installment_payment' do
         fill_in 'money_transaction_amount', with: '700,00'
 
-        assert_match "El resto ($100) se va a asignar a la cuota de #{next_ins.month_name}", page.text
+        assert_match "El resto ($125) se va a asignar a la cuota de #{next_ins.month_name}", page.text
 
         fill_in 'money_transaction_amount', with: '600,00'
 
@@ -259,7 +235,7 @@ class AddingPaymentsTest < ApplicationSystemTestCase
 
         fill_in 'money_transaction_amount', with: '700,00'
 
-        assert_match "El resto ($100) se va a asignar a la cuota de #{next_ins.month_name}", page.text
+        assert_match "El resto ($125) se va a asignar a la cuota de #{next_ins.month_name}", page.text
 
         click_button 'Guardar'
       end

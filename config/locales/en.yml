@@ -105,13 +105,10 @@ en:
       family_discount: Family group discount (XX as fixed value, YY% as procentual value)
       name: Institution name
       language: Language
-      month_recharge_value: Recharge after 30 days (XX as fixed value, YY% as procentual value)
       opening_time: Opening time
       preselected_installments_month: Preselected months at installments creation
       preselected_installments_month_from: Month from
       preselected_installments_month_to: Month to
-      recharge_after_day: Recharge after day X
-      recharge_value: Recharge value (XX as fixed value, YY% as procentual value)
   activerecord:
     attributes:
       money_transaction:

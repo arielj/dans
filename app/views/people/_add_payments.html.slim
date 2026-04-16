@@ -25,11 +25,8 @@
           td
             - if ins.get_recharge.positive?
               select name="ignore_recharge[#{ins.id}]" id="ignore_recharge_#{ins.id}" class='recharge'
-                - if ins.get_month_recharge.positive?
-                  option value='none' data-to-pay=ins.to_pay(ignore_recharge: :none, with_discount: false) data-to-pay-s=installment_amount(ins, ignore_recharge: :none, with_discount: false) data-to-pay-with-discount=ins.to_pay(ignore_recharge: :none, with_discount: true) data-to-pay-with-discount-s=installment_amount(ins, ignore_recharge: :none, with_discount: true) Mes vencido
-
                 - if ins.get_second_recharge.positive?
-                  option value='month' data-to-pay=ins.to_pay(ignore_recharge: :month, with_discount: false) data-to-pay-s=installment_amount(ins, ignore_recharge: :month, with_discount: false) data-to-pay-with-discount=ins.to_pay(ignore_recharge: :month, with_discount: true) data-to-pay-with-discount-s=installment_amount(ins, ignore_recharge: :month, with_discount: true) Segundo
+                  option value='none' data-to-pay=ins.to_pay(ignore_recharge: :none, with_discount: false) data-to-pay-s=installment_amount(ins, ignore_recharge: :none, with_discount: false) data-to-pay-with-discount=ins.to_pay(ignore_recharge: :none, with_discount: true) data-to-pay-with-discount-s=installment_amount(ins, ignore_recharge: :none, with_discount: true) Segundo
 
                 - if ins.get_first_recharge.positive?
                   option value='second' data-to-pay=ins.to_pay(ignore_recharge: :second, with_discount: false) data-to-pay-s=installment_amount(ins, ignore_recharge: :second, with_discount: false) data-to-pay-with-discount=ins.to_pay(ignore_recharge: :second, with_discount: true) data-to-pay-with-discount-s=installment_amount(ins, ignore_recharge: :second, with_discount: true) Primero

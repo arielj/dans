@@ -241,17 +241,12 @@ es:
       dates_format: Formato de fechas
       debit_extra_charge: Recargo por pago con débito
       family_group_discount: Descuento para grupos familiares
-      month_recharge_value: Recargo después de 30 días (XX para valor fijo, YY% para pocentaje)
       name: Nombre del instituto
       language: Idioma
       opening_time: Abre a las
       preselected_installments_month: Meses preseleccionados al cargar cuotas
       preselected_installments_month_from: Mes inicial al cargar cuotas
       preselected_installments_month_to: Mes final al cargar cuotas
-      recharge_after_day: 1er recargo luego del día número X
-      recharge_value: Valor del 1er recargo (XX para valor fijo, YY% para pocentaje)
-      second_recharge_after_day: 2do recargo luego del día número Y
-      second_recharge_value: Valor del 2do recargo (XX para valor fijo, YY% para pocentaje)
   activerecord:
     models:
       debt:

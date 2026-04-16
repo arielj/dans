@@ -7,8 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 [[:name, 'Instituto Fulanito'], [:opening_time, '09:00'], [:closing_time, '22:00'],
- [:recharge_after_day, '10'], [:recharge_value, '10%'], [:language, 'es'],
- [:month_recharge_value, '25%'], [:family_discount, '0']].each do |k, v|
+ [:language, 'es'], [:family_discount, '0']].each do |k, v|
   Setting.set k, v
 end
 
