@@ -24,9 +24,9 @@
       br
     | Subtotal: $#{amounts[:subtotal]}
 
-    - if membership.person.active_family?
+    - if membership.person.active_family? && Setting.family_group_discount != '0'
       br
-      | Descuento por grupo familiar (#{FAMILY_DISCOUNT_PERCENT}%): $#{amounts[:discountTotal]}
+      | Descuento por grupo familiar (#{Setting.family_group_discount}%): $#{amounts[:discountTotal]}
 
   = label_tag '', class: 'form-checkbox' do
     = f.check_box :use_custom_amount

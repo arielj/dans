@@ -5,7 +5,7 @@
     h1= t 'configuration'
     .scrollable
       - [[:name, ''],[:opening_time, '09:00'],[:closing_time, '22:00'],
-         [:debit_extra_charge, '0%']].each do |key,default|
+         [:family_group_discount, '0'],[:debit_extra_charge, '0%']].each do |key,default|
         .form-group
           = label_tag "key[#{key}]", t(key, scope: 'form.options'), class: 'form-label'
           = text_field_tag "key[#{key}]", Setting.fetch(key.to_s, default), class: 'form-input'

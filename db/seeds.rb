@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 [[:name, 'Instituto Fulanito'], [:opening_time, '09:00'], [:closing_time, '22:00'],
- [:language, 'es']].each do |k, v|
+ [:language, 'es'], [:family_discount, '0']].each do |k, v|
   Setting.set k, v
 end
 
