@@ -39,7 +39,7 @@ h1= t('titles.installments')
         th Clase
         th Monto
     
-    - @installments.includes(:payments, :klasses).each do |ins|
+    - @installments.includes(:payments, :klasses).order("klasses.name ASC").each do |ins|
       - total += ins.waiting? ? ins.total(ignore_recharge: :all) : ins.amount_with_discount
       tr
         td= link_to ins.person.to_label, edit_person_path(ins.person)

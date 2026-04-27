@@ -104,7 +104,7 @@ class ReportsController < ApplicationController
       end
     end
 
-    @klasses = Klass.active
+    @klasses = Klass.active.order(name: :asc)
 
     @klasses.each do |kls|
       @data[kls.id] ||= { regular: 0, non_regular: 0}

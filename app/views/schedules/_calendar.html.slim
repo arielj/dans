@@ -1,7 +1,7 @@
 .schedules_calendar
   input#filter_schedules placeholder=t('labels.filter')
   - (0..6).each do |d|
-    - schs = Schedule.joins(:klass).where(Klass.arel_table[:status].eq(:active)).where(day: d)
+    - schs = Schedule.joins(:klass).where(Klass.arel_table[:status].eq(:active)).where(day: d).order("klasses.name ASC")
     - if schs.any?
       .day class=Schedule.days.keys[d]
         h4= I18n.t('date.day_names')[d]
