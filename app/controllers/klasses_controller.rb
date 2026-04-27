@@ -85,20 +85,14 @@ class KlassesController < ApplicationController
   def create_klass_params
     params
       .require(:klass)
-      .permit(:name, :status, :fixed_fee, :fixed_fee_with_discount, :non_regular_fee,
-              :non_regular_fee_with_discount, :non_regular_alt_fee, :fixed_alt_fee,
-              :fixed_alt_fee_with_discount, :non_regular_alt_fee_with_discount,
-              :discount, teacher_ids: [],
+      .permit(:name, :status, :fixed_fee, :fixed_alt_fee, :discount, teacher_ids: [],
               schedules_attributes: %i[id from_time to_time day room_id _destroy])
   end
 
   def update_klass_params
     params
       .require(:klass)
-      .permit(:name, :status, :fixed_fee, :non_regular_fee, :fixed_fee_with_discount,
-              :non_regular_fee_with_discount, :non_regular_alt_fee, :fixed_alt_fee,
-              :fixed_alt_fee_with_discount, :non_regular_alt_fee_with_discount,
-              :discount, teacher_ids: [],
+      .permit(:name, :status, :fixed_fee, :fixed_alt_fee, :discount, teacher_ids: [],
               schedules_attributes: %i[id from_time to_time day room_id _destroy])
   end
 end

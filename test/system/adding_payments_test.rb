@@ -174,12 +174,12 @@ class AddingPaymentsTest < ApplicationSystemTestCase
         find(:css, "#installments_to_pay_#{ins2.id}").set(true)
 
         # checking two payments with value $500 and $100 recharge
-        assert_equal '1035,00', amount_field.value
+        assert_equal '1150,00', amount_field.value
 
         find(:css, "#ignore_recharge_#{ins2.id}").select('Ignorar')
 
         # ignore one of the recharge
-        assert_equal '967,50', amount_field.value
+        assert_equal '1075,00', amount_field.value
 
         click_button I18n.t('save.payments')
       end

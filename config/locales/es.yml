@@ -285,14 +285,8 @@ es:
         to_pay: Saldo
       klass:
         name: Nombre
-        non_regular_fee: 'Precio completo (2xSemana) sin paquete'
-        non_regular_fee_with_discount: 'Precio no regulares (con descuento)'
-        fixed_fee: 'Precio completo (2xSemana) con paquete'
-        fixed_fee_with_discount: 'Precio completo (débito)'
-        non_regular_alt_fee: 'Precio alternativo (1xSemana) sin paquete'
-        non_regular_alt_fee_with_discount: 'Precio no regulares - 1 clase (con descuento)'
-        fixed_alt_fee: 'Precio alternativo (1xSemana) con paquete'
-        fixed_alt_fee_with_discount: 'Precio alternativo (débito)'
+        fixed_fee: 'Precio completo (2xSemana)'
+        fixed_alt_fee: 'Precio alternativo (1xSemana)'
         status: Estado
         schedules: Horarios
         info: Información
@@ -307,8 +301,6 @@ es:
         update_paid_installments: Actualizar cuotas pagadas
         use_custom_amount: Usar monto manual (con la casilla desmarcada se usa el valor calculado)
         use_manual_discount: Ingresar descuento a mano
-        use_non_regular_fee: Usar precios de alumnos/as no regulares
-        use_fees_with_discount: Usar precios con descuento
       money_transaction:
         amount: Monto
         date: Fecha

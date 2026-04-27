@@ -11,7 +11,7 @@ function refreshAmount(form) {
     const amountWithDiscount = customAmountInputWithDiscount.value;
     const amountF = parseFloat(amount.replace(",", "."));
     const amountWithDiscountF = parseFloat(
-      amountWithDiscount.replace(",", ".")
+      amountWithDiscount.replace(",", "."),
     );
 
     // if (amountF - amountWithDiscountF > 350) {
@@ -26,16 +26,11 @@ function refreshAmount(form) {
   }
 
   let schedulesIds = [...form.qsa("input.schedule:checked")].map(
-    (i) => i.value
+    (i) => i.value,
   );
   schedulesIds = schedulesIds
     .map((x) => serializePair("schedules_ids[]", x))
     .join("&");
-
-  const nonRegularFeeInput = byid("membership_use_non_regular_fee");
-  if (nonRegularFeeInput)
-    if (nonRegularFeeInput.checked)
-      schedulesIds = schedulesIds + "&use_non_regular_fee=1";
 
   const manualDiscountCheck = byid("membership_use_manual_discount");
   if (manualDiscountCheck)
@@ -103,18 +98,11 @@ function bindMembershipForm() {
     refreshAmount(form);
   });
   const customAmountInputs = qsa(
-    "#membership_amount, #membership_amount_with_discount"
+    "#membership_amount, #membership_amount_with_discount",
   );
   customAmountInputs.forEach((i) => {
     i.addEventListener("input", () => refreshAmount(form));
   });
-
-  const nonRegularFeeInput = byid("membership_use_non_regular_fee");
-  if (nonRegularFeeInput) {
-    nonRegularFeeInput.addEventListener("change", (e) => {
-      refreshAmount(form);
-    });
-  }
 
   const applyDiscounts = byid("membership_apply_discounts");
   applyDiscounts.addEventListener("change", (e) => {

@@ -136,7 +136,7 @@ class Person < ApplicationRecord
     payments
   end
 
-  def new_membership_amount_calculator(sch_ids, use_non_regular_fees = false, use_manual_discount = false, manual_discount = '', apply_klass_discount: false, debit_extra: "5000")
+  def new_membership_amount_calculator(sch_ids, use_manual_discount = false, manual_discount = '', debit_extra: "5000")
     if sch_ids.nil?
       return {
         fixedTotal: "0",
@@ -175,37 +175,30 @@ class Person < ApplicationRecord
       schedules_by_klass[kls.id][:schedules] << sch
     end
 
-    # if student goes to more than 2 classes, use `package` fee
-    # if 1 or 2 classes, use `regular` fees
     total_klasses = schedules_by_klass.keys.count
-    use_regular_fees = total_klasses >= 3
+    klasses_discount =
+      if total_klasses >= 5
+        10
+      elsif total_klasses >= 3
+        5
+      else
+        0
+      end
 
-    details << "Materias: #{total_klasses}. Usando #{use_regular_fees ? "Precios con paquete" : "Precios sin paquete"}"
+    details << "Materias: #{total_klasses}"
+    details << ""
+    details << "Descuento por materias #{klasses_discount}" if klasses_discount > 0
     details << ""
 
     # process fees based on number of schedules and type of fee
     fixed_total = Money.new(0)
-    fixed_total_with_discount = Money.new(0)
-    discounts_sum = Money.new(0)
-    discounts_sum_debit = Money.new(0)
     schedules_by_klass.each do |klass_id, data|
       kls = data[:klass]
       fee =
-        if !use_regular_fees && kls.non_regular_fee
-          if data[:schedules].count < kls.schedules.count && kls.non_regular_alt_fee
-            # if not full all days and there's an alternative price
-            # [kls.non_regular_alt_fee, kls.non_regular_alt_fee_with_discount]
-
-            kls.non_regular_alt_fee
-          else
-            kls.non_regular_fee
-          end
+        if data[:schedules].count < kls.schedules.count && kls.fixed_alt_fee
+          kls.fixed_alt_fee
         else
-          if data[:schedules].count < kls.schedules.count && kls.fixed_alt_fee
-            kls.fixed_alt_fee
-          else
-            kls.fixed_fee
-          end
+          kls.fixed_fee
         end
 
       klasses_price_detail =
@@ -221,11 +214,6 @@ class Person < ApplicationRecord
 
       details << "#{kls.name} - #{klasses_price_detail} : $#{fee}"
       fees_per_klass[kls.id] = fee
-      
-      kls_discount = kls.discount.to_i
-      if apply_klass_discount && kls_discount > 0
-        discounts_sum += fee * kls_discount / 100
-      end
 
       fixed_total += fee
       details << "Suma parcial: $#{fixed_total}"
@@ -234,13 +222,15 @@ class Person < ApplicationRecord
 
     subtotal = fixed_total
 
+    klasses_discount_total = klasses_discount * subtotal / 100
+
     # calculate family discount
     family_discount = active_family? ? Setting.fetch('family_group_discount', '0') : 0
     family_discount = family_discount.to_i
 
     manual_discount = use_manual_discount ? manual_discount.to_i : 0
 
-    total_discount = family_discount + manual_discount
+    total_discount = family_discount + manual_discount + klasses_discount
 
     # family discount applies to everything
     family_discount_total = subtotal / 100 * family_discount
@@ -252,18 +242,11 @@ class Person < ApplicationRecord
 
     details << "Descuento manual: $#{manual_discount_total}" if manual_discount > 0
 
-    total = subtotal - family_discount_total - manual_discount_total - discounts_sum
+    total = subtotal - family_discount_total - manual_discount_total - klasses_discount_total
 
     details << "Total: $#{total} ($#{total + debit_extra} con débito)"
 
     limitedTotal = false
-
-    # discount_limit = Money.new(350_00)
-
-    # if total_with_discounts > 0 && total - total_with_discounts > discount_limit
-    #   total = total_with_discounts + discount_limit
-    #   limitedTotal = true
-    # end
 
     amounts = {
       fixedTotal: fixed_total.to_s,
@@ -272,14 +255,13 @@ class Person < ApplicationRecord
       manualDiscount: manual_discount,
       manualDiscountTotal: manual_discount_total.to_s,
       discount: total_discount.to_s,
-      klassesDiscount: discounts_sum.to_s,
+      klassesDiscount: klasses_discount_total.to_s,
       subtotal: subtotal.to_s,
-      discountTotal: (family_discount_total+manual_discount_total+discounts_sum).to_s,
+      discountTotal: (family_discount_total+manual_discount_total+klasses_discount_total).to_s,
       totalCash: total.to_s,
       totalDebit: (total+debit_extra).to_s,
       limitedTotal: limitedTotal,
       details: details,
-      usingFeesWithPackage: use_regular_fees,
       feesPerKlass: fees_per_klass
     }
 

@@ -149,61 +149,68 @@ class PersonTest < ActiveSupport::TestCase
     def setup
       @student = FactoryBot.create(:student)
 
-      @jazz_prin = FactoryBot.create(:klass_with_schedules, name: "Jazz principiante", fixed_fee_cents: 20_000_00, fixed_alt_fee_cents: 12_500_00, non_regular_fee_cents: 21_000_00, non_regular_alt_fee_cents: 13_000_00, discount: 10, fixed_fee_with_discount_cents: 0)
-      @esp_inter_avan = FactoryBot.create(:klass_with_one_schedule, name: "Español intermedio y avanzado", fixed_fee_cents: 16_000_00, non_regular_fee_cents: 17_000_00, discount: 10, fixed_fee_with_discount_cents: 0)
+      @jazz_prin = FactoryBot.create(:klass_with_schedules, name: "Jazz principiante", fixed_fee_cents: 20_000_00, fixed_alt_fee_cents: 12_500_00, discount: 10)
+      @esp_inter_avan = FactoryBot.create(:klass_with_one_schedule, name: "Español intermedio y avanzado", fixed_fee_cents: 16_000_00, discount: 10, fixed_fee_with_discount_cents: 0)
       @tapp = FactoryBot.create(:klass_with_schedules, name: "Tap", fixed_fee_cents: 12_500_00, discount: 5, fixed_fee_with_discount_cents: 0)
-      @cofus_inter = FactoryBot.create(:klass_with_schedules, name: "Coreo Funsión intermedio", fixed_fee_cents: 20_000_00, fixed_alt_fee_cents: 12_500_00, non_regular_fee_cents: 21_000_00, non_regular_alt_fee_cents: 13_000_00, discount: 5, fixed_fee_with_discount_cents: 0)
-      @cofus_avan = FactoryBot.create(:klass_with_schedules, name: "Coreo Funsión avanzado", fixed_fee_cents: 20_000_00, fixed_alt_fee_cents: 12_500_00, non_regular_fee_cents: 21_000_00, non_regular_alt_fee_cents: 13_000_00, discount: 5, fixed_fee_with_discount_cents: 0)
+      @cofus_inter = FactoryBot.create(:klass_with_schedules, name: "Coreo Funsión intermedio", fixed_fee_cents: 20_000_00, fixed_alt_fee_cents: 12_500_00, discount: 5)
+      @cofus_avan = FactoryBot.create(:klass_with_schedules, name: "Coreo Funsión avanzado", fixed_fee_cents: 20_000_00, fixed_alt_fee_cents: 12_500_00, discount: 5)
 
     end
 
-    test 'single class - one day = no package price and 1 week price' do
-      # non_regular_alt_fee_cents: 13_000_00
+    test 'single class - one day = 1 week price, no klasses discount' do
       sch_ids = [@jazz_prin.schedules.first.id]
-      amounts = @student.new_membership_amount_calculator(sch_ids, apply_klass_discount: true)
-      assert_equal "13000,00", amounts[:fixedTotal]
-      assert_equal "1300,00", amounts[:discountTotal]
-      assert_equal "11700,00", amounts[:totalCash]
-      assert_equal "16700,00", amounts[:totalDebit]
+      amounts = @student.new_membership_amount_calculator(sch_ids)
+      assert_equal "12500,00", amounts[:fixedTotal]
+      assert_equal "0,00", amounts[:discountTotal]
+      assert_equal "12500,00", amounts[:totalCash]
+      assert_equal "17500,00", amounts[:totalDebit]
 
-      amounts = @student.new_membership_amount_calculator(sch_ids, apply_klass_discount: true, debit_extra: "4000")
-      assert_equal "13000,00", amounts[:fixedTotal]
-      assert_equal "1300,00", amounts[:discountTotal]
-      assert_equal "11700,00", amounts[:totalCash]
-      assert_equal "15700,00", amounts[:totalDebit]
+      amounts = @student.new_membership_amount_calculator(sch_ids, debit_extra: "4000")
+      assert_equal "12500,00", amounts[:fixedTotal]
+      assert_equal "0,00", amounts[:discountTotal]
+      assert_equal "12500,00", amounts[:totalCash]
+      assert_equal "16500,00", amounts[:totalDebit]
     end
 
-    test 'single class - two days = no package price and full price' do
+    test 'single class - two days = full price, no klasses discount' do
       sch_ids = [@jazz_prin.schedules.ids]
-      amounts = @student.new_membership_amount_calculator(sch_ids, apply_klass_discount: true)
-      assert_equal "21000,00", amounts[:fixedTotal]
-      assert_equal "2100,00", amounts[:discountTotal]
-      assert_equal "18900,00", amounts[:totalCash]
-      assert_equal "23900,00", amounts[:totalDebit]
+      amounts = @student.new_membership_amount_calculator(sch_ids)
+      assert_equal "20000,00", amounts[:fixedTotal]
+      assert_equal "0,00", amounts[:discountTotal]
+      assert_equal "20000,00", amounts[:totalCash]
+      assert_equal "25000,00", amounts[:totalDebit]
     end
 
-    test 'two classes - one day each = no package price and 1 week price each' do
+    test 'two classes - one day each = 1 week price each, no klasses discount' do
       sch_ids = [@jazz_prin.schedules.first.id, @cofus_inter.schedules.first.id]
-      amounts = @student.new_membership_amount_calculator(sch_ids, apply_klass_discount: true)
-      assert_equal "26000,00", amounts[:fixedTotal]
-      assert_equal "24050,00", amounts[:totalCash]
-      assert_equal "1950,00", amounts[:discountTotal]
+      amounts = @student.new_membership_amount_calculator(sch_ids)
+      assert_equal "25000,00", amounts[:fixedTotal]
+      assert_equal "25000,00", amounts[:totalCash]
+      assert_equal "0,00", amounts[:discountTotal]
     end
 
-    test 'two classes - one: 1 day, other: 2 days = non-package price, 1 week price for one, full price for the other' do
+    test 'two classes - one: 1 day, other: 2 days = 1 week price for one, full price for the other, no discount' do
       sch_ids = [@jazz_prin.schedules.first.id, *@cofus_inter.schedules.ids]
-      amounts = @student.new_membership_amount_calculator(sch_ids, apply_klass_discount: true)
-      assert_equal "34000,00", amounts[:fixedTotal]
-      assert_equal "31650,00", amounts[:totalCash]
-      assert_equal "2350,00", amounts[:discountTotal]
+      amounts = @student.new_membership_amount_calculator(sch_ids)
+      assert_equal "32500,00", amounts[:fixedTotal]
+      assert_equal "32500,00", amounts[:totalCash]
+      assert_equal "0,00", amounts[:discountTotal]
     end
 
-    test 'three classes - one day each = package price and 1 week price each' do
+    test 'three classes - one day each = 1 week price each, 5% discount' do
       sch_ids = [@jazz_prin.schedules.first.id, @cofus_inter.schedules.first.id, @cofus_avan.schedules.first.id ]
-      amounts = @student.new_membership_amount_calculator(sch_ids, apply_klass_discount: true)
+      amounts = @student.new_membership_amount_calculator(sch_ids)
       assert_equal "37500,00", amounts[:fixedTotal]
-      assert_equal "35000,00", amounts[:totalCash]
-      assert_equal "2500,00", amounts[:discountTotal]
+      assert_equal "35625,00", amounts[:totalCash]
+      assert_equal "1875,00", amounts[:discountTotal]
+    end
+
+    test 'five classes - 2 days each = full price, 10% discount' do
+      sch_ids = [ *@jazz_prin.schedules.ids, *@cofus_inter.schedules.ids, *@cofus_avan.schedules.ids, *@esp_inter_avan.schedules.ids, *@tapp.schedules.ids ]
+      amounts = @student.new_membership_amount_calculator(sch_ids)
+      assert_equal "88500,00", amounts[:fixedTotal]
+      assert_equal "79650,00", amounts[:totalCash]
+      assert_equal "8850,00", amounts[:discountTotal]
     end
   end
 end

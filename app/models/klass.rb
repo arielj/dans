@@ -2,13 +2,7 @@
 
 class Klass < ApplicationRecord
   monetize :fixed_fee_cents, allow_nil: true
-  monetize :fixed_fee_with_discount_cents, allow_nil: true
   monetize :fixed_alt_fee_cents, allow_nil: true
-  monetize :fixed_alt_fee_with_discount_cents, allow_nil: true
-  monetize :non_regular_fee_cents, allow_nil: true
-  monetize :non_regular_fee_with_discount_cents, allow_nil: true
-  monetize :non_regular_alt_fee_cents, allow_nil: true
-  monetize :non_regular_alt_fee_with_discount_cents, allow_nil: true
 
   has_many :schedules, inverse_of: :klass, dependent: :destroy
   accepts_nested_attributes_for :schedules, reject_if: :all_blank, allow_destroy: true
@@ -103,7 +97,7 @@ class Klass < ApplicationRecord
 
   def update_memberships_on_update
     # don't update membership if none of the fees changed
-    return if [:fixed_fee, :fixed_alt_fee, :non_regular_fee, :non_regular_alt_fee].none? do |attr|
+    return if [:fixed_fee, :fixed_alt_fee].none? do |attr|
       send("saved_change_to_#{attr}_cents?")
     end
 
