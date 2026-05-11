@@ -89,13 +89,13 @@ class InstallmentTest < ActiveSupport::TestCase
         assert_equal ins.get_recharge, Money.new(0)
         # no recharges
         # add payment with debit
-        ins.create_payment({ paid_at: Date.today.to_s(:db), amount: 500, description: "cuota"}, with_discount: false)
+        ins.create_payment({ paid_at: Date.today.to_s(:db), amount: 5500, description: "cuota"}, add_debit_extra: true)
         assert ins.paid_with_debit?
         ins.payments.destroy_all
         ins.waiting!
         
         # add payment discounted
-        ins.create_payment({ paid_at: Date.today.to_s(:db), amount: 400, description: "cuota"}, with_discount: true)
+        ins.create_payment({ paid_at: Date.today.to_s(:db), amount: 400, description: "cuota"}, add_debit_extra: false)
         assert ins.paid?
         ins.payments.destroy_all
         ins.waiting!
@@ -105,26 +105,26 @@ class InstallmentTest < ActiveSupport::TestCase
       travel_to start + 11.days do
         # ignoring recharge
         # add payment with debit
-        ins.create_payment({ paid_at: Date.today.to_s(:db), amount: 500, description: "cuota"}, ignore_recharge: :all, with_discount: false)
+        ins.create_payment({ paid_at: Date.today.to_s(:db), amount: 5500, description: "cuota"}, ignore_recharge: :all, add_debit_extra: true)
         assert ins.paid_with_debit?
         ins.payments.destroy_all
         ins.waiting!
 
         # add payment discounted
-        ins.create_payment({ paid_at: Date.today.to_s(:db), amount: 400, description: "cuota"}, ignore_recharge: :all, with_discount: true)
+        ins.create_payment({ paid_at: Date.today.to_s(:db), amount: 400, description: "cuota"}, ignore_recharge: :all, add_debit_extra: false)
         assert ins.paid?
         ins.payments.destroy_all
         ins.waiting!
 
         # not ignoring recharge
         # add payment with debit
-        ins.create_payment({ paid_at: Date.today.to_s(:db), amount: 550, description: "cuota"}, with_discount: false)
+        ins.create_payment({ paid_at: Date.today.to_s(:db), amount: 5550, description: "cuota"}, add_debit_extra: true)
         assert ins.paid_with_interests_and_debit?
         ins.payments.destroy_all
         ins.waiting!
 
         # add payment discounted
-        ins.create_payment({ paid_at: Date.today.to_s(:db), amount: 440, description: "cuota"}, with_discount: true)
+        ins.create_payment({ paid_at: Date.today.to_s(:db), amount: 440, description: "cuota"}, add_debit_extra: false)
         assert ins.paid_with_interests?
         ins.payments.destroy_all
         ins.waiting!

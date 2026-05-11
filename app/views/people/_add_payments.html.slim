@@ -15,23 +15,23 @@
         th Recargo
     tbody
       - @unpaid_installments.each do |ins|
-        tr data-to-pay=ins.to_pay(with_discount: false) data-to-pay-with-discount=ins.to_pay(with_discount: true)
-          td = check_box_tag 'installments_to_pay[]', ins.id, false, id: "installments_to_pay_#{ins.id}", data: { to_pay: ins.to_pay(with_discount: false).to_s, to_pay_with_discount: ins.to_pay(with_discount: true).to_s, to_pay_s: installment_to_pay(ins, with_discount: false), to_pay_with_discount_s: installment_to_pay(ins, with_discount: true)}
+        tr data-to-pay=ins.to_pay(add_debit_extra: true) data-to-pay-with-discount=ins.to_pay(add_debit_extra: false)
+          td = check_box_tag 'installments_to_pay[]', ins.id, false, id: "installments_to_pay_#{ins.id}", data: { to_pay: ins.to_pay(add_debit_extra: true).to_s, to_pay_with_discount: ins.to_pay(add_debit_extra: false).to_s, to_pay_s: installment_to_pay(ins, add_debit_extra: true), to_pay_with_discount_s: installment_to_pay(ins, add_debit_extra: false)}
           td = ins.person.to_label
           td = ins.year
           td = ins.month_name
-          td.amount data-amount=ins.amount data-amount-with-discount=ins.amount_with_discount data-amount-s=installment_amount(ins, with_discount: false) data-amount-with-discount-s=installment_amount(ins, with_discount: true) = installment_amount(ins)
-          td.to_pay data-to-pay=installment_to_pay(ins, with_discount: false) data-to-pay-with-discount=installment_to_pay(ins, with_discount: true) = installment_to_pay(ins)
+          td.amount data-amount=ins.amount data-amount-with-discount=ins.amount_with_discount data-amount-s=installment_amount(ins, add_debit_extra: true) data-amount-with-discount-s=installment_amount(ins, add_debit_extra: false) = installment_amount(ins)
+          td.to_pay data-to-pay=installment_to_pay(ins, add_debit_extra: true) data-to-pay-with-discount=installment_to_pay(ins, add_debit_extra: false) = installment_to_pay(ins)
           td
             - if ins.get_recharge.positive?
               select name="ignore_recharge[#{ins.id}]" id="ignore_recharge_#{ins.id}" class='recharge'
                 - if ins.get_second_recharge.positive?
-                  option value='none' data-to-pay=ins.to_pay(ignore_recharge: :none, with_discount: false) data-to-pay-s=installment_amount(ins, ignore_recharge: :none, with_discount: false) data-to-pay-with-discount=ins.to_pay(ignore_recharge: :none, with_discount: true) data-to-pay-with-discount-s=installment_amount(ins, ignore_recharge: :none, with_discount: true) Segundo
+                  option value='none' data-to-pay=ins.to_pay(ignore_recharge: :none, add_debit_extra: true) data-to-pay-s=installment_amount(ins, ignore_recharge: :none, add_debit_extra: true) data-to-pay-with-discount=ins.to_pay(ignore_recharge: :none, add_debit_extra: false) data-to-pay-with-discount-s=installment_amount(ins, ignore_recharge: :none, add_debit_extra: false) Segundo
 
                 - if ins.get_first_recharge.positive?
-                  option value='second' data-to-pay=ins.to_pay(ignore_recharge: :second, with_discount: false) data-to-pay-s=installment_amount(ins, ignore_recharge: :second, with_discount: false) data-to-pay-with-discount=ins.to_pay(ignore_recharge: :second, with_discount: true) data-to-pay-with-discount-s=installment_amount(ins, ignore_recharge: :second, with_discount: true) Primero
+                  option value='second' data-to-pay=ins.to_pay(ignore_recharge: :second, add_debit_extra: true) data-to-pay-s=installment_amount(ins, ignore_recharge: :second, add_debit_extra: true) data-to-pay-with-discount=ins.to_pay(ignore_recharge: :second, add_debit_extra: false) data-to-pay-with-discount-s=installment_amount(ins, ignore_recharge: :second, add_debit_extra: false) Primero
 
-                option value='all' data-to-pay=ins.to_pay(ignore_recharge: :all, with_discount: false) data-to-pay-s=installment_amount(ins, ignore_recharge: :all, with_discount: false) data-to-pay-with-discount=ins.to_pay(ignore_recharge: :all, with_discount: true) data-to-pay-with-discount-s=installment_amount(ins, ignore_recharge: :all, with_discount: true) Ignorar
+                option value='all' data-to-pay=ins.to_pay(ignore_recharge: :all, add_debit_extra: true) data-to-pay-s=installment_amount(ins, ignore_recharge: :all, add_debit_extra: true) data-to-pay-with-discount=ins.to_pay(ignore_recharge: :all, add_debit_extra: false) data-to-pay-with-discount-s=installment_amount(ins, ignore_recharge: :all, add_debit_extra: false) Ignorar
   
   .form-group
     = label_tag :amount, Installment.human_attribute_name(:amount), class: 'form-label'

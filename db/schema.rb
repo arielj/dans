@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_02_11_222718) do
+ActiveRecord::Schema.define(version: 2026_05_09_230819) do
 
   create_table "admins", charset: "utf8mb4", collation: "utf8mb4_spanish_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 2024_02_11_222718) do
     t.integer "amount_with_discount_cents", default: 0, comment: "Amount to pay with discount"
     t.boolean "use_amount_with_discount", default: false, comment: "Indicates if this installment was paid with a discount"
     t.boolean "apply_extra_debit_charge", default: false, comment: "Indicates if this installment was paid with debit"
+    t.text "membership_amounts", comment: "Membership amounts details"
     t.index ["membership_id"], name: "index_installments_on_membership_id"
   end
 

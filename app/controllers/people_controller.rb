@@ -127,7 +127,8 @@ class PeopleController < ApplicationController
   end
 
   def do_add_payments
-    @result = person.add_multi_payments(params[:installments_to_pay], params[:amount], params[:ignore_recharge], params[:use_amount_with_discount])
+    add_debit_extra = params[:use_amount_with_discount] != '1'
+    @result = person.add_multi_payments(params[:installments_to_pay], params[:amount], params[:ignore_recharge], add_debit_extra)
 
     if @result.is_a?(Array)
       flash[:notice] = t('saved.payments')

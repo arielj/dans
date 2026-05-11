@@ -13,7 +13,7 @@ function bindInstallmentPaymentForm(form) {
   let dateRechargeCheck = form.qs("#ignore_recharge");
   let secondDateRechargeCheck = form.qs("#ignore_second_recharge");
   let useAmountWithDiscount = form.qs("#use_amount_with_discount");
-  let useDebitAmount = form.qs("#apply_extra_debit_charge");
+  let paymentMethod = form.qs("#apply_extra_debit_charge");
   const buttons = form.qsa('button[type="submit"]');
   const restHint = form.qs(".rest");
   const restTemplate = restHint ? restHint.dataset.template : "";
@@ -21,9 +21,9 @@ function bindInstallmentPaymentForm(form) {
 
   amountField.addEventListener("input", (e) => {
     const toPay = parseFloat(
-      useDebitAmount.checked
+      paymentMethod.value === "1"
         ? toPayHint.dataset.amount
-        : toPayHint.dataset.amountWithDiscount
+        : toPayHint.dataset.amountWithDiscount,
     );
     const amount = parseFloat(amountField.value);
     if (amount > toPay) {
@@ -85,8 +85,8 @@ function bindInstallmentPaymentForm(form) {
     });
   }
 
-  if (useDebitAmount) {
-    useDebitAmount.addEventListener("change", (_e) => {
+  if (paymentMethod) {
+    paymentMethod.addEventListener("change", (_e) => {
       // update rest to pay
       setNewToPay(
         toPayHint,
@@ -105,11 +105,11 @@ function setNewToPay(
   secondDateRechargeCheck,
 ) {
   const useAmountWithDiscount = byid("use_amount_with_discount");
-  const useDebitAmount = byid("apply_extra_debit_charge");
+  const paymentMethod = byid("apply_extra_debit_charge");
   const useDiscounted =
     (useAmountWithDiscount && useAmountWithDiscount.checked) ||
-    !useDebitAmount ||
-    (useDebitAmount && useDebitAmount.checked === false);
+    !paymentMethod ||
+    (paymentMethod && paymentMethod.value === "0");
 
   // updates the rest to pay hint
   let newValue = parseFloat(toPayHint.dataset.amount);
@@ -118,14 +118,14 @@ function setNewToPay(
   if (secondDateRechargeCheck && secondDateRechargeCheck.checked) {
     newValue = parseFloat(secondDateRechargeCheck.dataset.totalIgnoring);
     newValueWithDiscount = parseFloat(
-      secondDateRechargeCheck.dataset.totalIgnoringWithDiscount
+      secondDateRechargeCheck.dataset.totalIgnoringWithDiscount,
     );
   }
 
   if (dateRechargeCheck && dateRechargeCheck.checked) {
     newValue = parseFloat(dateRechargeCheck.dataset.totalIgnoring);
     newValueWithDiscount = parseFloat(
-      dateRechargeCheck.dataset.totalIgnoringWithDiscount
+      dateRechargeCheck.dataset.totalIgnoringWithDiscount,
     );
   }
 

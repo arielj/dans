@@ -87,14 +87,6 @@ class Klass < ApplicationRecord
     Money.new(500000)
   end
 
-  def debit_value
-    @debit_value ||=
-      case Setting.fetch(:debit_extra_charge, '0')
-        when /\A(\d+)%?\z/ then $1.to_f
-        else 0
-      end
-  end
-
   def update_memberships_on_update
     # don't update membership if none of the fees changed
     return if [:fixed_fee, :fixed_alt_fee].none? do |attr|

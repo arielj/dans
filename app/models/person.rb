@@ -108,7 +108,7 @@ class Person < ApplicationRecord
     Installment.where(membership_id: mids).waiting
   end
 
-  def add_multi_payments(installment_ids, amount, ignore_recharge = nil, with_discount = true)
+  def add_multi_payments(installment_ids, amount, ignore_recharge = nil, add_debit_extra = false)
     amount = Money.new(amount.to_i * 100)
     return :no_amount if amount.cents.zero?
 
@@ -118,7 +118,7 @@ class Person < ApplicationRecord
     ignore_recharge ||= {}
     to_pay_total = 0
     installments.each do |ins|
-      to_pay_total += ins.to_pay(ignore_recharge: ignore_recharge[ins.id.to_s], with_discount: with_discount)
+      to_pay_total += ins.to_pay(ignore_recharge: ignore_recharge[ins.id.to_s], add_debit_extra: add_debit_extra)
     end
     return :excesive_amount if amount > to_pay_total
 
@@ -127,45 +127,35 @@ class Person < ApplicationRecord
     installments.each do |ins|
       break if rest.zero?
 
-      to_pay = ins.to_pay(ignore_recharge: ignore_recharge[ins.id.to_s], with_discount: with_discount)
+      to_pay = ins.to_pay(ignore_recharge: ignore_recharge[ins.id.to_s], add_debit_extra: add_debit_extra)
       paid_amount = to_pay > rest ? rest : to_pay
-      payments << ins.create_payment({ amount: paid_amount, description: 'cuota' }, ignore_recharge: ignore_recharge[ins.id.to_s], with_discount: with_discount)
+      payments << ins.create_payment({ amount: paid_amount, description: 'cuota' }, ignore_recharge: ignore_recharge[ins.id.to_s], add_debit_extra: add_debit_extra)
       rest -= paid_amount
     end
 
     payments
   end
 
-  def new_membership_amount_calculator(sch_ids, use_manual_discount = false, manual_discount = '', debit_extra: "5000")
+  def new_membership_amount_calculator(sch_ids, use_manual_discount = false, manual_discount = '')
     if sch_ids.nil?
       return {
-        fixedTotal: "0",
-        fixedTotalWithDiscount: "0",
-        familyDiscount: "0",
-        familyDiscountTotal: "0",
-        familyDiscountTotal2: "0",
-        manualDiscount: "0",
-        manualDiscountTotal: "0",
-        manualDiscountTotal2: "0",
-        discount: "0",
-        klassesDiscount: "0",
-        subtotal: "0",
-        subtotalWithDiscount: "0",
-        discountTotal: "0",
-        discountTotalWithDiscount: "0",
-        total: "0",
-        totalWithDiscount: "0",
-        limitedTotal: "0",
+        familyDiscountPer: 0,
+        teacherDiscountPer: 0,
+        klassesDiscountPer: 0,
+        manualDiscountPer: 0,
+        useManualDiscount: false,
+        totalDiscountPer: 0,
+        subtotal: "0,00",
+        totalDiscount: "0,00",
+        totalCash: "0,00",
+        totalDebit: "0,00",
         details: [],
-        usingFeesWithPackage: true,
         feesPerKlass: {}
       }
     end
 
     details = []
     fees_per_klass = {}
-
-    debit_extra = Money.new(debit_extra.to_i * 100)
 
     # count schedules by klass
     schedules_by_klass = {}
@@ -175,23 +165,8 @@ class Person < ApplicationRecord
       schedules_by_klass[kls.id][:schedules] << sch
     end
 
-    total_klasses = schedules_by_klass.keys.count
-    klasses_discount =
-      if total_klasses >= 5
-        10
-      elsif total_klasses >= 3
-        5
-      else
-        0
-      end
-
-    details << "Materias: #{total_klasses}"
-    details << ""
-    details << "Descuento por materias #{klasses_discount}" if klasses_discount > 0
-    details << ""
-
     # process fees based on number of schedules and type of fee
-    fixed_total = Money.new(0)
+    subtotal = Money.new(0)
     schedules_by_klass.each do |klass_id, data|
       kls = data[:klass]
       fee =
@@ -213,54 +188,75 @@ class Person < ApplicationRecord
         end
 
       details << "#{kls.name} - #{klasses_price_detail} : $#{fee}"
-      fees_per_klass[kls.id] = fee
+      fees_per_klass[kls.id] = fee.to_s
 
-      fixed_total += fee
-      details << "Suma parcial: $#{fixed_total}"
+      subtotal += fee
+      details << "Suma parcial: $#{subtotal}"
       details << ""
     end
 
-    subtotal = fixed_total
+    total_discount_per = 0
+    family_discount_per = 0
+    teacher_discount_per = 0
+    klasses_discount_per = 0
+    manual_discount_per = 0
+    klasses_count = schedules_by_klass.keys.count
 
-    klasses_discount_total = klasses_discount * subtotal / 100
+    if use_manual_discount
+      manual_discount_per = use_manual_discount ? manual_discount.to_i : 0
+      details << "Descuento manual: #{manual_discount_per}%" if manual_discount_per > 0
+      total_discount_per = manual_discount_per
+    else
+      klasses_discount_per =
+        if klasses_count >= 5
+          10
+        elsif klasses_count >= 3
+          5
+        else
+          0
+        end
 
-    # calculate family discount
-    family_discount = active_family? ? Setting.fetch('family_group_discount', '0') : 0
-    family_discount = family_discount.to_i
+      details << "Descuento por materias (#{klasses_count} materias): #{klasses_discount_per}%" if klasses_discount_per > 0
 
-    manual_discount = use_manual_discount ? manual_discount.to_i : 0
+      # calculate family discount
+      family_discount_per = 0
+      if active_family?
+        family_discount_per = FAMILY_DISCOUNT_PERCENT
+        details << "Descuento por grupo familiar: #{family_discount_per}%" if family_discount_per > 0
+      end
 
-    total_discount = family_discount + manual_discount + klasses_discount
+      teacher_discount_per = 0
+      if is_teacher
+        teacher_discount_per = TEACHER_DISCOUNT_PERCENT
+        details << "Descuento por profe: #{teacher_discount_per}%" if teacher_discount_per > 0
+      end
 
-    # family discount applies to everything
-    family_discount_total = subtotal / 100 * family_discount
+      total_discount_per = klasses_discount_per + family_discount_per + teacher_discount_per
+    end
 
-    details << "Descuento familiar: $#{family_discount_total}" if family_discount > 0
-
-    # manual discount applies only to classes with fixed fee
-    manual_discount_total = fixed_total / 100 * manual_discount
-
-    details << "Descuento manual: $#{manual_discount_total}" if manual_discount > 0
-
-    total = subtotal - family_discount_total - manual_discount_total - klasses_discount_total
-
-    details << "Total: $#{total} ($#{total + debit_extra} con débito)"
-
-    limitedTotal = false
+    total_discount = Money.new(0)
+    if total_discount_per > 0
+      total_discount = subtotal * total_discount_per / 100
+      details << "Descuento total (#{total_discount_per}%): $#{total_discount}"
+    end
+    
+    total = subtotal - total_discount
+    
+    details << ""
+    details << "Total: $#{total} ($#{total + DEBIT_EXTRA} con débito)"
 
     amounts = {
-      fixedTotal: fixed_total.to_s,
-      familyDiscount: family_discount,
-      familyDiscountTotal: family_discount_total.to_s,
-      manualDiscount: manual_discount,
-      manualDiscountTotal: manual_discount_total.to_s,
-      discount: total_discount.to_s,
-      klassesDiscount: klasses_discount_total.to_s,
+      familyDiscountPer: family_discount_per,
+      teacherDiscountPer: teacher_discount_per,
+      klassesCount: klasses_count,
+      klassesDiscountPer: klasses_discount_per,
+      manualDiscountPer: manual_discount_per,
+      useManualDiscount: use_manual_discount,
+      totalDiscountPer: total_discount_per,
       subtotal: subtotal.to_s,
-      discountTotal: (family_discount_total+manual_discount_total+klasses_discount_total).to_s,
+      totalDiscount: total_discount.to_s,
       totalCash: total.to_s,
-      totalDebit: (total+debit_extra).to_s,
-      limitedTotal: limitedTotal,
+      totalDebit: (total+DEBIT_EXTRA).to_s,
       details: details,
       feesPerKlass: fees_per_klass
     }

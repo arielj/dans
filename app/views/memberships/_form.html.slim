@@ -5,22 +5,29 @@
   .new_membership_days
     = render partial: 'schedules/calendar', locals: { object: membership }
 
-  #apply_discounts
-    = label_tag '', class: 'form-checkbox' do
-      = f.check_box :apply_discounts
-      = Membership.human_attribute_name(:apply_discounts)
-      i.form-icon
-
   - amounts = membership.amounts
   .auto_calculation
-    - if amounts[:fixedTotal] != '0,00'
-      | Precio clases fijas: $#{amounts[:fixedTotal]}
-      br
     | Subtotal: $#{amounts[:subtotal]}
+    br
 
-    - if membership.person.active_family? && Setting.family_group_discount != '0'
+    - if amounts[:totalDiscountPer] != 0
+      - if amounts[:useManualDiscount]
+        - if amounts[:manualDiscountPer] != 0
+          | Descuento manual: #{amounts[:manualDiscountPer]}%
+          br
+      - else
+        - if (amounts[:klassesDiscountPer] != 0)
+          | Descuento de materias (#{amounts[:klassesCount]}): #{amounts[:klassesDiscountPer]}%
+          br
+        - if (amounts[:familyDiscountPer] != 0)
+          | Descuento por grupo familiar: #{amounts[:familyDiscountPer]}%
+          br
+        - if (amounts[:teacherDiscountPer] != 0)
+          | Descuento por profe: #{amounts[:teacherDiscountPer]}%
+          br
+
+      | Descuento total (#{amounts[:totalDiscountPer]}%): $#{amounts[:totalDiscount]}
       br
-      | Descuento por grupo familiar (#{Setting.family_group_discount}%): $#{amounts[:discountTotal]}
 
   = label_tag '', class: 'form-checkbox' do
     = f.check_box :use_custom_amount
@@ -41,7 +48,6 @@
   = label_tag '', class: 'form-checkbox' do
     = f.check_box :use_manual_discount
     = Membership.human_attribute_name(:use_manual_discount)
-    '  (aplica sólo a talleres)
     i.form-icon
 
   .input-group class="#{f.object.use_manual_discount ? "" : "hidden"}"

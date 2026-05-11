@@ -41,11 +41,6 @@ function refreshAmount(form) {
         schedulesIds + `&use_manual_discount=1&manual_discount=${val}`;
     }
 
-  const applyDiscounts = byid("membership_apply_discounts");
-  if (applyDiscounts)
-    if (applyDiscounts.checked)
-      schedulesIds = schedulesIds + "&apply_discounts=1";
-
   getJSON(form.dataset.autoPriceUrl, {
     data: schedulesIds,
     success: function (resp) {
@@ -53,10 +48,21 @@ function refreshAmount(form) {
       let s = "";
 
       s += `Subtotal: $${resp.subtotal}<br />`;
-      if (resp.klassesDiscount !== 0)
-        s += `Descuento de clases: $${resp.klassesDiscount}<br />`;
-      if (resp.familyDiscount !== 0)
-        s += `Descuento por grupo familiar (${resp.familyDiscount}): $${resp.familyDiscountTotal}<br />`;
+
+      if (resp.totalDiscountPer !== 0) {
+        if (resp.useManualDiscount) {
+          if (resp.manualDiscountPer !== 0)
+            s += `Descuento manual: ${resp.manualDiscountPer}%<br />`;
+        } else {
+          if (resp.klassesDiscountPer !== 0)
+            s += `Descuento de materias (${resp.klassesCount}): ${resp.klassesDiscountPer}%<br />`;
+          if (resp.familyDiscountPer !== 0)
+            s += `Descuento por grupo familiar: ${resp.familyDiscountPer}%<br />`;
+          if (resp.teacherDiscountPer !== 0)
+            s += `Descuento por profe: ${resp.teacherDiscountPer}%<br />`;
+        }
+        s += `Descuento total (${resp.totalDiscountPer}%): $${resp.totalDiscount}<br />`;
+      }
 
       div.innerHTML = s;
 
@@ -102,11 +108,6 @@ function bindMembershipForm() {
   );
   customAmountInputs.forEach((i) => {
     i.addEventListener("input", () => refreshAmount(form));
-  });
-
-  const applyDiscounts = byid("membership_apply_discounts");
-  applyDiscounts.addEventListener("change", (e) => {
-    refreshAmount(form);
   });
 
   const useManualDiscountCheck = byid("membership_use_manual_discount");

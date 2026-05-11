@@ -44,6 +44,8 @@ class AddingMembershipsTest < ApplicationSystemTestCase
       click_button 'Guardar paquete'
     end
 
+    sleep(0.5)
+
     m = student.memberships.last
     assert_equal '5063,00', m.amount
     assert_equal '63,00', m.amount_with_discount

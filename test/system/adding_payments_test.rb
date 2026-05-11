@@ -145,8 +145,8 @@ class AddingPaymentsTest < ApplicationSystemTestCase
       student.add_family_member(family)
 
       klass = FactoryBot.create(:klass_with_schedules)
-      student.memberships.create(schedules: klass.schedules, amount: 500_00, amount_with_discount: 500_00)
-      family.memberships.create(schedules: klass.schedules, amount: 500_00, amount_with_discount: 500_00)
+      student.memberships.create(schedules: klass.schedules, amount: 5000_00, amount_with_discount: 5000_00)
+      family.memberships.create(schedules: klass.schedules, amount: 5000_00, amount_with_discount: 5000_00)
 
       unpaid_installments_count = student.installments_for_multi_payments.size
 
@@ -174,12 +174,12 @@ class AddingPaymentsTest < ApplicationSystemTestCase
         find(:css, "#installments_to_pay_#{ins2.id}").set(true)
 
         # checking two payments with value $500 and $100 recharge
-        assert_equal '1150,00', amount_field.value
+        assert_equal '1092,50', amount_field.value
 
         find(:css, "#ignore_recharge_#{ins2.id}").select('Ignorar')
 
         # ignore one of the recharge
-        assert_equal '1075,00', amount_field.value
+        assert_equal '1021,25', amount_field.value
 
         click_button I18n.t('save.payments')
       end

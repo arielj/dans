@@ -30,19 +30,20 @@ module InstallmentsHelper
     end
   end
 
-  def installment_amount(ins, ignore_recharge: :none, with_discount: true)
-    a = with_discount ? ins.amount_with_discount : ins.amount
+  def installment_amount(ins, ignore_recharge: :none, add_debit_extra: false)
+    a = ins.amount_with_discount
+    a += DEBIT_EXTRA if add_debit_extra
     s = "$#{a}"
     if ins.paid_with_interests?
       s += " (+#{ins.amount_paid - a})"
-    elsif (r = ins.get_recharge(ignore: ignore_recharge, with_discount: with_discount)).positive?
+    elsif (r = ins.get_recharge(ignore: ignore_recharge)).positive?
       s += " (+#{r})"
     end
     s
   end
 
-  def installment_to_pay(ins, ignore_recharge: :none, with_discount: true)
-    a = ins.to_pay(ignore_recharge: ignore_recharge, with_discount: with_discount)
+  def installment_to_pay(ins, ignore_recharge: :none, add_debit_extra: false)
+    a = ins.to_pay(ignore_recharge: ignore_recharge)
     "$#{a}"
   end
 
