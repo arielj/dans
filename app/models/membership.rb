@@ -112,6 +112,8 @@ class Membership < ApplicationRecord
 
       aux = amount.is_a?(String) ? Money.new(amount.gsub(',', '').to_i) : amount
 
+      ins.membership_amounts = amounts if ins.waiting?
+
       if ins.amount_paid > aux
         ins.status = :paid if ins.waiting?
       else
