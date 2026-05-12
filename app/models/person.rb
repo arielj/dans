@@ -165,6 +165,9 @@ class Person < ApplicationRecord
       schedules_by_klass[kls.id][:schedules] << sch
     end
 
+    # number of classes with all possible schedules assigned in the membership
+    klasses_count_for_discount = 0
+
     # process fees based on number of schedules and type of fee
     subtotal = Money.new(0)
     schedules_by_klass.each do |klass_id, data|
@@ -187,6 +190,8 @@ class Person < ApplicationRecord
           "#{data[:schedules].count} clases de #{kls.schedules.count} posibles"
         end
 
+      klasses_count_for_discount += 1 if data[:schedules].count == kls.schedules.count
+
       details << "#{kls.name} - #{klasses_price_detail} : $#{fee}"
       fees_per_klass[kls.id] = fee.to_s
 
@@ -208,15 +213,15 @@ class Person < ApplicationRecord
       total_discount_per = manual_discount_per
     else
       klasses_discount_per =
-        if klasses_count >= 5
+        if klasses_count_for_discount >= 5
           10
-        elsif klasses_count >= 3
+        elsif klasses_count_for_discount >= 3
           5
         else
           0
         end
 
-      details << "Descuento por materias (#{klasses_count} materias): #{klasses_discount_per}%" if klasses_discount_per > 0
+      details << "Descuento por materias (#{klasses_count_for_discount} materias aplican): #{klasses_discount_per}%" if klasses_discount_per > 0
 
       # calculate family discount
       family_discount_per = 0
@@ -249,6 +254,7 @@ class Person < ApplicationRecord
       familyDiscountPer: family_discount_per,
       teacherDiscountPer: teacher_discount_per,
       klassesCount: klasses_count,
+      klassesCountForDiscount: klasses_count_for_discount,
       klassesDiscountPer: klasses_discount_per,
       manualDiscountPer: manual_discount_per,
       useManualDiscount: use_manual_discount,

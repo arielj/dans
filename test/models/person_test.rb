@@ -191,12 +191,20 @@ class PersonTest < ActiveSupport::TestCase
       assert_equal "0,00", amounts[:totalDiscount]
     end
 
-    test 'three classes - one day each = 1 week price each, 5% discount' do
+    test 'three classes - one day each = 1 week price each, 0% discount, not enough complete klasses' do
       sch_ids = [@jazz_prin.schedules.first.id, @cofus_inter.schedules.first.id, @cofus_avan.schedules.first.id ]
       amounts = @student.new_membership_amount_calculator(sch_ids)
       assert_equal "37500,00", amounts[:subtotal]
-      assert_equal "35625,00", amounts[:totalCash]
-      assert_equal "1875,00", amounts[:totalDiscount]
+      assert_equal "37500,00", amounts[:totalCash]
+      assert_equal "0,00", amounts[:totalDiscount]
+    end
+
+    test 'four classes - one: 1 day, the others full week, 5% discount, 3 completed klasses' do
+      sch_ids = [@jazz_prin.schedules.first.id, *@cofus_inter.schedules.ids, *@cofus_avan.schedules.ids, *@esp_inter_avan.schedules.ids ]
+      amounts = @student.new_membership_amount_calculator(sch_ids)
+      assert_equal "68500,00", amounts[:subtotal]
+      assert_equal "65075,00", amounts[:totalCash]
+      assert_equal "3425,00", amounts[:totalDiscount]
     end
 
     test 'five classes - 2 days each = full price, 10% discount' do

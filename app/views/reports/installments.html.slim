@@ -36,20 +36,40 @@ h1= t('titles.installments')
         th Alumno/a
         th Año
         th Mes
-        th Clase
-        th Monto
+        th Clases
+        th Estado
+        th Medio de pago
+        th Monto base
+        th Desc Familia %
+        th Desc Materias %
+        th Desc Profe %
+        th Desc Manual %
+        th Desc Total %
+        th Descuento
+        th Intereses
+        th Recargo Débito
+        th Monto final
     
     - @installments.includes(:payments, :klasses).order("klasses.name ASC").each do |ins|
-      - total += ins.waiting? ? ins.total(ignore_recharge: :all) : ins.amount_with_discount
+      - amount = ins.waiting? ? ins.amount_with_discount : ins.amount_paid
+      - amount_without_debit = ins.paid_with_debit? || ins.paid_with_interests_and_debit? ? amount - DEBIT_EXTRA : amount
+      - interests = Money.new(0)
+      - if ins.membership_amounts && (ins.paid_with_interests? || ins.paid_with_interests_and_debit?)
+        - interests = amount_without_debit - Money.new(ins.membership_amounts[:subtotal].gsub(",","").to_i) + Money.new(ins.membership_amounts[:totalDiscount].gsub(",","").to_i)
       tr
         td= link_to ins.person.to_label, edit_person_path(ins.person)
         td= ins.year
         td= ins.month_name
         td= ins.klasses.map(&:name).join(' ; ')
-        td
-          => installment_paid_amount(ins, ignore_recharge: :all)
-          - unless ins.waiting?
-            | (Pagada)
-
-div
-div: b Total: #{number_to_currency(total)}
+        td= installment_status(ins)
+        td= installment_payment_method(ins)
+        td= ins.membership_amounts ? ins.membership_amounts[:subtotal] : ""
+        td= ins.membership_amounts ? ins.membership_amounts[:familyDiscountPer] : ""
+        td= ins.membership_amounts ? ins.membership_amounts[:klassesDiscountPer] : ""
+        td= ins.membership_amounts ? ins.membership_amounts[:teacherDiscountPer] : ""
+        td= ins.membership_amounts ? ins.membership_amounts[:manualDiscountPer] : ""
+        td= ins.membership_amounts ? ins.membership_amounts[:totalDiscountPer] : ""
+        td= ins.membership_amounts ? ins.membership_amounts[:totalDiscount] : ""
+        td= interests.to_s
+        td= ins.paid_with_debit? || ins.paid_with_interests_and_debit? ? DEBIT_EXTRA.to_s : "0,00"
+        td= amount.to_s

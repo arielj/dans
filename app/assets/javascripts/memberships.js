@@ -55,7 +55,7 @@ function refreshAmount(form) {
             s += `Descuento manual: ${resp.manualDiscountPer}%<br />`;
         } else {
           if (resp.klassesDiscountPer !== 0)
-            s += `Descuento de materias (${resp.klassesCount}): ${resp.klassesDiscountPer}%<br />`;
+            s += `Descuento de materias (${resp.klassesCountForDiscount} materias aplican): ${resp.klassesDiscountPer}%<br />`;
           if (resp.familyDiscountPer !== 0)
             s += `Descuento por grupo familiar: ${resp.familyDiscountPer}%<br />`;
           if (resp.teacherDiscountPer !== 0)

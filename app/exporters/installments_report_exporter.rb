@@ -15,10 +15,7 @@ class InstallmentsReportExporter
 
     sheets = []
 
-    headers = ['NOMBRE', 'AÑO', 'MES', 'CLASES', 'CUOTA']
-    everything = workbook.add_worksheet("Todas")
-    everything.append_row(headers)
-    total_total = 0
+    headers = ['NOMBRE', 'AÑO', 'MES', 'CLASES', 'ESTADO', 'MEDIO DE PAGO', 'MONTO BASE', 'DESC. FAMILIAR %', 'DECS. MATERIAS %', 'DESC. PROFE %', 'DESC. MANUAL %', 'DESC. TOTAL %', 'DESCUENTO', 'INTERESES', 'RECARGO DÉBITO', 'MONTO FINAL', 'VALOR MATERIA']
 
     Klass.find(klass_ids).each do |klass|
       # excel sheets can't have a name longer than 30 characters
@@ -51,44 +48,58 @@ class InstallmentsReportExporter
       installments.includes(:membership).uniq.each do |ins|
         count += 1
 
-        klasses = ins.membership_klasses
-        klass_names = klasses.map(&:name).join(', ')
-        klass_ids = klasses.map(&:id)
-        single_klass = klass_ids.uniq.length == 1
-
-        total_amount = ins.amount_with_discount.to_f
-        single_klass_amount = total_amount
-        unless single_klass
-          single_klass_amount = klass.fixed_fee
-          
-          schedules_for_klass = klass_ids.select{ |id| id == klass.id }
-          if schedules_for_klass.length == 1 && klass.fixed_alt_fee > 0
-            single_klass_amount = klass.fixed_alt_fee
-          end
+        amount = ins.waiting? ? ins.amount_with_discount : ins.amount_paid
+        amount_without_debit = ins.paid_with_debit? || ins.paid_with_interests_and_debit? ? amount - DEBIT_EXTRA : amount
+        interests = Money.new(0)
+        if ins.membership_amounts && (ins.paid_with_interests? || ins.paid_with_interests_and_debit?)
+          interests = amount_without_debit - Money.new(ins.membership_amounts[:subtotal].gsub(",","").to_i) + Money.new(ins.membership_amounts[:totalDiscount].gsub(",","").to_i)
         end
 
-        if ins.membership.apply_discounts && klass.discount.present?
-          single_klass_amount = single_klass_amount * (100 - klass.discount.to_f)/100
-        end
+        row = [
+          ins.person.to_label,
+          year,
+          month_name,
+          ins.klasses.map(&:name).join(' ; '),
+          installment_status(ins),
+          installment_payment_method(ins),
+          (ins.membership_amounts ? ins.membership_amounts[:subtotal] : "").to_f,
+          ins.membership_amounts ? ins.membership_amounts[:familyDiscountPer] : "",
+          ins.membership_amounts ? ins.membership_amounts[:klassesDiscountPer] : "",
+          ins.membership_amounts ? ins.membership_amounts[:teacherDiscountPer] : "",
+          ins.membership_amounts ? ins.membership_amounts[:manualDiscountPer] : "",
+          ins.membership_amounts ? ins.membership_amounts[:totalDiscountPer] : "",
+          (ins.membership_amounts ? ins.membership_amounts[:totalDiscount] : "").to_f,
+          (interests.to_s).to_f,
+          (ins.paid_with_debit? || ins.paid_with_interests_and_debit? ? DEBIT_EXTRA.to_s : "0,00").to_f,
+          (amount.to_s).to_f,
+          (ins.membership_amounts ? ins.membership_amounts[:feesPerKlass][klass.id] : "").to_f,
+        ]
 
-        single_klass_amount = single_klass_amount.to_f
-
-        total += single_klass_amount
-        total_total += single_klass_amount
-
-        row = [ins.person.to_label, year, month_name, klass_names, total_amount, single_klass ? "Sin Paquete" : "Paquete", single_klass_amount]
         worksheet.append_row(row)
-        everything.append_row(row)
       end
-
-      row = ["Total alumnas/os", count, "", "", "", "", total]
-      worksheet.append_row(row)
     end
-
-    totals_row = ["", "", "", "", "", "", total_total]
-    everything.append_row(totals_row)
 
     workbook.close
     filepath
+  end
+
+  def self.installment_status(ins)
+    payed = !ins.waiting?
+    incomplete_payment = !payed && ins.payments.any?
+
+    if payed
+      "Pagado"
+    elsif incomplete_payment
+      "Pagado (parte)"
+    else
+      "No pagado"
+    end
+  end
+
+  def self.installment_payment_method(ins)
+    return "Efectivo" if ins.paid? || ins.paid_with_interests?
+    return "Débito" if ins.paid_with_debit? || ins.paid_with_interests_and_debit?
+    
+    "-"
   end
 end

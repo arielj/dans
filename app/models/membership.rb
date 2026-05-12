@@ -56,7 +56,18 @@ class Membership < ApplicationRecord
   end
 
   def amounts
-    @amounts ||= person.new_membership_amount_calculator(schedule_ids, use_manual_discount, manual_discount)
+    return @amounts if @amounts
+
+    @amounts = person.new_membership_amount_calculator(schedule_ids, use_manual_discount, manual_discount)
+    @amounts[:use_custom_amount] = use_custom_amount
+    if use_custom_amount
+      total_discount = amount_with_discount * @amounts[:totalDiscountPer] / 100
+      @amounts[:subtotal] = amount_with_discount.to_s
+      @amounts[:totalDiscount] = total_discount.to_s
+      @amounts[:totalCash] = (amount_with_discount - total_discount).to_s
+      @amounts[:totalDebit] = (amount_with_discount - total_discount + DEBIT_EXTRA).to_s
+    end
+    @amounts
   end
 
   def create_installments(from, to, year, arg_amount = nil, arg_amount_with_discount = nil)
@@ -65,7 +76,7 @@ class Membership < ApplicationRecord
 
     (from..to).each do |m|
       next if installments.where(year: year, month: m).any?
-      installments.create year: year, month: m, amount: arg_amount || amount, amount_with_discount: arg_amount_with_discount || amount_with_discount, klasses: klasses
+      installments.create year: year, month: m, amount: arg_amount || amount, amount_with_discount: arg_amount_with_discount || amount_with_discount, klasses: klasses, membership_amounts: amounts
     end
   end
 

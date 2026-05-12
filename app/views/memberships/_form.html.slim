@@ -17,7 +17,7 @@
           br
       - else
         - if (amounts[:klassesDiscountPer] != 0)
-          | Descuento de materias (#{amounts[:klassesCount]}): #{amounts[:klassesDiscountPer]}%
+          | Descuento de materias (#{amounts[:klassesCountForDiscount]} materias aplican): #{amounts[:klassesDiscountPer]}%
           br
         - if (amounts[:familyDiscountPer] != 0)
           | Descuento por grupo familiar: #{amounts[:familyDiscountPer]}%

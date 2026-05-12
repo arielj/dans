@@ -27,6 +27,8 @@ class Installment < ApplicationRecord
     where('year < :y OR (year = :y AND month < :m)', y: d.year, m: d.month)
   }
 
+  serialize :membership_amounts
+
   def self.months_for_select
     ds = I18n.t('date.month_names')
     [[ds[1], :january], [ds[2], :february], [ds[3], :march], [ds[4], :april],

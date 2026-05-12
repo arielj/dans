@@ -48,9 +48,13 @@ module InstallmentsHelper
   end
 
   def installment_paid_amount(ins, ignore_recharge: :none)
-    return "$#{ins.amount_with_discount}" unless ins.waiting?
-
-    return installment_amount(ins, ignore_recharge: ignore_recharge)
+    if ins.paid_with_debit? || ins.paid_with_interests_and_debit?
+      "$#{ins.amount_with_discount + DEBIT_EXTRA}"
+    elsif ins.paid? || ins.paid_with_interests?
+      "$#{ins.amount_with_discount}"
+    else
+      installment_amount(ins, ignore_recharge: ignore_recharge)
+    end
   end
 
   def installment_memberships_tooltip(ins)
@@ -59,6 +63,26 @@ module InstallmentsHelper
         concat(content_tag('li', klass.name))
       end
     end
+  end
+
+  def installment_status(ins)
+    payed = !ins.waiting?
+    incomplete_payment = !payed && ins.payments.any?
+
+    if payed
+      "Pagado"
+    elsif incomplete_payment
+      "Pagado (parte)"
+    else
+      "No pagado"
+    end
+  end
+
+  def installment_payment_method(ins)
+    return "Efectivo" if ins.paid? || ins.paid_with_interests?
+    return "Débito" if ins.paid_with_debit? || ins.paid_with_interests_and_debit?
+    
+    "-"
   end
 
   # use a helper methods instead of a partial, it's faster
