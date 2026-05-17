@@ -28,7 +28,18 @@ h1= t('titles.installments')
 
     = button_tag t('labels.export'), class: 'btn btn-secondary', name: :form_action, value: :export
 
-- total = Money.new(0)
+- total_cash = Money.new(0)
+- total_debit = Money.new(0)
+- total_debit_extra = Money.new(0)
+- total_mara_mp = Money.new(0)
+- total_valen_mp = Money.new(0)
+- total_family_discount = Money.new(0)
+- total_klasses_discount = Money.new(0)
+- total_teacher_discount = Money.new(0)
+- total_manual_discount = Money.new(0)
+- total_discount = Money.new(0)
+- total_surcharges = Money.new(0)
+
 .scrollable
   table.table.table-striped.table-sm
     thead.thead-dark
@@ -56,6 +67,15 @@ h1= t('titles.installments')
       - interests = Money.new(0)
       - if ins.membership_amounts && (ins.paid_with_interests? || ins.paid_with_interests_and_debit?)
         - interests = amount_without_debit - Money.new(ins.membership_amounts[:subtotal].gsub(",","").to_i) + Money.new(ins.membership_amounts[:totalDiscount].gsub(",","").to_i)
+
+      - total_cash += amount if ins.cash?
+      - if ins.debit?
+        - total_debit += amount
+        - total_debit_extra += DEBIT_EXTRA
+      - total_surcharges += interests if interests > Money.new(0)
+      - total_mara_mp += amount if ins.mara_mp?
+      - total_valen_mp += amount if ins.valen_mp?
+
       tr
         td= link_to ins.person.to_label, edit_person_path(ins.person)
         td= ins.year
@@ -63,13 +83,47 @@ h1= t('titles.installments')
         td= ins.klasses.map(&:name).join(' ; ')
         td= installment_status(ins)
         td= installment_payment_method(ins)
-        td= ins.membership_amounts ? ins.membership_amounts[:subtotal] : ""
-        td= ins.membership_amounts ? ins.membership_amounts[:familyDiscountPer] : ""
-        td= ins.membership_amounts ? ins.membership_amounts[:klassesDiscountPer] : ""
-        td= ins.membership_amounts ? ins.membership_amounts[:teacherDiscountPer] : ""
-        td= ins.membership_amounts ? ins.membership_amounts[:manualDiscountPer] : ""
-        td= ins.membership_amounts ? ins.membership_amounts[:totalDiscountPer] : ""
-        td= ins.membership_amounts ? ins.membership_amounts[:totalDiscount] : ""
+        - if ins.membership_amounts
+          td= ins.membership_amounts[:subtotal]
+          td= ins.membership_amounts[:familyDiscountPer]
+          - if ins.membership_amounts[:familyDiscountPer] > 0
+            - total_family_discount += amount_without_debit * ins.membership_amounts[:familyDiscountPer] / 100
+          td= ins.membership_amounts[:klassesDiscountPer]
+          - if ins.membership_amounts[:klassesDiscountPer] > 0
+            - total_klasses_discount += amount_without_debit * ins.membership_amounts[:klassesDiscountPer] / 100
+          td= ins.membership_amounts[:teacherDiscountPer]
+          - if ins.membership_amounts[:teacherDiscountPer] > 0
+            - total_teacher_discount += amount_without_debit * ins.membership_amounts[:teacherDiscountPer] / 100
+          td= ins.membership_amounts[:manualDiscountPer]
+          - if ins.membership_amounts[:manualDiscountPer] > 0
+            - total_manual_discount += amount_without_debit * ins.membership_amounts[:manualDiscountPer] / 100
+          td= ins.membership_amounts[:totalDiscountPer]
+          - if ins.membership_amounts[:totalDiscountPer] > 0
+            - total_discount += amount_without_debit * ins.membership_amounts[:totalDiscountPer] / 100
+          td= ins.membership_amounts[:totalDiscount]
+        - else
+          td= ""
+          td= ""
+          td= ""
+          td= ""
+          td= ""
+          td= ""
+          td= ""
         td= interests.to_s
         td= ins.paid_with_debit? || ins.paid_with_interests_and_debit? ? DEBIT_EXTRA.to_s : "0,00"
         td= amount.to_s
+
+.totals
+  h2 Totales
+  ul
+    li Efectivo: $#{total_cash}
+    li Total Desc: $#{total_discount}
+    li Desc. Familia: $#{total_family_discount}
+    li Desc. Materias: $#{total_klasses_discount}
+    li Desc. Profes: $#{total_teacher_discount}
+    li Desc. Manuales: $#{total_manual_discount}
+    li Recargos: $#{total_surcharges}
+    li Débito: $#{total_debit}
+    li Recargo Débito: $#{total_debit_extra}
+    li MP Mara: $#{total_mara_mp}
+    li MP Valen: $#{total_valen_mp}

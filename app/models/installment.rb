@@ -158,6 +158,22 @@ class Installment < ApplicationRecord
     person.installments.where(year: year).where("month >= ?", month_num).order(month: :asc).first
   end
 
+  def cash?
+    paid? || paid_with_interests?
+  end
+
+  def debit?
+    paid_with_debit? || paid_with_interests_and_debit?
+  end
+
+  def mara_mp?
+    debit? && payments.first.description != "cuota MP V"
+  end
+
+  def valen_mp?
+    debit? && payments.first.description == "cuota MP V"
+  end
+
   private
 
   def fix_payments
