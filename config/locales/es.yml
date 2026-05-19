@@ -1,4 +1,9 @@
 es:
+  number:
+    currency:
+      format:
+        delimiter: "."
+        separator: ","
   actions: Acciones
   add_family_member: Agregar familiar
   assign_teachers: Asignar profesores

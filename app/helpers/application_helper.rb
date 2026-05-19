@@ -19,4 +19,8 @@ module ApplicationHelper
       concat flash[key]
     end
   end
+
+  def m(mon)
+    mon.format
+  end
 end

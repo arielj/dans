@@ -114,14 +114,15 @@ h1= t('titles.installments')
         td= amount.to_s
 
 .totals
-  span Efectivo:<br>$#{total_cash}
-  span Total Desc:<br>$#{total_discount}
-  span Desc. Familia:<br>$#{total_family_discount}
-  span Desc. Materias:<br>$#{total_klasses_discount}
-  span Desc. Profes:<br>$#{total_teacher_discount}
-  span Desc. Manuales:<br>$#{total_manual_discount}
-  span Recargos:<br>$#{total_surcharges}
-  span Débito:<br>$#{total_debit}
-  span Recargo Débito:<br>$#{total_debit_extra}
-  span MP Mara:<br>$#{total_mara_mp}
-  span MP Valen:<br>$#{total_valen_mp}
+  span.final Total Efe + Déb:<br>#{m(total_cash + total_mara_mp + total_debit)}
+  span Efectivo:<br>#{m(total_cash)}
+  span Débito:<br>#{m(total_debit)}
+  span Recargo Débito:<br>#{m(total_debit_extra)}
+  span MP Mara:<br>#{m(total_mara_mp)}
+  span MP Valen:<br>#{m(total_valen_mp)}
+  span Total Desc:<br>#{m(total_discount)}
+  span Desc. Familia:<br>#{m(total_family_discount)}
+  span Desc. Materias:<br>#{m(total_klasses_discount)}
+  span Desc. Profes:<br>#{m(total_teacher_discount)}
+  span Desc. Manuales:<br>#{m(total_manual_discount)}
+  span Recargos:<br>#{m(total_surcharges)}
