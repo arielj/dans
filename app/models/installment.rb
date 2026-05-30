@@ -167,11 +167,11 @@ class Installment < ApplicationRecord
   end
 
   def mara_mp?
-    debit? && payments.first.description != "cuota MP V"
+    debit? && payments.first.description.downcase.include?("cuota mp m")
   end
 
   def valen_mp?
-    debit? && payments.first.description == "cuota MP V"
+    debit? && payments.first.description.downcase.include?("cuota mp v")
   end
 
   private
