@@ -31,6 +31,7 @@ h1= t('titles.installments')
 - total_cash = Money.new(0)
 - total_debit = Money.new(0)
 - total_debit_extra = Money.new(0)
+- total_pending = Money.new(0)
 - total_mara_mp = Money.new(0)
 - total_valen_mp = Money.new(0)
 - total_family_discount = Money.new(0)
@@ -68,6 +69,7 @@ h1= t('titles.installments')
       - if ins.membership_amounts && (ins.paid_with_interests? || ins.paid_with_interests_and_debit?)
         - interests = amount_without_debit - Money.new(ins.membership_amounts[:subtotal].gsub(",","").to_i) + Money.new(ins.membership_amounts[:totalDiscount].gsub(",","").to_i)
 
+      - total_pending += amount if ins.waiting?
       - total_cash += amount if ins.cash?
       - if ins.debit?
         - total_debit += amount
@@ -117,6 +119,7 @@ h1= t('titles.installments')
   span.final Total Efe + Déb:<br>#{m(total_cash + total_debit)}
   span Efectivo:<br>#{m(total_cash)}
   span Débito:<br>#{m(total_debit)}
+  span Total pendiente:<br>#{m(total_pending)}
   span Recargo Débito:<br>#{m(total_debit_extra)}
   span MP Mara:<br>#{m(total_mara_mp)}
   span MP Valen:<br>#{m(total_valen_mp)}
