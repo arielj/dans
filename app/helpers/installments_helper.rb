@@ -12,7 +12,7 @@ module InstallmentsHelper
       concat(content_tag(:td, t("payment_status.#{ins.status}"), class: :payments))
       concat(content_tag(:td) do
         concat(payments_detail(ins))
-        if ins.to_pay.positive?
+        if ins.waiting?
           concat(link_to(new_installment_payment_path(ins), remote: true, title: t('add.payment')) do
             tag(:i, class: 'fa fa-plus')
           end)
