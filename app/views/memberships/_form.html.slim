@@ -54,7 +54,7 @@
     = f.text_field :manual_discount, value: "#{f.object.manual_discount}%", class: 'form-input', placeholder: '0%'
 
   .auto_calculation_total class="#{amounts[:limitedTotal] ? "limited-total" : ""}"
-    .details
+    .details= amounts[:details].join("<br>").html_safe
     span
       - if f.object.use_custom_amount
         | Total: $#{f.object.amount} (efectivo) o $#{f.object.amount_with_discount} (débito)
