@@ -7,6 +7,8 @@ class MoneyTransaction < ApplicationRecord
   belongs_to :person, optional: true
   belongs_to :payable, optional: true, polymorphic: true
 
+  enum payment_method: [:cash, :debit_mara, :debit_valen]
+
   monetize :amount_cents
 
   validates :amount, numericality: { greater_than: 0 }

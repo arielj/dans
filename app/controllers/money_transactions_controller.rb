@@ -11,19 +11,20 @@ class MoneyTransactionsController < ApplicationController
     @tran =
       if params[:money_transaction][:payable_type] == 'Installment'
         installment = Installment.find(params[:money_transaction][:payable_id])
-        ignore = false
-        ignore = :second if params[:ignore_second_recharge] == '1'
-        ignore = :first if params[:ignore_recharge] == '1'
+        ignore_surcharge = false
+        ignore_surcharge = :second if params[:ignore_second_surcharge] == '1'
+        ignore_surcharge = :first if params[:ignore_first_surcharge] == '1'
 
-        add_debit_extra = params[:apply_extra_debit_charge] == '1'
+        ignore_debit_extra = params[:payment_method] == "cash" || params[:ignore_debit_extra] == '1'
+        payment_method = params[:payment_method]
 
         # in case the person already paid something and we want to change the
         # installment to paid after that
-        if installment.to_pay(ignore_recharge: ignore, add_debit_extra: add_debit_extra) == Money.new(0) && installment.waiting?
+        if installment.to_pay(ignore_recharge: ignore_surcharge, add_debit_extra: !ignore_debit_extra) == Money.new(0) && installment.waiting?
           installment.paid!
           installment.payments.last
         else
-          installment.create_payment installment_payment_attributes, ignore_recharge: ignore, add_debit_extra: add_debit_extra
+          installment.create_payment installment_payment_attributes, ignore_recharge: ignore_surcharge, add_debit_extra: !ignore_debit_extra, payment_method: payment_method
         end
       elsif params[:money_transaction][:payable_type] == 'Debt'
         debt = Debt.find(params[:money_transaction][:payable_id])

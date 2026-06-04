@@ -8,27 +8,38 @@ onLoad(function () {
 });
 
 function bindInstallmentPaymentForm(form) {
+  // data from backend
+  const baseAmount = parseFloat(form.dataset.baseAmount);
+  const firstSurchargeAmount = parseFloat(form.dataset.firstSurchargeAmount);
+  const secondSurchargeAmount = parseFloat(form.dataset.secondSurchargeAmount);
+  const debitExtra = parseFloat(form.dataset.debitExtra);
+
+  // current totals based on checkboxes and data from backend
+  let finalAmount = baseAmount;
+  if (secondSurchargeAmount !== 0) finalAmount += secondSurchargeAmount;
+  else finalAmount += firstSurchargeAmount;
+
+  // elements
   let toPayHint = byid("to_pay");
   let amountField = byid("money_transaction_amount");
-  let dateRechargeCheck = form.qs("#ignore_recharge");
-  let secondDateRechargeCheck = form.qs("#ignore_second_recharge");
-  let useAmountWithDiscount = form.qs("#use_amount_with_discount");
-  let paymentMethod = form.qs("#apply_extra_debit_charge");
+  let ignoreFirstSurchargeCheck = form.qs("#ignore_first_surcharge");
+  let ignoreSecondSurchargeCheck = form.qs("#ignore_second_surcharge");
+  let ignoreDebitExtraCheck = form.qs("#ignore_debit_extra");
+  let paymentMethod = form.qs("#payment_method");
   const buttons = form.qsa('button[type="submit"]');
   const restHint = form.qs(".rest");
   const restTemplate = restHint ? restHint.dataset.template : "";
   const tooHighError = form.qs(".tooHigh");
 
-  amountField.addEventListener("input", (e) => {
-    const toPay = parseFloat(
-      paymentMethod.value === "1"
-        ? toPayHint.dataset.amount
-        : toPayHint.dataset.amountWithDiscount,
-    );
+  // calculate if current amount is greated than total
+  const refreshRest = () => {
     const amount = parseFloat(amountField.value);
-    if (amount > toPay) {
+    if (amount > finalAmount) {
       if (restHint) {
-        restHint.innerText = restTemplate.replace("{rest}", amount - toPay);
+        restHint.innerText = restTemplate.replace(
+          "{rest}",
+          amount - finalAmount,
+        );
         restHint.classList.remove("hidden");
       } else {
         buttons.forEach((b) => (b.disabled = true));
@@ -43,103 +54,54 @@ function bindInstallmentPaymentForm(form) {
         tooHighError.classList.add("hidden");
       }
     }
+  };
+
+  // calculate new totals based on checkboxes
+  const refreshAmount = () => {
+    let newAmount = baseAmount;
+
+    let surcharge = 0;
+    if (ignoreSecondSurchargeCheck) {
+      if (secondSurchargeAmount && !ignoreSecondSurchargeCheck.checked) {
+        surcharge = secondSurchargeAmount;
+      } else if (firstSurchargeAmount && !ignoreFirstSurchargeCheck.checked) {
+        surcharge = firstSurchargeAmount;
+      }
+    } else if (ignoreSecondSurchargeCheck) {
+      if (firstSurchargeAmount && !ignoreFirstSurchargeCheck.checked) {
+        surcharge = firstSurchargeAmount;
+      }
+    }
+    newAmount += surcharge;
+
+    toPayHint.innerText = `$${newAmount
+      .toFixed(2)
+      .toString()
+      .replace(".", ",")} (efectivo) o $${(newAmount + debitExtra)
+      .toFixed(2)
+      .toString()
+      .replace(".", ",")} (débito)`;
+
+    // 0 = efectivo, 1 y 2 = débito
+    if (paymentMethod.value != "cash" && !ignoreDebitExtraCheck.checked) {
+      newAmount += debitExtra;
+    }
+
+    finalAmount = newAmount;
+    amountField.value = newAmount.toFixed(2).toString().replace(".", ",");
+
+    refreshRest();
+  };
+
+  amountField.addEventListener("input", refreshRest);
+  [
+    ignoreFirstSurchargeCheck,
+    ignoreSecondSurchargeCheck,
+    ignoreDebitExtraCheck,
+    paymentMethod,
+  ].forEach((input) => {
+    if (input) input.addEventListener("change", refreshAmount);
   });
-
-  if (restHint) {
-  }
-
-  if (dateRechargeCheck)
-    dateRechargeCheck.addEventListener("change", (e) => {
-      // update rest to pay
-      setNewToPay(
-        toPayHint,
-        amountField,
-        dateRechargeCheck,
-        secondDateRechargeCheck,
-      );
-    });
-
-  if (secondDateRechargeCheck) {
-    dateRechargeCheck.disabled = true;
-    secondDateRechargeCheck.addEventListener("change", (e) => {
-      dateRechargeCheck.disabled = !secondDateRechargeCheck.checked;
-      // update rest to pay
-      setNewToPay(
-        toPayHint,
-        amountField,
-        dateRechargeCheck,
-        secondDateRechargeCheck,
-      );
-    });
-  }
-
-  if (useAmountWithDiscount) {
-    useAmountWithDiscount.addEventListener("change", (_e) => {
-      // update rest to pay
-      setNewToPay(
-        toPayHint,
-        amountField,
-        dateRechargeCheck,
-        secondDateRechargeCheck,
-      );
-    });
-  }
-
-  if (paymentMethod) {
-    paymentMethod.addEventListener("change", (_e) => {
-      // update rest to pay
-      setNewToPay(
-        toPayHint,
-        amountField,
-        dateRechargeCheck,
-        secondDateRechargeCheck,
-      );
-    });
-  }
-}
-
-function setNewToPay(
-  toPayHint,
-  amountField,
-  dateRechargeCheck,
-  secondDateRechargeCheck,
-) {
-  const useAmountWithDiscount = byid("use_amount_with_discount");
-  const paymentMethod = byid("apply_extra_debit_charge");
-  const useDiscounted =
-    (useAmountWithDiscount && useAmountWithDiscount.checked) ||
-    !paymentMethod ||
-    (paymentMethod && paymentMethod.value === "0");
-
-  // updates the rest to pay hint
-  let newValue = parseFloat(toPayHint.dataset.amount);
-  let newValueWithDiscount = parseFloat(toPayHint.dataset.amountWithDiscount);
-
-  if (secondDateRechargeCheck && secondDateRechargeCheck.checked) {
-    newValue = parseFloat(secondDateRechargeCheck.dataset.totalIgnoring);
-    newValueWithDiscount = parseFloat(
-      secondDateRechargeCheck.dataset.totalIgnoringWithDiscount,
-    );
-  }
-
-  if (dateRechargeCheck && dateRechargeCheck.checked) {
-    newValue = parseFloat(dateRechargeCheck.dataset.totalIgnoring);
-    newValueWithDiscount = parseFloat(
-      dateRechargeCheck.dataset.totalIgnoringWithDiscount,
-    );
-  }
-
-  toPayHint.innerText = `$${newValueWithDiscount
-    .toFixed(2)
-    .toString()
-    .replace(".", ",")} (efectivo) o $${newValue
-    .toFixed(2)
-    .toString()
-    .replace(".", ",")} (débito)`;
-
-  // cap the field value
-  const valueToSet = useDiscounted ? newValueWithDiscount : newValue;
-  amountField.value = valueToSet.toFixed(2).toString().replace(".", ",");
 }
 
 function bindAddPaymentsForm(form) {

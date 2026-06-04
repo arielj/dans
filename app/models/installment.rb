@@ -103,10 +103,17 @@ class Installment < ApplicationRecord
   end
 
   # attrs: { amount: number, description: string }
-  def create_payment(attrs, ignore_recharge: false, add_debit_extra: false)
+  def create_payment(attrs, ignore_recharge: false, add_debit_extra: false, payment_method: "cash")
     payment = MoneyTransaction.new attrs
     payment.person = person
     payment.done = false
+    payment.payment_method = payment_method
+    if payment_method != "cash"
+      payment.debit_extra_ignored = !add_debit_extra
+    end
+    payment.first_surcharge_ignored = ignore_recharge == :first
+    payment.second_surcharge_ignored = ignore_recharge == :second
+
     rest = to_pay(ignore_recharge: ignore_recharge, add_debit_extra: add_debit_extra)
     if payment.amount > rest && !next_installment
       payment.errors.add(:base, :amount_too_high)

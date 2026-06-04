@@ -2,10 +2,14 @@
 - pybl = tran.payable
 - form_id = pybl ? "#{pybl.class.name.underscore}_payment" : nil
 - next_pybl = nil
+- data_amounts = {}
 - if pybl.is_a?(Installment)
   - next_pybl = pybl.next_installment
+  - data_amounts = amounts_for_form_metadata(pybl)
+- elsif pybl
+  - data_amounts = { amount: pybl.to_pay.to_f }
 
-= simple_form_for tran, remote: remote, html: { id: form_id } do |f|
+= simple_form_for tran, remote: remote, html: { id: form_id, data: data_amounts } do |f|
   - if pybl
     = f.hidden_field :payable_type
     = f.hidden_field :payable_id
@@ -25,32 +29,44 @@
       .hint
         ' Restante:
         - if pybl.is_a?(Installment)
-          span#to_pay data-amount=pybl.to_pay(add_debit_extra: true).to_f data-amount-with-discount=pybl.to_pay(add_debit_extra: false).to_f data-amount-total=pybl.to_pay(add_debit_extra: true, ignore_recharge: :false).to_f data-amount-with-discount-total=pybl.to_pay(add_debit_extra: false, ignore_recharge: :false).to_f $#{pybl.to_pay(add_debit_extra: false)} (efectivo) o $#{pybl.to_pay(add_debit_extra: true)} (débito)
+          - total_cash = data_amounts[:base_amount]
+          - if data_amounts[:second_surcharge_amount] > 0
+            - total_cash += data_amounts[:second_surcharge_amount]
+          - elsif data_amounts[:first_surcharge_amount] > 0
+            - total_cash += data_amounts[:first_surcharge_amount]
+          span#to_pay #{m(total_cash)} (efectivo) o #{m(total_cash + data_amounts[:debit_extra])} (débito)
         - else
-          span#to_pay data-amount=pybl.to_pay.to_f $#{pybl.to_pay}
+          span#to_pay #{m(pybl.to_pay)}
 
     .input-group
       span.input-group-addon $
       = f.text_field :amount, class: 'form-input amount-input'
 
   - if pybl.is_a?(Installment)
-    - if (r = pybl.get_second_recharge) > 0
-      = label_tag '', class: 'form-checkbox update_amount', id: 'ignore_second_recharge_label' do
-        = check_box_tag :ignore_second_recharge, '1', false, class: 'update_amount', data: { total_ignoring: pybl.to_pay(ignore_recharge: :second, add_debit_extra: true).to_f, total_ignoring_with_discount: pybl.to_pay(add_debit_extra: false, ignore_recharge: :second).to_f }
-        ' Ignorar segundo recargo por fecha ($#{r})
+    - if (r = data_amounts[:second_surcharge_amount]) > 0
+      = label_tag '', class: 'form-checkbox update_amount' do
+        = check_box_tag :ignore_second_surcharge, '1', false, class: 'update_amount'
+        ' Ignorar segundo recargo por fecha (#{m(r)})
         i.form-icon
-    - if (r = pybl.get_first_recharge) > 0
-      = label_tag '', class: 'form-checkbox update_amount', id: 'ignore_recharge_label' do
-        = check_box_tag :ignore_recharge, '1', false, class: 'update_amount', data: { total_ignoring: pybl.to_pay(ignore_recharge: :first, add_debit_extra: true).to_f, total_ignoring_with_discount: pybl.to_pay(add_debit_extra: false, ignore_recharge: :first).to_f }
-        ' Ignorar recargo por fecha ($#{r})
+    - if (r = data_amounts[:first_surcharge_amount]) > 0
+      = label_tag '', class: 'form-checkbox update_amount' do
+        = check_box_tag :ignore_first_surcharge, '1', false, class: 'update_amount'
+        ' Ignorar primer recargo por fecha (#{m(r)})
         i.form-icon
+    - r = data_amounts[:debit_extra]
+    = label_tag '', class: 'form-checkbox update_amount' do
+      = check_box_tag :ignore_debit_extra, '1', false, class: 'update_amount'
+      ' Ignorar recargo por débito (#{m(r)})
+      i.form-icon
     = label_tag '', class: 'update_amount' do
         ' Medio de pago:
-        select id="apply_extra_debit_charge" name="apply_extra_debit_charge" class="update_amount"
-          option value="0"
+        select id="payment_method" name="payment_method" class="update_amount"
+          option value="cash"
             | Efectivo
-          option value="1"
-            | Débito
+          option value="debit_mara"
+            | Débito Mara
+          option value="debit_valen"
+            | Débito Valen
 
   - unless pybl or tran.person
     .form-group

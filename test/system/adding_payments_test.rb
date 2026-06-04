@@ -35,11 +35,11 @@ class AddingPaymentsTest < ApplicationSystemTestCase
 
         assert_match 'Ignorar segundo recargo por fecha', page.text
 
-        find('#ignore_second_recharge_label').click
+        click_checkbox('#ignore_second_surcharge')
 
-        assert_match 'Ignorar recargo por fecha', page.text
+        assert_match 'Ignorar primer recargo por fecha', page.text
 
-        find('#ignore_recharge_label').click
+        click_checkbox('#ignore_first_surcharge')
 
         assert_match 'Restante: $500,00', page.text
         assert_equal "500,00", find("#money_transaction_amount").value
@@ -61,14 +61,14 @@ class AddingPaymentsTest < ApplicationSystemTestCase
 
         assert_match 'Ignorar segundo recargo por fecha', page.text
 
-        find('#ignore_second_recharge_label').click
+        click_checkbox('#ignore_second_surcharge')
 
         # 500 + 10%
         assert_match 'Restante: $550,00', page.text
 
-        assert_match 'Ignorar recargo por fecha', page.text
+        assert_match 'Ignorar primer recargo por fecha', page.text
 
-        find('#ignore_recharge_label').click
+        click_checkbox('#ignore_first_surcharge')
 
         assert_match 'Restante: $500,00', page.text
 
@@ -125,11 +125,11 @@ class AddingPaymentsTest < ApplicationSystemTestCase
 
         assert_match 'Ignorar segundo recargo por fecha', page.text
 
-        find('#ignore_second_recharge_label').click
+        click_checkbox('#ignore_second_surcharge')
 
-        assert_match 'Ignorar recargo por fecha', page.text
+        assert_match 'Ignorar primer recargo por fecha', page.text
 
-        find('#ignore_recharge_label').click
+        click_checkbox('#ignore_first_surcharge')
 
         assert_match 'Restante: $0,00', page.text
 

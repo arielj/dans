@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_05_09_230819) do
+ActiveRecord::Schema.define(version: 2026_06_03_024516) do
 
   create_table "admins", charset: "utf8mb4", collation: "utf8mb4_spanish_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -134,6 +134,10 @@ ActiveRecord::Schema.define(version: 2026_05_09_230819) do
     t.string "payable_type"
     t.bigint "payable_id"
     t.integer "receipt"
+    t.integer "payment_method"
+    t.boolean "first_surcharge_ignored"
+    t.boolean "second_surcharge_ignored"
+    t.boolean "debit_extra_ignored"
     t.index ["installment_id"], name: "index_money_transactions_on_installment_id"
     t.index ["payable_type", "payable_id"], name: "index_money_transactions_on_payable_type_and_payable_id"
     t.index ["person_id"], name: "index_money_transactions_on_person_id"
