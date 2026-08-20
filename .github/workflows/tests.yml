@@ -85,13 +85,12 @@ jobs:
 
       - name: Verify MySQL connection from host
         run: |
-          sudo apt-get install -y mysql-client libmysqlclient-dev
           mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports[3306] }} -uroot -proot -e "SHOW DATABASES"
 
       - name: Setup DB
         env:
           RAILS_ENV: test
-          DATABASE_URL: mysql2://root:root@127.0.0.1:${{ job.services.mysql.ports[3306] }}/test
+          DATABASE_URL: mysql2://root:root@127.0.0.1:${{ job.services.mysql.ports[3306] }}/test?collation=utf8mb4_general_ci&encoding=utf8mb4
 
         run: |
           sed -i 's/utf8mb4_0900_ai_ci/utf8mb4_general_ci/g' db/schema.rb
@@ -100,7 +99,7 @@ jobs:
       - name: Test
         env:
           RAILS_ENV: test
-          DATABASE_URL: mysql2://root:root@127.0.0.1:${{ job.services.mysql.ports[3306] }}/test
+          DATABASE_URL: mysql2://root:root@127.0.0.1:${{ job.services.mysql.ports[3306] }}/test?collation=utf8mb4_general_ci&encoding=utf8mb4
 
         run: |
           bin/rails test:all
